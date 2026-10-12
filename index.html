@@ -114,7 +114,7 @@
       transition: color 2s ease;
       display: flex;
       align-items: center;
-      padding: 96px max(var(--gutter), env(safe-area-inset-right)) 96px max(var(--gutter), env(safe-area-inset-left));
+      padding: 96px max(var(--gutter), env(safe-area-inset-right)) max(110px, 18vh) max(var(--gutter), env(safe-area-inset-left));
     }
     .sky ::selection { background: var(--signal); color: var(--sky); }
     .sky :focus-visible { outline-color: var(--signal); }
@@ -140,7 +140,8 @@
       letter-spacing: -.015em;
     }
     html[data-lang="en"] h1, html[data-lang="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
-    .ch { display: inline-block; text-align: center; white-space: pre; }
+    .w { display: inline-block; white-space: nowrap; }
+    .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
     .ch.noise { color: var(--sky-muted); }
     .ch.cho { color: var(--signal); text-shadow: 0 0 18px var(--signal); }
     .ch.lock { animation: lock .7s ease-out; }
@@ -209,7 +210,13 @@
     @media (hover: hover) { .enso:hover circle { stroke: var(--accent); } .sky .enso:hover circle { stroke: var(--signal); } }
     @keyframes draw { from { stroke-dashoffset: 252; } to { stroke-dashoffset: 0; } }
 
-    /* ───────── 본문: 종이 ───────── */
+    /* ───────── 본문: 종이 (하늘을 따른다) ───────── */
+    body { transition: background-color 2s ease, color 2s ease; }
+    #air { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    main, footer { position: relative; z-index: 1; }
+    main .ch.noise { color: var(--muted); }
+    main .ch.cho { color: var(--accent); text-shadow: none; }
+    .sway { display: inline-block; will-change: transform; }
     main { padding: 0 max(var(--gutter), env(safe-area-inset-right)) 0 max(var(--gutter), env(safe-area-inset-left)); }
     .wrap { max-width: var(--measure); margin: 0 auto; }
     .rule { display: block; width: 100%; height: 12px; color: var(--pencil); }
@@ -306,6 +313,8 @@
       h1, .stage-line { font-size: clamp(28px, 5vw, 44px) !important; }
       .title-wrap { margin-top: 18px; }
       .signal-line { margin-top: 16px; }
+      .pulse { margin-top: 12px; }
+      .now { display: none; }
       .down { display: none; }
     }
     @media print {
@@ -335,8 +344,8 @@
       <div class="pulse" aria-hidden="true" id="pulse"></div>
 
       <div class="title-wrap">
-      <h1 class="L-ko" lang="ko">실행은 맡겨도,<br><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 말, </span>판단<span class="sr">,</span></del> <ins class="pending"><span class="sr">고쳐 쓴 말, </span>책임</ins></button>은<br>맡기지 않는다.</h1>
-      <h1 class="L-en" lang="en">Hand over the doing.<br>Never the <button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">crossed out: </span>judgment<span class="sr">,</span></del> <ins class="pending"><span class="sr">corrected to </span>responsibility</ins></button>.</h1>
+      <h1 class="L-ko" lang="ko">실행은 맡겨도,<br><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 말, </span>판단<span class="sr">,</span></del> <ins class="pending"><span class="sr">고쳐 쓴 말, </span>책임은</ins></button><br>맡기지 않는다.</h1>
+      <h1 class="L-en" lang="en">Hand over the doing.<br>Never the <button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">crossed out: </span>judgment<span class="sr">,</span></del> <ins class="pending"><span class="sr">corrected to </span>responsibility.</ins></button></h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
 
@@ -350,6 +359,7 @@
     <a class="down" href="#begin"><span class="sr L-ko">아래로</span><span class="sr L-en">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
+  <canvas id="air" aria-hidden="true"></canvas>
   <main>
     <div class="wrap">
 
@@ -474,9 +484,9 @@
       /* 1. 바람: 모든 움직임이 같은 바람을 따른다 */
       var cv = document.getElementById('field');
       var cx = cv.getContext ? cv.getContext('2d') : null;
-      var W = 0, H = 0, T = 0, running = true, raf = 0;
+      var W = 0, H = 0, T = 0, running = true, raf = 0, skyIn = true, lastTs = 0, dt = 1;
       var blades = [], leaves = [], gusts = [];
-      var LINE = '238,240,242', SIG = '143,212,193', WF = 1, PHASE = 'night', SUNP = 0.5, WX = { kind: 'clear', amt: 0, cloud: 0 }, drops = [], flakes = [], ripples = [], flash = 0;
+      var PAPER = '29,28,26', LINE = '238,240,242', SIG = '143,212,193', WF = 1, PHASE = 'night', SUNP = 0.5, WX = { kind: 'clear', amt: 0, cloud: 0 }, drops = [], flakes = [], ripples = [], flash = 0;
       function gust(x, amp) {
         if (still) return;
         gusts.push({ x: x == null ? -120 : x, t: T, a: amp || 1 });
@@ -489,7 +499,7 @@
           var px = g.x + age * 0.42, d = (x - px) / 170;
           s += g.a * Math.exp(-d * d) * Math.exp(-age / 2600);
         }
-        return s;
+        return Math.min(1.2, s);
       }
       function wind(x) {
         return WF * (0.55 * Math.sin(T * 0.00042 + x * 0.0021)
@@ -497,7 +507,8 @@
              + 0.15 * Math.sin(T * 0.0011 + x * 0.011 + 2.1))
              + gustAt(x) * 1.6;
       }
-      function size() {
+      function size(force) {
+        if (!force && W && cv.clientWidth === W && Math.abs(cv.clientHeight - H) < 80) return false;
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
         W = cv.clientWidth; H = cv.clientHeight;
         cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
@@ -507,12 +518,13 @@
         var n = W < 600 ? 9 : 15;
         for (var i = 0; i < n; i++) {
           var x = W * (0.04 + 0.92 * (i + Math.random() * 0.6) / n);
-          blades.push({ x: x, h: H * (0.08 + Math.random() * 0.13), s: Math.random() * 6.28, a: 0.22 + Math.random() * 0.2, w: 1.1 + Math.random() * 0.6 });
+          blades.push({ x: x, h: H * (0.06 + Math.random() * 0.1), s: Math.random() * 6.28, a: 0.22 + Math.random() * 0.2, w: 1.1 + Math.random() * 0.6 });
         }
         /* 잎: 두 개의 호 */
         leaves = [];
         for (var j = 0; j < (W < 600 ? 2 : 3); j++) leaves.push(newLeaf(true));
         cacheChars();
+        return true;
       }
       function newLeaf(any) {
         return { x: any ? Math.random() * W : -40, y: H * (0.18 + Math.random() * 0.45), r: Math.random() * 6.28, s: 9 + Math.random() * 6, v: 0.22 + Math.random() * 0.25, a: 0.32 + Math.random() * 0.15 };
@@ -534,11 +546,11 @@
       /* 물결: 수평선 하나와 곡선 하나 */
       function drawWaves() {
         cx.beginPath();
-        cx.moveTo(0, H * 0.84); cx.lineTo(W, H * 0.84);
+        cx.moveTo(0, H * 0.88); cx.lineTo(W, H * 0.88);
         cx.strokeStyle = 'rgba(' + LINE + ',0.16)'; cx.lineWidth = 1; cx.stroke();
         cx.beginPath();
         for (var x = -10; x <= W + 10; x += 10) {
-          var y = H * 0.9 + 7 * Math.sin(x * 0.009 + T * 0.0007) + wind(x) * 5;
+          var y = H * 0.93 + 6 * Math.sin(x * 0.009 + T * 0.0007) + wind(x) * 4;
           if (x === -10) cx.moveTo(x, y); else cx.lineTo(x, y);
         }
         cx.strokeStyle = 'rgba(' + LINE + ',0.22)'; cx.lineWidth = 1.3; cx.stroke();
@@ -547,7 +559,7 @@
         cx.lineCap = 'round';
         for (var i = 0; i < blades.length; i++) {
           var b = blades[i], w = wind(b.x) + 0.15 * Math.sin(T * 0.0013 + b.s);
-          var tipX = b.x + w * b.h * 0.38, tipY = H - b.h + Math.abs(w) * b.h * 0.1;
+          var tipX = b.x + w * b.h * 0.3, tipY = H - b.h + Math.abs(w) * b.h * 0.1;
           cx.beginPath();
           cx.moveTo(b.x, H + 2);
           cx.quadraticCurveTo(b.x + w * b.h * 0.06, H - b.h * 0.55, tipX, tipY);
@@ -559,7 +571,7 @@
       function drawLeaves() {
         for (var i = 0; i < leaves.length; i++) {
           var l = leaves[i], w = wind(l.x);
-          if (!still) { l.x += l.v + w * 0.5; l.y += Math.sin(T * 0.0009 + i) * 0.22 + 0.04; l.r += 0.003 + w * 0.008; }
+          if (!still) { l.x += (l.v + w * 0.5) * dt; l.y += (Math.sin(T * 0.0009 + i) * 0.22 + 0.04) * dt; l.r += (0.003 + w * 0.008) * dt; }
           if (l.x > W + 40 || l.y > H * 0.8) leaves[i] = l = newLeaf(false);
           cx.save();
           cx.translate(l.x, l.y); cx.rotate(l.r);
@@ -611,33 +623,39 @@
       }
       var ruleRaf = 0, ruleOn = 0;
       function ruleLoop(ts) {
-        T = ts;
+        dt = lastTs ? Math.min(2.5, (ts - lastTs) / 16.7) : 1; lastTs = ts; T = ts;
         rules.forEach(function (r) { if (r.on) r.p.setAttribute('d', ruleD(r.k)); });
-        if (ruleOn > 0 && !still && !running) ruleRaf = requestAnimationFrame(ruleLoop);
+        if (typeof airFrame === 'function') { airFrame(); swayFrame(); }
+        if (!still && !running && !document.hidden) ruleRaf = requestAnimationFrame(ruleLoop);
       }
       function frame(ts) {
-        if (ts) T = ts;
+        if (ts) { dt = lastTs ? Math.min(2.5, (ts - lastTs) / 16.7) : 1; lastTs = ts; T = ts; }
         if (cx) {
           cx.clearRect(0, 0, W, H);
           drawFlash(); drawSun(); drawClouds(); drawWind(); drawWaves(); drawGrass(); drawLeaves(); drawWeather();
         }
         echoChars();
+        if (ax && AW) ax.clearRect(0, 0, AW, AH);
         rules.forEach(function (r) { if (r.on) r.p.setAttribute('d', ruleD(r.k)); });
         gusts = gusts.filter(function (g) { return T - g.t < 9000; });
         if (!still && running) raf = requestAnimationFrame(frame);
-        else if (!still && ruleOn > 0) { cancelAnimationFrame(ruleRaf); ruleRaf = requestAnimationFrame(ruleLoop); }
+        else if (!still && !document.hidden) { cancelAnimationFrame(ruleRaf); ruleRaf = requestAnimationFrame(ruleLoop); }
       }
       function play() {
-        cancelAnimationFrame(raf); cancelAnimationFrame(ruleRaf);
-        if (still) { T = 0; frame(0); return; }
+        cancelAnimationFrame(raf); cancelAnimationFrame(ruleRaf); lastTs = 0;
+        if (still) { T = 0; frame(0); if (ax) { ax.clearRect(0, 0, AW, AH); } return; }
         raf = requestAnimationFrame(frame);
       }
       /* ── 하늘: 방문자 시간대의 해와 날씨 ── */
       var PAL = {
-        night: { bg: '#05070a', fg: '#eef0f2', mu: '#8d95a2', sig: '#8fd4c1', line: '238,240,242', s: '143,212,193', wf: 0.8, meta: '#05070a' },
-        dawn:  { bg: 'linear-gradient(180deg,#121729 0%,#2c2a44 55%,#5d4650 100%)', fg: '#f3efe9', mu: '#b9afb3', sig: '#f2c38b', line: '243,239,233', s: '242,195,139', wf: 0.7, meta: '#121729' },
-        day:   { bg: 'linear-gradient(180deg,#e7ecee 0%,#eef1ef 70%,#f2f1ec 100%)', fg: '#15191c', mu: '#4f5a62', sig: '#2f6d5e', line: '21,25,28', s: '47,109,94', wf: 1, meta: '#e7ecee' },
-        dusk:  { bg: 'linear-gradient(180deg,#191d31 0%,#41354b 60%,#8a5648 100%)', fg: '#f6eee6', mu: '#c6b6af', sig: '#f0b27a', line: '246,238,230', s: '240,178,122', wf: 0.9, meta: '#191d31' }
+        night: { bg: '#05070a', fg: '#eef0f2', mu: '#8d95a2', sig: '#8fd4c1', line: '238,240,242', s: '143,212,193', wf: 0.8, meta: '#05070a',
+                 paper: { bg: '#121311', fg: '#e9e6df', muted: '#9a968c', pencil: '#45463f', accent: '#8fbfae', rgb: '233,230,223' } },
+        dawn:  { bg: 'linear-gradient(180deg,#121729 0%,#2c2a44 55%,#5d4650 100%)', fg: '#f3efe9', mu: '#b9afb3', sig: '#f2c38b', line: '243,239,233', s: '242,195,139', wf: 0.7, meta: '#121729',
+                 paper: { bg: '#f1ece6', fg: '#221f1d', muted: '#665e58', pencil: '#d2c4b6', accent: '#8a5a3c', rgb: '34,31,29' } },
+        day:   { bg: 'linear-gradient(180deg,#e7ecee 0%,#eef1ef 70%,#f2f1ec 100%)', fg: '#15191c', mu: '#4f5a62', sig: '#2f6d5e', line: '21,25,28', s: '47,109,94', wf: 1, meta: '#e7ecee',
+                 paper: { bg: '#f4f1ea', fg: '#1d1c1a', muted: '#66625a', pencil: '#c3bba9', accent: '#2f5d50', rgb: '29,28,26' } },
+        dusk:  { bg: 'linear-gradient(180deg,#191d31 0%,#41354b 60%,#8a5648 100%)', fg: '#f6eee6', mu: '#c6b6af', sig: '#f0b27a', line: '246,238,230', s: '240,178,122', wf: 0.9, meta: '#191d31',
+                 paper: { bg: '#241f22', fg: '#efe6dd', muted: '#b3a59c', pencil: '#4d4246', accent: '#f0b27a', rgb: '239,230,221' } }
       };
       var NAMES = {
         ko: { dawn: '동틀 녘', day: '낮', dusk: '해 질 녘', night: '밤', clear: '맑음', cloud: '구름', fog: '안개', rain: '비', snow: '눈', storm: '뇌우' },
@@ -686,7 +704,11 @@
         el.style.setProperty('--sky-fg', P.fg);
         el.style.setProperty('--sky-muted', P.mu);
         el.style.setProperty('--signal', P.sig);
-        LINE = P.line; SIG = P.s;
+        LINE = P.line; SIG = P.s; PAPER = P.paper.rgb;
+        var rs = document.documentElement.style, pp = P.paper;
+        rs.setProperty('--bg', pp.bg); rs.setProperty('--fg', pp.fg); rs.setProperty('--muted', pp.muted);
+        rs.setProperty('--pencil', pp.pencil); rs.setProperty('--accent', pp.accent);
+        rs.setProperty('--wash', 'rgba(' + pp.rgb + ',.05)');
         WF = P.wf * (WX.wind != null ? Math.min(2.2, 0.6 + WX.wind / 22) : 1);
         var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', P.meta);
         nowLine();
@@ -755,7 +777,7 @@
         cx.stroke();
         if (PHASE === 'dawn' || PHASE === 'dusk') {
           cx.beginPath();
-          cx.moveTo(x - r * 3, H * 0.84); cx.lineTo(x + r * 3, H * 0.84);
+          cx.moveTo(x - r * 3, H * 0.88); cx.lineTo(x + r * 3, H * 0.88);
           cx.strokeStyle = 'rgba(' + SIG + ',0.35)'; cx.lineWidth = 1.2; cx.stroke();
         }
       }
@@ -785,9 +807,9 @@
           cx.lineCap = 'round';
           for (var i = 0; i < drops.length; i++) {
             var d = drops[i];
-            if (!still) { d.y += d.v; d.x += d.v * ang; }
-            if (d.y > H * 0.86) {
-              if (!still && Math.random() < 0.3) ripples.push({ x: d.x, y: H * (0.86 + Math.random() * 0.1), r: 1, a: 0.35 });
+            if (!still) { d.y += d.v * dt; d.x += d.v * ang * dt; }
+            if (d.y > H * 0.9) {
+              if (!still && Math.random() < 0.3) ripples.push({ x: d.x, y: H * (0.9 + Math.random() * 0.08), r: 1, a: 0.35 });
               d.y = -20 - Math.random() * 80; d.x = Math.random() * (W + 200) - 100;
             }
             cx.beginPath(); cx.moveTo(d.x, d.y); cx.lineTo(d.x - d.l * ang, d.y - d.l);
@@ -804,7 +826,7 @@
         if (flakes.length) {
           for (var k = 0; k < flakes.length; k++) {
             var f = flakes[k];
-            if (!still) { f.y += f.v; f.x += Math.sin(T * 0.001 + f.s) * 0.4 + ang * 2; f.s += 0.01; }
+            if (!still) { f.y += f.v * dt; f.x += (Math.sin(T * 0.001 + f.s) * 0.4 + ang * 2) * dt; f.s += 0.01 * dt; }
             if (f.y > H) { f.y = -10; f.x = Math.random() * W; }
             cx.beginPath(); cx.moveTo(f.x - 2.5, f.y); cx.lineTo(f.x + 2.5, f.y); cx.moveTo(f.x, f.y - 2.5); cx.lineTo(f.x, f.y + 2.5);
             cx.strokeStyle = 'rgba(' + LINE + ',' + f.a + ')'; cx.lineWidth = 1; cx.stroke();
@@ -818,6 +840,77 @@
           cx.fillRect(0, 0, W, H);
           flash *= 0.9;
         }
+      }
+
+      /* ── 본문의 공기: 첫 화면을 지나도 날씨와 잎이 이어진다 ── */
+      var av = document.getElementById('air'), ax = av.getContext ? av.getContext('2d') : null;
+      var AW = 0, AH = 0, airLeaf = [];
+      function airSize() {
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        AW = av.clientWidth; AH = av.clientHeight;
+        av.width = Math.round(AW * dpr); av.height = Math.round(AH * dpr);
+        if (ax) ax.setTransform(dpr, 0, 0, dpr, 0, 0);
+        airLeaf = [{ x: Math.random() * AW, y: AH * 0.3, r: 0, s: 9, v: 0.25, a: 0.3 }];
+      }
+      function airFrame() {
+        if (!ax) return;
+        ax.clearRect(0, 0, AW, AH);
+        var ang = Math.max(-0.5, Math.min(0.5, wind(AW / 2) * 0.25));
+        ax.lineCap = 'round';
+        for (var i = 0; i < drops.length; i += 2) {
+          var d = drops[i];
+          var y = (d.y / (H || 1)) * AH, x = (d.x / (W || 1)) * AW;
+          if (!still) { d.y += d.v * dt; d.x += d.v * ang * dt; if (d.y > H) { d.y = -20; d.x = Math.random() * W; } }
+          ax.beginPath(); ax.moveTo(x, y); ax.lineTo(x - d.l * ang, y - d.l);
+          ax.strokeStyle = 'rgba(' + PAPER + ',' + (d.a * 0.55) + ')'; ax.lineWidth = 1; ax.stroke();
+        }
+        for (var k = 0; k < flakes.length; k += 2) {
+          var f = flakes[k];
+          var fy = (f.y / (H || 1)) * AH, fx = (f.x / (W || 1)) * AW;
+          if (!still) { f.y += f.v * dt; f.x += (Math.sin(T * 0.001 + f.s) * 0.4 + ang * 2) * dt; if (f.y > H) { f.y = -10; f.x = Math.random() * W; } }
+          ax.beginPath(); ax.moveTo(fx - 2.5, fy); ax.lineTo(fx + 2.5, fy); ax.moveTo(fx, fy - 2.5); ax.lineTo(fx, fy + 2.5);
+          ax.strokeStyle = 'rgba(' + PAPER + ',' + (f.a * 0.5) + ')'; ax.lineWidth = 1; ax.stroke();
+        }
+        for (var j = 0; j < airLeaf.length; j++) {
+          var l = airLeaf[j], w = wind(l.x);
+          if (!still) { l.x += (l.v + w * 0.5) * dt; l.y += (Math.sin(T * 0.0007) * 0.2 + 0.05) * dt; l.r += (0.003 + w * 0.008) * dt; }
+          if (l.x > AW + 40 || l.y > AH) { l.x = -40; l.y = AH * (0.15 + Math.random() * 0.6); }
+          ax.save(); ax.translate(l.x, l.y); ax.rotate(l.r);
+          ax.beginPath(); ax.moveTo(-l.s, 0);
+          ax.quadraticCurveTo(0, -l.s * 0.7, l.s, 0); ax.quadraticCurveTo(0, l.s * 0.7, -l.s, 0);
+          ax.strokeStyle = 'rgba(' + PAPER + ',' + l.a + ')'; ax.lineWidth = 1.1; ax.stroke(); ax.restore();
+        }
+      }
+      /* 본문 문장도 같은 바람에 숨 쉰다 */
+      var swayEls = [];
+      function swayCache() {
+        swayEls = Array.prototype.map.call(document.querySelectorAll('main .line, main .tag, main .way p'), function (el) {
+          return { el: el, x: 0 };
+        });
+      }
+      function swayFrame() {
+        for (var i = 0; i < swayEls.length; i++) {
+          var o = swayEls[i], r = o.el.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > AH) continue;
+          var w = wind(r.left + r.width / 2);
+          o.el.style.transform = 'translateX(' + (w * 1.6).toFixed(2) + 'px)';
+        }
+      }
+      /* 문장이 들어올 때: 잡음 → 초성 → 글자 */
+      function settle(el) {
+        if (!el || still || el.getAttribute('data-settled')) return;
+        el.setAttribute('data-settled', '1');
+        var L = el.getAttribute('lang') === 'en' ? 'en' : 'ko', noise = NOISE[L];
+        var spans = wrapChars(el);
+        spans.forEach(function (s, i) {
+          var f = s.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f;
+          s.style.width = s.getBoundingClientRect().width + 'px';
+          s.classList.add('noise'); s.textContent = rnd(noise);
+          setTimeout(function () {
+            s.classList.remove('noise'); s.classList.add('cho'); s.textContent = cho;
+            setTimeout(function () { s.classList.remove('cho'); s.textContent = f; s.style.width = ''; }, 200);
+          }, 160 + i * 24 + Math.random() * 160);
+        });
       }
 
       function ring(a) { gust(null, a * 1.6); }
@@ -852,17 +945,22 @@
         var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
         while (walker.nextNode()) {
           var n = walker.currentNode;
-          if (!n.parentNode.closest('.sr,.ch')) nodes.push(n);
+          if (!n.parentNode.closest('.sr,.ch,.w')) nodes.push(n);
         }
         nodes.forEach(function (n) {
           var frag = document.createDocumentFragment();
           if (!el.closest('.stage')) { var t = document.createElement('span'); t.className = 'sr'; t.textContent = n.nodeValue; frag.appendChild(t); }
-          Array.prototype.forEach.call(n.nodeValue, function (c) {
-            if (/\s/.test(c)) { frag.appendChild(document.createTextNode(c)); return; }
-            var s = document.createElement('span');
-            s.className = 'ch'; s.textContent = c; s.setAttribute('data-f', c);
-            s.setAttribute('aria-hidden', 'true');
-            frag.appendChild(s); spans.push(s);
+          n.nodeValue.split(/(\s+)/).forEach(function (tok) {
+            if (!tok) return;
+            if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+            var w = document.createElement('span');
+            w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+            Array.prototype.forEach.call(tok, function (c) {
+              var s = document.createElement('span');
+              s.className = 'ch'; s.textContent = c; s.setAttribute('data-f', c);
+              w.appendChild(s); spans.push(s);
+            });
+            frag.appendChild(w);
           });
           n.parentNode.replaceChild(frag, n);
         });
@@ -886,7 +984,7 @@
           s.classList.add('fly', 'noise');
           s.style.transition = 'none';
           s.style.opacity = '0';
-          s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 120).toFixed(0) + 'deg) scale(.7)';
+          s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 50).toFixed(0) + 'deg) scale(.8)';
           s.textContent = rnd(noise);
           var delay = base + i * 45 + Math.random() * 240, dur = 1300 + Math.random() * 600;
           setTimeout(function () {
@@ -916,13 +1014,13 @@
           setTimeout(function () {
             if (L === 'ko') s.textContent = choOf(s.getAttribute('data-f'));
             s.style.transition = 'transform 1000ms cubic-bezier(.55,0,.85,.35), opacity 900ms ease';
-            s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 140).toFixed(0) + 'deg)';
+            s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 40).toFixed(0) + 'deg)';
             s.style.opacity = '0';
           }, i * 28);
         });
         setTimeout(done, 1000 + spans.length * 28 + 60);
       }
-      var decoded = {}, token = 0;
+      var decoded = {}, token = 0, skipNow = function () {};
       function runHero() {
         var L = lang(), my = ++token;
         var h1 = document.querySelector('h1.L-' + L);
@@ -938,7 +1036,18 @@
           setTimeout(cacheChars, 30);
         }
         if (decoded[L] === 'busy') return;
-        if (decoded[L] || still) { decoded[L] = true; finish(); return; }
+        var seen = false;
+        try { seen = sessionStorage.getItem('onduru-seen') === '1'; sessionStorage.setItem('onduru-seen', '1'); } catch (e) {}
+        if (decoded[L] || still || seen) { decoded[L] = true; finish(); return; }
+        skipNow = function () {
+          if (decoded[L] !== 'busy') return;
+          token++; decoded[L] = true;
+          document.querySelectorAll('.title-wrap .ch').forEach(function (c) {
+            c.classList.remove('fly', 'noise', 'cho'); c.textContent = c.getAttribute('data-f');
+            c.style.transition = ''; c.style.transform = ''; c.style.opacity = ''; c.style.width = '';
+          });
+          finish(); gust(null, 1);
+        };
         decoded[L] = 'busy';
         document.querySelectorAll('.title-wrap h1').forEach(function (h) { h.classList.add('veil'); });
         var beats = BEATS[L], k = 0;
@@ -955,7 +1064,7 @@
               setTimeout(function () {
                 if (!alive()) return;
                 scatter(spans, L, function () { k++; next(); });
-              }, 1400);
+              }, 1000);
             });
             return;
           }
@@ -983,6 +1092,10 @@
         next();
       }
 
+      ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (ev) {
+        window.addEventListener(ev, function (e) { if (e.target && e.target.id === 'lang') return; skipNow(); }, { passive: true });
+      });
+
       /* 3. 언어 전환 */
       document.getElementById('lang').addEventListener('click', function () {
         var L = lang() === 'ko' ? 'en' : 'ko';
@@ -1009,6 +1122,13 @@
           if (b.closest('.sky')) ring(0.55);
         });
       });
+      document.querySelectorAll('details').forEach(function (d) {
+        d.addEventListener('toggle', function () { if (d.open) settle(d.querySelector('.why[lang="' + lang() + '"]')); gust(null, 0.4); });
+      });
+      var lastScroll = 0;
+      window.addEventListener('scroll', function () {
+        var now = Date.now(); if (now - lastScroll < 400) return; lastScroll = now; gust(null, 0.3);
+      }, { passive: true });
       var fb = document.querySelector('footer button'), fa = document.getElementById('n2');
       fb.addEventListener('click', function () {
         var open = fb.getAttribute('aria-expanded') !== 'true';
@@ -1019,7 +1139,12 @@
       var items = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !still) {
         var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } });
+          es.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('seen'); io.unobserve(e.target);
+            var L = lang();
+            settle(e.target.matches('.line,p') && e.target.getAttribute('lang') === L ? e.target : e.target.querySelector('.line[lang="' + L + '"]'));
+          });
         }, { threshold: 0.2 });
         items.forEach(function (el) { io.observe(el); });
       } else {
@@ -1027,7 +1152,8 @@
       }
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (es) {
-          running = es[0].isIntersecting && !document.hidden;
+          skyIn = es[0].isIntersecting;
+          running = skyIn && !document.hidden;
           play();
         }).observe(document.querySelector('.sky'));
       }
@@ -1054,10 +1180,10 @@
         if (e.target.closest('button,a')) return;
         gust(e.clientX - cv.getBoundingClientRect().left - 160, 0.9);
       });
-      document.addEventListener('visibilitychange', function () { running = !document.hidden; play(); });
-      window.addEventListener('resize', function () { size(); setWeather(WX.kind, WX.amt, WX.cloud, WX.wind, WX.known); play(); });
+      document.addEventListener('visibilitychange', function () { running = skyIn && !document.hidden; play(); });
+      window.addEventListener('resize', function () { airSize(); if (size()) setWeather(WX.kind, WX.amt, WX.cloud, WX.wind, WX.known); else cacheChars(); play(); });
 
-      size(); applySky(); fetchWeather(); play(); beat();
+      size(true); airSize(); swayCache(); applySky(); fetchWeather(); play(); beat();
       setInterval(applySky, 5 * 60 * 1000);
       setInterval(fetchWeather, 30 * 60 * 1000);
       var started = false;
