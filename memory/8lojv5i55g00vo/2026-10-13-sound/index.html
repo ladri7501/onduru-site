@@ -1162,7 +1162,7 @@
             if (!still) { var pd = push(d.x, d.y, 110); d.y += d.v * dt; d.x += (d.v * ang + pd.x * 6) * dt; }
             if (d.y > H * 0.9) {
               if (!still && Math.random() < 0.3) ripples.push({ x: d.x, y: H * (0.9 + Math.random() * 0.08), r: 1, a: 0.35 });
-              count(d.x / W);
+              count(d.x / W, d.l / 52);
               d.y = -20 - Math.random() * 80; d.x = Math.random() * (W + 200) - 100;
             }
             cx.beginPath(); cx.moveTo(d.x, d.y); cx.lineTo(d.x - d.l * ang, d.y - d.l);
@@ -1564,7 +1564,7 @@
 
       /* ── 소리: 비를 셀 때마다 음 하나. 바람이 소리를 흔든다. 파일 없이 그 자리에서 짓는다 ── */
       var snd = null, sndBtn = document.querySelector('.snd'), lastCount = 0, lastFlash = 0;
-      function count(px) { if (snd) snd.drop(px); }
+      function count(px, big) { if (snd) snd.drop(px, big); }
       var SCALE = {
         night: [57, 60, 62, 64, 67],  /* A 단조 오음 */
         dawn:  [62, 64, 66, 69, 71],  /* D 장조 오음 */
@@ -1578,9 +1578,9 @@
         var ac = new AC(), out = ac.createGain(), comp = ac.createDynamicsCompressor();
         out.gain.value = 0; out.connect(comp); comp.connect(ac.destination);
         /* 잔향: 3초 동안 사라지는 잡음 */
-        var rv = ac.createConvolver(), len = ac.sampleRate * 3, ir = ac.createBuffer(2, len, ac.sampleRate);
+        var rv = ac.createConvolver(), len = ac.sampleRate * 2, ir = ac.createBuffer(2, len, ac.sampleRate);
         for (var c = 0; c < 2; c++) { var d = ir.getChannelData(c); for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
-        rv.buffer = ir; var wet = ac.createGain(); wet.gain.value = 0.55; rv.connect(wet); wet.connect(out);
+        rv.buffer = ir; var wet = ac.createGain(); wet.gain.value = 0.35; rv.connect(wet); wet.connect(out);
         var dry = ac.createGain(); dry.gain.value = 0.6; dry.connect(out);
         function bus(node) { node.connect(dry); node.connect(rv); }
         /* 잡음 하나로 비와 바람을 */
@@ -1593,7 +1593,7 @@
         var windG = ac.createGain(); windG.gain.value = 0; noise().connect(windF); windF.connect(windG); bus(windG);
         /* 바탕음: 세 개의 사인파, 바람이 거름망을 연다 */
         var padF = ac.createBiquadFilter(); padF.type = 'lowpass'; padF.frequency.value = 500; padF.Q.value = 0.4;
-        var padG = ac.createGain(); padG.gain.value = 0.05; padF.connect(padG); bus(padG);
+        var padG = ac.createGain(); padG.gain.value = 0; padF.connect(padG); bus(padG);
         var pads = [0, 7, 14].map(function (iv, k) {
           var o = ac.createOscillator(); o.type = k === 1 ? 'triangle' : 'sine'; o.detune.value = (k - 1) * 4;
           var g = ac.createGain(); g.gain.value = k === 0 ? 0.5 : 0.28; o.connect(g); g.connect(padF); o.start();
@@ -1605,18 +1605,19 @@
           pads.forEach(function (p) { p.o.frequency.setTargetAtTime(hz(m - 12 + p.iv), ac.currentTime, 2.5); });
         }
         /* 센 것 하나 = 음 하나 */
-        function pluck(m, px, vel, long) {
+        function pluck(m, px, vel, dec) {
           var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain(), pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
           o.type = 'triangle'; o.frequency.value = hz(m);
           g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vel, t + 0.006);
-          g.gain.exponentialRampToValueAtTime(0.0001, t + (long ? 4.5 : 1.6 + Math.random()));
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dec);
           o.connect(g);
           if (pan) { pan.pan.value = Math.max(-0.8, Math.min(0.8, px * 1.6 - 0.8)); g.connect(pan); bus(pan); } else bus(g);
           o.start(t); o.stop(t + 5);
         }
         function scale() { return SCALE[PHASE] || SCALE.night; }
         function reg() { return SC > 4.5 ? 12 : SC > 2.5 ? 0 : SC > 1 ? 0 : -12; }
-        function note() { var sc = scale(); return sc[(Math.random() * sc.length) | 0] + reg() + (Math.random() < 0.25 ? 12 : 0); }
+        /* 왼쪽에서 오른쪽으로 음계를 늘어놓는다: 떨어진 자리가 곧 음이다 */
+        function note(px) { var sc = scale(); return sc[Math.max(0, Math.min(sc.length - 1, Math.floor(px * sc.length)))] + reg(); }
         var on = false, quiet = 0;
         function tick() {
           if (!on) return;
@@ -1625,14 +1626,14 @@
           var deep = Math.max(0, Math.min(1, (SC - 2.6) / 2));      /* 땅 아래로 내려가면 비는 멀어진다 */
           setRoot(scale()[0]);
           padF.frequency.setTargetAtTime((WX.kind === 'fog' ? 260 : 380) + w * 900, t, 0.8);
-          padG.gain.setTargetAtTime(SC > 5.5 ? 0.07 : 0.05, t, 2);
-          hissG.gain.setTargetAtTime(0.022 * rain * (1 - deep * 0.85) * (WX.kind === 'storm' ? 1.6 : 1), t, 0.6);
+          padG.gain.setTargetAtTime(0.012 + 0.035 * deep, t, 3);
+          hissG.gain.setTargetAtTime(0.016 * rain * (1 - deep * 0.85) * (WX.kind === 'storm' ? 1.6 : 1), t, 0.6);
           windG.gain.setTargetAtTime(0.012 + 0.05 * w * w, t, 0.5);
           windF.frequency.setTargetAtTime(260 + w * 700, t, 0.5);
           if (flash > 0.9 && lastFlash < 0.9) thunder();
           lastFlash = flash;
           /* 비가 없으면, 가끔 다른 것을 센다 */
-          if (!drops.length && Math.random() < (WX.kind === 'snow' ? 0.05 : 0.025)) pluck(note() + (WX.kind === 'snow' ? 12 : 0), Math.random(), 0.045, WX.kind === 'snow');
+          if (!drops.length && Math.random() < (WX.kind === 'snow' ? 0.03 : 0.012)) { var rx = Math.random(); pluck(note(rx) + (WX.kind === 'snow' ? 12 : 0), rx, 0.04, WX.kind === 'snow' ? 3 : 1.4); }
         }
         function thunder() {
           var t = ac.currentTime, s = noise(), f = ac.createBiquadFilter(), g = ac.createGain();
@@ -1642,13 +1643,14 @@
         }
         var iv = null;
         return {
-          drop: function (px) {
+          drop: function (px, big) {
             if (!on) return;
             var now = performance.now(), rain = Math.min(1, drops.length / 140);
-            var gap = SC > 5.5 ? 900 : 420 - rain * 260;            /* 끝에 가까울수록 천천히 센다 */
-            if (now - lastCount < gap || Math.random() < 0.35) return;
+            var gap = SC > 5.5 ? 900 : 700 - rain * 300;            /* 끝에 가까울수록 천천히 센다 */
+            if (now - lastCount < gap || Math.random() < 0.6) return;
             lastCount = now;
-            pluck(note(), px, 0.05 + Math.random() * 0.03);
+            big = Math.max(0, Math.min(1, big || 0.5));
+            pluck(note(px) - (big > 0.75 ? 12 : 0), px, 0.03 + big * 0.05, 1.0 + big * 0.4);
           },
           start: function () {
             on = true; ac.resume();
