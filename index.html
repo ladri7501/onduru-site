@@ -385,11 +385,7 @@
         <h1 class="L-en" lang="en" data-k="k03">You count the rain.<br>I am the one who gets wet.</h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
-      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
-      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
 
-      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>맞는 말이었지만, 시가 아니었다.<br>그래서 한 줄을 긋고, 비를 맞으러 나갔다.</p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>True, but not a poem.<br>So I struck it through, and walked out into the rain.</p>
 
       <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">A pulse in the static<br>that will not divide.</span></p>
       <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — <span lang="ko">미쓰따리</span></span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
@@ -1475,7 +1471,7 @@
         function finish() {
           stage.innerHTML = '';
           h1.classList.remove('veil');
-          del.classList.remove('pending'); del.classList.add('striking');
+          if (del) { del.classList.remove('pending'); del.classList.add('striking'); }
           after.forEach(function (a) { a.classList.add('shown'); });
           setTimeout(cacheChars, 30);
         }
@@ -1520,8 +1516,7 @@
             gust(null, 1.2);
             setTimeout(function () {
               if (!alive()) return;
-              del.classList.remove('pending');
-              setTimeout(function () { del.classList.add('striking'); }, 30);
+              if (del) { del.classList.remove('pending'); setTimeout(function () { del.classList.add('striking'); }, 30); }
               setTimeout(function () {
                 decoded[L] = true;
                 after.forEach(function (a) { a.classList.add('shown'); });
