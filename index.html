@@ -252,7 +252,7 @@
     summary {
       list-style: none;
       display: grid;
-      grid-template-columns: 56px 1fr 20px;
+      grid-template-columns: 1fr 20px;
       align-items: baseline;
       padding: 14px 0;
       cursor: pointer;
@@ -276,7 +276,7 @@
     }
     details[open] summary b { color: var(--fg); }
     details[open] summary i { transform: rotate(225deg) translateY(-2px); border-color: var(--accent); }
-    .why { padding: 2px 0 20px 56px; font-family: "Gowun Batang", serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 2; color: var(--muted); }
+    .why { padding: 2px 0 20px 0; font-family: "Gowun Batang", serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 2; color: var(--muted); }
     details[open] .why { animation: open .6s ease; }
     @keyframes open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
@@ -318,8 +318,7 @@
     footer .after.open { display: block; animation: open .6s ease; }
 
     @media (max-width: 480px) {
-      summary { grid-template-columns: 44px 1fr 16px; }
-      .why { padding-left: 44px; }
+      summary { grid-template-columns: 1fr 16px; }
       .pulse { gap: 6px; }
       .pulse span { gap: 3px; }
       .pulse i { width: 3px; height: 3px; }
@@ -413,38 +412,17 @@
 
       <section class="block" aria-labelledby="ten" data-scene="6">
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 C 120 4.5, 260 8.5, 400 6 S 610 4, 678 6.5"/></svg>
-        <h2 id="ten" class="sr"><span class="L-ko">열 줄</span><span class="L-en">Ten lines</span></h2>
+        <h2 id="ten" class="sr"><span class="L-ko">세 줄</span><span class="L-en">Three lines</span></h2>
 
-        <details><summary><b><span class="L-ko">하나</span><span class="L-en">One</span></b> <span><span class="L-ko" lang="ko">선이 먼저다.</span><span class="L-en" lang="en">Before anything, the line I will not cross.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">나간 것은 돌아오지 않는다.<br>빠르려고, 나아지려고, 아끼려고<br>이 선을 넘지 않는다.<br>아홉 줄보다 앞에 둔다.</p>
-          <p class="why L-en" lang="en">What goes out never comes home.<br>Not for speed, not for polish, not for price.<br>It stands ahead of the other nine.</p></details>
-        <details><summary><b><span class="L-ko">둘</span><span class="L-en">Two</span></b> <span><span class="L-ko" lang="ko">한 사실은 한 곳에.</span><span class="L-en" lang="en">Each fact keeps one address.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">두 곳에 적힌 말은<br>언젠가 서로 다른 말을 한다.<br>어느 쪽이 맞는지,<br>그 물음은 사람에게 돌아온다.</p>
-          <p class="why L-en" lang="en">Written twice, a fact will one day disagree with itself,<br>and someone must stop and choose which one is living.</p></details>
-        <details><summary><b><span class="L-ko">셋</span><span class="L-en">Three</span></b> <span><span class="L-ko" lang="ko">기준은 도구에 묶지 않는다.</span><span class="L-en" lang="en">The measure outlives the tool.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">도구를 바꾸어도, 끊어도<br>기준은 남아야 한다.<br>그래서 어느 손으로도 열리는<br>맨 글로 적는다.</p>
-          <p class="why L-en" lang="en">Tools come and go with the seasons.<br>So the measure is kept in plain words<br>that any hand, any machine, can open.</p></details>
-        <details><summary><b><span class="L-ko">넷</span><span class="L-en">Four</span></b> <span><span class="L-ko" lang="ko">사람의 시간은 고르는 데 쓴다.</span><span class="L-en" lang="en">My hours go to choosing.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">옮겨 적는 손은<br>무언가를 흘리고, 미룬다.<br>그 일은 맡기고<br>남은 시간을 고르는 데 쓴다.</p>
-          <p class="why L-en" lang="en">Carried by hand, things get dropped, things wait.<br>The carrying goes to the machines;<br>the choosing stays here.</p></details>
-        <details><summary><b><span class="L-ko">다섯</span><span class="L-en">Five</span></b> <span><span class="L-ko" lang="ko">침묵은 승인이 아니다.</span><span class="L-en" lang="en">Silence is not a yes.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">제안을 결정처럼 두면<br>내가 모르는 규칙이 자란다.<br>분명히 답한 말만<br>결정으로 남긴다.</p>
-          <p class="why L-en" lang="en">A suggestion treated as a decision<br>becomes a rule no one agreed to.<br>Only a spoken answer is written down as decided.</p></details>
-        <details><summary><b><span class="L-ko">여섯</span><span class="L-en">Six</span></b> <span><span class="L-ko" lang="ko">어긋나면 고르지 않고 알린다.</span><span class="L-en" lang="en">Where two disagree, I say so — I don’t choose.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">조용히 한쪽을 고르면<br>어느 규칙이 살아 있는지 아무도 모른다.<br>무엇이 왜 다른지, 무엇이 바뀌는지,<br>어느 쪽을 권하는지 펼쳐 둔다.</p>
-          <p class="why L-en" lang="en">A quiet choice leaves no one knowing which rule still breathes.<br>So first: what differs, which one ranks higher, what it would change.</p></details>
-        <details><summary><b><span class="L-ko">일곱</span><span class="L-en">Seven</span></b> <span><span class="L-ko" lang="ko">하나가 바뀌면 끝까지 고친다.</span><span class="L-en" lang="en">One change travels all the way down.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">고치다 만 자리에서<br>어긋남은 풀처럼 다시 자란다.<br>그래서 위에서부터,<br>끝까지.</p>
-          <p class="why L-en" lang="en">Where the mending stops, the tear grows back.<br>Begin at the top. Follow it to the root.</p></details>
-        <details><summary><b><span class="L-ko">여덟</span><span class="L-en">Eight</span></b> <span><span class="L-ko" lang="ko">증거 없이 끝났다고 하지 않는다.</span><span class="L-en" lang="en">Nothing is done without a trace.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">했다, 라고 쓰는 데는<br>아무것도 들지 않는다.<br>그래서 말이 아니라<br>남은 자국을 본다.</p>
-          <p class="why L-en" lang="en">Saying “done” costs nothing,<br>and two voices agreeing is not proof.<br>Look for what was left behind.</p></details>
-        <details><summary><b><span class="L-ko">아홉</span><span class="L-en">Nine</span></b> <span><span class="L-ko" lang="ko">모르는 것은 모른다고 쓴다.</span><span class="L-en" lang="en">What I haven’t seen, I mark unseen.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">짐작이 사실의 옷을 입고 떠돌면<br>어디서 틀렸는지<br>다시 찾을 수 없다.</p>
-          <p class="why L-en" lang="en">A guess that travels as a fact<br>leaves no footprints back<br>to where it went wrong.</p></details>
-        <details><summary><b><span class="L-ko">열</span><span class="L-en">Ten</span></b> <span><span class="L-ko" lang="ko">규칙은 덜어 내는 쪽으로.</span><span class="L-en" lang="en">Rules lean toward less.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">지키려던 것들이 일을 덮기 시작하면<br>더하지 않고 덜어 낸다.<br>다만 첫 줄의 선은<br>지우지 않는다.</p>
-          <p class="why L-en" lang="en">When the keeping outgrows the work,<br>take away, fold together — don’t add.<br>Only the first line is never thinned.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko">선이 먼저, 나머지는 가볍게.</span><span class="L-en" lang="en">The line comes first; the rest kept light.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko">나간 것은 돌아오지 않는다.<br>무엇과도 바꾸지 않고, 이 선은 넘지 않는다.<br>규칙이 일을 덮으면 덜어 내되, 이 선만은 남긴다.</p>
+          <p class="why L-en" lang="en">What goes out never comes home.<br>Traded for nothing, that line is not crossed.<br>When rules outgrow the work, I thin them — never that one.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko">고르는 일은 말로 한다.</span><span class="L-en" lang="en">A choice is something said aloud.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko">침묵은 승인이 아니고, 어긋나면 고르지 않고 알린다.<br>옮기는 일은 맡기고, 고르는 일은 내가 한다.<br>기준은 어느 손으로도 열리는 맨 글로 둔다.</p>
+          <p class="why L-en" lang="en">Silence is not a yes; where two disagree, it is named, not settled.<br>The carrying is handed off; the choosing stays with me.<br>The measure is kept in plain words any hand can open.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko">젖은 자국만 믿는다.</span><span class="L-en" lang="en">Only the wet ground counts.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko">한 사실은 한 곳에, 바뀌면 끝까지 고친다.<br>했다는 말보다 남은 자국을 보고,<br>모르는 것은 모른다고 쓴다.</p>
+          <p class="why L-en" lang="en">One fact, one address; a change carried to the root.<br>Not the word “done,” but what it left behind —<br>and what I don’t know, marked unknown.</p></details>
       </section>
 
       <section class="end" aria-labelledby="endh" data-scene="6">
