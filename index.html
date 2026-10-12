@@ -18,7 +18,7 @@
       d.classList.add('js');
       try { pick = localStorage.getItem('onduru-lang'); } catch (e) {}
       if (pick !== 'ko' && pick !== 'en') {
-        var ls = navigator.languages || [navigator.language || 'ko'];
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'ko'];
         pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
       }
       d.setAttribute('data-lang', pick);
@@ -126,15 +126,19 @@
     .pulse i { width: 4px; height: 4px; border-radius: 50%; background: rgba(238, 240, 242, .18); transition: background-color .25s, box-shadow .25s; }
     .pulse i.on { background: var(--signal); box-shadow: 0 0 10px var(--signal); }
 
-    h1 {
-      margin-top: 36px;
+    .title-wrap { display: grid; margin-top: 36px; }
+    .title-wrap > h1, .title-wrap > .stage { grid-area: 1 / 1; }
+    .stage { pointer-events: none; }
+    .veil { visibility: hidden; }
+    .fly { will-change: transform, opacity; }
+    h1, .stage-line {
       font-family: "Gowun Batang", serif;
       font-weight: 700;
       font-size: clamp(36px, 8.4vw, 96px);
       line-height: 1.32;
       letter-spacing: -.015em;
     }
-    html[data-lang="en"] h1 { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
+    html[data-lang="en"] h1, html[data-lang="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .ch { display: inline-block; text-align: center; white-space: pre; }
     .ch.noise { color: var(--sky-muted); }
     .ch.cho { color: var(--signal); text-shadow: 0 0 18px rgba(143, 212, 193, .55); }
@@ -297,7 +301,8 @@
     @media (max-height: 500px) and (orientation: landscape) {
       .sky { padding-top: 64px; padding-bottom: 64px; }
       .screen { min-height: auto; padding: 56px 0; }
-      h1 { font-size: clamp(28px, 5vw, 44px) !important; margin-top: 18px; }
+      h1, .stage-line { font-size: clamp(28px, 5vw, 44px) !important; }
+      .title-wrap { margin-top: 18px; }
       .signal-line { margin-top: 16px; }
       .down { display: none; }
     }
@@ -322,19 +327,22 @@
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Draw the circle again</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
       <div class="pulse" aria-hidden="true" id="pulse"></div>
 
-      <h1 class="L-ko" lang="ko">실행은 맡겨도,<br><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 말, </span>판단</del> <ins class="pending"><span class="sr">고쳐 쓴 말, </span>책임</ins></button>은<br>맡기지 않는다.</h1>
-      <h1 class="L-en" lang="en">Hand over the doing.<br>Never the <button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck out: </span>judgment</del> <ins class="pending"><span class="sr">rewritten: </span>responsibility</ins></button>.</h1>
+      <div class="title-wrap">
+      <h1 class="L-ko" lang="ko">실행은 맡겨도,<br><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 말, </span>판단<span class="sr">,</span></del> <ins class="pending"><span class="sr">고쳐 쓴 말, </span>책임</ins></button>은<br>맡기지 않는다.</h1>
+      <h1 class="L-en" lang="en">Hand over the doing.<br>Never the <button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">crossed out: </span>judgment<span class="sr">,</span></del> <ins class="pending"><span class="sr">corrected to </span>responsibility</ins></button>.</h1>
+        <div class="stage" aria-hidden="true"></div>
+      </div>
 
       <p class="margin-note L-ko" id="n-ko" role="note" lang="ko">처음에는 판단이라고 썼다.<br>판단은 고르는 일에서 끝나지만, 책임은 그 뒤에도 남는다.<br>그래서 고쳐 썼다.</p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en">I first wrote judgment.<br>Judgment ends with the choosing. Responsibility stays after.<br>So I wrote it again.</p>
+      <p class="margin-note L-en" id="n-en" role="note" lang="en">At first I wrote “judgment.”<br>Judgment ends with the choosing. Responsibility remains.<br>So I rewrote it.</p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko">잡음 속에서, 신호를 고른다.</span><span class="L-en" lang="en">From the noise, I choose the signal.</span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko">미쓰따리의 1인 AI 작업실</span><span class="L-en" lang="en">A one-person AI studio · 미쓰따리</span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko">잡음 속에서, 신호를 고른다.</span><span class="L-en" lang="en">Out of the noise, I choose the signal.</span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko">미쓰따리의 1인 AI 작업실</span><span class="L-en" lang="en">A one-person AI studio · <span lang="ko">미쓰따리</span></span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
     </div>
     <a class="down" href="#begin"><span class="sr L-ko">아래로</span><span class="sr L-en">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
@@ -344,7 +352,7 @@
 
       <div class="screen h76 reveal" id="begin">
         <p class="line L-ko" lang="ko">기계가 먼저 일을 한다.<br>나는 그 뒤에 앉는다.<br><span class="soft">무엇을 남기고 무엇을 지울지,<br>그것만은 내가 정한다.</span></p>
-        <p class="line L-en" lang="en">The machine works first.<br>I sit down after.<br><span class="soft">What to keep, what to erase —<br>that, I decide.</span></p>
+        <p class="line L-en" lang="en">The machine works first.<br>I sit down after.<br><span class="soft">What to keep, what to erase —<br>that alone is mine to decide.</span></p>
       </div>
 
       <div class="screen h72 i2 reveal">
@@ -360,7 +368,7 @@
 
       <div class="screen h64 i2 reveal">
         <p class="line L-ko" lang="ko">한 만큼만,<br>했다고 말한다.<br><span class="soft">모르는 것 앞에서는<br>모른다고 쓴다.</span></p>
-        <p class="line L-en" lang="en">Only what was done<br>do I call done.<br><span class="soft">Before what I do not know,<br>I write: I do not know.</span></p>
+        <p class="line L-en" lang="en">Only what was done<br>do I call done.<br><span class="soft">Facing what I do not know,<br>I write: I do not know.</span></p>
         <p class="tag"><span class="L-ko">정직</span><span class="L-en">HONESTY</span></p>
       </div>
 
@@ -383,7 +391,7 @@
 
         <details><summary><b><span class="L-ko">하나</span><span class="L-en">One</span></b> <span><span class="L-ko" lang="ko">넘지 않을 선이 먼저다.</span><span class="L-en" lang="en">The line I will not cross comes first.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">나간 것은 되돌릴 수 없다.<br>빨라지려고, 나아지려고, 아끼려고<br>이 선을 넘지 않는다.<br>다른 아홉 가지보다 앞에 둔다.</p>
-          <p class="why L-en" lang="en">What leaves cannot be taken back.<br>Not to be faster, not to be better, not to spend less —<br>I do not cross this line.<br>It stands before the other nine.</p></details>
+          <p class="why L-en" lang="en">What leaves cannot be taken back.<br>Not for speed, not for quality, not to save —<br>I do not cross this line.<br>It stands before the other nine.</p></details>
         <details><summary><b><span class="L-ko">둘</span><span class="L-en">Two</span></b> <span><span class="L-ko" lang="ko">같은 사실을 두 곳에 적지 않는다.</span><span class="L-en" lang="en">One fact, one place.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">두 곳에 적힌 말은 언젠가 서로 다른 말을 한다.<br>어느 쪽이 맞는지 가리는 일은 결국 사람에게 돌아온다.</p>
           <p class="why L-en" lang="en">Words written in two places will one day say two different things.<br>Deciding which is right falls, in the end, to a person.</p></details>
@@ -393,16 +401,16 @@
         <details><summary><b><span class="L-ko">넷</span><span class="L-en">Four</span></b> <span><span class="L-ko" lang="ko">사람의 시간은 판단에 쓴다.</span><span class="L-en" lang="en">A person’s time is for judgment.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">사람이 적고 옮기는 일을 맡으면, 무언가는 빠지고 미뤄진다.<br>그 일은 맡기고, 남은 시간을 고르는 데 쓴다.</p>
           <p class="why L-en" lang="en">When a person copies and carries, something is dropped, something delayed.<br>Hand that over. Spend what remains on choosing.</p></details>
-        <details><summary><b><span class="L-ko">다섯</span><span class="L-en">Five</span></b> <span><span class="L-ko" lang="ko">침묵은 승인이 아니다.</span><span class="L-en" lang="en">Silence is not consent.</span></span><i aria-hidden="true"></i></summary>
+        <details><summary><b><span class="L-ko">다섯</span><span class="L-en">Five</span></b> <span><span class="L-ko" lang="ko">침묵은 승인이 아니다.</span><span class="L-en" lang="en">Silence is not approval.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">제안을 결정처럼 다루면, 내가 모르는 규칙이 생긴다.<br>분명히 답한 것만 결정으로 남긴다.</p>
-          <p class="why L-en" lang="en">Treat a suggestion as a decision, and rules appear that I never knew.<br>Only a clear answer is kept as a decision.</p></details>
-        <details><summary><b><span class="L-ko">여섯</span><span class="L-en">Six</span></b> <span><span class="L-ko" lang="ko">어긋나면 고르지 않고 알린다.</span><span class="L-en" lang="en">When things disagree, say so. Don’t pick quietly.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-en" lang="en">Treat a suggestion as a decision, and rules I never knew of take hold.<br>Only a clear answer is kept as a decision.</p></details>
+        <details><summary><b><span class="L-ko">여섯</span><span class="L-en">Six</span></b> <span><span class="L-ko" lang="ko">어긋나면 고르지 않고 알린다.</span><span class="L-en" lang="en">When they disagree, I do not choose. I report.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">조용히 한쪽을 고르면, 무엇이 살아 있는 규칙인지 아무도 모르게 된다.<br>무엇이 다르고, 왜 다르고, 무엇이 달라지는지를 먼저 보여 준다.</p>
           <p class="why L-en" lang="en">Pick a side in silence, and no one knows which rule is still alive.<br>First show what differs, why, and what it changes.</p></details>
-        <details><summary><b><span class="L-ko">일곱</span><span class="L-en">Seven</span></b> <span><span class="L-ko" lang="ko">하나가 바뀌면 끝까지 고친다.</span><span class="L-en" lang="en">When one thing changes, fix it all the way through.</span></span><i aria-hidden="true"></i></summary>
+        <details><summary><b><span class="L-ko">일곱</span><span class="L-en">Seven</span></b> <span><span class="L-ko" lang="ko">하나가 바뀌면 끝까지 고친다.</span><span class="L-en" lang="en">When one thing changes, carry it all the way down.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">고치다 만 자리에서, 어긋남은 다시 자란다.<br>그래서 위에서부터, 끝까지 고친다.</p>
           <p class="why L-en" lang="en">Where fixing stopped halfway, the mismatch grows back.<br>So from the top, all the way down.</p></details>
-        <details><summary><b><span class="L-ko">여덟</span><span class="L-en">Eight</span></b> <span><span class="L-ko" lang="ko">증거 없는 완료는 없다.</span><span class="L-en" lang="en">No proof, no done.</span></span><i aria-hidden="true"></i></summary>
+        <details><summary><b><span class="L-ko">여덟</span><span class="L-en">Eight</span></b> <span><span class="L-ko" lang="ko">증거 없는 완료는 없다.</span><span class="L-en" lang="en">Without proof, nothing is done.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">했다고 쓰는 데에는 아무것도 들지 않는다.<br>그래서 말이 아니라, 남은 결과를 본다.</p>
           <p class="why L-en" lang="en">Writing “done” costs nothing.<br>So look not at the words, but at what remains.</p></details>
         <details><summary><b><span class="L-ko">아홉</span><span class="L-en">Nine</span></b> <span><span class="L-ko" lang="ko">모르는 것은 모른다고 쓴다.</span><span class="L-en" lang="en">What I do not know, I write as unknown.</span></span><i aria-hidden="true"></i></summary>
@@ -410,23 +418,23 @@
           <p class="why L-en" lang="en">Once a guess travels as a fact,<br>no one can later find where it went wrong.</p></details>
         <details><summary><b><span class="L-ko">열</span><span class="L-en">Ten</span></b> <span><span class="L-ko" lang="ko">규칙은 덜어 내는 쪽으로.</span><span class="L-en" lang="en">Rules lean toward less.</span></span><i aria-hidden="true"></i></summary>
           <p class="why L-ko" lang="ko">지키려고 만든 것들이 일을 덮기 시작하면,<br>더하지 않고 덜어 낸다.<br>다만 첫 번째 선은 덜어 내지 않는다.</p>
-          <p class="why L-en" lang="en">When what was made to protect the work begins to bury it,<br>subtract. Do not add.<br>But the first line is never subtracted.</p></details>
+          <p class="why L-en" lang="en">When what was made to protect the work begins to bury it,<br>subtract. Do not add.<br>But the first line stays.</p></details>
       </section>
 
       <section class="block way" aria-labelledby="way">
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5.5 C 140 8, 300 3.8, 450 6.2 S 620 7.5, 678 5"/></svg>
         <h2 id="way"><span class="L-ko">함께 일하는 방식</span><span class="L-en">HOW WE WORK</span></h2>
-        <p class="reveal L-ko" lang="ko">요청과 검토, 결정은 당신이.<br>실행과 기록은 작업실이.<br>끝은 결과로 보여 드립니다.</p>
-        <p class="reveal L-en" lang="en">Requests, review, decisions — yours.<br>Execution and records — the studio’s.<br>The end is shown as results.</p>
+        <p class="reveal L-ko" lang="ko">요청과 검토, 결정은 당신이.<br>실행과 기록은 작업실이.<br>완료는 결과로 보여 드립니다.</p>
+        <p class="reveal L-en" lang="en">Requests, review, decisions — yours.<br>Execution and records — the studio’s.<br>Every finish comes with its results.</p>
       </section>
 
       <section class="end" aria-labelledby="endh">
         <h2 id="endh" class="sr"><span class="L-ko">맺음</span><span class="L-en">Closing</span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Draw the circle again</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <p class="line reveal L-ko" lang="ko">맡길 것과 쥘 것을,<br>날마다 여기서 가른다.</p>
         <p class="line reveal L-en" lang="en">What to hand over, what to hold —<br>I sort it here, every day.</p>
-        <p class="note"><span class="L-ko">함께할 일이 있다면</span><span class="L-en">If there is work to do together</span></p>
+        <p class="note"><span class="L-ko">함께할 일이 있다면</span><span class="L-en">If there is work we might do together</span></p>
         <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a>
         <div><a class="totop" href="#top"><span class="L-ko">처음으로 ↑</span><span class="L-en">Back to the top ↑</span></a></div>
       </section>
@@ -575,7 +583,7 @@
       function echoChars() {
         for (var i = 0; i < chars.length; i++) {
           var c = chars[i];
-          if (c.el.classList.contains('noise') || c.el.classList.contains('cho')) continue;
+          if (c.el.classList.contains('fly') || c.el.classList.contains('noise') || c.el.classList.contains('cho')) continue;
           var w = wind(c.x), g = Math.min(1, gustAt(c.x));
           c.el.style.transform = 'translate(' + (w * 1.2).toFixed(2) + 'px,' + (Math.abs(w) * -0.8).toFixed(2) + 'px) rotate(' + (w * 0.5).toFixed(2) + 'deg)';
           c.el.style.textShadow = g > 0.04
@@ -651,10 +659,11 @@
         var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
         while (walker.nextNode()) {
           var n = walker.currentNode;
-          if (!n.parentNode.closest('.sr')) nodes.push(n);
+          if (!n.parentNode.closest('.sr,.ch')) nodes.push(n);
         }
         nodes.forEach(function (n) {
           var frag = document.createDocumentFragment();
+          if (!el.closest('.stage')) { var t = document.createElement('span'); t.className = 'sr'; t.textContent = n.nodeValue; frag.appendChild(t); }
           Array.prototype.forEach.call(n.nodeValue, function (c) {
             if (/\s/.test(c)) { frag.appendChild(document.createTextNode(c)); return; }
             var s = document.createElement('span');
@@ -666,60 +675,119 @@
         });
         return spans;
       }
-      function decode(spans, L, base, done) {
-        var noise = NOISE[L], left = spans.length;
+      var stage = document.querySelector('.stage');
+      var BEATS = { ko: ['모델은 바뀐다.', '기준은 남는다.'], en: ['Models change.', 'The standard remains.'] };
+      function rndOff() {
+        var b = cv.getBoundingClientRect();
+        return { w: b.width, h: b.height, l: b.left, t: b.top };
+      }
+      /* 모이기: 흩어진 자모가 날아와, 초성으로 빛나고, 글자가 된다 */
+      function gather(spans, L, base, done) {
+        var noise = NOISE[L], left = spans.length, B = rndOff();
         if (!left) { if (done) done(); return; }
         spans.forEach(function (s, i) {
-          var f = s.getAttribute('data-f');
-          s.style.width = s.getBoundingClientRect().width + 'px';
-          var start = base + i * 55 + Math.random() * 180;
-          var spin = 520 + Math.random() * 520;
-          var cho = L === 'ko' ? choOf(f) : f;
+          var f = s.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f;
+          var r = s.getBoundingClientRect();
+          s.style.width = r.width + 'px';
+          var tx = Math.random() * B.w - (r.left - B.l), ty = Math.random() * B.h - (r.top - B.t);
+          s.classList.add('fly', 'noise');
+          s.style.transition = 'none';
+          s.style.opacity = '0';
+          s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 120).toFixed(0) + 'deg) scale(.7)';
+          s.textContent = rnd(noise);
+          var delay = base + i * 45 + Math.random() * 240, dur = 1300 + Math.random() * 600;
           setTimeout(function () {
-            s.classList.add('noise');
-            var iv = setInterval(function () { s.textContent = rnd(noise); }, 55);
+            void s.offsetWidth;
+            s.style.transition = 'transform ' + dur.toFixed(0) + 'ms cubic-bezier(.16,.8,.22,1), opacity 700ms ease';
+            s.style.opacity = '1';
+            s.style.transform = 'none';
+            var iv = setInterval(function () { s.textContent = rnd(noise); }, 75);
+            setTimeout(function () { clearInterval(iv); s.classList.remove('noise'); s.classList.add('cho'); s.textContent = cho; }, dur * 0.7);
             setTimeout(function () {
-              clearInterval(iv);
-              s.classList.remove('noise'); s.classList.add('cho');
-              s.textContent = cho;
-              setTimeout(function () {
-                s.classList.remove('cho'); s.classList.add('lock');
-                s.textContent = f; s.style.width = '';
-                if (--left === 0 && done) done();
-              }, L === 'ko' ? 300 : 160);
-            }, spin);
-          }, start);
+              s.classList.remove('cho', 'fly'); s.classList.add('lock');
+              s.textContent = f;
+              s.style.width = ''; s.style.transition = ''; s.style.transform = ''; s.style.opacity = '';
+              if (--left === 0 && done) done();
+            }, dur + 60);
+          }, delay);
         });
       }
-      var decoded = {};
+      /* 흩어지기: 글자는 초성으로 돌아가 바람에 실려 간다 */
+      function scatter(spans, L, done) {
+        var B = rndOff();
+        gust(null, 1.1);
+        spans.forEach(function (s, i) {
+          var r = s.getBoundingClientRect();
+          var tx = B.w * (0.25 + Math.random() * 0.8), ty = (Math.random() - .5) * B.h * 0.5;
+          s.classList.add('fly');
+          setTimeout(function () {
+            if (L === 'ko') s.textContent = choOf(s.getAttribute('data-f'));
+            s.style.transition = 'transform 1000ms cubic-bezier(.55,0,.85,.35), opacity 900ms ease';
+            s.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - .5) * 140).toFixed(0) + 'deg)';
+            s.style.opacity = '0';
+          }, i * 28);
+        });
+        setTimeout(done, 1000 + spans.length * 28 + 60);
+      }
+      var decoded = {}, token = 0;
       function runHero() {
-        var L = lang();
+        var L = lang(), my = ++token;
         var h1 = document.querySelector('h1.L-' + L);
         var after = document.querySelectorAll('.after-decode');
         var del = h1.querySelector('del'), ins = h1.querySelector('ins');
+        function alive() { return my === token; }
         function finish() {
+          stage.innerHTML = '';
+          h1.classList.remove('veil');
           del.classList.remove('pending'); del.classList.add('striking');
           ins.classList.remove('pending');
           after.forEach(function (a) { a.classList.add('shown'); });
+          setTimeout(cacheChars, 30);
         }
-        if (decoded[L] || still) { decoded[L] = true; finish(); setTimeout(cacheChars, 30); return; }
-        decoded[L] = true;
-        var insSpans = wrapChars(ins);
-        var mainSpans = wrapChars(h1).filter(function (s) { return !ins.contains(s); });
-        setTimeout(cacheChars, 20);
-        decode(mainSpans, L, 300, function () {
-          del.classList.remove('pending');
-          requestAnimationFrame(function () { del.classList.add('striking'); });
-          setTimeout(function () {
-            ins.classList.remove('pending');
-            ring(0.5);
-            decode(insSpans, L, 0, function () {
-              after.forEach(function (a) { a.classList.add('shown'); });
-              cacheChars();
-              gust(null, 1.1);
+        if (decoded[L] === 'busy') return;
+        if (decoded[L] || still) { decoded[L] = true; finish(); return; }
+        decoded[L] = 'busy';
+        document.querySelectorAll('.title-wrap h1').forEach(function (h) { h.classList.add('veil'); });
+        var beats = BEATS[L], k = 0;
+        function next() {
+          if (!alive()) return;
+          if (k < beats.length) {
+            stage.innerHTML = '';
+            var line = document.createElement('p');
+            line.className = 'stage-line';
+            line.textContent = beats[k];
+            stage.appendChild(line);
+            var spans = wrapChars(line);
+            gather(spans, L, 150, function () {
+              setTimeout(function () {
+                if (!alive()) return;
+                scatter(spans, L, function () { k++; next(); });
+              }, 1400);
             });
-          }, 950);
-        });
+            return;
+          }
+          stage.innerHTML = '';
+          var insSpans = wrapChars(ins);
+          var mainSpans = wrapChars(h1).filter(function (s) { return !ins.contains(s); });
+          gather(mainSpans, L, 0, function () {
+            if (!alive()) return;
+            cacheChars();
+            del.classList.remove('pending');
+            setTimeout(function () { del.classList.add('striking'); }, 30);
+            setTimeout(function () {
+              if (!alive()) return;
+              ins.classList.remove('pending');
+              gather(insSpans, L, 0, function () {
+                decoded[L] = true;
+                after.forEach(function (a) { a.classList.add('shown'); });
+                cacheChars();
+                gust(null, 1.2);
+              });
+            }, 1000);
+          });
+          h1.classList.remove('veil');
+        }
+        next();
       }
 
       /* 3. 언어 전환 */
