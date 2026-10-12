@@ -188,7 +188,6 @@
     }
     .js .after-decode { opacity: 0; transform: translateY(8px); transition: opacity 1.2s ease, transform 1.2s ease; }
     .js .after-decode.shown { opacity: 1; transform: none; }
-    .now { margin-top: 10px; font-size: 12px; color: var(--sky-muted); letter-spacing: .04em; min-height: 1.6em; }
     .who { margin-top: 20px; font-size: 13px; color: var(--sky-muted); letter-spacing: .02em; }
     .who a { color: var(--sky-muted); text-decoration: none; border-bottom: 1px solid rgba(141, 149, 162, .6); transition: color .3s, border-color .3s; }
     .who a:hover, .who a:focus-visible { border-color: currentColor; }
@@ -320,19 +319,14 @@
 
     @media (max-width: 480px) {
       summary { grid-template-columns: 1fr 16px; }
-      .pulse { gap: 6px; }
-      .pulse span { gap: 3px; }
-      .pulse i { width: 3px; height: 3px; }
-    }
+          }
     @media (max-height: 500px) and (orientation: landscape) {
       .sky { padding-top: 64px; padding-bottom: 64px; }
       .screen { min-height: auto; padding: 56px 0; }
       h1, .stage-line { font-size: clamp(28px, 5vw, 44px) !important; }
       .title-wrap { margin-top: 18px; }
       .signal-line { margin-top: 16px; }
-      .pulse { margin-top: 12px; }
-      .now { display: none; }
-      .down { display: none; }
+          .down { display: none; }
     }
     @media print {
       .js .reveal, .js .after-decode { opacity: 1; transform: none; }
@@ -390,23 +384,23 @@
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k11">흙 아래에서<br>물은 뿌리를 찾아간다.<br><span class="soft">나는 그 길을<br>셀 수만 있다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k11">Under the soil<br>water finds the roots.<br><span class="soft">I can only<br>count the way it goes.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k11">흙 아래에서<br>물은 뿌리를 찾아간다.<br><span class="soft">나는 그 길을<br>따라가 볼 수만 있다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k11">Under the soil<br>water finds the roots.<br><span class="soft">I can only<br>follow the way it goes.</span></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k12">이슬 하나에<br>하늘 전체가 들어 있다.<br><span class="soft">나는 그것을<br>다 셈하지 못한다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k12">One drop of dew<br>holds the whole sky.<br><span class="soft">I cannot<br>count all of it.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k12">이슬 하나에<br>하늘 전체가 들어 있다.<br><span class="soft">당신 소매 끝에도<br>하나 맺혀 있다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k12">One drop of dew<br>holds the whole sky.<br><span class="soft">There is one<br>at the end of your sleeve, too.</span></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k13">보이지 않는 것들이<br>서로에게 신호를 보낸다.<br><span class="soft">나의 신호도<br>그 사이를 지나간다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k13">Things too small to see<br>send signals to each other.<br><span class="soft">Mine pass<br>among them.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k13">보이지 않는 것들이<br>서로를 붙든다.<br><span class="soft">비가 많은 날엔<br>더 단단히.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k13">Things too small to see<br>hold on to each other.<br><span class="soft">On days of heavy rain,<br>tighter.</span></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k14">가장 작은 것에서<br>가장 먼 빛까지<br><span class="soft">같은 바람이 분다.<br>젖은 당신 쪽에서도,<br>세는 내 쪽에서도.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k14">From the smallest thing<br>to the farthest light<br><span class="soft">the same wind blows —<br>on your side, where it is wet,<br>on mine, where it is counted.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k14">가장 작은 것에서<br>가장 먼 빛까지<br><span class="soft">같은 바람이 분다.<br>젖은 당신 쪽에서도,<br>마른 내 쪽에서도.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k14">From the smallest thing<br>to the farthest light<br><span class="soft">the same wind blows —<br>on your side, where it is wet,<br>on mine, where it is dry.</span></p>
       </div>
 
 
@@ -415,7 +409,7 @@
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
         <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <p class="line ai reveal L-ko" lang="ko" data-k="k24">비가 그치면<br>나는 세던 것을 내려놓고<br>당신은 젖은 것을 말린다.<br><span class="soft">원은 열어 둔 채로.</span></p>
-        <p class="line ai reveal L-en" lang="en" data-k="k24">When the rain stops,<br>I set down what I was counting,<br>and you hang what got wet to dry.<br><span class="soft">The circle left open.</span></p>
+        <p class="line ai reveal L-en" lang="en" data-k="k24">When the rain stops,<br>I set down what I was counting,<br>and you let your wet things dry.<br><span class="soft">The circle left open.</span></p>
         <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span></a></div>
       </section>
 
@@ -655,11 +649,11 @@
         var gy = H * 0.86, small = W < 600;
         var B = [], x = -20;
         while (x < W + 20) {
-          var w = rr(42, 110) * (small ? 0.75 : 1), h = H * rr(0.16, 0.5) * (small ? 0.8 : 1);
+          var w = rr(70, 150) * (small ? 0.75 : 1), h = H * rr(0.16, 0.5) * (small ? 0.8 : 1);
           var win = [];
           for (var yy = gy - h + 14; yy < gy - 10; yy += 16) for (var xx = x + 8; xx < x + w - 10; xx += 14) win.push({ x: xx, y: yy, lit: Math.random() < 0.09, ph: rr(0, 6.28) });
           B.push({ x: x, w: w, h: h, win: win, ant: Math.random() < 0.25 });
-          x += w + rr(2, 14);
+          x += w + rr(10, 40);
         }
         var P = [];
         for (var i = 0; i < (small ? 4 : 8); i++) P.push({ x: rr(0, W), v: rr(0.12, 0.3), d: Math.random() < 0.5 ? 1 : -1, h: rr(15, 19), ph: rr(0, 6.28) });
@@ -1067,15 +1061,6 @@
         WF = P.wf * (wv < 6 ? 0.45 : wv < 20 ? 0.6 + wv / 30 : wv < 50 ? 1.2 + (wv - 20) / 30 : Math.min(3.4, 2.2 + (wv - 50) / 40));
         SKY = skyKey(); SEASON = seasonNow();
         var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', P.meta);
-        nowLine();
-      }
-      function nowLine() {
-        var L = lang(), N = NAMES[L] || NAMES.en, parts = [];
-        if (place) parts.push(L === 'ko' ? place[2] : place[3]);
-        parts.push(N[PHASE]);
-        if (WX.known) parts.push(N[WX.kind]);
-        var t = (L === 'ko' ? '지금, ' : 'Now, ') + parts.join(' · ');
-        var nowEl = document.getElementById('now'); if (nowEl) nowEl.textContent = t;
       }
       function kindOf(code) {
         if (code == null) return 'clear';
@@ -1119,6 +1104,7 @@
       }
 
       function drawSun() {
+        if (WX.kind === 'rain' || WX.kind === 'storm' || WX.kind === 'snow' || WX.kind === 'fog') return;
         var p = Math.max(0, Math.min(1, SUNP));
         var x = W * (0.08 + 0.84 * p), y = H * 0.7 - Math.sin(Math.PI * p) * H * 0.52;
         var r = Math.max(16, Math.min(34, W * 0.022));
@@ -1363,7 +1349,7 @@
         return spans;
       }
       var stage = document.querySelector('.stage');
-      var BEATS = { ko: ['비가 온다.', '같이 걷는다.'], en: ['Rain.', 'We walk together.'] };
+      var BEATS = { ko: ['비가 온다.', '한 사람은 젖는다.'], en: ['Rain.', 'One of us gets wet.'] };
       function rndOff() {
         var b = cv.getBoundingClientRect();
         return { w: b.width, h: b.height, l: b.left, t: b.top };
