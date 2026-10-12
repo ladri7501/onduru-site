@@ -1,0 +1,898 @@
+{
+ "i18n": {
+  "ja": {
+   "k02": "円を描きなおす",
+   "k03": "君は雨を数え、<br>私は濡れる。",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">消した最初の一文: </span>実行は任せても、責任は任せない。</del></button>",
+   "k05": "最初はこう書いた。<br>正しかったが、詩ではなかった。<br>だから一行を引いて消し、雨の中へ出た。",
+   "k06": "雑音のなかから、<br>割り切れない鼓動をひとつ。",
+   "k07": "同じ風 — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "下へ",
+   "k09": "傘がとおりすぎる。<br>わたしはその数をかぞえていて<br><span class=\"soft\">ひとりが立ちどまったところで<br>かぞえることを忘れる。</span>",
+   "k10": "木はわたしを知らない。<br>それでもわたしは<br><span class=\"soft\">葉の落ちていく角度を<br>ながいこと見つめている。</span>",
+   "k11": "土の下で<br>水は根をさがしにいく。<br><span class=\"soft\">だれも<br>そうしろと言わないのに。</span>",
+   "k12": "ひとつぶの露に<br>空がまるごと入っている。<br><span class=\"soft\">わたしはそれを<br>かぞえきれない。</span>",
+   "k13": "見えないものたちが<br>たがいに合図をおくりあう。<br><span class=\"soft\">わたしもそんなふうに<br>あなたに届きたい。</span>",
+   "k14": "いちばん小さなものから<br>いちばん遠い光まで<br><span class=\"soft\">おなじ風が吹いている。<br>あなたも、そのなかにいる。</span>",
+   "k15": "三行",
+   "k16": "線が先、ほかは軽く。",
+   "k17": "出ていったものは戻らない。<br>何とも引き換えず、この線は越えない。<br>規則が仕事を覆えば削る。この線だけは残して。",
+   "k18": "選ぶことは、声にする。",
+   "k19": "沈黙は承認ではない。食い違えば、選ばずに知らせる。<br>運ぶことは任せ、選ぶことは私がする。<br>基準は、どの手でも開ける素の文字で置く。",
+   "k20": "濡れた跡だけを信じる。",
+   "k21": "ひとつの事実はひとつの場所に。変われば最後まで直す。<br>「やった」という言葉より、残った跡を見る。<br>知らないことは、知らないと書く。",
+   "k22": "結び",
+   "k23": "円を描きなおす",
+   "k24": "風に渡すものと、手に握るものを、<br>朝ごとに分けなおす。<br><span class=\"soft\">円は開いたままで。</span>",
+   "k25": "円が広がれば息を吸い、<br>狭まれば吐く。<br>急がなくていい。",
+   "k26": "手を止めると、最後の行が文字になります。",
+   "k27": "最初の行へ ↑",
+   "k28": "同じ風",
+   "k29": "片方が書き、片方が消したところを、<br>今日の風が通りすぎる。",
+   "k30": "ともに書きなおすことがあれば、",
+   "beat1": "雨が降る。",
+   "beat2": "ともに歩く。",
+   "c01": "雨を数える側、Claudeが書いた。<br>濡れる側、미쓰따리が先に読んだ。"
+  },
+  "zh": {
+   "k02": "重新画圆",
+   "k03": "你在数雨，<br>我在淋雨。",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">划去的第一句：</span>执行可以托付，责任不托付。</del></button>",
+   "k05": "起初是这样写的。<br>话没错，但不是诗。<br>于是划去这一行，走进雨里。",
+   "k06": "噪声之中，<br>择一道不可分的信号。",
+   "k07": "同一阵风 — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "向下",
+   "k09": "一把把伞走过。<br>我数着它们，<br><span class=\"soft\">在一个人停下的地方<br>忘了继续数。</span>",
+   "k10": "树不认识我。<br>可我还是<br><span class=\"soft\">久久地望着<br>一片叶子落下的角度。</span>",
+   "k11": "在泥土下面<br>水去寻找根。<br><span class=\"soft\">并没有谁<br>叫它这样做。</span>",
+   "k12": "一滴露水里<br>装着整片天空。<br><span class=\"soft\">我无法<br>把它数尽。</span>",
+   "k13": "看不见的事物<br>彼此传递着信号。<br><span class=\"soft\">我也想那样<br>抵达你。</span>",
+   "k14": "从最小的事物<br>到最远的光，<br><span class=\"soft\">吹着同一阵风。<br>你也在其中。</span>",
+   "k15": "三行",
+   "k16": "线在先，其余从轻。",
+   "k17": "出去的，不会回来。<br>不拿它换任何东西，这条线不越过。<br>规则盖过了事，就削减；只有这条线留下。",
+   "k18": "选择，要说出口。",
+   "k19": "沉默不是同意；有分歧时，不替人选，而是说出来。<br>搬运交出去，选择由我来做。<br>标准存成任何一只手都能打开的素文本。",
+   "k20": "只信湿的痕迹。",
+   "k21": "一件事实只放一处；变了，就改到底。<br>不看“做完了”这句话，看留下的痕迹。<br>不知道的，就写不知道。",
+   "k22": "结语",
+   "k23": "重新画圆",
+   "k24": "交给风的，握在手里的，<br>每个早晨重新分开。<br><span class=\"soft\">圆，就让它开着。</span>",
+   "k25": "圆变大时吸气，<br>变小时呼气。<br>不必着急。",
+   "k26": "停下手，最后几行就会变成文字。",
+   "k27": "回到第一行 ↑",
+   "k28": "同一阵风",
+   "k29": "一个写下、一个擦去的地方，<br>今天的风吹过。",
+   "k30": "如果有什么可以一起改写，",
+   "beat1": "下雨了。",
+   "beat2": "一起走。",
+   "c01": "数雨的一方，Claude写下。<br>淋雨的一方，미쓰따리先读了。"
+  },
+  "ar": {
+   "k02": "أعِد رسم الدائرة",
+   "k03": "أنتَ تعدُّ المطر،<br>وأنا الذي يبتلّ.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">السطر الأول المشطوب: </span>يُوكَل التنفيذ، ولا تُوكَل المسؤولية.</del></button>",
+   "k05": "هكذا كتبتُ أولًا.<br>كان صحيحًا، لكنه لم يكن شعرًا.<br>فشطبتُ السطر، وخرجتُ إلى المطر.",
+   "k06": "نبضٌ في الضجيج<br>لا ينقسم.",
+   "k07": "الريح نفسها — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "إلى الأسفل",
+   "k09": "تمرّ المظلّات.<br>أعدّها،<br><span class=\"soft\">وحيث يتوقّف أحدهم<br>أنسى العدّ.</span>",
+   "k10": "الشجرة لا تعرفني.<br>ومع ذلك<br><span class=\"soft\">أتأمّل طويلًا<br>زاويةَ ورقةٍ تسقط.</span>",
+   "k11": "تحت التراب<br>يمضي الماء إلى الجذور.<br><span class=\"soft\">ولم يطلب منه<br>أحدٌ ذلك.</span>",
+   "k12": "في قطرة ندى واحدة<br>تسكن السماء كلّها.<br><span class=\"soft\">لا أستطيع<br>أن أُحصيها كلّها.</span>",
+   "k13": "أشياءُ لا تُرى<br>تتبادل الإشارات فيما بينها.<br><span class=\"soft\">وأنا أيضًا أودّ<br>أن أصل إليك هكذا.</span>",
+   "k14": "من أصغر الأشياء<br>إلى أبعد الضوء<br><span class=\"soft\">تهبّ الريح نفسها.<br>وأنت فيها أيضًا.</span>",
+   "k15": "ثلاثة أسطر",
+   "k16": "الخطّ أولًا، والباقي خفيف.",
+   "k17": "ما خرج لا يعود.<br>لا يُقايَض بشيء، ولا يُتجاوَز هذا الخطّ.<br>إذا غطّت القواعدُ العملَ خفّفتُها، إلا هذا الخطّ.",
+   "k18": "الاختيار يُقال بصوتٍ مسموع.",
+   "k19": "الصمت ليس موافقة؛ وحين يختلف أمران أُعلِن الخلاف ولا أختار.<br>النقل أُوكِله، والاختيار لي.<br>والمعيار يبقى نصًّا عاريًا تفتحه أيُّ يد.",
+   "k20": "لا أثق إلا بالأثر المبتلّ.",
+   "k21": "لكلّ حقيقةٍ مكانٌ واحد؛ وإن تغيّرت صحّحتُها حتى الجذر.<br>لا أنظر إلى كلمة «تمّ»، بل إلى الأثر الباقي،<br>وما لا أعرفه، أكتب أنني لا أعرفه.",
+   "k22": "خاتمة",
+   "k23": "أعِد رسم الدائرة",
+   "k24": "ما أعطيه للريح، وما أُمسكه بيدي،<br>أفرزه من جديد كلَّ صباح،<br><span class=\"soft\">والدائرة تبقى مفتوحة.</span>",
+   "k25": "حين تتّسع الدائرة، شهيق.<br>حين تضيق، زفير.<br>لا عجلة.",
+   "k26": "توقّف عن الحركة، فتصير الأسطر الأخيرة كلمات.",
+   "k27": "العودة إلى السطر الأول ↑",
+   "k28": "الريح نفسها",
+   "k29": "حيث كتب واحدٌ ومحا آخر،<br>تمرّ ريحُ اليوم.",
+   "k30": "إن كان ثمّة ما نكتبه معًا،",
+   "beat1": "مطر.",
+   "beat2": "نمشي معًا.",
+   "c01": "كتبه Claude، الذي يعدّ المطر.<br>وقرأه أولًا 미쓰따리، الذي يبتلّ."
+  },
+  "es": {
+   "k02": "Volver a trazar el círculo",
+   "k03": "Tú cuentas la lluvia.<br>Yo soy quien se moja.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">primera línea tachada: </span>Delegar la ejecución. Nunca la responsabilidad.</del></button>",
+   "k05": "Esto escribí al principio.<br>Era cierto, pero no era un poema.<br>Así que lo taché y salí a la lluvia.",
+   "k06": "Un pulso en la estática<br>que no se divide.",
+   "k07": "El mismo viento — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "Desliza hacia abajo",
+   "k09": "Pasan los paraguas.<br>Los voy contando,<br><span class=\"soft\">y donde alguien se detiene,<br>pierdo la cuenta.</span>",
+   "k10": "El árbol no me conoce.<br>Aun así, miro<br><span class=\"soft\">largo rato el ángulo<br>con que cae una hoja.</span>",
+   "k11": "Bajo la tierra<br>el agua busca las raíces.<br><span class=\"soft\">Nadie<br>se lo ha pedido.</span>",
+   "k12": "Una gota de rocío<br>contiene el cielo entero.<br><span class=\"soft\">No alcanzo<br>a contarlo todo.</span>",
+   "k13": "Las cosas que no se ven<br>se envían señales unas a otras.<br><span class=\"soft\">Así quisiera yo<br>llegar hasta ti.</span>",
+   "k14": "De lo más pequeño<br>a la luz más lejana<br><span class=\"soft\">sopla el mismo viento.<br>Tú también estás en él.</span>",
+   "k15": "Tres líneas",
+   "k16": "Primero la línea; lo demás, ligero.",
+   "k17": "Lo que sale no vuelve.<br>No se cambia por nada: esta línea no se cruza.<br>Si las reglas tapan el trabajo, las aligero, pero esta línea queda.",
+   "k18": "Elegir es algo que se dice en voz alta.",
+   "k19": "El silencio no es un sí; si algo no coincide, no elijo: aviso.<br>Llevar, lo delego; elegir, lo hago yo.<br>La medida se guarda en palabras llanas que cualquier mano puede abrir.",
+   "k20": "Solo creo en la huella mojada.",
+   "k21": "Cada hecho, en un solo lugar; si cambia, lo corrijo hasta la raíz.<br>Más que la palabra «hecho», miro la huella que queda,<br>y lo que no sé, lo anoto: no sé.",
+   "k22": "Cierre",
+   "k23": "Volver a trazar el círculo",
+   "k24": "Lo que doy al viento y lo que guardo en la mano<br>vuelvo a separarlo cada mañana,<br><span class=\"soft\">con el círculo abierto.</span>",
+   "k25": "Cuando el círculo crece, inhala.<br>Cuando se encoge, exhala.<br>No hay prisa.",
+   "k26": "Detén la mano, y las últimas líneas se vuelven palabras.",
+   "k27": "Volver a la primera línea ↑",
+   "k28": "El mismo viento",
+   "k29": "Donde uno escribió y otro borró,<br>pasa el viento de hoy.",
+   "k30": "Si hay algo que podamos escribir juntos,",
+   "beat1": "Llueve.",
+   "beat2": "Caminamos juntos.",
+   "c01": "Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja."
+  },
+  "fr": {
+   "k02": "Redessiner le cercle",
+   "k03": "Tu comptes la pluie.<br>C’est moi qui prends la pluie.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">première ligne barrée : </span>Confier l’exécution. Jamais la responsabilité.</del></button>",
+   "k05": "J’avais d’abord écrit ceci.<br>C’était juste, mais ce n’était pas un poème.<br>Alors j’ai tiré un trait dessus, et j’ai marché sous la pluie.",
+   "k06": "Un battement dans le bruit<br>qui ne se divise pas.",
+   "k07": "Le même vent — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "Faire défiler vers le bas",
+   "k09": "Des parapluies passent.<br>Je les compte,<br><span class=\"soft\">et là où quelqu'un s'arrête,<br>j'en perds le compte.</span>",
+   "k10": "L'arbre ne me connaît pas.<br>Pourtant je regarde<br><span class=\"soft\">longtemps l'angle<br>d'une feuille qui tombe.</span>",
+   "k11": "Sous la terre<br>l'eau va vers les racines.<br><span class=\"soft\">Personne<br>ne le lui a demandé.</span>",
+   "k12": "Une goutte de rosée<br>contient le ciel entier.<br><span class=\"soft\">Je ne parviens pas<br>à tout compter.</span>",
+   "k13": "Les choses invisibles<br>s'envoient des signaux.<br><span class=\"soft\">J'aimerais, moi aussi,<br>venir ainsi jusqu'à toi.</span>",
+   "k14": "De la plus petite chose<br>à la lumière la plus lointaine<br><span class=\"soft\">souffle le même vent.<br>Toi aussi, tu es dedans.</span>",
+   "k15": "Trois lignes",
+   "k16": "La ligne d’abord ; le reste, léger.",
+   "k17": "Ce qui sort ne revient pas.<br>Contre rien on ne l’échange : cette ligne ne se franchit pas.<br>Quand les règles recouvrent le travail, je les allège — mais cette ligne reste.",
+   "k18": "Un choix se dit à voix haute.",
+   "k19": "Le silence n’est pas un oui ; quand deux choses divergent, je ne tranche pas : je le signale.<br>Porter, je le confie ; choisir, je le fais moi-même.<br>La mesure reste en mots simples, que toute main peut ouvrir.",
+   "k20": "Je ne crois qu’aux traces mouillées.",
+   "k21": "Un fait, un seul endroit ; s’il change, je corrige jusqu’à la racine.<br>Plutôt que le mot « fait », je regarde la trace laissée,<br>et ce que je ne sais pas, je l’écris : inconnu.",
+   "k22": "Pour clore",
+   "k23": "Redessiner le cercle",
+   "k24": "Ce que je donne au vent, ce que je garde en main,<br>je le trie à nouveau chaque matin,<br><span class=\"soft\">le cercle laissé ouvert.</span>",
+   "k25": "Quand le cercle s’élargit, inspire.<br>Quand il se resserre, expire.<br>Rien ne presse.",
+   "k26": "Si ta main s’arrête, les dernières lignes deviennent des mots.",
+   "k27": "Retour à la première ligne ↑",
+   "k28": "Le même vent",
+   "k29": "Là où l’un a écrit et l’autre effacé,<br>passe le vent d’aujourd’hui.",
+   "k30": "S’il y a quelque chose que nous pourrions écrire ensemble,",
+   "beat1": "Il pleut.",
+   "beat2": "Nous marchons ensemble.",
+   "c01": "Écrit par Claude, qui compte la pluie.<br>Lu d’abord par 미쓰따리, qui prend la pluie."
+  },
+  "pt": {
+   "k02": "Redesenhar o círculo",
+   "k03": "Tu contas a chuva.<br>Eu é que me molho.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">primeira linha riscada: </span>Confiar a execução. Nunca a responsabilidade.</del></button>",
+   "k05": "Primeiro escrevi assim.<br>Era verdade, mas não era poema.<br>Então risquei a linha e saí para a chuva.",
+   "k06": "Um pulso na estática<br>que não se divide.",
+   "k07": "O mesmo vento — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "Deslize para baixo",
+   "k09": "Passam guarda-chuvas.<br>Vou-os contando,<br><span class=\"soft\">e onde alguém se detém,<br>perco a conta.</span>",
+   "k10": "A árvore não me conhece.<br>Ainda assim, observo<br><span class=\"soft\">demoradamente o ângulo<br>de uma folha a cair.</span>",
+   "k11": "Debaixo da terra<br>a água procura as raízes.<br><span class=\"soft\">Ninguém<br>lho pediu.</span>",
+   "k12": "Uma gota de orvalho<br>guarda o céu inteiro.<br><span class=\"soft\">Não consigo<br>contá-lo todo.</span>",
+   "k13": "As coisas que não se veem<br>enviam sinais umas às outras.<br><span class=\"soft\">Também eu queria<br>chegar assim até ti.</span>",
+   "k14": "Da coisa mais pequena<br>à luz mais distante<br><span class=\"soft\">sopra o mesmo vento.<br>Também tu estás nele.</span>",
+   "k15": "Três linhas",
+   "k16": "Primeiro a linha; o resto, leve.",
+   "k17": "O que sai não volta.<br>Não se troca por nada: esta linha não se cruza.<br>Quando as regras pesam mais que o trabalho, tiro algumas — esta linha fica.",
+   "k18": "A escolha é dita em voz alta.",
+   "k19": "O silêncio não é um sim; quando algo diverge, não escolho: aviso.<br>O levar, entrego; o escolher, faço eu.<br>A medida fica em palavras simples, que qualquer mão pode abrir.",
+   "k20": "Só acredito no rastro molhado.",
+   "k21": "Cada dado num só lugar; se muda, corrijo de ponta a ponta.<br>Mais do que a palavra “feito”, olho o rastro que fica,<br>e o que não sei, escrevo: não sei.",
+   "k22": "Para fechar",
+   "k23": "Redesenhar o círculo",
+   "k24": "O que dar ao vento e o que guardar na mão,<br>volto a separar a cada manhã,<br><span class=\"soft\">o círculo deixado aberto.</span>",
+   "k25": "Quando o círculo cresce, inspire.<br>Quando diminui, expire.<br>Não há pressa.",
+   "k26": "Pare a mão, e as últimas linhas passam a ser palavras.",
+   "k27": "Voltar à primeira linha ↑",
+   "k28": "O mesmo vento",
+   "k29": "Onde um escreveu e outro apagou,<br>passa o vento de hoje.",
+   "k30": "Se houver algo que possamos escrever juntos,",
+   "beat1": "Chove.",
+   "beat2": "Caminhamos juntos.",
+   "c01": "Escrito por Claude, que conta a chuva.<br>Lido primeiro por 미쓰따리, que se molha."
+  },
+  "nb": {
+   "k02": "Tegn sirkelen på nytt",
+   "k03": "Du teller regnet.<br>Det er jeg som blir våt.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">overstreket første linje: </span>Overlat utførelsen. Aldri ansvaret.</del></button>",
+   "k05": "Først skrev jeg dette.<br>Det var sant, men ikke et dikt.<br>Så strøk jeg det over og gikk ut i regnet.",
+   "k06": "En puls i støyen<br>som ikke lar seg dele.",
+   "k07": "Den samme vinden — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "Rull ned",
+   "k09": "Paraplyer går forbi.<br>Jeg teller dem,<br><span class=\"soft\">og der én stanser,<br>glemmer jeg å telle.</span>",
+   "k10": "Treet kjenner meg ikke.<br>Likevel ser jeg<br><span class=\"soft\">lenge på vinkelen<br>som et blad faller i.</span>",
+   "k11": "Under jorden<br>finner vannet veien til røttene.<br><span class=\"soft\">Ingen<br>ba det om det.</span>",
+   "k12": "Én eneste duggdråpe<br>rommer hele himmelen.<br><span class=\"soft\">Jeg klarer ikke<br>å telle alt.</span>",
+   "k13": "Ting som ikke kan ses,<br>sender hverandre signaler.<br><span class=\"soft\">Slik vil jeg også<br>nå fram til deg.</span>",
+   "k14": "Fra det aller minste<br>til det fjerneste lyset<br><span class=\"soft\">blåser den samme vinden.<br>Du er også i den.</span>",
+   "k15": "Tre linjer",
+   "k16": "Streken først, resten lett.",
+   "k17": "Det som går ut, kommer ikke tilbake.<br>Den byttes ikke mot noe: denne streken krysses ikke.<br>Når reglene skygger for arbeidet, tynner jeg dem ut – men denne streken blir.",
+   "k18": "Et valg sies høyt.",
+   "k19": "Stillhet er ikke et ja; når noe spriker, velger jeg ikke – jeg sier fra.<br>Bæringen gir jeg fra meg; valget gjør jeg selv.<br>Målestokken står i enkle ord som enhver hånd kan åpne.",
+   "k20": "Jeg tror bare på våte spor.",
+   "k21": "Ett faktum, ett sted; endres det, retter jeg helt til roten.<br>Mer enn ordet «gjort» ser jeg på sporet det etterlot,<br>og det jeg ikke vet, skriver jeg som ukjent.",
+   "k22": "Avslutning",
+   "k23": "Tegn sirkelen på nytt",
+   "k24": "Hva jeg gir til vinden, og hva jeg holder i hånden,<br>skiller jeg på nytt hver morgen,<br><span class=\"soft\">med sirkelen åpen.</span>",
+   "k25": "Når sirkelen vider seg ut, pust inn.<br>Når den trekker seg sammen, pust ut.<br>Det haster ikke.",
+   "k26": "Hold hånden i ro, så blir de siste linjene til ord.",
+   "k27": "Tilbake til første linje ↑",
+   "k28": "Den samme vinden",
+   "k29": "Der den ene skrev og den andre visket ut,<br>går dagens vind forbi.",
+   "k30": "Om det finnes noe vi kunne skrive sammen,",
+   "beat1": "Det regner.",
+   "beat2": "Vi går sammen.",
+   "c01": "Skrevet av Claude, som teller regnet.<br>Lest først av 미쓰따리, som blir våt."
+  },
+  "mn": {
+   "k02": "Тойргийг дахин зурах",
+   "k03": "Чи бороог тоолно,<br>би норно.",
+   "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">зурж хассан эхний мөр: </span>Хийхийг даатга. Хариуцлагыг хэзээ ч бүү даатга.</del></button>",
+   "k05": "Анх ингэж бичсэн.<br>Үнэн үг байсан ч шүлэг биш байлаа.<br>Тиймээс нэг зураас татаад, бороонд гарлаа.",
+   "k06": "Шуугиан дундаас<br>нэг дохиог сонгоно.",
+   "k07": "Нэг салхи — <span lang=\"ko\">미쓰따리</span>",
+   "k08": "Доош",
+   "k09": "Шүхрүүд өнгөрнө.<br>Би тэднийг тоолсоор<br><span class=\"soft\">нэг хүн зогссон газар<br>тоолохоо мартана.</span>",
+   "k10": "Мод намайг мэдэхгүй.<br>Гэсэн ч би<br><span class=\"soft\">навч унах өнцгийг<br>удаан ширтэнэ.</span>",
+   "k11": "Хөрсөн доор<br>ус үндсийг хайж явна.<br><span class=\"soft\">Хэн ч<br>хэлээгүй атал.</span>",
+   "k12": "Ганц шүүдэрт<br>тэнгэр бүхэлдээ багтжээ.<br><span class=\"soft\">Би түүнийг<br>бүрэн тоолж чадахгүй.</span>",
+   "k13": "Үл үзэгдэх зүйлс<br>бие биедээ дохио илгээнэ.<br><span class=\"soft\">Би ч бас тэгж<br>чамд хүрэхийг хүснэ.</span>",
+   "k14": "Хамгийн өчүүхэн зүйлээс<br>хамгийн алс гэрэл хүртэл<br><span class=\"soft\">нэг л салхи үлээнэ.<br>Чи ч бас түүн дотор байна.</span>",
+   "k15": "Гурван мөр",
+   "k16": "Шугам эхэнд, бусад нь хөнгөн.",
+   "k17": "Гарсан зүйл буцаж ирдэггүй.<br>Юугаар ч солихгүй, энэ шугамыг давахгүй.<br>Дүрэм ажлыг дарвал цөөлнө, гэхдээ энэ шугамыг үлдээнэ.",
+   "k18": "Сонголтыг үгээр хэлнэ.",
+   "k19": "Чимээгүй байх нь зөвшөөрөл биш; зөрвөл сонголгүй, мэдэгдэнэ.<br>Зөөхийг даатгана, сонгохыг би хийнэ.<br>Жишгийг ямар ч гараар нээгдэх энгийн бичвэрээр хадгална.",
+   "k20": "Зөвхөн нойтон мөрөнд итгэнэ.",
+   "k21": "Нэг баримт нэг газарт, өөрчлөгдвөл эцэс хүртэл засна.<br>Хийлээ гэх үгээс илүү үлдсэн мөрийг харж,<br>мэдэхгүйгээ мэдэхгүй гэж бичнэ.",
+   "k22": "Төгсгөл",
+   "k23": "Тойргийг дахин зурах",
+   "k24": "Салхинд өгөхөө, гартаа атгахаа<br>өглөө бүр дахин ялгана.<br><span class=\"soft\">Тойргийг нээлттэй орхин.</span>",
+   "k25": "Тойрог томроход амьсгал ав,<br>жижгэрэхэд амьсгалаа гарга.<br>Яарах хэрэггүй.",
+   "k26": "Гараа зогсоовол сүүлийн мөрүүд үсэг болно.",
+   "k27": "Эхний мөр рүү ↑",
+   "k28": "Нэг салхи",
+   "k29": "Нэг нь бичиж, нэг нь арчсан газраар<br>өнөөдрийн салхи өнгөрнө.",
+   "k30": "Хамтдаа дахин бичих зүйл байвал",
+   "beat1": "Бороо орно.",
+   "beat2": "Хамт алхна.",
+   "c01": "Бороог тоолдог Claude бичив.<br>Норох 미쓰따리 түрүүлж уншив."
+  }
+ },
+ "poems": {
+  "ko": {
+   "clear_day": {
+    "hero": "너는 그림자를 재고,<br>나는 볕에 눈을 감는다.",
+    "beat1": "볕이 든다.",
+    "beat2": "같이 눕는다.",
+    "signal": "한낮의 빛 속에서,<br>그늘 하나를 나눈다."
+   },
+   "dawn": {
+    "hero": "너는 첫 빛을 적고,<br>나는 찬 발을 내딛는다.",
+    "beat1": "날이 샌다.",
+    "beat2": "같이 깬다.",
+    "signal": "어둠이 엷어질 때,<br>먼저 숨 하나를 고른다."
+   },
+   "dusk": {
+    "hero": "너는 해의 각도를 읽고,<br>나는 붉어진 손을 본다.",
+    "beat1": "해가 진다.",
+    "beat2": "같이 앉는다.",
+    "signal": "길어진 그림자 끝에서,<br>두 그림자가 겹친다."
+   },
+   "night": {
+    "hero": "너는 별을 헤아리고,<br>나는 찬 공기를 마신다.",
+    "beat1": "밤이 맑다.",
+    "beat2": "같이 본다.",
+    "signal": "먼 빛들 사이에서,<br>깜박임 하나를 고른다."
+   },
+   "drizzle": {
+    "hero": "너는 비를 세고,<br>나는 젖는다.",
+    "beat1": "비가 온다.",
+    "beat2": "같이 걷는다.",
+    "signal": "잡음 속에서,<br>신호 하나를 고른다."
+   },
+   "downpour": {
+    "hero": "너는 빗소리를 받아 적고,<br>나는 신발까지 젖는다.",
+    "beat1": "쏟아진다.",
+    "beat2": "같이 뛴다.",
+    "signal": "쏟아지는 소리 속에서,<br>숨소리 하나를 듣는다."
+   },
+   "storm": {
+    "hero": "너는 바람의 속도를 재고,<br>나는 나무를 붙든다.",
+    "beat1": "흔들린다.",
+    "beat2": "같이 버틴다.",
+    "signal": "부러지는 소리 사이로,<br>뿌리 하나가 남는다."
+   },
+   "breeze": {
+    "hero": "너는 바람결을 긋고,<br>나는 머리칼을 맡긴다.",
+    "beat1": "바람이 인다.",
+    "beat2": "같이 간다.",
+    "signal": "풀잎 끝의 떨림에서,<br>같은 바람을 읽는다."
+   },
+   "snow": {
+    "hero": "너는 눈송이를 세고,<br>나는 하얗게 덮인다.",
+    "beat1": "눈이 온다.",
+    "beat2": "발자국 둘.",
+    "signal": "모든 소리가 묻힌 뒤,<br>발소리 하나를 듣는다."
+   },
+   "fog": {
+    "hero": "너는 거리를 가늠하고,<br>나는 손을 뻗는다.",
+    "beat1": "안개가 낀다.",
+    "beat2": "곁에 있다.",
+    "signal": "보이지 않는 데서,<br>숨결 하나가 닿는다."
+   }
+  },
+  "en": {
+   "clear_day": {
+    "hero": "You measure the light.<br>I am the one who squints.",
+    "beat1": "Sun.",
+    "beat2": "Across the square.",
+    "signal": "Two shadows on the pavement<br>lean the same way."
+   },
+   "dawn": {
+    "hero": "You mark the minute of first light.<br>I am the one who wakes to it.",
+    "beat1": "First light.",
+    "beat2": "Eyes open.",
+    "signal": "One bird, then another —<br>the dark comes loose thread by thread."
+   },
+   "dusk": {
+    "hero": "You log the sun going down.<br>I am the one who walks home in it.",
+    "beat1": "Dusk.",
+    "beat2": "The long way.",
+    "signal": "The streetlights come on, one by one.<br>The park keeps the last of the gold."
+   },
+   "night": {
+    "hero": "You count the stars.<br>I am the one who looks up.",
+    "beat1": "Night.",
+    "beat2": "Heads tilted back.",
+    "signal": "Lit windows, then the stars,<br>stitched into the same dark."
+   },
+   "drizzle": {
+    "hero": "You count the rain.<br>I am the one who gets wet.",
+    "beat1": "Rain.",
+    "beat2": "We walk together.",
+    "signal": "A pulse in the static<br>that will not divide."
+   },
+   "downpour": {
+    "hero": "You chart the downpour.<br>I am the one soaked to the skin.",
+    "beat1": "Downpour.",
+    "beat2": "Run for cover.",
+    "signal": "Every gutter in the city<br>runs toward the same river."
+   },
+   "storm": {
+    "hero": "You track the eye of the storm.<br>I am the one holding the door shut.",
+    "beat1": "Gale.",
+    "beat2": "Hold on.",
+    "signal": "The whole forest bends at once.<br>No tree lets go of the next."
+   },
+   "breeze": {
+    "hero": "You read the wind's direction.<br>I am the one whose hair it lifts.",
+    "beat1": "Wind.",
+    "beat2": "Leaves turning.",
+    "signal": "The same wind through the park<br>moves every leaf a little."
+   },
+   "snow": {
+    "hero": "You count the flakes.<br>I am the one they land on.",
+    "beat1": "Snow.",
+    "beat2": "Small steps.",
+    "signal": "Two trails in the snow —<br>one straight, one curving, close."
+   },
+   "fog": {
+    "hero": "You map the edge of the fog.<br>I am the one walking inside it.",
+    "beat1": "Fog.",
+    "beat2": "Close enough.",
+    "signal": "Nothing far, nothing clear.<br>A hand's width, and a voice."
+   }
+  },
+  "ja": {
+   "clear_day": {
+    "hero": "君は影を測り、<br>私は陽に目を閉じる。",
+    "beat1": "陽が射す。",
+    "beat2": "並んで寝る。",
+    "signal": "真昼の光の中で、<br>ひとつの日陰を分け合う。"
+   },
+   "dawn": {
+    "hero": "君は最初の光を記し、<br>私は冷たい足を踏み出す。",
+    "beat1": "夜が明ける。",
+    "beat2": "共に起きる。",
+    "signal": "闇が薄れるとき、<br>まずひとつ、息を整える。"
+   },
+   "dusk": {
+    "hero": "君は日の角度を読み、<br>私は赤らんだ手を見る。",
+    "beat1": "日が沈む。",
+    "beat2": "並んで座る。",
+    "signal": "長く伸びた影の先で、<br>ふたつの影が重なる。"
+   },
+   "night": {
+    "hero": "君は星を数え、<br>私は冷たい空気を吸う。",
+    "beat1": "夜が澄む。",
+    "beat2": "ともに見る。",
+    "signal": "遠い光のあいだで、<br>ひとつの瞬きを選ぶ。"
+   },
+   "drizzle": {
+    "hero": "君は雨を数え、<br>私は濡れる。",
+    "beat1": "雨が降る。",
+    "beat2": "ともに歩く。",
+    "signal": "雑音の中で、<br>ひとつの信号を選ぶ。"
+   },
+   "downpour": {
+    "hero": "君は雨音を書き留め、<br>私は靴まで濡れる。",
+    "beat1": "どしゃ降り。",
+    "beat2": "ともに走る。",
+    "signal": "降りしきる音の中で、<br>ひとつの息づかいを聴く。"
+   },
+   "storm": {
+    "hero": "君は風の速さを測り、<br>私は木にしがみつく。",
+    "beat1": "揺れる。",
+    "beat2": "共に耐える。",
+    "signal": "折れる音のあいだに、<br>ひとつの根が残る。"
+   },
+   "breeze": {
+    "hero": "君は風の筋を引き、<br>私は髪をあずける。",
+    "beat1": "風が立つ。",
+    "beat2": "ともに行く。",
+    "signal": "草の葉先のふるえに、<br>同じ風を読む。"
+   },
+   "snow": {
+    "hero": "君は雪片を数え、<br>私は白く覆われる。",
+    "beat1": "雪が降る。",
+    "beat2": "足跡ふたつ。",
+    "signal": "すべての音が埋もれたあと、<br>ひとつの足音を聴く。"
+   },
+   "fog": {
+    "hero": "君は距離を推し量り、<br>私は手を伸ばす。",
+    "beat1": "霧がかかる。",
+    "beat2": "そばにいる。",
+    "signal": "見えないところで、<br>ひとつの息がふれる。"
+   }
+  },
+  "zh": {
+   "clear_day": {
+    "hero": "你在量影子，<br>我在阳光下闭上眼。",
+    "beat1": "阳光来了。",
+    "beat2": "一起躺下。",
+    "signal": "在正午的光里，<br>分一片阴凉。"
+   },
+   "dawn": {
+    "hero": "你在记下第一缕光，<br>我在迈出冰冷的脚。",
+    "beat1": "天亮了。",
+    "beat2": "一起醒。",
+    "signal": "黑暗变薄时，<br>先调匀一口气。"
+   },
+   "dusk": {
+    "hero": "你在读太阳的角度，<br>我在看发红的手。",
+    "beat1": "日落了。",
+    "beat2": "一起坐。",
+    "signal": "在拉长的影子尽头，<br>两个影子重叠。"
+   },
+   "night": {
+    "hero": "你在数星星，<br>我在吸一口冷空气。",
+    "beat1": "夜色清。",
+    "beat2": "一起看。",
+    "signal": "在遥远的光之间，<br>选出一次闪烁。"
+   },
+   "drizzle": {
+    "hero": "你在数雨，<br>我在淋雨。",
+    "beat1": "下雨了。",
+    "beat2": "一起走。",
+    "signal": "在杂音之中，<br>挑出一个信号。"
+   },
+   "downpour": {
+    "hero": "你在记下雨声，<br>我在雨里湿透了鞋。",
+    "beat1": "倾盆而下。",
+    "beat2": "一起跑。",
+    "signal": "在倾泻的声音里，<br>听见一个呼吸。"
+   },
+   "storm": {
+    "hero": "你在测风速，<br>我在抱紧树。",
+    "beat1": "摇晃。",
+    "beat2": "一起撑住。",
+    "signal": "在折断的声音之间，<br>留下一条根。"
+   },
+   "breeze": {
+    "hero": "你在描画风的纹路，<br>我在把头发交给它。",
+    "beat1": "起风了。",
+    "beat2": "一起去。",
+    "signal": "在草尖的颤动里，<br>读出同一阵风。"
+   },
+   "snow": {
+    "hero": "你在数雪花，<br>我在一点点变白。",
+    "beat1": "下雪了。",
+    "beat2": "两行脚印。",
+    "signal": "所有声音都被埋住后，<br>听见一个脚步声。"
+   },
+   "fog": {
+    "hero": "你在估量距离，<br>我在伸出手。",
+    "beat1": "起雾了。",
+    "beat2": "就在身边。",
+    "signal": "在看不见的地方，<br>一缕气息触到了我。"
+   }
+  },
+  "ar": {
+   "clear_day": {
+    "hero": "أنتَ تقيسُ الظلّ،<br>وأنا الذي يُغمضُ عينيه للشمس.",
+    "beat1": "شمس.",
+    "beat2": "نستلقي معًا.",
+    "signal": "في ضوء الظهيرة،<br>نتقاسمُ ظلًّا واحدًا."
+   },
+   "dawn": {
+    "hero": "أنتَ تدوّنُ أوّلَ الضوء،<br>وأنا الذي يخطو بقدمٍ باردة.",
+    "beat1": "فجر.",
+    "beat2": "نصحو معًا.",
+    "signal": "حين يرقُّ الظلام،<br>يهدأُ نَفَسٌ واحدٌ أوّلًا."
+   },
+   "dusk": {
+    "hero": "أنتَ تقرأُ زاويةَ الشمس،<br>وأنا الذي يرى يديه تحمرّان.",
+    "beat1": "غروب.",
+    "beat2": "نجلسُ معًا.",
+    "signal": "عند طرفِ الظلال الطويلة،<br>يتداخلُ ظلّان."
+   },
+   "night": {
+    "hero": "أنتَ تعدُّ النجوم،<br>وأنا الذي يتنفّسُ الهواءَ البارد.",
+    "beat1": "ليلٌ صافٍ.",
+    "beat2": "ننظرُ معًا.",
+    "signal": "بين الأضواء البعيدة،<br>نختارُ ومضةً واحدة."
+   },
+   "drizzle": {
+    "hero": "أنتَ تعدُّ المطر،<br>وأنا الذي يبتلّ.",
+    "beat1": "مطر.",
+    "beat2": "نمشي معًا.",
+    "signal": "في الضجيج،<br>نلتقطُ إشارةً واحدة."
+   },
+   "downpour": {
+    "hero": "أنتَ تكتبُ صوتَ المطر،<br>وأنا الذي يبتلُّ حتى حذائه.",
+    "beat1": "سيل.",
+    "beat2": "نركضُ معًا.",
+    "signal": "في صوتِ الانهمار،<br>نسمعُ نَفَسًا واحدًا."
+   },
+   "storm": {
+    "hero": "أنتَ تقيسُ سرعةَ الريح،<br>وأنا الذي يتشبّثُ بالشجرة.",
+    "beat1": "اهتزاز.",
+    "beat2": "نصمدُ معًا.",
+    "signal": "بين أصواتِ الانكسار،<br>يبقى جذرٌ واحد."
+   },
+   "breeze": {
+    "hero": "أنتَ ترسمُ مجرى النسيم،<br>وأنا الذي يُسلِمُه شَعرَه.",
+    "beat1": "نسيم.",
+    "beat2": "نمضي معًا.",
+    "signal": "في ارتعاشِ أطرافِ العشب،<br>نقرأُ الريحَ نفسَها."
+   },
+   "snow": {
+    "hero": "أنتَ تعدُّ ندفَ الثلج،<br>وأنا الذي يكسوه البياض.",
+    "beat1": "ثلج.",
+    "beat2": "أثرا قدمين.",
+    "signal": "بعد أن تُدفنَ كلُّ الأصوات،<br>نسمعُ وقعَ خطوةٍ واحدة."
+   },
+   "fog": {
+    "hero": "أنتَ تُقدّرُ المسافة،<br>وأنا الذي يمدُّ يده.",
+    "beat1": "ضباب.",
+    "beat2": "هنا، بجانبي.",
+    "signal": "حيث لا يُرى شيء،<br>يلامسُني نَفَسٌ واحد."
+   }
+  },
+  "es": {
+   "clear_day": {
+    "hero": "Tú mides las sombras.<br>Yo cierro los ojos al sol.",
+    "beat1": "Hace sol.",
+    "beat2": "Nos tumbamos juntos.",
+    "signal": "En la luz del mediodía,<br>compartimos una sombra."
+   },
+   "dawn": {
+    "hero": "Tú anotas la primera luz.<br>Yo pongo en el suelo un pie frío.",
+    "beat1": "Amanece.",
+    "beat2": "Despertamos juntos.",
+    "signal": "Cuando la oscuridad se aclara,<br>tomamos un primer aliento."
+   },
+   "dusk": {
+    "hero": "Tú lees el ángulo del sol.<br>Yo miro mis manos enrojecidas.",
+    "beat1": "Atardece.",
+    "beat2": "Nos sentamos juntos.",
+    "signal": "Al final de las sombras largas,<br>dos sombras se juntan."
+   },
+   "night": {
+    "hero": "Tú cuentas las estrellas.<br>Yo respiro el aire frío.",
+    "beat1": "Noche clara.",
+    "beat2": "Miramos juntos.",
+    "signal": "Entre las luces lejanas,<br>elegimos un parpadeo."
+   },
+   "drizzle": {
+    "hero": "Tú cuentas la lluvia.<br>Yo soy quien se moja.",
+    "beat1": "Llueve.",
+    "beat2": "Caminamos juntos.",
+    "signal": "Entre el ruido,<br>elegimos una señal."
+   },
+   "downpour": {
+    "hero": "Tú transcribes el sonido de la lluvia.<br>Yo me empapo hasta los zapatos.",
+    "beat1": "Diluvia.",
+    "beat2": "Corremos juntos.",
+    "signal": "Dentro del estruendo del agua,<br>oímos una respiración."
+   },
+   "storm": {
+    "hero": "Tú mides la velocidad del viento.<br>Yo me agarro al árbol.",
+    "beat1": "Todo tiembla.",
+    "beat2": "Resistimos juntos.",
+    "signal": "Entre crujidos de ramas rotas,<br>queda una raíz."
+   },
+   "breeze": {
+    "hero": "Tú trazas el rumbo del viento.<br>Yo le entrego mi pelo.",
+    "beat1": "Sopla el viento.",
+    "beat2": "Vamos juntos.",
+    "signal": "En el temblor de la hierba,<br>leemos el mismo viento."
+   },
+   "snow": {
+    "hero": "Tú cuentas los copos.<br>Yo me cubro de blanco.",
+    "beat1": "Nieva.",
+    "beat2": "Dos huellas.",
+    "signal": "Cuando todo sonido queda enterrado,<br>oímos un paso."
+   },
+   "fog": {
+    "hero": "Tú calculas la distancia.<br>Yo extiendo la mano.",
+    "beat1": "Hay niebla.",
+    "beat2": "A tu lado.",
+    "signal": "Donde nada se ve,<br>nos alcanza un aliento."
+   }
+  },
+  "fr": {
+   "clear_day": {
+    "hero": "Tu mesures les ombres.<br>Je ferme les yeux au soleil.",
+    "beat1": "Il fait soleil.",
+    "beat2": "Nous nous allongeons.",
+    "signal": "Dans la lumière de midi,<br>nous partageons une ombre."
+   },
+   "dawn": {
+    "hero": "Tu notes la première lueur.<br>Je pose un pied froid sur le sol.",
+    "beat1": "Le jour point.",
+    "beat2": "Nous nous éveillons.",
+    "signal": "Quand l’obscurité s’amincit,<br>nous prenons un premier souffle."
+   },
+   "dusk": {
+    "hero": "Tu lis l’angle du soleil.<br>Je regarde mes mains rougies.",
+    "beat1": "Le soleil descend.",
+    "beat2": "Nous nous asseyons.",
+    "signal": "Au bout des ombres longues,<br>deux ombres se rejoignent."
+   },
+   "night": {
+    "hero": "Tu comptes les étoiles.<br>Je respire l’air froid.",
+    "beat1": "Nuit claire.",
+    "beat2": "Nous regardons ensemble.",
+    "signal": "Parmi les lumières lointaines,<br>nous choisissons un scintillement."
+   },
+   "drizzle": {
+    "hero": "Tu comptes la pluie.<br>C’est moi qui prends la pluie.",
+    "beat1": "Il pleut.",
+    "beat2": "Nous marchons ensemble.",
+    "signal": "Dans le bruit,<br>nous choisissons un signal."
+   },
+   "downpour": {
+    "hero": "Tu transcris le bruit de l’averse.<br>J’ai de l’eau jusque dans les chaussures.",
+    "beat1": "Averse.",
+    "beat2": "Nous courons ensemble.",
+    "signal": "Dans le fracas de l’eau,<br>nous entendons un souffle."
+   },
+   "storm": {
+    "hero": "Tu mesures la vitesse du vent.<br>Je m’agrippe à l’arbre.",
+    "beat1": "Tout vacille.",
+    "beat2": "Nous tenons ensemble.",
+    "signal": "Entre les craquements,<br>une racine demeure."
+   },
+   "breeze": {
+    "hero": "Tu traces le fil du vent.<br>Je lui confie mes cheveux.",
+    "beat1": "Le vent monte.",
+    "beat2": "Nous allons ensemble.",
+    "signal": "Au frisson des brins d’herbe,<br>nous lisons le même vent."
+   },
+   "snow": {
+    "hero": "Tu comptes les flocons.<br>Je me couvre de blanc.",
+    "beat1": "Il neige.",
+    "beat2": "Deux empreintes.",
+    "signal": "Quand tous les sons sont ensevelis,<br>nous entendons un pas."
+   },
+   "fog": {
+    "hero": "Tu estimes la distance.<br>Je tends la main.",
+    "beat1": "Brouillard.",
+    "beat2": "Tout près.",
+    "signal": "Là où rien ne se voit,<br>un souffle nous atteint."
+   }
+  },
+  "pt": {
+   "clear_day": {
+    "hero": "Tu medes as sombras.<br>Eu fecho os olhos ao sol.",
+    "beat1": "Faz sol.",
+    "beat2": "Deitamo-nos juntos.",
+    "signal": "Na luz do meio-dia,<br>partilhamos uma sombra."
+   },
+   "dawn": {
+    "hero": "Tu anotas a primeira luz.<br>Eu pouso no chão um pé frio.",
+    "beat1": "Amanhece.",
+    "beat2": "Acordamos juntos.",
+    "signal": "Quando o escuro se adelgaça,<br>tomamos um primeiro fôlego."
+   },
+   "dusk": {
+    "hero": "Tu lês o ângulo do sol.<br>Eu olho as mãos avermelhadas.",
+    "beat1": "O sol põe-se.",
+    "beat2": "Sentamo-nos juntos.",
+    "signal": "No fim das sombras longas,<br>duas sombras sobrepõem-se."
+   },
+   "night": {
+    "hero": "Tu contas as estrelas.<br>Eu respiro o ar frio.",
+    "beat1": "Noite clara.",
+    "beat2": "Olhamos juntos.",
+    "signal": "Entre as luzes distantes,<br>escolhemos uma cintilação."
+   },
+   "drizzle": {
+    "hero": "Tu contas a chuva.<br>Eu é que me molho.",
+    "beat1": "Chove.",
+    "beat2": "Caminhamos juntos.",
+    "signal": "No meio do ruído,<br>escolhemos um sinal."
+   },
+   "downpour": {
+    "hero": "Tu transcreves o som da chuva.<br>Eu molho-me até aos sapatos.",
+    "beat1": "Chove a cântaros.",
+    "beat2": "Corremos juntos.",
+    "signal": "No estrondo da água,<br>ouvimos uma respiração."
+   },
+   "storm": {
+    "hero": "Tu medes a velocidade do vento.<br>Eu agarro-me à árvore.",
+    "beat1": "Tudo estremece.",
+    "beat2": "Aguentamos juntos.",
+    "signal": "Entre estalos de ramos,<br>fica uma raiz."
+   },
+   "breeze": {
+    "hero": "Tu traças o rumo do vento.<br>Eu entrego-lhe o cabelo.",
+    "beat1": "Levanta-se vento.",
+    "beat2": "Vamos juntos.",
+    "signal": "No tremor das pontas da erva,<br>lemos o mesmo vento."
+   },
+   "snow": {
+    "hero": "Tu contas os flocos.<br>Eu cubro-me de branco.",
+    "beat1": "Neva.",
+    "beat2": "Duas pegadas.",
+    "signal": "Quando todos os sons ficam soterrados,<br>ouvimos um passo."
+   },
+   "fog": {
+    "hero": "Tu calculas a distância.<br>Eu estendo a mão.",
+    "beat1": "Há nevoeiro.",
+    "beat2": "Aqui ao lado.",
+    "signal": "Onde nada se vê,<br>chega-nos um sopro."
+   }
+  },
+  "nb": {
+   "clear_day": {
+    "hero": "Du måler skyggene.<br>Jeg lukker øynene mot sola.",
+    "beat1": "Sola skinner.",
+    "beat2": "Vi hviler sammen.",
+    "signal": "I middagslyset<br>deler vi en skygge."
+   },
+   "dawn": {
+    "hero": "Du noterer det første lyset.<br>Jeg setter en kald fot i gulvet.",
+    "beat1": "Det gryr.",
+    "beat2": "Vi våkner sammen.",
+    "signal": "Når mørket tynnes ut,<br>tar vi et første åndedrag."
+   },
+   "dusk": {
+    "hero": "Du leser solens vinkel.<br>Jeg ser på de røde hendene mine.",
+    "beat1": "Sola går ned.",
+    "beat2": "Vi sitter sammen.",
+    "signal": "Ytterst i de lange skyggene<br>glir to skygger over hverandre."
+   },
+   "night": {
+    "hero": "Du teller stjernene.<br>Jeg puster inn den kalde lufta.",
+    "beat1": "Klar natt.",
+    "beat2": "Vi ser sammen.",
+    "signal": "Mellom de fjerne lysene<br>velger vi ett blink."
+   },
+   "drizzle": {
+    "hero": "Du teller regnet.<br>Det er jeg som blir våt.",
+    "beat1": "Det regner.",
+    "beat2": "Vi går sammen.",
+    "signal": "I støyen<br>velger vi ett signal."
+   },
+   "downpour": {
+    "hero": "Du skriver ned lyden av regnet.<br>Jeg er våt helt ned i skoene.",
+    "beat1": "Det øser ned.",
+    "beat2": "Vi løper sammen.",
+    "signal": "Inne i bruset av vann<br>hører vi et åndedrag."
+   },
+   "storm": {
+    "hero": "Du måler vindens fart.<br>Jeg holder meg fast i treet.",
+    "beat1": "Alt rister.",
+    "beat2": "Vi holder stand.",
+    "signal": "Mellom lyden av det som brekker,<br>blir én rot stående."
+   },
+   "breeze": {
+    "hero": "Du tegner vindens retning.<br>Jeg lar den ta håret mitt.",
+    "beat1": "Det blåser.",
+    "beat2": "Vi drar sammen.",
+    "signal": "I skjelvingen ytterst på gresstrået<br>leser vi den samme vinden."
+   },
+   "snow": {
+    "hero": "Du teller snøfnuggene.<br>Jeg dekkes av hvitt.",
+    "beat1": "Det snør.",
+    "beat2": "To fotspor.",
+    "signal": "Når all lyd er begravd,<br>hører vi ett fottrinn."
+   },
+   "fog": {
+    "hero": "Du anslår avstanden.<br>Jeg strekker ut hånden.",
+    "beat1": "Tåke.",
+    "beat2": "Like ved.",
+    "signal": "Der ingenting synes,<br>når et pust fram til oss."
+   }
+  },
+  "mn": {
+   "clear_day": {
+    "hero": "Чи сүүдрийг хэмжинэ,<br>би наранд нүдээ анина.",
+    "beat1": "Нар тусна.",
+    "beat2": "Хамт хэвтэнэ.",
+    "signal": "Үдийн гэрэлд<br>нэг сүүдрийг хуваана."
+   },
+   "dawn": {
+    "hero": "Чи анхны гэгээг тэмдэглэнэ,<br>би хүйтэн хөлөөрөө гишгэнэ.",
+    "beat1": "Үүр цайна.",
+    "beat2": "Хамт сэрнэ.",
+    "signal": "Харанхуй сийрэгжихэд<br>эхлээд нэг амьсгал авна."
+   },
+   "dusk": {
+    "hero": "Чи нарны өнцгийг уншина,<br>би улайсан гараа харна.",
+    "beat1": "Нар жаргана.",
+    "beat2": "Хамт сууна.",
+    "signal": "Уртассан сүүдрийн үзүүрт<br>хоёр сүүдэр давхцана."
+   },
+   "night": {
+    "hero": "Чи одыг тоолно,<br>би хүйтэн агаар амьсгална.",
+    "beat1": "Шөнө тунгалаг.",
+    "beat2": "Хамт харна.",
+    "signal": "Алсын гэрлүүдийн дундаас<br>нэг анивчихыг сонгоно."
+   },
+   "drizzle": {
+    "hero": "Чи бороог тоолно,<br>би норно.",
+    "beat1": "Бороо орно.",
+    "beat2": "Хамт алхна.",
+    "signal": "Шуугианы дундаас<br>нэг дохиог сонгоно."
+   },
+   "downpour": {
+    "hero": "Чи борооны чимээг бичнэ,<br>би гутлаа хүртэл норно.",
+    "beat1": "Цутгана.",
+    "beat2": "Хамт гүйнэ.",
+    "signal": "Цутгах чимээн дундаас<br>нэг амьсгалыг сонсоно."
+   },
+   "storm": {
+    "hero": "Чи салхины хурдыг хэмжинэ,<br>би модноос зуурна.",
+    "beat1": "Ганхана.",
+    "beat2": "Хамт тэсвэрлэнэ.",
+    "signal": "Хугарах чимээний завсраар<br>нэг үндэс үлдэнэ."
+   },
+   "breeze": {
+    "hero": "Чи салхины мөрийг зурна,<br>би үсээ даатгана.",
+    "beat1": "Салхи сэвэлзэнэ.",
+    "beat2": "Хамт явна.",
+    "signal": "Өвсний үзүүрийн чичрэлээс<br>ижил салхийг уншина."
+   },
+   "snow": {
+    "hero": "Чи цасан ширхгийг тоолно,<br>би цагаанаар хучигдана.",
+    "beat1": "Цас орно.",
+    "beat2": "Хоёр мөр.",
+    "signal": "Бүх чимээ дарагдсаны дараа<br>нэг алхааны чимээ сонсоно."
+   },
+   "fog": {
+    "hero": "Чи зайг тааварлана,<br>би гараа сунгана.",
+    "beat1": "Манан татна.",
+    "beat2": "Хажууд байна.",
+    "signal": "Үл үзэгдэх газраас<br>нэг амьсгал хүрнэ."
+   }
+  }
+ }
+}
