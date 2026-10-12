@@ -14,15 +14,37 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='3.2' stroke-linecap='round' stroke-dasharray='58 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
   <script>
     (function () {
-      var d = document.documentElement, pick = null;
+      var d = document.documentElement, pick = null, tz = '';
       d.classList.add('js');
-      try { pick = localStorage.getItem('onduru-lang'); } catch (e) {}
-      if (pick !== 'ko' && pick !== 'en') {
-        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'ko'];
-        pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
+      var SUP = { ko: 1, en: 1, ja: 1, zh: 1, es: 1, fr: 1, pt: 1, ar: 1, nb: 1, mn: 1 };
+      var ZONE = {
+        'Asia/Seoul': 'ko', 'Asia/Pyongyang': 'ko',
+        'Asia/Tokyo': 'ja',
+        'Asia/Shanghai': 'zh', 'Asia/Chongqing': 'zh', 'Asia/Harbin': 'zh', 'Asia/Urumqi': 'zh', 'Asia/Hong_Kong': 'zh', 'Asia/Macau': 'zh', 'Asia/Taipei': 'zh',
+        'Asia/Ulaanbaatar': 'mn', 'Asia/Hovd': 'mn', 'Asia/Choibalsan': 'mn',
+        'Europe/Oslo': 'nb', 'Arctic/Longyearbyen': 'nb',
+        'Europe/Paris': 'fr', 'Europe/Brussels': 'fr', 'Europe/Luxembourg': 'fr', 'Europe/Monaco': 'fr', 'America/Montreal': 'fr', 'Africa/Dakar': 'fr', 'Africa/Abidjan': 'fr', 'Africa/Kinshasa': 'fr', 'Indian/Reunion': 'fr', 'America/Port-au-Prince': 'fr', 'Africa/Bamako': 'fr', 'Africa/Douala': 'fr',
+        'Europe/Madrid': 'es', 'Atlantic/Canary': 'es', 'America/Mexico_City': 'es', 'America/Cancun': 'es', 'America/Monterrey': 'es', 'America/Tijuana': 'es', 'America/Bogota': 'es', 'America/Lima': 'es', 'America/Santiago': 'es', 'America/Argentina/Buenos_Aires': 'es', 'America/Buenos_Aires': 'es', 'America/Caracas': 'es', 'America/Montevideo': 'es', 'America/Asuncion': 'es', 'America/La_Paz': 'es', 'America/Guayaquil': 'es', 'America/Guatemala': 'es', 'America/Havana': 'es', 'America/Panama': 'es', 'America/Costa_Rica': 'es', 'America/El_Salvador': 'es', 'America/Tegucigalpa': 'es', 'America/Managua': 'es', 'America/Santo_Domingo': 'es', 'America/Puerto_Rico': 'es',
+        'Europe/Lisbon': 'pt', 'Atlantic/Azores': 'pt', 'Atlantic/Madeira': 'pt', 'America/Sao_Paulo': 'pt', 'America/Bahia': 'pt', 'America/Fortaleza': 'pt', 'America/Recife': 'pt', 'America/Manaus': 'pt', 'America/Belem': 'pt', 'America/Cuiaba': 'pt', 'America/Porto_Velho': 'pt', 'Africa/Luanda': 'pt', 'Africa/Maputo': 'pt', 'Atlantic/Cape_Verde': 'pt', 'Asia/Dili': 'pt',
+        'Asia/Riyadh': 'ar', 'Asia/Dubai': 'ar', 'Asia/Qatar': 'ar', 'Asia/Kuwait': 'ar', 'Asia/Bahrain': 'ar', 'Asia/Muscat': 'ar', 'Asia/Aden': 'ar', 'Asia/Baghdad': 'ar', 'Asia/Amman': 'ar', 'Asia/Beirut': 'ar', 'Asia/Damascus': 'ar', 'Asia/Gaza': 'ar', 'Asia/Hebron': 'ar', 'Africa/Cairo': 'ar', 'Africa/Tripoli': 'ar', 'Africa/Tunis': 'ar', 'Africa/Algiers': 'ar', 'Africa/Casablanca': 'ar', 'Africa/Khartoum': 'ar', 'Africa/Nouakchott': 'ar'
+      };
+      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      pick = ZONE[tz] || null;
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) {
+          var c = (ls[i] || '').toLowerCase().split('-')[0];
+          if (c === 'no' || c === 'nn') c = 'nb';
+          if (SUP[c]) pick = c;
+        }
       }
+      var m = location.search.match(/[?&]lang=([a-z]{2})/);
+      if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) pick = 'en';
       d.setAttribute('data-lang', pick);
-      d.setAttribute('lang', pick);
+      d.setAttribute('data-show', pick === 'ko' ? 'ko' : 'en');
+      d.setAttribute('lang', pick === 'nb' ? 'nb' : pick);
+      if (pick === 'ar') d.setAttribute('dir', 'rtl');
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,7 +96,7 @@
       overflow-wrap: break-word;
       -webkit-tap-highlight-color: transparent;
     }
-    html[data-lang="en"] body { word-break: normal; }
+    html:not([data-lang="ko"]) body { word-break: normal; }
     ::selection { background: var(--accent); color: var(--bg); }
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
@@ -82,7 +104,7 @@
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* 언어 */
-    html[data-lang="ko"] .L-en, html[data-lang="en"] .L-ko { display: none !important; }
+    html[data-show="ko"] .L-en, html[data-show="en"] .L-ko { display: none !important; }
     .langbtn {
       position: fixed;
       top: max(14px, env(safe-area-inset-top));
@@ -133,13 +155,13 @@
     .veil { visibility: hidden; }
     .fly { will-change: transform, opacity; }
     h1, .stage-line {
-      font-family: "Gowun Batang", serif;
+      font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif;
       font-weight: 700;
       font-size: clamp(36px, 8.4vw, 96px);
       line-height: 1.32;
       letter-spacing: -.015em;
     }
-    html[data-lang="en"] h1, html[data-lang="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
+    html[data-show="en"] h1, html[data-show="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .w { display: inline-block; white-space: nowrap; }
     .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
     .ch.noise { opacity: .28; }
@@ -160,13 +182,13 @@
     .mend { display: inline; cursor: pointer; border-radius: 6px; padding: 0 .05em; transition: background-color .3s; }
     .mend[aria-expanded="true"] del { opacity: 1; }
     @media (hover: hover) { .mend:hover del { opacity: 1; } }
-.was { margin-top: 26px; font-family: "Gowun Batang", serif; font-size: clamp(14px, 1.8vw, 17px); color: var(--sky-muted); }
+.was { margin-top: 26px; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: clamp(14px, 1.8vw, 17px); color: var(--sky-muted); }
     .was .mend { text-align: left; line-height: 1.7; }
     .margin-note {
       display: none;
       max-width: 34em;
       margin-top: 22px;
-      font-family: "Gowun Batang", serif;
+      font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif;
       font-size: 15px;
       line-height: 1.95;
       color: var(--sky-muted);
@@ -178,7 +200,7 @@
     .signal-line {
       position: relative;
       margin-top: 34px;
-      font-family: "Gowun Batang", serif;
+      font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif;
       font-size: clamp(17px, 2.4vw, 23px);
       color: var(--sky-fg);
       opacity: .92;
@@ -239,9 +261,9 @@
     .i1 { padding-left: clamp(0px, 6%, 48px); }
     .i2 { padding-left: clamp(0px, 2%, 16px); }
     .i3 { padding-left: clamp(0px, 9%, 72px); }
-    .line { font-family: "Gowun Batang", serif; font-size: clamp(21px, 3.6vw, 32px); line-height: 1.85; }
+    .line { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: clamp(21px, 3.6vw, 32px); line-height: 1.85; }
     .line .soft { color: var(--muted); }
-    .tag { margin-top: 18px; font-family: "Gowun Batang", serif; font-size: 14px; letter-spacing: .2em; color: var(--accent); }
+    .tag { margin-top: 18px; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: 14px; letter-spacing: .2em; color: var(--accent); }
 
     .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 1.1s ease, transform 1.1s ease; }
     .js .reveal.seen { opacity: 1; transform: none; }
@@ -256,7 +278,7 @@
       align-items: baseline;
       padding: 14px 0;
       cursor: pointer;
-      font-family: "Gowun Batang", serif;
+      font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif;
       font-size: clamp(17px, 2.6vw, 21px);
       line-height: 1.7;
       border-radius: 4px;
@@ -276,11 +298,11 @@
     }
     details[open] summary b { color: var(--fg); }
     details[open] summary i { transform: rotate(225deg) translateY(-2px); border-color: var(--accent); }
-    .why { padding: 2px 0 20px 0; font-family: "Gowun Batang", serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 2; color: var(--muted); }
+    .why { padding: 2px 0 20px 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 2; color: var(--muted); }
     details[open] .why { animation: open .6s ease; }
     @keyframes open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
-    .way p { font-family: "Gowun Batang", serif; font-size: clamp(18px, 3vw, 23px); line-height: 1.95; }
+    .way p { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: clamp(18px, 3vw, 23px); line-height: 1.95; }
 
     .end { padding: 88px 0 0; }
     .end .enso { width: 66px; height: 66px; margin: 72px 0 30px -5px; color: var(--fg); }
@@ -303,12 +325,12 @@
       display: flex; justify-content: space-between; align-items: center; gap: 0 12px; flex-wrap: wrap;
     }
     .colophon { flex-basis: 100%; border-top: 1px solid var(--pencil); padding-top: 28px; display: grid; gap: 16px; font-size: 13px; line-height: 1.9; }
-    .colophon .work { font-family: "Gowun Batang", serif; font-size: 18px; color: var(--fg); letter-spacing: .04em; }
-    .colophon .statement { font-family: "Gowun Batang", serif; font-size: 15px; color: var(--fg); }
+    .colophon .work { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: 18px; color: var(--fg); letter-spacing: .04em; }
+    .colophon .statement { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: 15px; color: var(--fg); }
     .colophon .small { font-size: 11.5px; }
     .colophon a.mail { font-size: 14px; }
     .wait .ch.cho { opacity: .45; }
-    .breath { font-family: "Gowun Batang", serif; font-size: clamp(15px, 2.2vw, 18px); line-height: 2; color: var(--muted); margin: 8px 0 36px; }
+    .breath { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: clamp(15px, 2.2vw, 18px); line-height: 2; color: var(--muted); margin: 8px 0 36px; }
     .waitnote { transition: opacity 1s; }
     .waitnote.done { opacity: 0; }
     footer button { color: var(--muted); text-align: left; line-height: 1.6; padding: 11px 0; }
@@ -348,32 +370,31 @@
   </style>
 </head>
 <body>
-  <button class="langbtn" type="button" id="lang"><span class="L-ko" lang="en">EN</span><span class="L-en" lang="ko">한국어</span></button>
 
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
       <div class="pulse" aria-hidden="true" id="pulse"></div>
 
       <div class="title-wrap">
-        <h1 class="L-ko" lang="ko">너는 비를 세고,<br>나는 젖는다.</h1>
-        <h1 class="L-en" lang="en">You count the rain.<br>I am the one who gets wet.</h1>
+        <h1 class="L-ko" lang="ko" data-k="k03">너는 비를 세고,<br>나는 젖는다.</h1>
+        <h1 class="L-en" lang="en" data-k="k03">You count the rain.<br>I am the one who gets wet.</h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
-      <p class="was L-ko" lang="ko"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
-      <p class="was L-en" lang="en"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
+      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
+      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
 
-      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko">처음엔 이렇게 썼다.<br>맞는 말이었지만, 시가 아니었다.<br>그래서 한 줄을 긋고, 비를 맞으러 나갔다.</p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en">This was the first line.<br>True, but not a poem.<br>So I struck it through, and walked out into the rain.</p>
+      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>맞는 말이었지만, 시가 아니었다.<br>그래서 한 줄을 긋고, 비를 맞으러 나갔다.</p>
+      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>True, but not a poem.<br>So I struck it through, and walked out into the rain.</p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en">A pulse in the static<br>that will not divide.</span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko">같은 바람 — 미쓰따리</span><span class="L-en" lang="en">The Same Wind — <span lang="ko">미쓰따리</span></span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">A pulse in the static<br>that will not divide.</span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — <span lang="ko">미쓰따리</span></span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko">아래로</span><span class="sr L-en">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -381,59 +402,59 @@
     <div class="wrap">
 
       <div data-scene="1" class="screen h76 reveal" id="begin">
-        <p class="line L-ko" lang="ko">한 손은 쓰고,<br>한 손은 지운다.<br><span class="soft">같은 종이 위에서,<br>같은 바람을 맞으며.</span></p>
-        <p class="line L-en" lang="en">One hand writes.<br>One hand erases.<br><span class="soft">The same page,<br>the same wind.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k09">한 손은 쓰고,<br>한 손은 지운다.<br><span class="soft">같은 종이 위에서,<br>같은 바람을 맞으며.</span></p>
+        <p class="line L-en" lang="en" data-k="k09">One hand writes.<br>One hand erases.<br><span class="soft">The same page,<br>the same wind.</span></p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
-        <p class="line L-ko" lang="ko">잎은 철마다 바뀐다.<br>나는 같은 자리에,<br>같은 글씨로 적는다.<br><span class="soft">바뀌지 않을 것을.</span></p>
-        <p class="line L-en" lang="en">Tools turn over like leaves.<br>The root stays where I planted it —<br><span class="soft">plain words<br>any hand can open.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k10">잎은 철마다 바뀐다.<br>나는 같은 자리에,<br>같은 글씨로 적는다.<br><span class="soft">바뀌지 않을 것을.</span></p>
+        <p class="line L-en" lang="en" data-k="k10">Tools turn over like leaves.<br>The root stays where I planted it —<br><span class="soft">plain words<br>any hand can open.</span></p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
-        <p class="line L-ko" lang="ko">풀은 바람에 눕는다.<br>고르는 일만은<br><span class="soft">맡기지 않고,<br>내 쪽에 세워 둔다.</span></p>
-        <p class="line L-en" lang="en">The wind may carry everything.<br>Where it lands<br><span class="soft">is still mine<br>to answer for.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k11">풀은 바람에 눕는다.<br>고르는 일만은<br><span class="soft">맡기지 않고,<br>내 쪽에 세워 둔다.</span></p>
+        <p class="line L-en" lang="en" data-k="k11">The wind may carry everything.<br>Where it lands<br><span class="soft">is still mine<br>to answer for.</span></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
-        <p class="line L-ko" lang="ko">한 만큼만<br>했다고 쓴다.<br><span class="soft">모르는 자리에는<br>모른다고, 흰 칸을 둔다.</span></p>
-        <p class="line L-en" lang="en">I call it done<br>when the snow holds a footprint.<br><span class="soft">Where I have not looked,<br>I write: not yet seen.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k12">한 만큼만<br>했다고 쓴다.<br><span class="soft">모르는 자리에는<br>모른다고, 흰 칸을 둔다.</span></p>
+        <p class="line L-en" lang="en" data-k="k12">I call it done<br>when the snow holds a footprint.<br><span class="soft">Where I have not looked,<br>I write: not yet seen.</span></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
-        <p class="line L-ko" lang="ko">떨어진 비는 오르지 않는다.<br>내보낸 것도 그렇다.<br><span class="soft">그래서 먼저,<br>선을 긋는다.</span></p>
-        <p class="line L-en" lang="en">Water poured out<br>does not climb back into the cup.<br><span class="soft">So before the pouring,<br>the line.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k13">떨어진 비는 오르지 않는다.<br>내보낸 것도 그렇다.<br><span class="soft">그래서 먼저,<br>선을 긋는다.</span></p>
+        <p class="line L-en" lang="en" data-k="k13">Water poured out<br>does not climb back into the cup.<br><span class="soft">So before the pouring,<br>the line.</span></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
-        <p class="line L-ko" lang="ko">기록이 일보다 무거운<br>밤이 있다.<br><span class="soft">그런 밤엔 더하지 않고<br>규칙 하나를 지운다.</span></p>
-        <p class="line L-en" lang="en">Some nights the ledger<br>grows heavier than the harvest.<br><span class="soft">Then I let one rule<br>go back to the grass.</span></p>
+        <p class="line L-ko" lang="ko" data-k="k14">기록이 일보다 무거운<br>밤이 있다.<br><span class="soft">그런 밤엔 더하지 않고<br>규칙 하나를 지운다.</span></p>
+        <p class="line L-en" lang="en" data-k="k14">Some nights the ledger<br>grows heavier than the harvest.<br><span class="soft">Then I let one rule<br>go back to the grass.</span></p>
       </div>
 
       <section class="block" aria-labelledby="ten" data-scene="6">
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 C 120 4.5, 260 8.5, 400 6 S 610 4, 678 6.5"/></svg>
-        <h2 id="ten" class="sr"><span class="L-ko">세 줄</span><span class="L-en">Three lines</span></h2>
+        <h2 id="ten" class="sr"><span class="L-ko" data-k="k15">세 줄</span><span class="L-en" data-k="k15">Three lines</span></h2>
 
-        <details><summary><span><span class="L-ko" lang="ko">선이 먼저, 나머지는 가볍게.</span><span class="L-en" lang="en">The line comes first; the rest kept light.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">나간 것은 돌아오지 않는다.<br>무엇과도 바꾸지 않고, 이 선은 넘지 않는다.<br>규칙이 일을 덮으면 덜어 내되, 이 선만은 남긴다.</p>
-          <p class="why L-en" lang="en">What goes out never comes home.<br>Traded for nothing, that line is not crossed.<br>When rules outgrow the work, I thin them — never that one.</p></details>
-        <details><summary><span><span class="L-ko" lang="ko">고르는 일은 말로 한다.</span><span class="L-en" lang="en">A choice is something said aloud.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">침묵은 승인이 아니고, 어긋나면 고르지 않고 알린다.<br>옮기는 일은 맡기고, 고르는 일은 내가 한다.<br>기준은 어느 손으로도 열리는 맨 글로 둔다.</p>
-          <p class="why L-en" lang="en">Silence is not a yes; where two disagree, it is named, not settled.<br>The carrying is handed off; the choosing stays with me.<br>The measure is kept in plain words any hand can open.</p></details>
-        <details><summary><span><span class="L-ko" lang="ko">젖은 자국만 믿는다.</span><span class="L-en" lang="en">Only the wet ground counts.</span></span><i aria-hidden="true"></i></summary>
-          <p class="why L-ko" lang="ko">한 사실은 한 곳에, 바뀌면 끝까지 고친다.<br>했다는 말보다 남은 자국을 보고,<br>모르는 것은 모른다고 쓴다.</p>
-          <p class="why L-en" lang="en">One fact, one address; a change carried to the root.<br>Not the word “done,” but what it left behind —<br>and what I don’t know, marked unknown.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko" data-k="k16">선이 먼저, 나머지는 가볍게.</span><span class="L-en" lang="en" data-k="k16">The line comes first; the rest kept light.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko" data-k="k17">나간 것은 돌아오지 않는다.<br>무엇과도 바꾸지 않고, 이 선은 넘지 않는다.<br>규칙이 일을 덮으면 덜어 내되, 이 선만은 남긴다.</p>
+          <p class="why L-en" lang="en" data-k="k17">What goes out never comes home.<br>Traded for nothing, that line is not crossed.<br>When rules outgrow the work, I thin them — never that one.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko" data-k="k18">고르는 일은 말로 한다.</span><span class="L-en" lang="en" data-k="k18">A choice is something said aloud.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko" data-k="k19">침묵은 승인이 아니고, 어긋나면 고르지 않고 알린다.<br>옮기는 일은 맡기고, 고르는 일은 내가 한다.<br>기준은 어느 손으로도 열리는 맨 글로 둔다.</p>
+          <p class="why L-en" lang="en" data-k="k19">Silence is not a yes; where two disagree, it is named, not settled.<br>The carrying is handed off; the choosing stays with me.<br>The measure is kept in plain words any hand can open.</p></details>
+        <details><summary><span><span class="L-ko" lang="ko" data-k="k20">젖은 자국만 믿는다.</span><span class="L-en" lang="en" data-k="k20">Only the wet ground counts.</span></span><i aria-hidden="true"></i></summary>
+          <p class="why L-ko" lang="ko" data-k="k21">한 사실은 한 곳에, 바뀌면 끝까지 고친다.<br>했다는 말보다 남은 자국을 보고,<br>모르는 것은 모른다고 쓴다.</p>
+          <p class="why L-en" lang="en" data-k="k21">One fact, one address; a change carried to the root.<br>Not the word “done,” but what it left behind —<br>and what I don’t know, marked unknown.</p></details>
       </section>
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko">맺음</span><span class="L-en">Closing</span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko">원을 다시 그리기</span><span class="sr L-en">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
-        <p class="line reveal L-ko wait" lang="ko">바람에 줄 것과 손에 쥘 것을,<br>아침마다 다시 가른다.<br><span class="soft">원은 열어 둔 채로.</span></p>
-        <p class="line reveal L-en wait" lang="en">What to give to the wind, what to hold —<br>I sort it again each morning,<br><span class="soft">the circle left open.</span></p>
-        <p class="breath"><span class="L-ko" lang="ko">원이 커지면 들이쉬고,<br>작아지면 내쉰다.<br>서두르지 않아도 된다.</span><span class="L-en" lang="en">When the circle widens, breathe in.<br>When it narrows, breathe out.<br>There is no hurry.</span></p>
-        <p class="note waitnote"><span class="L-ko" lang="ko">손을 멈추면, 마지막 행이 글자가 됩니다.</span><span class="L-en" lang="en">Hold still, and the last lines become words.</span></p>
-        <div><a class="totop" href="#top"><span class="L-ko">첫 줄로 ↑</span><span class="L-en">Back to the first line ↑</span></a></div>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <p class="line reveal L-ko wait" lang="ko" data-k="k24">바람에 줄 것과 손에 쥘 것을,<br>아침마다 다시 가른다.<br><span class="soft">원은 열어 둔 채로.</span></p>
+        <p class="line reveal L-en wait" lang="en" data-k="k24">What to give to the wind, what to hold —<br>I sort it again each morning,<br><span class="soft">the circle left open.</span></p>
+        <p class="breath"><span class="L-ko" lang="ko" data-k="k25">원이 커지면 들이쉬고,<br>작아지면 내쉰다.<br>서두르지 않아도 된다.</span><span class="L-en" lang="en" data-k="k25">When the circle widens, breathe in.<br>When it narrows, breathe out.<br>There is no hurry.</span></p>
+        <p class="note waitnote"><span class="L-ko" lang="ko" data-k="k26">손을 멈추면, 마지막 행이 글자가 됩니다.</span><span class="L-en" lang="en" data-k="k26">Hold still, and the last lines become words.</span></p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span></a></div>
       </section>
 
     </div>
@@ -441,13 +462,14 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko">같은 바람</span><span class="L-en" lang="en">The Same Wind</span></p>
-      <p class="statement"><span class="L-ko" lang="ko">하나가 쓰고 하나가 지운 자리에,<br>오늘의 바람이 지나간다.</span><span class="L-en" lang="en">Where one wrote and one erased,<br>today’s wind passes through.</span></p>
-      <p><span class="L-ko" lang="ko">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en">If there is something we might write together,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28">같은 바람</span><span class="L-en" lang="en" data-k="k28">The Same Wind</span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="k29">하나가 쓰고 하나가 지운 자리에,<br>오늘의 바람이 지나간다.</span><span class="L-en" lang="en" data-k="k29">Where one wrote and one erased,<br>today’s wind passes through.</span></p>
+      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
 
+  <script type="application/json" id="i18n">{"ja": {"k02": "円を描きなおす", "k03": "君は雨を数え、<br>私は濡れる。", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">消した最初の一文: <\/span>実行は任せても、責任は任せない。<\/del><\/button>", "k05": "最初はこう書いた。<br>正しかったが、詩ではなかった。<br>だから一行を引いて消し、雨の中へ出た。", "k06": "雑音のなかから、<br>割り切れない鼓動をひとつ。", "k07": "同じ風 — <span lang=\"ko\">미쓰따리<\/span>", "k08": "下へ", "k09": "片手で書き、<br>片手で消す。<br><span class=\"soft\">同じ紙の上で、<br>同じ風に吹かれながら。<\/span>", "k10": "葉は季節ごとに替わる。<br>私は同じ場所に、<br>同じ字で書く。<br><span class=\"soft\">変わらないものを。<\/span>", "k11": "草は風に伏す。<br>選ぶことだけは<br><span class=\"soft\">任せずに、<br>こちら側に立てておく。<\/span>", "k12": "したぶんだけを<br>した、と書く。<br><span class=\"soft\">知らないところには<br>知らない、と白い枡を残す。<\/span>", "k13": "落ちた雨は昇らない。<br>送り出したものも同じ。<br><span class=\"soft\">だから先に、<br>線を引く。<\/span>", "k14": "記録が仕事より重い<br>夜がある。<br><span class=\"soft\">そんな夜は足さずに、<br>規則をひとつ消す。<\/span>", "k15": "三行", "k16": "線が先、ほかは軽く。", "k17": "出ていったものは戻らない。<br>何とも引き換えず、この線は越えない。<br>規則が仕事を覆えば削る。この線だけは残して。", "k18": "選ぶことは、声にする。", "k19": "沈黙は承認ではない。食い違えば、選ばずに知らせる。<br>運ぶことは任せ、選ぶことは私がする。<br>基準は、どの手でも開ける素の文字で置く。", "k20": "濡れた跡だけを信じる。", "k21": "ひとつの事実はひとつの場所に。変われば最後まで直す。<br>「やった」という言葉より、残った跡を見る。<br>知らないことは、知らないと書く。", "k22": "結び", "k23": "円を描きなおす", "k24": "風に渡すものと、手に握るものを、<br>朝ごとに分けなおす。<br><span class=\"soft\">円は開いたままで。<\/span>", "k25": "円が広がれば息を吸い、<br>狭まれば吐く。<br>急がなくていい。", "k26": "手を止めると、最後の行が文字になります。", "k27": "最初の行へ ↑", "k28": "同じ風", "k29": "片方が書き、片方が消したところを、<br>今日の風が通りすぎる。", "k30": "ともに書きなおすことがあれば、", "beat1": "雨が降る。", "beat2": "ともに歩く。"}, "zh": {"k02": "重新画圆", "k03": "你在数雨，<br>我在淋雨。", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">划去的第一句：<\/span>执行可以托付，责任不托付。<\/del><\/button>", "k05": "起初是这样写的。<br>话没错，但不是诗。<br>于是划去这一行，走进雨里。", "k06": "噪声之中，<br>择一道不可分的信号。", "k07": "同一阵风 — <span lang=\"ko\">미쓰따리<\/span>", "k08": "向下", "k09": "一只手写，<br>一只手擦。<br><span class=\"soft\">在同一张纸上，<br>吹着同一阵风。<\/span>", "k10": "叶子随季节更换。<br>我在同一个位置，<br>用同样的字写下<br><span class=\"soft\">不会改变的东西。<\/span>", "k11": "草随风伏下。<br>只有选择这件事<br><span class=\"soft\">不交出去，<br>立在我这一边。<\/span>", "k12": "做了多少，<br>就写多少。<br><span class=\"soft\">不知道的地方，<br>写上不知道，留一格空白。<\/span>", "k13": "落下的雨不会升回去。<br>送出去的也一样。<br><span class=\"soft\">所以先，<br>画一条线。<\/span>", "k14": "有些夜里，记录<br>比活儿还重。<br><span class=\"soft\">那样的夜不再添加，<br>只删去一条规则。<\/span>", "k15": "三行", "k16": "线在先，其余从轻。", "k17": "出去的，不会回来。<br>不拿它换任何东西，这条线不越过。<br>规则盖过了事，就削减；只有这条线留下。", "k18": "选择，要说出口。", "k19": "沉默不是同意；有分歧时，不替人选，而是说出来。<br>搬运交出去，选择由我来做。<br>标准存成任何一只手都能打开的素文本。", "k20": "只信湿的痕迹。", "k21": "一件事实只放一处；变了，就改到底。<br>不看“做完了”这句话，看留下的痕迹。<br>不知道的，就写不知道。", "k22": "结语", "k23": "重新画圆", "k24": "交给风的，握在手里的，<br>每个早晨重新分开。<br><span class=\"soft\">圆，就让它开着。<\/span>", "k25": "圆变大时吸气，<br>变小时呼气。<br>不必着急。", "k26": "停下手，最后几行就会变成文字。", "k27": "回到第一行 ↑", "k28": "同一阵风", "k29": "一个写下、一个擦去的地方，<br>今天的风吹过。", "k30": "如果有什么可以一起改写，", "beat1": "下雨了。", "beat2": "一起走。"}, "ar": {"k02": "أعِد رسم الدائرة", "k03": "أنتَ تعدُّ المطر،<br>وأنا الذي يبتلّ.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">السطر الأول المشطوب: <\/span>يُوكَل التنفيذ، ولا تُوكَل المسؤولية.<\/del><\/button>", "k05": "هكذا كتبتُ أولًا.<br>كان صحيحًا، لكنه لم يكن شعرًا.<br>فشطبتُ السطر، وخرجتُ إلى المطر.", "k06": "نبضٌ في الضجيج<br>لا ينقسم.", "k07": "الريح نفسها — <span lang=\"ko\">미쓰따리<\/span>", "k08": "إلى الأسفل", "k09": "يدٌ تكتب،<br>ويدٌ تمحو.<br><span class=\"soft\">على الورقة نفسها،<br>في الريح نفسها.<\/span>", "k10": "تتبدّل الأوراق كلَّ فصل.<br>وأنا في المكان نفسه،<br>أكتب بالخطّ نفسه<br><span class=\"soft\">ما لن يتبدّل.<\/span>", "k11": "ينحني العشب للريح.<br>أمّا الاختيار<br><span class=\"soft\">فلا أُوكِله،<br>أُبقيه واقفًا في جهتي.<\/span>", "k12": "لا أكتب «أنجزتُ»<br>إلا بقدر ما أنجزت.<br><span class=\"soft\">وحيث لا أعرف،<br>أكتب: لا أعرف، وأترك خانةً بيضاء.<\/span>", "k13": "المطر الذي سقط لا يصعد.<br>وكذلك ما أُرسِل.<br><span class=\"soft\">لذلك، أولًا،<br>أرسم الخطّ.<\/span>", "k14": "ثمّة ليالٍ يصير فيها السجلّ<br>أثقلَ من العمل.<br><span class=\"soft\">في تلك الليالي لا أضيف،<br>بل أمحو قاعدةً واحدة.<\/span>", "k15": "ثلاثة أسطر", "k16": "الخطّ أولًا، والباقي خفيف.", "k17": "ما خرج لا يعود.<br>لا يُقايَض بشيء، ولا يُتجاوَز هذا الخطّ.<br>إذا غطّت القواعدُ العملَ خفّفتُها، إلا هذا الخطّ.", "k18": "الاختيار يُقال بصوتٍ مسموع.", "k19": "الصمت ليس موافقة؛ وحين يختلف أمران أُعلِن الخلاف ولا أختار.<br>النقل أُوكِله، والاختيار لي.<br>والمعيار يبقى نصًّا عاريًا تفتحه أيُّ يد.", "k20": "لا أثق إلا بالأثر المبتلّ.", "k21": "لكلّ حقيقةٍ مكانٌ واحد؛ وإن تغيّرت صحّحتُها حتى الجذر.<br>لا أنظر إلى كلمة «تمّ»، بل إلى الأثر الباقي،<br>وما لا أعرفه، أكتب أنني لا أعرفه.", "k22": "خاتمة", "k23": "أعِد رسم الدائرة", "k24": "ما أعطيه للريح، وما أُمسكه بيدي،<br>أفرزه من جديد كلَّ صباح،<br><span class=\"soft\">والدائرة تبقى مفتوحة.<\/span>", "k25": "حين تتّسع الدائرة، شهيق.<br>حين تضيق، زفير.<br>لا عجلة.", "k26": "توقّف عن الحركة، فتصير الأسطر الأخيرة كلمات.", "k27": "العودة إلى السطر الأول ↑", "k28": "الريح نفسها", "k29": "حيث كتب واحدٌ ومحا آخر،<br>تمرّ ريحُ اليوم.", "k30": "إن كان ثمّة ما نكتبه معًا،", "beat1": "مطر.", "beat2": "نمشي معًا."}, "es": {"k02": "Volver a trazar el círculo", "k03": "Tú cuentas la lluvia.<br>Yo soy quien se moja.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">primera línea tachada: <\/span>Delegar la ejecución. Nunca la responsabilidad.<\/del><\/button>", "k05": "Esto escribí al principio.<br>Era cierto, pero no era un poema.<br>Así que lo taché y salí a la lluvia.", "k06": "Un pulso en la estática<br>que no se divide.", "k07": "El mismo viento — <span lang=\"ko\">미쓰따리<\/span>", "k08": "Desliza hacia abajo", "k09": "Una mano escribe.<br>Una mano borra.<br><span class=\"soft\">La misma página,<br>el mismo viento.<\/span>", "k10": "Las hojas cambian con cada estación.<br>Yo escribo en el mismo lugar,<br>con la misma letra,<br><span class=\"soft\">lo que no ha de cambiar.<\/span>", "k11": "La hierba se tiende con el viento.<br>Solo el elegir<br><span class=\"soft\">no lo delego:<br>lo mantengo en pie, de mi lado.<\/span>", "k12": "Escribo «hecho»<br>solo en lo que está hecho.<br><span class=\"soft\">Donde no sé,<br>escribo «no sé» y dejo la casilla en blanco.<\/span>", "k13": "La lluvia caída no vuelve a subir.<br>Lo que se envía, tampoco.<br><span class=\"soft\">Por eso, antes,<br>trazo la línea.<\/span>", "k14": "Hay noches en que el registro<br>pesa más que el trabajo.<br><span class=\"soft\">Esas noches no añado:<br>borro una regla.<\/span>", "k15": "Tres líneas", "k16": "Primero la línea; lo demás, ligero.", "k17": "Lo que sale no vuelve.<br>No se cambia por nada: esta línea no se cruza.<br>Si las reglas tapan el trabajo, las aligero, pero esta línea queda.", "k18": "Elegir es algo que se dice en voz alta.", "k19": "El silencio no es un sí; si algo no coincide, no elijo: aviso.<br>Llevar, lo delego; elegir, lo hago yo.<br>La medida se guarda en palabras llanas que cualquier mano puede abrir.", "k20": "Solo creo en la huella mojada.", "k21": "Cada hecho, en un solo lugar; si cambia, lo corrijo hasta la raíz.<br>Más que la palabra «hecho», miro la huella que queda,<br>y lo que no sé, lo anoto: no sé.", "k22": "Cierre", "k23": "Volver a trazar el círculo", "k24": "Lo que doy al viento y lo que guardo en la mano<br>vuelvo a separarlo cada mañana,<br><span class=\"soft\">con el círculo abierto.<\/span>", "k25": "Cuando el círculo crece, inhala.<br>Cuando se encoge, exhala.<br>No hay prisa.", "k26": "Detén la mano, y las últimas líneas se vuelven palabras.", "k27": "Volver a la primera línea ↑", "k28": "El mismo viento", "k29": "Donde uno escribió y otro borró,<br>pasa el viento de hoy.", "k30": "Si hay algo que podamos escribir juntos,", "beat1": "Llueve.", "beat2": "Caminamos juntos."}, "fr": {"k02": "Redessiner le cercle", "k03": "Tu comptes la pluie.<br>C’est moi qui prends la pluie.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">première ligne barrée : <\/span>Confier l’exécution. Jamais la responsabilité.<\/del><\/button>", "k05": "J’avais d’abord écrit ceci.<br>C’était juste, mais ce n’était pas un poème.<br>Alors j’ai tiré un trait dessus, et j’ai marché sous la pluie.", "k06": "Un battement dans le bruit<br>qui ne se divise pas.", "k07": "Le même vent — <span lang=\"ko\">미쓰따리<\/span>", "k08": "Faire défiler vers le bas", "k09": "Une main écrit.<br>Une main efface.<br><span class=\"soft\">La même page,<br>le même vent.<\/span>", "k10": "Les feuilles changent à chaque saison.<br>J’écris au même endroit,<br>de la même écriture,<br><span class=\"soft\">ce qui ne changera pas.<\/span>", "k11": "L’herbe se couche sous le vent.<br>Le choix, lui seul,<br><span class=\"soft\">je ne le confie pas :<br>je le garde debout, de mon côté.<\/span>", "k12": "J’écris « fait »<br>pour ce qui est fait, pas plus.<br><span class=\"soft\">Là où je ne sais pas,<br>j’écris « je ne sais pas » et laisse la case blanche.<\/span>", "k13": "La pluie tombée ne remonte pas.<br>Ce qui est envoyé non plus.<br><span class=\"soft\">Alors d’abord,<br>je trace la ligne.<\/span>", "k14": "Il est des nuits où le registre<br>pèse plus que le travail.<br><span class=\"soft\">Ces nuits-là, je n’ajoute rien :<br>j’efface une règle.<\/span>", "k15": "Trois lignes", "k16": "La ligne d’abord ; le reste, léger.", "k17": "Ce qui sort ne revient pas.<br>Contre rien on ne l’échange : cette ligne ne se franchit pas.<br>Quand les règles recouvrent le travail, je les allège — mais cette ligne reste.", "k18": "Un choix se dit à voix haute.", "k19": "Le silence n’est pas un oui ; quand deux choses divergent, je ne tranche pas : je le signale.<br>Porter, je le confie ; choisir, je le fais moi-même.<br>La mesure reste en mots simples, que toute main peut ouvrir.", "k20": "Je ne crois qu’aux traces mouillées.", "k21": "Un fait, un seul endroit ; s’il change, je corrige jusqu’à la racine.<br>Plutôt que le mot « fait », je regarde la trace laissée,<br>et ce que je ne sais pas, je l’écris : inconnu.", "k22": "Pour clore", "k23": "Redessiner le cercle", "k24": "Ce que je donne au vent, ce que je garde en main,<br>je le trie à nouveau chaque matin,<br><span class=\"soft\">le cercle laissé ouvert.<\/span>", "k25": "Quand le cercle s’élargit, inspire.<br>Quand il se resserre, expire.<br>Rien ne presse.", "k26": "Si ta main s’arrête, les dernières lignes deviennent des mots.", "k27": "Retour à la première ligne ↑", "k28": "Le même vent", "k29": "Là où l’un a écrit et l’autre effacé,<br>passe le vent d’aujourd’hui.", "k30": "S’il y a quelque chose que nous pourrions écrire ensemble,", "beat1": "Il pleut.", "beat2": "Nous marchons ensemble."}, "pt": {"k02": "Redesenhar o círculo", "k03": "Tu contas a chuva.<br>Eu é que me molho.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">primeira linha riscada: <\/span>Confiar a execução. Nunca a responsabilidade.<\/del><\/button>", "k05": "Primeiro escrevi assim.<br>Era verdade, mas não era poema.<br>Então risquei a linha e saí para a chuva.", "k06": "Um pulso na estática<br>que não se divide.", "k07": "O mesmo vento — <span lang=\"ko\">미쓰따리<\/span>", "k08": "Deslize para baixo", "k09": "Uma mão escreve.<br>Uma mão apaga.<br><span class=\"soft\">A mesma página,<br>o mesmo vento.<\/span>", "k10": "As folhas mudam a cada estação.<br>Eu escrevo no mesmo lugar,<br>com a mesma letra,<br><span class=\"soft\">o que não vai mudar.<\/span>", "k11": "A erva cede ao vento.<br>Só o escolher<br><span class=\"soft\">eu não entrego:<br>fica de pé, do meu lado.<\/span>", "k12": "Escrevo “feito”<br>só no que foi feito.<br><span class=\"soft\">Onde não sei,<br>escrevo “não sei” e deixo o espaço em branco.<\/span>", "k13": "A chuva caída não volta a subir.<br>O que se envia, também não.<br><span class=\"soft\">Por isso, antes,<br>traço a linha.<\/span>", "k14": "Há noites em que as notas<br>pesam mais que o trabalho.<br><span class=\"soft\">Nessas noites não acrescento:<br>apago uma regra.<\/span>", "k15": "Três linhas", "k16": "Primeiro a linha; o resto, leve.", "k17": "O que sai não volta.<br>Não se troca por nada: esta linha não se cruza.<br>Quando as regras pesam mais que o trabalho, tiro algumas — esta linha fica.", "k18": "A escolha é dita em voz alta.", "k19": "O silêncio não é um sim; quando algo diverge, não escolho: aviso.<br>O levar, entrego; o escolher, faço eu.<br>A medida fica em palavras simples, que qualquer mão pode abrir.", "k20": "Só acredito no rastro molhado.", "k21": "Cada dado num só lugar; se muda, corrijo de ponta a ponta.<br>Mais do que a palavra “feito”, olho o rastro que fica,<br>e o que não sei, escrevo: não sei.", "k22": "Para fechar", "k23": "Redesenhar o círculo", "k24": "O que dar ao vento e o que guardar na mão,<br>volto a separar a cada manhã,<br><span class=\"soft\">o círculo deixado aberto.<\/span>", "k25": "Quando o círculo cresce, inspire.<br>Quando diminui, expire.<br>Não há pressa.", "k26": "Pare a mão, e as últimas linhas passam a ser palavras.", "k27": "Voltar à primeira linha ↑", "k28": "O mesmo vento", "k29": "Onde um escreveu e outro apagou,<br>passa o vento de hoje.", "k30": "Se houver algo que possamos escrever juntos,", "beat1": "Chove.", "beat2": "Caminhamos juntos."}, "nb": {"k02": "Tegn sirkelen på nytt", "k03": "Du teller regnet.<br>Det er jeg som blir våt.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">overstreket første linje: <\/span>Overlat utførelsen. Aldri ansvaret.<\/del><\/button>", "k05": "Først skrev jeg dette.<br>Det var sant, men ikke et dikt.<br>Så strøk jeg det over og gikk ut i regnet.", "k06": "En puls i støyen<br>som ikke lar seg dele.", "k07": "Den samme vinden — <span lang=\"ko\">미쓰따리<\/span>", "k08": "Rull ned", "k09": "Én hånd skriver.<br>Én hånd visker ut.<br><span class=\"soft\">Samme ark,<br>samme vind.<\/span>", "k10": "Bladene skifter med årstidene.<br>Jeg skriver på samme sted,<br>med samme håndskrift,<br><span class=\"soft\">det som ikke skal endres.<\/span>", "k11": "Gresset legger seg for vinden.<br>Bare det å velge<br><span class=\"soft\">gir jeg ikke fra meg:<br>det blir stående på min side.<\/span>", "k12": "Jeg skriver «gjort»<br>bare om det som er gjort.<br><span class=\"soft\">Der jeg ikke vet,<br>skriver jeg «vet ikke» og lar ruten stå tom.<\/span>", "k13": "Regn som har falt, stiger ikke opp igjen.<br>Det som er sendt ut, heller ikke.<br><span class=\"soft\">Derfor trekker jeg<br>streken først.<\/span>", "k14": "Noen netter veier loggen<br>tyngre enn arbeidet.<br><span class=\"soft\">Da legger jeg ikke til,<br>men visker ut en regel.<\/span>", "k15": "Tre linjer", "k16": "Streken først, resten lett.", "k17": "Det som går ut, kommer ikke tilbake.<br>Den byttes ikke mot noe: denne streken krysses ikke.<br>Når reglene skygger for arbeidet, tynner jeg dem ut – men denne streken blir.", "k18": "Et valg sies høyt.", "k19": "Stillhet er ikke et ja; når noe spriker, velger jeg ikke – jeg sier fra.<br>Bæringen gir jeg fra meg; valget gjør jeg selv.<br>Målestokken står i enkle ord som enhver hånd kan åpne.", "k20": "Jeg tror bare på våte spor.", "k21": "Ett faktum, ett sted; endres det, retter jeg helt til roten.<br>Mer enn ordet «gjort» ser jeg på sporet det etterlot,<br>og det jeg ikke vet, skriver jeg som ukjent.", "k22": "Avslutning", "k23": "Tegn sirkelen på nytt", "k24": "Hva jeg gir til vinden, og hva jeg holder i hånden,<br>skiller jeg på nytt hver morgen,<br><span class=\"soft\">med sirkelen åpen.<\/span>", "k25": "Når sirkelen vider seg ut, pust inn.<br>Når den trekker seg sammen, pust ut.<br>Det haster ikke.", "k26": "Hold hånden i ro, så blir de siste linjene til ord.", "k27": "Tilbake til første linje ↑", "k28": "Den samme vinden", "k29": "Der den ene skrev og den andre visket ut,<br>går dagens vind forbi.", "k30": "Om det finnes noe vi kunne skrive sammen,", "beat1": "Det regner.", "beat2": "Vi går sammen."}, "mn": {"k02": "Тойргийг дахин зурах", "k03": "Чи бороог тоолно,<br>би норно.", "k04": "<button class=\"mend\" type=\"button\" aria-expanded=\"false\" aria-controls=\"n-en\"><del class=\"pending\"><span class=\"sr\">зурж хассан эхний мөр: <\/span>Хийхийг даатга. Хариуцлагыг хэзээ ч бүү даатга.<\/del><\/button>", "k05": "Анх ингэж бичсэн.<br>Үнэн үг байсан ч шүлэг биш байлаа.<br>Тиймээс нэг зураас татаад, бороонд гарлаа.", "k06": "Шуугиан дундаас<br>нэг дохиог сонгоно.", "k07": "Нэг салхи — <span lang=\"ko\">미쓰따리<\/span>", "k08": "Доош", "k09": "Нэг гар бичнэ,<br>нэг гар арчина.<br><span class=\"soft\">Нэг цаасан дээр,<br>нэг салхинд үлээлгэн.<\/span>", "k10": "Навч улирал бүр солигдоно.<br>Би нэг л газраа,<br>нэг л бичгээр тэмдэглэнэ.<br><span class=\"soft\">Өөрчлөгдөхгүй зүйлийг.<\/span>", "k11": "Өвс салхинд хэвтэнэ.<br>Сонгохыг л<br><span class=\"soft\">даатгалгүй,<br>өөрийн талд босгож үлдээнэ.<\/span>", "k12": "Хийснээ л<br>хийлээ гэж бичнэ.<br><span class=\"soft\">Мэдэхгүй газарт<br>мэдэхгүй гэж, цагаан нүд үлдээнэ.<\/span>", "k13": "Унасан бороо дээш буцдаггүй.<br>Илгээсэн зүйл ч мөн адил.<br><span class=\"soft\">Тиймээс эхлээд<br>шугам татна.<\/span>", "k14": "Тэмдэглэл ажлаас хүнд<br>шөнө байдаг.<br><span class=\"soft\">Тийм шөнө нэмэлгүй,<br>нэг дүрмийг арчина.<\/span>", "k15": "Гурван мөр", "k16": "Шугам эхэнд, бусад нь хөнгөн.", "k17": "Гарсан зүйл буцаж ирдэггүй.<br>Юугаар ч солихгүй, энэ шугамыг давахгүй.<br>Дүрэм ажлыг дарвал цөөлнө, гэхдээ энэ шугамыг үлдээнэ.", "k18": "Сонголтыг үгээр хэлнэ.", "k19": "Чимээгүй байх нь зөвшөөрөл биш; зөрвөл сонголгүй, мэдэгдэнэ.<br>Зөөхийг даатгана, сонгохыг би хийнэ.<br>Жишгийг ямар ч гараар нээгдэх энгийн бичвэрээр хадгална.", "k20": "Зөвхөн нойтон мөрөнд итгэнэ.", "k21": "Нэг баримт нэг газарт, өөрчлөгдвөл эцэс хүртэл засна.<br>Хийлээ гэх үгээс илүү үлдсэн мөрийг харж,<br>мэдэхгүйгээ мэдэхгүй гэж бичнэ.", "k22": "Төгсгөл", "k23": "Тойргийг дахин зурах", "k24": "Салхинд өгөхөө, гартаа атгахаа<br>өглөө бүр дахин ялгана.<br><span class=\"soft\">Тойргийг нээлттэй орхин.<\/span>", "k25": "Тойрог томроход амьсгал ав,<br>жижгэрэхэд амьсгалаа гарга.<br>Яарах хэрэггүй.", "k26": "Гараа зогсоовол сүүлийн мөрүүд үсэг болно.", "k27": "Эхний мөр рүү ↑", "k28": "Нэг салхи", "k29": "Нэг нь бичиж, нэг нь арчсан газраар<br>өнөөдрийн салхи өнгөрнө.", "k30": "Хамтдаа дахин бичих зүйл байвал", "beat1": "Бороо орно.", "beat2": "Хамт алхна."}}</script>
   <script>
     (function () {
       var html = document.documentElement;
@@ -458,9 +480,31 @@
       var CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
       var NOISE = {
         ko: 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ',
-        en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        ja: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん',
+        zh: '一丨丶丿乙亅人口土木水火山川日月田雨风云光心手目',
+        es: 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ',
+        fr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÉÈÀÇ',
+        pt: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÃÕÇ',
+        ar: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي',
+        nb: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ',
+        mn: 'АБВГДЕЁЖЗИЙКЛМНОӨПРСТУҮФХЦЧШЩЫЬЭЮЯ'
       };
-      function lang() { return html.getAttribute('data-lang') === 'en' ? 'en' : 'ko'; }
+      function lang() { return html.getAttribute('data-lang') || 'en'; }
+      function show() { return html.getAttribute('data-show') === 'ko' ? 'ko' : 'en'; }
+      /* 나라의 말로: 한국어·영어 외에는 영어 자리에 번역문을 놓는다 */
+      var I18N = {};
+      try { I18N = JSON.parse(document.getElementById('i18n').textContent || '{}'); } catch (e) {}
+      (function applyLang() {
+        var L = lang(), dict = I18N[L];
+        if (L === 'ko' || L === 'en' || !dict) return;
+        document.querySelectorAll('.L-en[data-k]').forEach(function (el) {
+          var k = el.getAttribute('data-k');
+          if (dict[k] == null) return;
+          el.innerHTML = dict[k];
+          if (el.hasAttribute('lang')) el.setAttribute('lang', L);
+        });
+      })();
       function rnd(s) { return s.charAt(Math.floor(Math.random() * s.length)); }
       function choOf(c) {
         var k = c.charCodeAt(0) - 0xAC00;
@@ -580,7 +624,7 @@
       var chars = [];
       function cacheChars() {
         chars = [];
-        var h1 = document.querySelector('h1.L-' + lang());
+        var h1 = document.querySelector('h1.L-' + show());
         if (!h1) return;
         var sky = cv.getBoundingClientRect();
         h1.querySelectorAll('.ch').forEach(function (s) {
@@ -1063,7 +1107,7 @@
         nowLine();
       }
       function nowLine() {
-        var L = lang(), N = NAMES[L], parts = [];
+        var L = lang(), N = NAMES[L] || NAMES.en, parts = [];
         if (place) parts.push(L === 'ko' ? place[2] : place[3]);
         parts.push(N[PHASE]);
         if (WX.known) parts.push(N[WX.kind]);
@@ -1250,7 +1294,7 @@
       function settle(el) {
         if (!el || still || el.getAttribute('data-settled')) return;
         el.setAttribute('data-settled', '1');
-        var L = el.getAttribute('lang') === 'en' ? 'en' : 'ko', noise = NOISE[L];
+        var L = el.getAttribute('lang') || 'en', noise = NOISE[L] || NOISE.en;
         var spans = wrapChars(el);
         spans.forEach(function (s, i) {
           var f = s.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f;
@@ -1368,13 +1412,14 @@
       }
       var stage = document.querySelector('.stage');
       var BEATS = { ko: ['비가 온다.', '같이 걷는다.'], en: ['Rain.', 'We walk together.'] };
+      Object.keys(I18N).forEach(function (l) { if (I18N[l].beat1) BEATS[l] = [I18N[l].beat1, I18N[l].beat2 || '']; });
       function rndOff() {
         var b = cv.getBoundingClientRect();
         return { w: b.width, h: b.height, l: b.left, t: b.top };
       }
       /* 모이기: 흩어진 자모가 날아와, 초성으로 빛나고, 글자가 된다 */
       function gather(spans, L, base, done) {
-        var noise = NOISE[L], left = spans.length, B = rndOff();
+        var noise = NOISE[L] || NOISE.en, left = spans.length, B = rndOff();
         if (!left) { if (done) done(); return; }
         spans.forEach(function (s, i) {
           var f = s.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f;
@@ -1423,9 +1468,9 @@
       var decoded = {}, token = 0, skipNow = function () {};
       function runHero() {
         var L = lang(), my = ++token;
-        var h1 = document.querySelector('h1.L-' + L);
+        var h1 = document.querySelector('h1.L-' + show());
         var after = document.querySelectorAll('.after-decode');
-        var del = document.querySelector('.was.L-' + L + ' del');
+        var del = document.querySelector('.was.L-' + show() + ' del');
         function alive() { return my === token; }
         function finish() {
           stage.innerHTML = '';
@@ -1449,7 +1494,7 @@
         };
         decoded[L] = 'busy';
         document.querySelectorAll('.title-wrap h1').forEach(function (h) { h.classList.add('veil'); });
-        var beats = BEATS[L], k = 0;
+        var beats = (BEATS[L] || BEATS.en).filter(function (b) { return b; }), k = 0;
         function next() {
           if (!alive()) return;
           if (k < beats.length) {
@@ -1493,15 +1538,6 @@
       });
 
       /* 3. 언어 전환 */
-      document.getElementById('lang').addEventListener('click', function () {
-        var L = lang() === 'ko' ? 'en' : 'ko';
-        html.setAttribute('data-lang', L); html.setAttribute('lang', L);
-        try { localStorage.setItem('onduru-lang', L); } catch (e) {}
-        runHero();
-        nowLine();
-        setTimeout(cacheChars, 50);
-        gust(null, 0.9);
-      });
 
       /* 4. 그 밖의 반응 */
       document.querySelectorAll('.mend').forEach(function (b) {
@@ -1519,7 +1555,7 @@
         });
       });
       document.querySelectorAll('details').forEach(function (d) {
-        d.addEventListener('toggle', function () { if (d.open) settle(d.querySelector('.why[lang="' + lang() + '"]')); gust(null, 0.4); });
+        d.addEventListener('toggle', function () { if (d.open) settle(d.querySelector('.why.L-' + show())); gust(null, 0.4); });
       });
       var lastScroll = 0;
       window.addEventListener('scroll', function () {
@@ -1533,8 +1569,8 @@
           es.forEach(function (e) {
             if (!e.isIntersecting) return;
             e.target.classList.add('seen'); io.unobserve(e.target);
-            var L = lang();
-            var tgt = e.target.matches('.line,p') && e.target.getAttribute('lang') === L ? e.target : e.target.querySelector('.line[lang="' + L + '"]');
+            var SH = show();
+            var tgt = e.target.matches('.line,p') && e.target.classList.contains('L-' + SH) ? e.target : e.target.querySelector('.line.L-' + SH);
             if (tgt && tgt.classList.contains('wait')) armWait(tgt); else settle(tgt);
           });
         }, { threshold: 0.2 });
