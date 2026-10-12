@@ -116,7 +116,8 @@
       align-items: center;
       padding: 96px max(var(--gutter), env(safe-area-inset-right)) max(110px, 18vh) max(var(--gutter), env(safe-area-inset-left));
     }
-    .sky ::selection { background: var(--signal); color: var(--sky); }
+    .sky { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: pan-y; }
+    .sky ::selection { background: transparent; }
     .sky :focus-visible { outline-color: var(--signal); }
     #field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .sky-inner { position: relative; z-index: 1; width: 100%; max-width: 1080px; margin: 0 auto; }
@@ -142,10 +143,10 @@
     html[data-lang="en"] h1, html[data-lang="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .w { display: inline-block; white-space: nowrap; }
     .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
-    .ch.noise { color: var(--sky-muted); }
-    .ch.cho { color: var(--signal); text-shadow: 0 0 18px var(--signal); }
-    .ch.lock { animation: lock .7s ease-out; }
-    @keyframes lock { from { text-shadow: 0 0 22px rgba(143, 212, 193, .7); } to { text-shadow: none; } }
+    .ch.noise { opacity: .28; }
+    .ch.cho { opacity: .62; }
+    .ch.lock { animation: lock .9s ease-out; }
+    @keyframes lock { from { opacity: .62; } to { opacity: 1; } }
 
     .sky del {
       color: var(--sky-muted);
@@ -158,8 +159,8 @@
     .sky ins { text-decoration: none; color: inherit; }
     .js .sky ins.pending { visibility: hidden; }
     .mend { display: inline; cursor: pointer; border-radius: 6px; padding: 0 .05em; transition: background-color .3s; }
-    .mend[aria-expanded="true"] { background: rgba(143, 212, 193, .1); }
-    @media (hover: hover) { .mend:hover { background: rgba(143, 212, 193, .1); } }
+    .mend[aria-expanded="true"] del { opacity: 1; }
+    @media (hover: hover) { .mend:hover del { opacity: 1; } }
 .was { margin-top: 26px; font-family: "Gowun Batang", serif; font-size: clamp(14px, 1.8vw, 17px); color: var(--sky-muted); }
     .was .mend { text-align: left; line-height: 1.7; }
     .margin-note {
@@ -188,7 +189,7 @@
     .now { margin-top: 10px; font-size: 12px; color: var(--sky-muted); letter-spacing: .04em; min-height: 1.6em; }
     .who { margin-top: 20px; font-size: 13px; color: var(--sky-muted); letter-spacing: .02em; }
     .who a { color: var(--sky-muted); text-decoration: none; border-bottom: 1px solid rgba(141, 149, 162, .6); transition: color .3s, border-color .3s; }
-    .who a:hover, .who a:focus-visible { color: var(--signal); border-color: var(--signal); }
+    .who a:hover, .who a:focus-visible { border-color: currentColor; }
     .down {
       position: absolute; z-index: 1;
       left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
@@ -217,8 +218,8 @@
     body { transition: background-color 2s ease, color 2s ease; }
     #air { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
     main, footer { position: relative; z-index: 1; }
-    main .ch.noise { color: var(--muted); }
-    main .ch.cho { color: var(--accent); text-shadow: none; }
+    main .ch.noise { opacity: .28; }
+    main .ch.cho { opacity: .62; }
     .sway { display: inline-block; will-change: transform; }
     main { padding: 0 max(var(--gutter), env(safe-area-inset-right)) 0 max(var(--gutter), env(safe-area-inset-left)); }
     .wrap { max-width: var(--measure); margin: 0 auto; }
@@ -267,9 +268,9 @@
     }
     @media (hover: hover) {
       summary:hover { background: var(--wash); box-shadow: inset 3px 0 var(--accent); }
-      summary:hover b { color: var(--accent); }
+      summary:hover b { opacity: 1; }
     }
-    details[open] summary b { color: var(--accent); }
+    details[open] summary b { color: var(--fg); }
     details[open] summary i { transform: rotate(225deg) translateY(-2px); border-color: var(--accent); }
     .why { padding: 2px 0 20px 56px; font-family: "Gowun Batang", serif; font-size: clamp(15px, 2.2vw, 17px); line-height: 2; color: var(--muted); }
     details[open] .why { animation: open .6s ease; }
@@ -286,9 +287,9 @@
       background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / 100% 1px;
       transition: background-size .5s ease, color .3s;
     }
-    a.mail:hover, a.mail:focus-visible { background-size: 100% 2px; color: var(--accent); }
+    a.mail:hover, a.mail:focus-visible { background-size: 100% 2px; }
     .totop { display: inline-grid; place-items: center; margin-top: 40px; min-height: 44px; font-size: 13px; color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; }
-    .totop:hover, .totop:focus-visible { color: var(--accent); }
+    .totop:hover, .totop:focus-visible { color: var(--fg); }
 
     footer {
       max-width: calc(var(--measure) + 2 * var(--gutter));
@@ -302,7 +303,7 @@
     .colophon .statement { font-family: "Gowun Batang", serif; font-size: 15px; color: var(--fg); }
     .colophon .small { font-size: 11.5px; }
     .colophon a.mail { font-size: 14px; }
-    .wait .ch.cho { color: var(--accent); }
+    .wait .ch.cho { opacity: .45; }
     .waitnote { transition: opacity 1s; }
     .waitnote.done { opacity: 0; }
     footer button { color: var(--muted); text-align: left; line-height: 1.6; padding: 11px 0; }
@@ -367,7 +368,6 @@
 
       <p class="signal-line after-decode"><span class="L-ko" lang="ko">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en">A pulse in the static<br>that will not divide.</span></p>
       <p class="who after-decode"><span class="L-ko" lang="ko">같은 바람 — 미쓰따리</span><span class="L-en" lang="en">The Same Wind — <span lang="ko">미쓰따리</span></span> · <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
-      <p class="now after-decode" id="now" aria-live="polite"></p>
     </div>
     <a class="down" href="#begin"><span class="sr L-ko">아래로</span><span class="sr L-en">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
@@ -467,7 +467,7 @@
       <p><span class="L-ko" lang="ko">이 페이지는 사람의 결정과 AI의 실행으로 쓰였습니다.<br>남길 말은 제가 골랐습니다. — <span lang="ko">미쓰따리</span></span><span class="L-en" lang="en">Written by a person’s decisions and an AI’s hands.<br>Which words stayed, I chose. — <span lang="ko">미쓰따리</span></span></p>
       <p><span class="L-ko" lang="ko">청하고, 살피고, 정하는 손은 당신의 것.<br>하고, 적는 손은 작업실의 것.<br>끝났다는 말 곁에는 늘 결과를 둔다.</span><span class="L-en" lang="en">You bring the question, the material, the yes or no.<br>The studio carries the rest — the doing, the record.<br>Every “done” arrives with its trace.</span></p>
       <p><span class="L-ko" lang="ko">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en">If there is something we might write together,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
-      <p class="small"><span class="L-ko" lang="ko">하늘은 당신 시간대의 해와 날씨를 대략 따라갑니다(Open-Meteo). 위치는 묻지 않습니다.<br>하늘에 그은 손짓은 바람에 흩어지고, 어디에도 저장되지 않습니다.</span><span class="L-en" lang="en">The sky roughly follows the sun and weather of your time zone (Open-Meteo). Your location is never asked.<br>What your hand draws in the sky blows away. It is not stored anywhere.</span></p>
+      <p class="small"><span class="L-ko" lang="ko">하늘은 당신 시간대의 해와 날씨를 대략 따라갑니다(Open-Meteo). 위치는 묻지 않습니다.<br>손끝이 지나간 자리는 바람이 되고, 어디에도 저장되지 않습니다.</span><span class="L-en" lang="en">The sky roughly follows the sun and weather of your time zone (Open-Meteo). Your location is never asked.<br>Where your hand passes becomes wind. Nothing is stored.</span></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
@@ -545,7 +545,8 @@
           var y0 = H * (k ? 0.36 : 0.2), amp = H * 0.035;
           cx.beginPath();
           for (var x = -20; x <= W + 20; x += 14) {
-            var y = y0 + amp * Math.sin(x * (0.0028 + k * 0.0011) + T * (0.00028 + k * 0.0001) + k * 2.4) + wind(x) * 10;
+            var y0p = y0 + amp * Math.sin(x * (0.0028 + k * 0.0011) + T * (0.00028 + k * 0.0001) + k * 2.4);
+            var y = y0p + wind(x) * 10 + push(x, y0p, 120).y * 18;
             if (x === -20) cx.moveTo(x, y); else cx.lineTo(x, y);
           }
           cx.strokeStyle = 'rgba(' + LINE + ',' + (k ? 0.10 : 0.14) + ')';
@@ -560,7 +561,7 @@
         cx.strokeStyle = 'rgba(' + LINE + ',0.16)'; cx.lineWidth = 1; cx.stroke();
         cx.beginPath();
         for (var x = -10; x <= W + 10; x += 10) {
-          var y = H * 0.93 + 6 * Math.sin(x * 0.009 + T * 0.0007) + wind(x) * 4;
+          var y = H * 0.93 + 6 * Math.sin(x * 0.009 + T * 0.0007) + wind(x) * 4 + push(x, H * 0.93, 130).y * 14;
           if (x === -10) cx.moveTo(x, y); else cx.lineTo(x, y);
         }
         cx.strokeStyle = 'rgba(' + LINE + ',0.22)'; cx.lineWidth = 1.3; cx.stroke();
@@ -569,6 +570,9 @@
         cx.lineCap = 'round';
         for (var i = 0; i < blades.length; i++) {
           var b = blades[i], w = wind(b.x) + 0.15 * Math.sin(T * 0.0013 + b.s);
+          var pu = push(b.x, H - b.h * 0.6, 160);
+          b.bend = (b.bend || 0) * 0.9 + pu.x * 0.1 * 8;
+          w += Math.max(-1.6, Math.min(1.6, b.bend));
           var tipX = b.x + w * b.h * 0.3, tipY = H - b.h + Math.abs(w) * b.h * 0.1;
           cx.beginPath();
           cx.moveTo(b.x, H + 2);
@@ -581,7 +585,7 @@
       function drawLeaves() {
         for (var i = 0; i < leaves.length; i++) {
           var l = leaves[i], w = wind(l.x);
-          if (!still) { l.x += (l.v + w * 0.5) * dt; l.y += (Math.sin(T * 0.0009 + i) * 0.22 + 0.04) * dt; l.r += (0.003 + w * 0.008) * dt; }
+          if (!still) { var pl = push(l.x, l.y, 140); l.x += (l.v + w * 0.5 + pl.x * 5) * dt; l.y += (Math.sin(T * 0.0009 + i) * 0.22 + 0.04 + pl.y * 5) * dt; l.r += (0.003 + w * 0.008 + pl.x * 0.03) * dt; }
           if (l.x > W + 40 || l.y > H * 0.8) leaves[i] = l = newLeaf(false);
           cx.save();
           cx.translate(l.x, l.y); cx.rotate(l.r);
@@ -604,7 +608,7 @@
         var sky = cv.getBoundingClientRect();
         h1.querySelectorAll('.ch').forEach(function (s) {
           var r = s.getBoundingClientRect();
-          chars.push({ el: s, x: r.left + r.width / 2 - sky.left });
+          chars.push({ el: s, x: r.left + r.width / 2 - sky.left, y: r.top + r.height / 2 - sky.top });
         });
       }
       function echoChars() {
@@ -612,9 +616,10 @@
           var c = chars[i];
           if (c.el.classList.contains('fly') || c.el.classList.contains('noise') || c.el.classList.contains('cho')) continue;
           var w = wind(c.x), g = Math.min(1, gustAt(c.x));
-          c.el.style.transform = 'translate(' + (w * 1.2).toFixed(2) + 'px,' + (Math.abs(w) * -0.8).toFixed(2) + 'px) rotate(' + (w * 0.5).toFixed(2) + 'deg)';
-          c.el.style.textShadow = g > 0.04
-            ? (g * 14).toFixed(1) + 'px 0 0 rgba(143,212,193,' + (g * 0.22).toFixed(3) + '),' + (g * 28).toFixed(1) + 'px 0 0 rgba(143,212,193,' + (g * 0.08).toFixed(3) + ')'
+          var pu = push(c.x, c.y, 120);
+          c.el.style.transform = 'translate(' + (w * 1.2 + pu.x * 9).toFixed(2) + 'px,' + (Math.abs(w) * -0.8 + pu.y * 9).toFixed(2) + 'px) rotate(' + (w * 0.5 + pu.x * 3).toFixed(2) + 'deg)';
+          c.el.style.textShadow = g > 0.05
+            ? (g * 10).toFixed(1) + 'px 0 0 rgba(' + LINE + ',' + (g * 0.12).toFixed(3) + ')'
             : '';
         }
       }
@@ -642,9 +647,10 @@
         if (ts) { dt = lastTs ? Math.min(2.5, (ts - lastTs) / 16.7) : 1; lastTs = ts; T = ts; }
         if (cx) {
           cx.clearRect(0, 0, W, H);
-          drawFlash(); drawSun(); drawClouds(); drawWind(); drawWaves(); drawGrass(); drawLeaves(); drawWeather(); drawStrokes();
+          drawFlash(); drawSun(); drawClouds(); drawWind(); drawWaves(); drawGrass(); drawLeaves(); drawWeather();
         }
         echoChars();
+        easePT();
         if (ax && AW) ax.clearRect(0, 0, AW, AH);
         rules.forEach(function (r) { if (r.on) r.p.setAttribute('d', ruleD(r.k)); });
         gusts = gusts.filter(function (g) { return T - g.t < 9000; });
@@ -729,7 +735,7 @@
         parts.push(N[PHASE]);
         if (WX.known) parts.push(N[WX.kind]);
         var t = (L === 'ko' ? '지금, ' : 'Now, ') + parts.join(' · ');
-        document.getElementById('now').textContent = t;
+        var nowEl = document.getElementById('now'); if (nowEl) nowEl.textContent = t;
       }
       function kindOf(code) {
         if (code == null) return 'clear';
@@ -743,8 +749,9 @@
       function setWeather(kind, amt, cloud, wind, known) {
         WX = { kind: kind, amt: amt || 0, cloud: cloud || 0, wind: wind, known: known };
         drops = []; flakes = [];
-        var n = kind === 'rain' || kind === 'storm' ? Math.round(Math.min(170, 50 + (amt || 0.5) * 45) * (W < 600 ? 0.5 : 1)) : 0;
-        for (var i = 0; i < n; i++) drops.push({ x: Math.random() * W, y: Math.random() * H, v: 9 + Math.random() * 6, l: 12 + Math.random() * 12, a: 0.12 + Math.random() * 0.18 });
+        var a0 = Math.max(0.3, amt || 0.5);
+        var n = kind === 'rain' || kind === 'storm' ? Math.round(Math.min(520, 35 + a0 * 60) * (W < 600 ? 0.55 : 1)) : 0;
+        for (var i = 0; i < n; i++) drops.push({ x: Math.random() * W, y: Math.random() * H, v: Math.min(22, 8 + a0 * 0.9 + Math.random() * 6), l: Math.min(46, 10 + a0 * 2.4 + Math.random() * 12), a: Math.min(0.42, 0.1 + a0 * 0.02 + Math.random() * 0.16) });
         var f = kind === 'snow' ? (W < 600 ? 40 : 80) : 0;
         for (var j = 0; j < f; j++) flakes.push({ x: Math.random() * W, y: Math.random() * H, v: 0.5 + Math.random() * 0.8, s: Math.random() * 6.28, a: 0.25 + Math.random() * 0.3 });
         applySky();
@@ -752,7 +759,7 @@
       function fetchWeather() {
         if (Q.weather) {
           var k = { clear: 'clear', cloud: 'cloud', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' }[Q.weather] || 'clear';
-          setWeather(k, k === 'rain' || k === 'storm' ? 2 : 0, k === 'cloud' ? 80 : 30, Q.wind ? +Q.wind : 14, true);
+          setWeather(k, k === 'rain' || k === 'storm' ? (Q.rain ? +Q.rain : 2) : 0, k === 'cloud' ? 80 : 30, Q.wind ? +Q.wind : 14, true);
           return;
         }
         if (!place || !window.fetch) { applySky(); return; }
@@ -817,7 +824,7 @@
           cx.lineCap = 'round';
           for (var i = 0; i < drops.length; i++) {
             var d = drops[i];
-            if (!still) { d.y += d.v * dt; d.x += d.v * ang * dt; }
+            if (!still) { var pd = push(d.x, d.y, 110); d.y += d.v * dt; d.x += (d.v * ang + pd.x * 6) * dt; }
             if (d.y > H * 0.9) {
               if (!still && Math.random() < 0.3) ripples.push({ x: d.x, y: H * (0.9 + Math.random() * 0.08), r: 1, a: 0.35 });
               d.y = -20 - Math.random() * 80; d.x = Math.random() * (W + 200) - 100;
@@ -951,43 +958,27 @@
         window.addEventListener(ev, function () { lastMove = Date.now(); }, { passive: true });
       });
 
-      /* 하늘에 손끝으로 긋는 선: 바람에 흩어지고, 어디에도 남지 않는다 */
-      var strokes = [], drawing = null;
-      function drawStrokes() {
-        for (var i = strokes.length - 1; i >= 0; i--) {
-          var st = strokes[i], age = T - st.t, a = Math.max(0, 0.7 - age / 5200);
-          if (a <= 0 && st !== drawing) { strokes.splice(i, 1); continue; }
-          cx.beginPath();
-          for (var j = 0; j < st.p.length; j++) {
-            var pt = st.p[j];
-            if (!still) { pt.x += (wind(pt.x) * 0.9 + 0.15) * dt * Math.min(1, age / 1500); pt.y += Math.sin(T * 0.002 + j) * 0.12 * dt; }
-            if (j === 0) cx.moveTo(pt.x, pt.y); else cx.lineTo(pt.x, pt.y);
-          }
-          cx.strokeStyle = 'rgba(' + SIG + ',' + a.toFixed(3) + ')';
-          cx.lineWidth = 1.4; cx.lineCap = 'round'; cx.lineJoin = 'round';
-          cx.stroke();
-        }
+      /* 손끝이 지나간 자리: 그 자리의 풀·비·잎·물결·글자가 함께 비켜선다 */
+      var PT = { x: -9999, y: -9999, vx: 0, vy: 0 };
+      function push(x, y, rad) {
+        var dx = x - PT.x, dy = y - PT.y, r = rad || 150;
+        var f = Math.exp(-(dx * dx + dy * dy) / (r * r));
+        if (f < 0.003) return { x: 0, y: 0 };
+        var sp = Math.min(3, Math.sqrt(PT.vx * PT.vx + PT.vy * PT.vy) / 6);
+        var d = Math.sqrt(dx * dx + dy * dy) || 1;
+        return { x: f * (PT.vx / 12 + dx / d * sp * 0.35), y: f * (PT.vy / 12 + dy / d * sp * 0.35) };
       }
       (function () {
-        var sky = document.querySelector('.sky');
-        sky.addEventListener('pointerdown', function (e) {
-          if (e.target.closest('button,a')) return;
-          var b = cv.getBoundingClientRect();
-          drawing = { t: T, p: [{ x: e.clientX - b.left, y: e.clientY - b.top }] };
-          strokes.push(drawing);
-          if (strokes.length > 12) strokes.shift();
-        });
+        var sky = document.querySelector('.sky'), lx = 0, ly = 0, lt = 0;
         sky.addEventListener('pointermove', function (e) {
-          if (!drawing) return;
-          var b = cv.getBoundingClientRect(), pts = drawing.p, last = pts[pts.length - 1];
-          var x = e.clientX - b.left, y = e.clientY - b.top;
-          if (Math.abs(x - last.x) + Math.abs(y - last.y) > 4) { pts.push({ x: x, y: y }); drawing.t = T; }
-          if (pts.length > 240) pts.shift();
+          var b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top, now = performance.now();
+          var k = lt ? Math.min(1, 16 / Math.max(1, now - lt)) : 0;
+          PT.vx = PT.vx * 0.6 + (x - lx) * k * 0.4; PT.vy = PT.vy * 0.6 + (y - ly) * k * 0.4;
+          PT.x = x; PT.y = y; lx = x; ly = y; lt = now;
         });
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
-          sky.addEventListener(ev, function () { drawing = null; });
-        });
+        sky.addEventListener('pointerleave', function () { lt = 0; });
       })();
+      function easePT() { PT.vx *= 0.9; PT.vy *= 0.9; }
 
       function ring(a) { gust(null, a * 1.6); }
 
