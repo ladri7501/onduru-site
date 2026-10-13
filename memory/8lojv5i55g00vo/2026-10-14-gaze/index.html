@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ONDURU — 기억의 장소 · 시선 습작</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { --bg: #11151a; --ink: 232,234,236; }
+    html, body { margin: 0; background: var(--bg); }
+    body { height: 1100vh; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100vh; display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="c" aria-hidden="true"></canvas>
+  <script>
+    (function () {
+      /* 시선 습작.
+         신이 산을, 산이 계곡을, 계곡이 마을을, 마을이 사람을 바라본다.
+         사람이 다시 마을을, 마을이 계곡을, 계곡이 산을, 산이 하늘을 바라본다.
+         시선은 점선 하나. 내려가는 시선은 왼쪽, 올라오는 시선은 오른쪽.
+         끝에서 물러나면 그 시선이 열린 원이다.
+         검토용: ?p=0~1 (그 지점의 모습으로 고정) */
+      var cv = document.getElementById('c'), cx = cv.getContext('2d'), W, H, D, UW;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var fixedP = (location.search.match(/[?&]p=([0-9.]+)/) || [])[1];
+      function ink(a) { return 'rgba(232,234,236,' + a + ')'; }
+
+      /* 세계: 가로세로 모두 화면 높이 H의 5배. 시선은 세계 한가운데의 원 위를 돈다 */
+      var WH = 5, CY = 2.5, RX = 2.05 / 5, RY = 2.05;
+      function onLoop(deg) {           /* 각도(도) → 세계 좌표 (x는 W 비율, y는 H 단위) */
+        var r = deg * Math.PI / 180;
+        return { x: 0.5 + RX * Math.cos(r), y: CY - RY * Math.sin(r) };
+      }
+      /* 시선이 머무는 곳: 위(신) → 왼쪽으로 내려와 사람(아래) → 오른쪽으로 올라 하늘(위). 처음과 끝 사이는 열어 둔다 */
+      var ANG = [102, 140, 180, 220, 270, 320, 360, 400, 438];
+      var STOPS = ANG.map(onLoop);
+      var NAMES = ['신', '산', '계곡', '마을', '사람', '마을', '계곡', '산', '하늘'];
+
+      function size() {
+        D = Math.min(window.devicePixelRatio || 1, 2);
+        W = cv.clientWidth; H = cv.clientHeight; cv.width = W * D; cv.height = H * D; UW = WH * H;
+      }
+
+      /* 세계를 그린다 (세계 좌표: x 0~1 × W, y 0~5 × H) */
+      var stars = [], houses = [];
+      (function seed() {
+        var r = 7; function rnd() { r = (r * 16807) % 2147483647; return r / 2147483647; }
+        for (var i = 0; i < 40; i++) stars.push({ x: rnd(), y: 0.05 + rnd() * 0.75 });
+        for (var j = 0; j < 9; j++) houses.push({ x: 0.12 + j * 0.095 + rnd() * 0.02, w: 0.035 + rnd() * 0.015, h: 0.05 + rnd() * 0.03, lit: rnd() < 0.6 });
+      })();
+      function world(s) {
+        function X(x) { return x * UW; } function Y(y) { return y * H; }
+        cx.lineCap = 'round'; cx.lineJoin = 'round';
+        /* 하늘: 별 십자 */
+        cx.strokeStyle = ink(0.35); cx.lineWidth = 1 / s;
+        stars.forEach(function (t) { var x = X(t.x), y = Y(t.y), k = 3; cx.beginPath(); cx.moveTo(x - k, y); cx.lineTo(x + k, y); cx.moveTo(x, y - k); cx.lineTo(x, y + k); cx.stroke(); });
+        /* 산: 두 겹 능선 (곡선 두 줄) */
+        cx.strokeStyle = ink(0.55); cx.lineWidth = 1.4 / s;
+        cx.beginPath(); cx.moveTo(X(0), Y(1.45));
+        cx.quadraticCurveTo(X(0.1), Y(1.2), X(0.19), Y(0.98));      /* 왼쪽 봉우리 */
+        cx.quadraticCurveTo(X(0.32), Y(1.55), X(0.5), Y(1.35));
+        cx.quadraticCurveTo(X(0.68), Y(1.55), X(0.79), Y(0.98));    /* 오른쪽 봉우리 */
+        cx.quadraticCurveTo(X(0.9), Y(1.2), X(1), Y(1.45)); cx.stroke();
+        cx.strokeStyle = ink(0.25);
+        cx.beginPath(); cx.moveTo(X(0), Y(1.75)); cx.quadraticCurveTo(X(0.25), Y(1.45), X(0.5), Y(1.8)); cx.quadraticCurveTo(X(0.75), Y(1.45), X(1), Y(1.75)); cx.stroke();
+        /* 계곡: 양쪽 비탈이 모이고, 그 바닥을 물이 굽이친다 */
+        cx.strokeStyle = ink(0.45); cx.lineWidth = 1.2 / s;
+        cx.beginPath(); cx.moveTo(X(0.04), Y(1.9)); cx.quadraticCurveTo(X(0.2), Y(2.5), X(0.44), Y(3.0)); cx.stroke();
+        cx.beginPath(); cx.moveTo(X(0.96), Y(1.9)); cx.quadraticCurveTo(X(0.8), Y(2.5), X(0.56), Y(3.0)); cx.stroke();
+        cx.strokeStyle = ink(0.35);
+        cx.beginPath(); cx.moveTo(X(0.5), Y(1.95));
+        cx.bezierCurveTo(X(0.36), Y(2.25), X(0.64), Y(2.55), X(0.48), Y(2.85));
+        cx.bezierCurveTo(X(0.38), Y(3.05), X(0.6), Y(3.25), X(0.5), Y(3.45)); cx.stroke();
+        /* 마을: 지붕 두 선과 벽, 켜진 창은 가로선 */
+        var base = 3.95;
+        houses.forEach(function (h) {
+          var x0 = X(h.x), x1 = X(h.x + h.w), yb = Y(base), yw = Y(base - h.h), yr = Y(base - h.h - 0.035);
+          cx.strokeStyle = ink(0.5); cx.lineWidth = 1.1 / s;
+          cx.beginPath(); cx.moveTo(x0, yb); cx.lineTo(x0, yw); cx.lineTo((x0 + x1) / 2, yr); cx.lineTo(x1, yw); cx.lineTo(x1, yb); cx.stroke();
+          if (h.lit) { cx.strokeStyle = ink(0.85); cx.beginPath(); cx.moveTo((x0 + x1) / 2 - 3, Y(base - h.h * 0.5)); cx.lineTo((x0 + x1) / 2 + 3, Y(base - h.h * 0.5)); cx.stroke(); }
+        });
+        cx.strokeStyle = ink(0.4); cx.lineWidth = 1 / s;
+        cx.beginPath(); cx.moveTo(X(0.06), Y(base)); cx.lineTo(X(0.94), Y(base)); cx.stroke();
+        /* 사람: 마을 아래 길 위에 한 사람 */
+        var px = X(0.5), py = Y(4.55);
+        cx.strokeStyle = ink(0.8); cx.lineWidth = 1.3 / s;
+        cx.beginPath(); cx.arc(px, py - 26, 5, 0, Math.PI * 2); cx.stroke();
+        cx.beginPath(); cx.moveTo(px, py - 21); cx.lineTo(px, py - 6); cx.moveTo(px, py - 6); cx.lineTo(px - 4, py + 6); cx.moveTo(px, py - 6); cx.lineTo(px + 4, py + 6); cx.stroke();
+        cx.strokeStyle = ink(0.3);
+        cx.beginPath(); cx.moveTo(X(0.3), py + 7); cx.lineTo(X(0.7), py + 7); cx.stroke();
+      }
+
+      /* 시선: 점선. 진행 g(0~8)만큼, 정류장 사이를 원을 따라 휘며 그어진다 */
+      function arcLerp(i, t) { return onLoop(ANG[i] + (ANG[i + 1] - ANG[i]) * t); }
+      function gaze(g, s) {
+        cx.setLineDash([2 / s, 7 / s]); cx.lineWidth = 1.2 / s; cx.strokeStyle = ink(0.75);
+        cx.beginPath(); cx.moveTo(STOPS[0].x * UW, STOPS[0].y * H);
+        var steps = 30, total = Math.round(g * steps);
+        for (var k = 1; k <= total; k++) {
+          var i = Math.min(7, Math.floor(k / steps)), t = (k - i * steps) / steps, q = arcLerp(i, t);
+          cx.lineTo(q.x * UW, q.y * H);
+        }
+        cx.stroke(); cx.setLineDash([]);
+      }
+
+      function ease(x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+      function draw(p) {
+        cx.setTransform(D, 0, 0, D, 0, 0);
+        cx.clearRect(0, 0, W, H);
+        /* 0~0.86: 시선을 따라간다 / 0.86~1: 물러나 전체를 본다 */
+        var T = 0.86, g, focus, s;
+        if (p < T) {
+          g = (p / T) * 8;
+          var i = Math.min(7, Math.floor(g));
+          focus = arcLerp(i, ease(g - i));
+          s = 1;
+        } else {
+          g = 8;
+          var z = ease((p - T) / (1 - T)), end = STOPS[8];
+          focus = { x: end.x + (0.5 - end.x) * z, y: end.y + (CY - end.y) * z };
+          s = 1 + ((H * 0.86) / (WH * H) - 1) * z;     /* 세계 전체가 화면에 들어오도록 */
+        }
+        cx.setTransform(D * s, 0, 0, D * s, D * (W / 2 - focus.x * UW * s), D * (H / 2 - focus.y * H * s));
+        world(s);
+        gaze(g, s);
+      }
+
+      function now() {
+        if (fixedP != null) return Math.max(0, Math.min(1, +fixedP));
+        var max = document.documentElement.scrollHeight - innerHeight;
+        return max > 0 ? Math.max(0, Math.min(1, scrollY / max)) : 0;
+      }
+      var ticking = false;
+      function req() { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; draw(now()); }); } }
+      addEventListener('scroll', req, { passive: true });
+      addEventListener('resize', function () { size(); req(); });
+      requestAnimationFrame(function () { size(); draw(now()); });
+    })();
+  </script>
+</body>
+</html>
