@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ONDURU — 기억의 장소 · III 습작 b</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { --bg: #1c1b19; --line: 168,162,153; }
+    html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="c" aria-hidden="true"></canvas>
+  <script>
+    (function () {
+      /* III 습작 b. 비평가 지적 반영: 그릇·입 모양을 깨는 비대칭으로 늘어진 곡선, 페이드인 없음.
+         ?move=a  60초 동안 한 번 보이게 움직이고 멈춘다 (기본)
+         ?move=b  9월 27일부터 흐른 날수(0~49일)만큼 와 있고, 보는 동안은 움직이지 않는다
+         ?depth=  처짐 깊이(화면 높이 %), 기본 0.9 */
+      var q = location.search;
+      function num(k, d) { var m = q.match(new RegExp('[?&]' + k + '=([0-9.]+)')); return m ? +m[1] : d; }
+      var MOVE = (q.match(/[?&]move=([ab])/) || [0, 'a'])[1];
+      var Y = 0.64, X0 = 0.20, X1 = 0.80, GC = 0.515, GAP = 0.09;
+      var CW = 0.22, S0 = 1 / 3;                      /* 곡선 폭, 가장 낮은 점의 자리(왼쪽에서 1/3) */
+      var LOW = 0.022, TILT = 0.008;                  /* 가장 낮은 점의 높이(바닥선 위), 두 끝의 높이 차 (화면 높이 비율) */
+      var DEPTH = num('depth', 0.93) / 100;            /* 처짐 깊이. 기본이면 왼쪽 끝 3.4%, 오른쪽 끝 2.6% */
+      var EL = LOW + DEPTH + TILT * S0, ER = EL - TILT;
+      var FROM = 0.28, TO = 0.48;                     /* 가장 낮은 점이 오는 길 */
+      var cv = document.getElementById('c'), cx = cv.getContext('2d'), W, H, t0 = null, last = 0;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var ink = getComputedStyle(document.documentElement).getPropertyValue('--line').trim();
+      function size() {
+        var d = Math.min(window.devicePixelRatio || 1, 2);
+        W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
+      }
+      function stroke(w) { cx.strokeStyle = 'rgba(' + ink + ',0.9)'; cx.lineWidth = w; cx.lineCap = 'butt'; cx.stroke(); }
+      function draw(p) {
+        cx.clearRect(0, 0, W, H);
+        var y = H * Y;
+        cx.beginPath();
+        cx.moveTo(W * X0, y); cx.lineTo(W * (GC - GAP / 2), y);
+        cx.moveTo(W * (GC + GAP / 2), y); cx.lineTo(W * X1, y);
+        stroke(1.5);
+        /* 곡선: 두 끝의 높이가 다르고, 왼쪽에서 깊게 처졌다가 오른쪽으로 길게 풀린다 */
+        var low = FROM + (TO - FROM) * p, left = low - CW * S0, n = 160;
+        cx.beginPath();
+        for (var i = 0; i <= n; i++) {
+          var u = i / n;
+          var end = EL + (ER - EL) * u;                         /* 두 끝을 잇는 기울어진 줄 */
+          var dip = (27 / 4) * u * (1 - u) * (1 - u);           /* u=1/3에서 1, 왼쪽이 깊고 오른쪽으로 길게 풀림 */
+          var yy = y - H * (end - DEPTH * dip);
+          var x = W * (left + CW * u);
+          if (i === 0) cx.moveTo(x, yy); else cx.lineTo(x, yy);
+        }
+        stroke(2);
+      }
+      function frame(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 60000);
+        last = p; draw(p);
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      function daysP() {
+        var start = Date.UTC(2026, 8, 27), d = (Date.now() - start) / 86400000;
+        var m = q.match(/[?&]day=([0-9]+)/); if (m) d = +m[1];
+        return Math.max(0, Math.min(1, d / 49));
+      }
+      var fixed = still || /[?&]end=1/.test(q) || MOVE === 'b';
+      var P = MOVE === 'b' ? daysP() : 1;
+      window.addEventListener('resize', function () { size(); draw(fixed ? P : last); });
+      requestAnimationFrame(function () { size(); if (fixed) draw(P); else requestAnimationFrame(frame); });
+    })();
+  </script>
+</body>
+</html>
