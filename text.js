@@ -32,7 +32,9 @@ window.ONDURU_TEXT = {
     "beats": [
       "소리가 난다.",
       "한 사람은 곡을 쓴다."
-    ]
+    ],
+    "lng": "언어 바꾸기",
+    "prev": "지난 작품 · 같은 바람"
   },
   "en": {
     "k02": "Redraw the circle",
@@ -60,6 +62,8 @@ window.ONDURU_TEXT = {
     "beats": [
       "A sound begins.",
       "One person writes the music."
-    ]
+    ],
+    "lng": "Change language",
+    "prev": "Earlier work · The Same Wind"
   }
 };

@@ -24,6 +24,7 @@
         var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
         pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
       }
+      try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {}
       var m = location.search.match(/[?&]lang=([a-z]{2})/);
       if (m && SUP[m[1]]) pick = m[1];
       if (!pick) pick = 'en';
@@ -339,6 +340,11 @@
     .snd line { stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
     .snd[aria-pressed="false"] line { stroke-dasharray: 1.5 3; }
     .snd[aria-pressed="true"] { opacity: .55; }
+    /* 언어 전환: 소리 버튼 왼쪽, 같은 결. 지금 언어가 조금 더 밝다 */
+    .lng { position: fixed; right: 60px; bottom: 18px; z-index: 30; height: 40px; padding: 0 8px; border: 0; background: none; color: var(--fg); opacity: .32; border-radius: 20px; cursor: pointer; transition: opacity .6s; font: 500 11px/40px "IBM Plex Sans KR", system-ui, sans-serif; letter-spacing: .08em; }
+    .lng:hover, .lng:focus-visible { opacity: .7; }
+    .lng .k, .lng .e { opacity: .5; }
+    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e { opacity: 1; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .enso circle, .enso.again circle { animation: none; stroke-dashoffset: 0; }
@@ -351,6 +357,7 @@
 <body>
 
   <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="lng" type="button"><span class="sr L-ko" data-k="lng"></span><span class="sr L-en" data-k="lng"></span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span></span></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
@@ -1239,7 +1246,22 @@
         window.addEventListener(ev, function (e) { if (e.target && e.target.id === 'lang') return; skipNow(); }, { passive: true });
       });
 
-      /* 3. 언어 전환 */
+      /* 3. 언어 전환: 오른쪽 아래 「한 / EN」. 고른 언어는 기억해 둔다. 첫 화면 해독이 끝났으면 다른 언어도 끝난 모습으로 */
+      var lngBtn = document.querySelector('.lng');
+      if (lngBtn) lngBtn.addEventListener('click', function () {
+        var was = show(), L = was === 'ko' ? 'en' : 'ko';
+        if (decoded[was] === 'busy') skipNow();
+        var done = decoded[was] === true;
+        html.setAttribute('data-lang', L); html.setAttribute('data-show', L); html.setAttribute('lang', L);
+        try { localStorage.setItem('onduru-lang', L); } catch (e) {}
+        if (done) {
+          decoded[L] = true;
+          var h = document.querySelector('h1.L-' + L), d = document.querySelector('.was.L-' + L + ' del');
+          if (h) h.classList.remove('veil');
+          if (d) { d.classList.remove('pending'); d.classList.add('striking'); }
+        }
+        cacheChars();
+      });
 
       /* 4. 그 밖의 반응 */
       document.querySelectorAll('.mend').forEach(function (b) {

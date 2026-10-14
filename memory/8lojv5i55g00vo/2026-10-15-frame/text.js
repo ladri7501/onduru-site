@@ -32,7 +32,8 @@ window.ONDURU_TEXT = {
     "beats": [
       "비가 온다.",
       "한 사람은 젖는다."
-    ]
+    ],
+    "lng": "언어 바꾸기"
   },
   "en": {
     "k02": "Redraw the circle",
@@ -60,6 +61,7 @@ window.ONDURU_TEXT = {
     "beats": [
       "Rain.",
       "One of us gets wet."
-    ]
+    ],
+    "lng": "Change language"
   }
 };
