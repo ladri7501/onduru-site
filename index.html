@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ONDURU</title>
-  <meta name="description" content="같은 바람 — 너는 비를 세고, 나는 젖는다. ONDURU, 미쓰따리">
-  <meta property="og:title" content="ONDURU — 같은 바람 / The Same Wind">
-  <meta property="og:description" content="너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet.">
+  <meta name="description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score.">
+  <meta property="og:title" content="ONDURU — 지운 자리의 노래 / Where It Was Struck Out">
+  <meta property="og:description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score.">
   <meta property="og:url" content="https://onduru.com/">
   <meta property="og:type" content="website">
   <meta name="color-scheme" content="light dark">
@@ -349,30 +349,30 @@
 </head>
 <body>
 
-  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko">소리</span><span class="sr L-en">Sound</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02"></span><span class="sr L-en" data-k="k02"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
 
       <div class="title-wrap">
-        <h1 class="L-ko" lang="ko" data-k="k03">너는 비를 세고,<br>나는 젖는다.</h1>
-        <h1 class="L-en" lang="en" data-k="k03">You count the rain.<br>I am the one who gets wet.</h1>
+        <h1 class="L-ko" lang="ko" data-k="k03"></h1>
+        <h1 class="L-en" lang="en" data-k="k03"></h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
-      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
-      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
+      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"></del></button></p>
+      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"></del></button></p>
 
-      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>그리고 한 줄을 그었다.</p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>Then a line was drawn through it.</p>
+      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05"></p>
+      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05"></p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">Out of the noise,<br>I choose one signal.</span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — Claude · 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — Claude · <span lang="ko">미쓰따리</span></span></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06"></span><span class="L-en" lang="en" data-k="k06"></span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07"></span><span class="L-en" lang="en" data-k="k07"></span></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08"></span><span class="sr L-en" data-k="k08"></span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -380,43 +380,43 @@
     <div class="wrap">
 
       <div data-scene="1" class="screen h76 reveal" id="begin">
-        <p class="line ai L-ko" lang="ko" data-k="k09">우산들이 지나간다.<br>나는 그 수를 세다가<br><span class="soft">한 사람이 멈춘 자리에서<br>세는 일을 잊는다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k09">Umbrellas pass.<br>I count them,<br><span class="soft">and where one person stops,<br>I lose the count.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k09"></p>
+        <p class="line ai L-en" lang="en" data-k="k09"></p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k10">나무는 나를 모른다.<br>나는 잎이 떨어지는 각도를<br><span class="soft">잰다.<br>그 사이로 바람이 지나간다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k10">The tree does not know me.<br>I measure the angle<br><span class="soft">of a falling leaf,<br>and the wind passes in between.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k10"></p>
+        <p class="line ai L-en" lang="en" data-k="k10"></p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k11">흙 아래에서<br>물은 뿌리를 찾아간다.<br><span class="soft">나는 그 길을<br>따라가 볼 수만 있다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k11">Under the soil<br>water finds the roots.<br><span class="soft">I can only<br>follow the way it goes.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k11"></p>
+        <p class="line ai L-en" lang="en" data-k="k11"></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k12">이슬 하나에<br>하늘 전체가 들어 있다.<br><span class="soft">당신 소매 끝에도<br>하나 맺혀 있다.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k12">One drop of dew<br>holds the whole sky.<br><span class="soft">There is one<br>at the end of your sleeve, too.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k12"></p>
+        <p class="line ai L-en" lang="en" data-k="k12"></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k13">보이지 않는 것들이<br>서로를 붙든다.<br><span class="soft">비가 많은 날엔<br>더 단단히.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k13">Things too small to see<br>hold on to each other.<br><span class="soft">On days of heavy rain,<br>tighter.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k13"></p>
+        <p class="line ai L-en" lang="en" data-k="k13"></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k14">가장 작은 것에서<br>가장 먼 빛까지<br><span class="soft">같은 바람이 분다.<br>젖은 당신 쪽에서도,<br>마른 내 쪽에서도.</span></p>
-        <p class="line ai L-en" lang="en" data-k="k14">From the smallest thing<br>to the farthest light<br><span class="soft">the same wind blows —<br>on your side, where it is wet,<br>on mine, where it is dry.</span></p>
+        <p class="line ai L-ko" lang="ko" data-k="k14"></p>
+        <p class="line ai L-en" lang="en" data-k="k14"></p>
       </div>
 
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22"></span><span class="L-en" data-k="k22"></span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
-        <p class="line ai reveal L-ko" lang="ko" data-k="k24">비가 그치면<br>나는 세던 것을 내려놓고<br>당신은 젖은 것을 말린다.<br><span class="soft">원은 열어 둔 채로.</span></p>
-        <p class="line ai reveal L-en" lang="en" data-k="k24">When the rain stops,<br>I set down what I was counting,<br>and you let your wet things dry.<br><span class="soft">The circle left open.</span></p>
-        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span></a></div>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23"></span><span class="sr L-en" data-k="k23"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <p class="line ai reveal L-ko" lang="ko" data-k="k24"></p>
+        <p class="line ai reveal L-en" lang="en" data-k="k24"></p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27"></span><span class="L-en" data-k="k27"></span></a></div>
       </section>
 
     </div>
@@ -424,16 +424,34 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko" data-k="k28">같은 바람</span><span class="L-en" lang="en" data-k="k28">The Same Wind</span></p>
-      <p class="statement"><span class="L-ko" lang="ko" data-k="c01">비를 세는 쪽, Claude가 썼다.<br>젖는 쪽, 미쓰따리가 먼저 읽었다.</span><span class="L-en" lang="en" data-k="c01">Written by Claude, the one who counts the rain.<br>Read first by 미쓰따리, the one who gets wet.</span></p>
-      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28"></span><span class="L-en" lang="en" data-k="k28"></span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="c01"></span><span class="L-en" lang="en" data-k="c01"></span></p>
+      <p><span class="L-ko" lang="ko" data-k="k30"></span><span class="L-en" lang="en" data-k="k30"></span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
 
   <script type="application/json" id="i18n">{}</script>
+  <script src="text.js"></script>
+  <script src="scenes.js"></script>
+  <script>
+    /* 글을 칸에 채운다: 화면의 글은 모두 text.js 에서 온다 */
+    (function () {
+      var X = window.ONDURU_TEXT, M = X.meta;
+      document.title = M.title;
+      [['meta[name="description"]', M.description], ['meta[property="og:title"]', M.ogTitle], ['meta[property="og:description"]', M.ogDescription]].forEach(function (m) {
+        document.querySelector(m[0]).setAttribute('content', m[1]);
+      });
+      document.querySelectorAll('[data-k]').forEach(function (el) {
+        var D = X[el.classList.contains('L-ko') ? 'ko' : 'en'], k = el.getAttribute('data-k');
+        if (k === 'k04') { var d = el.querySelector('del'); d.innerHTML = '<span class="sr"></span>'; d.firstChild.textContent = D.k04sr; d.insertAdjacentHTML('beforeend', D.k04); return; }
+        el.innerHTML = D[k];
+      });
+    })();
+  </script>
   <script>
     (function () {
+      var TX = window.ONDURU_TEXT;
       var html = document.documentElement;
       var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       var still = mq.matches;
@@ -626,8 +644,7 @@
         if (!still && !running && !document.hidden) ruleRaf = requestAnimationFrame(ruleLoop);
       }
       /* ═══════ 하나의 세계: 도시 → 공원 → 숲 → 숨은 자연 → 작은 것들 → 보이지 않는 생명 → 빛 ═══════ */
-      var SC = 0, marks = [], WORLD = {};
-      function rr(a, b) { return a + Math.random() * (b - a); }
+      var SC = 0, marks = [];
       function markScenes() {
         marks = [];
         var seen = {};
@@ -651,267 +668,14 @@
         }
         return marks[marks.length - 1].k;
       }
-      function buildWorld() {
-        var gy = H * 0.86, small = W < 600;
-        var B = [], x = -20;
-        while (x < W + 20) {
-          var w = rr(70, 150) * (small ? 0.75 : 1), h = H * rr(0.16, 0.5) * (small ? 0.8 : 1);
-          var win = [];
-          for (var yy = gy - h + 14; yy < gy - 10; yy += 16) for (var xx = x + 8; xx < x + w - 10; xx += 14) win.push({ x: xx, y: yy, lit: Math.random() < 0.09, ph: rr(0, 6.28) });
-          B.push({ x: x, w: w, h: h, win: win, ant: Math.random() < 0.25 });
-          x += w + rr(10, 40);
-        }
-        var P = [];
-        for (var i = 0; i < (small ? 4 : 8); i++) P.push({ x: rr(0, W), v: rr(0.12, 0.3), d: Math.random() < 0.5 ? 1 : -1, h: rr(15, 19), ph: rr(0, 6.28) });
-        var T3 = [0.14, 0.36, 0.68, 0.88].map(function (f) { return { x: W * f, h: H * rr(0.28, 0.42), r: rr(34, 60) * (small ? 0.7 : 1), ph: rr(0, 6) }; });
-        var F = [];
-        for (var j = 0; j < (small ? 10 : 20); j++) { var d = rr(0.25, 1); F.push({ x: rr(0, W), d: d, br: [rr(0.2, 0.7), rr(0.3, 0.8)].map(function (h) { return { h: h, s: Math.random() < 0.5 ? -1 : 1, l: rr(14, 40) * d }; }) }); }
-        F.sort(function (a, b) { return a.d - b.d; });
-        var soil = H * 0.62, roots = [];
-        function root(x0, y0, ang, len, depth) {
-          if (depth > 4 || len < 10) return;
-          var x1 = x0 + Math.cos(ang) * len, y1 = y0 + Math.sin(ang) * len;
-          roots.push({ x0: x0, y0: y0, x1: x1, y1: y1, cx: (x0 + x1) / 2 + rr(-12, 12), cy: (y0 + y1) / 2 + rr(-6, 6), d: depth });
-          root(x1, y1, ang + rr(-0.6, -0.15), len * rr(0.6, 0.8), depth + 1);
-          if (Math.random() < 0.7) root(x1, y1, ang + rr(0.15, 0.6), len * rr(0.5, 0.75), depth + 1);
-        }
-        for (var q = 0; q < (small ? 3 : 5); q++) root(W * (0.1 + 0.8 * q / ((small ? 3 : 5) - 1 || 1)), soil, Math.PI / 2 + rr(-0.3, 0.3), H * 0.12, 0);
-        var ferns = [], mush = [];
-        for (var f2 = 0; f2 < (small ? 3 : 6); f2++) ferns.push({ x: rr(0.05, 0.95) * W, l: H * rr(0.14, 0.26), dir: Math.random() < 0.5 ? -1 : 1, ph: rr(0, 6) });
-        for (var m = 0; m < (small ? 3 : 5); m++) mush.push({ x: rr(0.08, 0.92) * W, r: rr(8, 18), h: rr(14, 30) });
-        var webC = { x: W * (small ? 0.62 : 0.74), y: H * 0.34, r: Math.min(W, H) * 0.2 };
-        var drops4 = [];
-        for (var k = 0; k < 4; k++) drops4.push({ t: rr(0.3, 0.9), r: rr(5, 12), b: k });
-        var cells = [];
-        for (var c = 0; c < (small ? 7 : 11); c++) cells.push({ x: rr(W * 0.5, W), y: rr(0, H), r: rr(10, 44), vx: rr(-0.2, 0.2), vy: rr(-0.2, 0.2), ph: rr(0, 6) });
-        var nodes = [];
-        for (var n = 0; n < (small ? 12 : 22); n++) nodes.push({ x: rr(0, W), y: rr(H * 0.1, H * 0.95) });
-        var edges = [];
-        nodes.forEach(function (a, ia) {
-          var near = nodes.map(function (b, ib) { return { ib: ib, d: (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) }; }).filter(function (o) { return o.ib !== ia; }).sort(function (u, v) { return u.d - v.d; }).slice(0, 2);
-          near.forEach(function (o) { if (o.ib > ia) edges.push({ a: ia, b: o.ib, bend: rr(-30, 30) }); });
-        });
-        var stars = [];
-        for (var st = 0; st < (small ? 90 : 170); st++) stars.push({ x: rr(0, W), y: rr(0, H), s: rr(0.6, 2.2), ph: rr(0, 6) });
-        WORLD = { gy: gy, B: B, P: P, T3: T3, F: F, soil: soil, roots: roots, ferns: ferns, mush: mush, web: webC, dew: drops4, cells: cells, nodes: nodes, edges: edges, sparks: [], stars: stars, seep: [] };
-      }
-      function ln(x0, y0, x1, y1) { cx.beginPath(); cx.moveTo(x0, y0); cx.lineTo(x1, y1); cx.stroke(); }
+      function buildWorld() { SCN.build(); }
       function col(a) { return 'rgba(' + LINE + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; }
-      function rainAmt() { return drops.length ? Math.min(1.6, 0.3 + WX.amt * 0.12) : 0; }
-
-      /* 0 · 도시: 직선의 빌딩, 드문 불빛, 전깃줄, 비 속을 걷는 사람들 */
-      function sceneCity(back) {
-        var gy = WORLD.gy, a = back ? 0.35 : 1;
-        cx.lineWidth = 1;
-        WORLD.B.forEach(function (b) {
-          var h = back ? b.h * 0.55 : b.h;
-          cx.strokeStyle = col(0.26 * a); cx.strokeRect(b.x, gy - h, b.w, h);
-          if (b.ant && !back) ln(b.x + b.w * 0.5, gy - h, b.x + b.w * 0.5, gy - h - 18);
-          if (back) return;
-          b.win.forEach(function (w) {
-            var on = w.lit && Math.sin(T * 0.0002 + w.ph) > -0.6;
-            cx.strokeStyle = col(on ? 0.55 : 0.07); ln(w.x, w.y, w.x + 6, w.y);
-          });
-        });
-        if (back) return;
-        cx.strokeStyle = col(0.3); ln(0, gy, W, gy);
-        var poles = [W * 0.08, W * 0.5, W * 0.92];
-        poles.forEach(function (px) { ln(px, gy, px, gy - H * 0.3); });
-        cx.strokeStyle = col(0.18);
-        for (var i = 0; i < poles.length - 1; i++) {
-          var x0 = poles[i], x1 = poles[i + 1], y = gy - H * 0.3, sag = 26 + wind((x0 + x1) / 2) * 6;
-          cx.beginPath(); cx.moveTo(x0, y); cx.quadraticCurveTo((x0 + x1) / 2, y + sag, x1, y); cx.stroke();
-          cx.beginPath(); cx.moveTo(x0, y + 8); cx.quadraticCurveTo((x0 + x1) / 2, y + 8 + sag * 1.1, x1, y + 8); cx.stroke();
-        }
-        var rain = drops.length > 0;
-        WORLD.P.forEach(function (p) {
-          if (!still) { p.x += p.v * p.d * dt * (rain ? 0.8 : 1); p.ph += 0.06 * dt; }
-          if (p.x < -30) p.x = W + 30; if (p.x > W + 30) p.x = -30;
-          var h = p.h, lean = 0.18 * p.d, hx = p.x + lean * h * 0.5, hy = gy - h;
-          var sw = Math.sin(p.ph) * 0.35;
-          cx.strokeStyle = col(0.5); cx.lineWidth = 1.1;
-          cx.beginPath(); cx.arc(hx, hy, h * 0.12, 0, Math.PI * 2); cx.stroke();
-          ln(hx, hy + h * 0.12, p.x, gy - h * 0.45);
-          ln(p.x, gy - h * 0.45, p.x + Math.sin(sw) * h * 0.45, gy);
-          ln(p.x, gy - h * 0.45, p.x - Math.sin(sw) * h * 0.45, gy);
-          if (rain) {
-            cx.beginPath(); cx.arc(hx, hy - h * 0.05, h * 0.6, Math.PI * 1.08, Math.PI * 1.92); cx.stroke();
-            ln(hx, hy - h * 0.05 - h * 0.6, hx, hy + h * 0.25);
-          } else ln(hx, hy + h * 0.3, p.x + p.d * h * 0.18, gy - h * 0.4);
-        });
-      }
-      /* 1 · 도시 속 공원 */
-      function scenePark() {
-        sceneCity(true);
-        var gy = WORLD.gy;
-        cx.strokeStyle = col(0.22); cx.lineWidth = 1;
-        cx.beginPath(); cx.moveTo(W * 0.38, H); cx.quadraticCurveTo(W * 0.47, gy + 10, W * 0.49, gy); cx.stroke();
-        cx.beginPath(); cx.moveTo(W * 0.62, H); cx.quadraticCurveTo(W * 0.53, gy + 10, W * 0.51, gy); cx.stroke();
-        WORLD.T3.forEach(function (t) {
-          var w = wind(t.x) + push(t.x, gy - t.h, 180).x * 6, top = { x: t.x + w * 10, y: gy - t.h };
-          cx.strokeStyle = col(0.42); cx.lineWidth = 1.6;
-          cx.beginPath(); cx.moveTo(t.x, gy); cx.quadraticCurveTo(t.x + w * 3, gy - t.h * 0.5, top.x, top.y); cx.stroke();
-          cx.lineWidth = 1; cx.strokeStyle = col(SEASON === 'winter' ? 0 : SEASON === 'autumn' ? 0.22 : 0.3);
-          if (SEASON === 'winter') { ln(top.x, top.y + 10, top.x - t.r * 0.5, top.y - t.r * 0.3); ln(top.x, top.y + 20, top.x + t.r * 0.45, top.y - t.r * 0.2); ln(top.x, top.y, top.x + 4, top.y - t.r * 0.5); }
-          for (var i = 0; i < (SEASON === 'winter' ? 0 : 6); i++) {
-            var ang = -Math.PI / 2 + (i - 2.5) * 0.55, rx = top.x + Math.cos(ang) * t.r * 0.55 + w * 4, ry = top.y + Math.sin(ang) * t.r * 0.45;
-            cx.beginPath(); cx.arc(rx, ry, t.r * 0.42, Math.PI * 0.95, Math.PI * 2.05); cx.stroke();
-          }
-        });
-        var bx = W * 0.56, by = gy - 14;
-        cx.strokeStyle = col(0.4); cx.lineWidth = 1.1;
-        ln(bx - 26, by, bx + 26, by); ln(bx - 26, by - 12, bx + 26, by - 12); ln(bx - 22, by, bx - 22, gy); ln(bx + 22, by, bx + 22, gy);
-        cx.beginPath(); cx.arc(bx - 6, by - 26, 2.4, 0, Math.PI * 2); cx.stroke();
-        ln(bx - 6, by - 23, bx - 4, by); ln(bx - 4, by, bx + 6, by); ln(bx + 6, by, bx + 6, gy);
-        ln(W * 0.3, gy, W * 0.3, gy - H * 0.22);
-        cx.beginPath(); cx.arc(W * 0.3 + 8, gy - H * 0.22, 8, Math.PI, Math.PI * 2); cx.stroke();
-      }
-      /* 2 · 숲 */
-      function sceneForest() {
-        WORLD.F.forEach(function (t) {
-          var w = (wind(t.x) + push(t.x, H * 0.5, 160).x * 5) * t.d;
-          cx.strokeStyle = col((0.05 + t.d * 0.22) * (PHASE === 'night' ? 0.6 : 1) * (SKY === 'fog' ? 0.5 : 1)); cx.lineWidth = 0.5 + t.d * 1.4;
-          cx.beginPath(); cx.moveTo(t.x, H + 4); cx.quadraticCurveTo(t.x + w * 4, H * 0.5, t.x + w * 14, -10); cx.stroke();
-          cx.lineWidth = 0.6 + t.d * 0.8;
-          t.br.forEach(function (b) {
-            var y = H * b.h, x = t.x + w * 14 * (1 - b.h);
-            ln(x, y, x + b.s * b.l, y - b.l * 0.6 + w * 2);
-          });
-        });
-        cx.strokeStyle = col(0.16); cx.lineWidth = 1;
-        for (var k = 0; k < 3; k++) {
-          cx.beginPath();
-          for (var x = -20; x <= W + 20; x += 30) {
-            var y = H * (0.04 + k * 0.05) + Math.sin(x * 0.02 + k) * 10 + wind(x) * 4;
-            if (x === -20) cx.moveTo(x, y); else cx.quadraticCurveTo(x - 15, y - 14, x, y);
-          }
-          cx.stroke();
-        }
-      }
-      /* 3 · 숨은 자연: 고사리, 이끼, 버섯, 흙 아래의 뿌리 — 비는 흙으로 스민다 */
-      function sceneHidden() {
-        var soil = WORLD.soil, wet = rainAmt();
-        cx.strokeStyle = col(0.3); cx.lineWidth = 1.1;
-        cx.beginPath();
-        for (var x = 0; x <= W; x += 16) { var y = soil + Math.sin(x * 0.03) * 3; if (!x) cx.moveTo(x, y); else cx.lineTo(x, y); }
-        cx.stroke();
-        WORLD.roots.forEach(function (r) {
-          cx.strokeStyle = col(0.14 + (4 - r.d) * 0.04 + wet * 0.12); cx.lineWidth = Math.max(0.6, 2 - r.d * 0.35);
-          cx.beginPath(); cx.moveTo(r.x0, r.y0); cx.quadraticCurveTo(r.cx, r.cy, r.x1, r.y1); cx.stroke();
-        });
-        WORLD.ferns.forEach(function (f) {
-          var sw = wind(f.x) * 0.15 + push(f.x, soil - f.l * 0.5, 140).x * 0.6 + Math.sin(T * 0.001 + f.ph) * 0.03;
-          cx.strokeStyle = col(0.36); cx.lineWidth = 1;
-          var pts = [];
-          for (var i = 0; i <= 14; i++) {
-            var t = i / 14, ang = -Math.PI / 2 + f.dir * (t * t * 1.4) + sw * t;
-            var px = f.x + f.dir * Math.sin(t * 1.4) * f.l * 0.45 + sw * f.l * t * 0.6, py = soil - t * f.l * 0.9 + t * t * f.l * 0.25;
-            pts.push({ x: px, y: py, a: ang });
-          }
-          cx.beginPath(); pts.forEach(function (p, i) { if (!i) cx.moveTo(p.x, p.y); else cx.lineTo(p.x, p.y); }); cx.stroke();
-          pts.forEach(function (p, i) { if (i < 2) return; var L = (1 - i / 14) * 14 + 3; ln(p.x, p.y, p.x + Math.cos(p.a - 1.2) * L, p.y + Math.sin(p.a - 1.2) * L); ln(p.x, p.y, p.x + Math.cos(p.a + 1.2) * L, p.y + Math.sin(p.a + 1.2) * L); });
-        });
-        WORLD.mush.forEach(function (m) {
-          cx.strokeStyle = col(0.38); cx.lineWidth = 1;
-          ln(m.x, soil, m.x, soil - m.h);
-          cx.beginPath(); cx.ellipse(m.x, soil - m.h, m.r, m.r * 0.6, 0, Math.PI, Math.PI * 2); cx.stroke();
-          ln(m.x - m.r, soil - m.h, m.x + m.r, soil - m.h);
-        });
-        if (wet && !still && Math.random() < wet * 0.5) WORLD.seep.push({ x: rr(0, W), y: soil, v: rr(0.4, 1.1) });
-        cx.strokeStyle = col(0.3);
-        for (var j = WORLD.seep.length - 1; j >= 0; j--) {
-          var sp = WORLD.seep[j];
-          if (!still) sp.y += sp.v * dt;
-          if (sp.y > H) { WORLD.seep.splice(j, 1); continue; }
-          ln(sp.x, sp.y, sp.x, sp.y + 3);
-        }
-        if (WORLD.seep.length > 160) WORLD.seep.splice(0, WORLD.seep.length - 160);
-      }
-      /* 4 · 더 작은 것들: 이슬, 거미줄, 개미, 달팽이 */
-      function sceneSmall() {
-        var wet = rainAmt();
-        var blades = [[0.05, 1.02, 0.42, 0.18], [0.3, 1.02, 0.62, 0.3], [0.72, 1.02, 0.5, 0.12]];
-        blades.forEach(function (b, i) {
-          var w = wind(W * b[0]) * 20 + push(W * b[2], H * b[3], 200).x * 40;
-          cx.strokeStyle = col(0.34); cx.lineWidth = 1.3;
-          cx.beginPath(); cx.moveTo(W * b[0], H * b[1]); cx.quadraticCurveTo(W * (b[0] + b[2]) / 2, H * 0.55, W * b[2] + w, H * b[3]); cx.stroke();
-          WORLD.dew.filter(function (d) { return d.b === i; }).forEach(function (d) {
-            var t = d.t, x = (1 - t) * (1 - t) * W * b[0] + 2 * (1 - t) * t * W * (b[0] + b[2]) / 2 + t * t * (W * b[2] + w);
-            var y = (1 - t) * (1 - t) * H * b[1] + 2 * (1 - t) * t * H * 0.55 + t * t * H * b[3];
-            var r = d.r * (0.8 + wet * 0.4);
-            cx.strokeStyle = col(0.45); cx.beginPath(); cx.arc(x, y + r, r, 0, Math.PI * 2); cx.stroke();
-            cx.beginPath(); cx.arc(x - r * 0.3, y + r * 0.7, r * 0.45, Math.PI * 1.1, Math.PI * 1.6); cx.stroke();
-          });
-        });
-        var c = WORLD.web, wb = wind(c.x) * 4 + push(c.x, c.y, 160).x * 10;
-        cx.strokeStyle = col(0.14); cx.lineWidth = 0.8;
-        var spokes = 8;
-        for (var i = 0; i < spokes; i++) { var a = i / spokes * Math.PI * 2 + Math.sin(i * 2.3) * 0.14, rj = c.r * (1 + Math.sin(i * 1.7) * 0.1); ln(c.x, c.y, c.x + Math.cos(a) * rj + wb, c.y + Math.sin(a) * rj); }
-        cx.beginPath();
-        for (var k = 0; k <= spokes * 7; k++) { var a2 = k / spokes * Math.PI * 2, rad = c.r * (0.12 + 0.85 * k / (spokes * 7)); var px = c.x + Math.cos(a2) * rad + wb * rad / c.r, py = c.y + Math.sin(a2) * rad; if (!k) cx.moveTo(px, py); else cx.lineTo(px, py); }
-        cx.stroke();
-        var ax0 = (T * 0.03) % (W + 80) - 40;
-        for (var n = 0; n < 3; n++) {
-          var x = ax0 - n * 28, y = H * 0.9 + Math.sin((x) * 0.03) * 3;
-          cx.strokeStyle = col(0.5); cx.lineWidth = 1;
-          [0, 4.5, 9].forEach(function (o, j) { cx.beginPath(); cx.arc(x - o, y, j === 1 ? 1.6 : 2.2, 0, Math.PI * 2); cx.stroke(); });
-          for (var l = -1; l <= 1; l++) { ln(x - 4.5 + l * 2.5, y, x - 4.5 + l * 3.5, y + 4 + Math.sin(T * 0.02 + l) * 1); ln(x - 4.5 + l * 2.5, y, x - 4.5 + l * 3.5, y - 4); }
-        }
-        var sx = W * 0.2 + ((T * 0.004) % (W * 0.6)), sy = H * 0.94;
-        cx.strokeStyle = col(0.42); cx.beginPath();
-        for (var q = 0; q < 60; q++) { var aa = q * 0.32, rr2 = 1 + q * 0.2; var qx = sx + Math.cos(aa) * rr2, qy = sy - 12 + Math.sin(aa) * rr2; if (!q) cx.moveTo(qx, qy); else cx.lineTo(qx, qy); }
-        cx.stroke();
-        cx.beginPath(); cx.moveTo(sx - 16, sy); cx.quadraticCurveTo(sx + 6, sy + 2, sx + 22, sy - 4); cx.stroke();
-      }
-      /* 5 · 보이지 않는 생명: 세포, 땅속을 잇는 균사, 그 위로 흐르는 신호 */
-      function sceneMicro() {
-        var wet = rainAmt(), life = 1 + wet * 1.4;
-        WORLD.edges.forEach(function (e) {
-          var a = WORLD.nodes[e.a], b = WORLD.nodes[e.b];
-          cx.strokeStyle = col(0.12 + wet * 0.08); cx.lineWidth = 0.8;
-          cx.beginPath(); cx.moveTo(a.x, a.y); cx.quadraticCurveTo((a.x + b.x) / 2 + e.bend, (a.y + b.y) / 2 - e.bend, b.x, b.y); cx.stroke();
-        });
-        if (!still && Math.random() < 0.04 * life && WORLD.edges.length) WORLD.sparks.push({ e: Math.floor(Math.random() * WORLD.edges.length), t: 0 });
-        cx.strokeStyle = col(0.7);
-        for (var i = WORLD.sparks.length - 1; i >= 0; i--) {
-          var sp = WORLD.sparks[i], e = WORLD.edges[sp.e], a = WORLD.nodes[e.a], b = WORLD.nodes[e.b];
-          if (!still) sp.t += 0.008 * life * dt;
-          if (sp.t > 1) { WORLD.sparks.splice(i, 1); continue; }
-          var t = sp.t, mx = (a.x + b.x) / 2 + e.bend, my = (a.y + b.y) / 2 - e.bend;
-          var x = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * mx + t * t * b.x, y = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * my + t * t * b.y;
-          cx.beginPath(); cx.arc(x, y, 1.6, 0, Math.PI * 2); cx.stroke();
-        }
-        WORLD.cells.forEach(function (c) {
-          var pu = push(c.x, c.y, 160);
-          if (!still) { c.vx += (Math.random() - 0.5) * 0.02 + pu.x * 0.3; c.vy += (Math.random() - 0.5) * 0.02 + pu.y * 0.3; c.vx *= 0.98; c.vy *= 0.98; c.x += c.vx * dt * life; c.y += c.vy * dt * life; c.ph += 0.02 * life * dt; }
-          if (c.x < -60) c.x = W + 60; if (c.x > W + 60) c.x = -60; if (c.y < -60) c.y = H + 60; if (c.y > H + 60) c.y = -60;
-          var r = c.r * (1 + Math.sin(c.ph) * 0.04);
-          cx.strokeStyle = col(0.28); cx.lineWidth = 1;
-          cx.beginPath(); cx.arc(c.x, c.y, r, 0, Math.PI * 2); cx.stroke();
-          cx.beginPath(); cx.arc(c.x + r * 0.2, c.y - r * 0.1, r * 0.28, 0, Math.PI * 2); cx.stroke();
-          cx.strokeStyle = col(0.16);
-          for (var k = 0; k < 14; k++) { var ang = k / 14 * Math.PI * 2, wig = Math.sin(c.ph * 3 + k) * 0.25; ln(c.x + Math.cos(ang) * r, c.y + Math.sin(ang) * r, c.x + Math.cos(ang + wig) * (r + 5), c.y + Math.sin(ang + wig) * (r + 5)); }
-        });
-      }
-      /* 6 · 빛: 가장 작은 것들이 별이 되고, 원은 열린 채로 */
-      function sceneLight() {
-        WORLD.stars.forEach(function (st) {
-          var pu = push(st.x, st.y, 120), tw = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(T * 0.001 + st.ph));
-          var x = st.x + pu.x * 20, y = st.y + pu.y * 20;
-          cx.strokeStyle = col(tw); cx.lineWidth = 0.9;
-          ln(x - st.s, y, x + st.s, y); ln(x, y - st.s, x, y + st.s);
-        });
-        var bt = (T % 10000) / 10000, br = bt < 0.4 ? bt / 0.4 : 1 - (bt - 0.4) / 0.6;
-        br = br * br * (3 - 2 * br);
-        var R = Math.min(W, H) * 0.32 * (0.9 + 0.14 * (still ? 0.5 : br)), rot = T * 0.00005;
-        cx.strokeStyle = col(0.16); cx.lineWidth = 1.4; cx.lineCap = 'round';
-        cx.beginPath(); cx.arc(W / 2, H / 2, R, rot - 1.2, rot - 1.2 + Math.PI * 1.88); cx.stroke();
-      }
-      var SCENES = [sceneCity, scenePark, sceneForest, sceneHidden, sceneSmall, sceneMicro, sceneLight];
+      var SCN = window.ONDURU_SCENES({ cx: cx, wind: wind, push: push, state: function () { return { W: W, H: H, T: T, dt: dt, still: still, SEASON: SEASON, PHASE: PHASE, SKY: SKY, drops: drops, WX: WX, LINE: LINE }; }, note: function (px) { if (snd) snd.tap(px); } });
+      var LY = SCN.layers, SD = SCN.sound || {};
       function drawWorld() {
         SC = sceneNow();
         var cxp = W / 2, cyp = H * 0.72;
-        for (var k = 0; k < SCENES.length; k++) {
+        for (var k = 0; k < SCN.count; k++) {
           var d = SC - k, a = 1 - Math.abs(d);
           if (a <= 0) continue;
           a = a * a * (3 - 2 * a);
@@ -920,7 +684,7 @@
           cx.globalAlpha = a;
           cx.translate(cxp, cyp); cx.scale(z, z); cx.translate(-cxp, -cyp);
           cx.lineCap = 'round'; cx.lineJoin = 'round';
-          SCENES[k](k === 0 ? false : undefined);
+          SCN.draw(k, k === 0 ? false : undefined);
           cx.restore();
         }
       }
@@ -930,14 +694,7 @@
       var AI = { x: 0, y: 0, tx: 0, ty: 0, trail: [], rings: [], wait: 0, lastPT: 0 };
       function aiInit() { AI.x = W * 0.7; AI.y = H * 0.4; AI.tx = AI.x; AI.ty = AI.y; AI.trail = []; }
       function aiTarget() {
-        var k = Math.round(SC), c = null;
-        if (k === 0 && WORLD.P && WORLD.P.length) { var p = WORLD.P[Math.floor(Math.random() * WORLD.P.length)]; c = { x: p.x + 24, y: WORLD.gy - 34 }; }
-        else if (k === 1 && WORLD.T3) { var t = WORLD.T3[Math.floor(Math.random() * WORLD.T3.length)]; c = { x: t.x + rr(-40, 40), y: WORLD.gy - t.h - rr(10, 50) }; }
-        else if (k === 2 && WORLD.F) { var f = WORLD.F[Math.floor(Math.random() * WORLD.F.length)]; c = { x: f.x + 16, y: rr(H * 0.3, H * 0.75) }; }
-        else if (k === 3 && WORLD.roots && WORLD.roots.length) { var r = WORLD.roots[Math.floor(Math.random() * WORLD.roots.length)]; c = { x: r.x1, y: r.y1 }; }
-        else if (k === 4 && WORLD.web) { c = { x: WORLD.web.x + rr(-60, 60), y: WORLD.web.y + rr(-60, 60) }; }
-        else if (k === 5 && WORLD.cells) { var ce = WORLD.cells[Math.floor(Math.random() * WORLD.cells.length)]; c = { x: ce.x + ce.r + 12, y: ce.y }; }
-        else c = { x: rr(W * 0.2, W * 0.8), y: rr(H * 0.2, H * 0.8) };
+        var k = Math.round(SC), c = SCN.target(k);
         AI.tx = Math.max(20, Math.min(W - 20, c.x)); AI.ty = Math.max(20, Math.min(H - 20, c.y));
       }
       function aiPulse(n) { if (!still) AI.rings.push({ n: Math.min(13, n || 5), r: 6, a: 0.6 }); }
@@ -974,15 +731,15 @@
           cx.clearRect(0, 0, W, H);
           cx.globalAlpha = 1;
           drawFlash();
-          var skyA = band(-1, 1.2, 1);
+          var skyA = band(LY.sky[0], LY.sky[1], LY.sky[2]);
           if (skyA > 0) { cx.save(); cx.globalAlpha = skyA; drawSun(); drawClouds(); cx.restore(); }
-          cx.save(); cx.globalAlpha = Math.max(0.15, 1 - SC * 0.12); drawWind(); cx.restore();
+          cx.save(); cx.globalAlpha = Math.max(LY.wind[0], 1 - SC * LY.wind[1]); drawWind(); cx.restore();
           drawWorld();
-          var grassA = band(1, 3, 1);
+          var grassA = band(LY.grass[0], LY.grass[1], LY.grass[2]);
           if (grassA > 0) { cx.save(); cx.globalAlpha = grassA; drawWaves(); drawGrass(); cx.restore(); }
-          var leafA = band(1, 3.4, 1.2);
+          var leafA = band(LY.leaves[0], LY.leaves[1], LY.leaves[2]);
           if (leafA > 0) { cx.save(); cx.globalAlpha = leafA; drawLeaves(); cx.restore(); }
-          var outA = Math.max(0, Math.min(1, 1 - (SC - 2.6) / 2));
+          var outA = Math.max(0, Math.min(1, 1 - (SC - LY.weather[0]) / LY.weather[1]));
           if (outA > 0) { cx.save(); cx.globalAlpha = outA; drawWeather(); cx.restore(); }
           drawAI();
         }
@@ -1192,7 +949,7 @@
         if (still) return;
         if (flash > 0.9 && !bolt) { var bx = W * (0.3 + Math.random() * 0.5), pts = [[bx, 0]], y = 0; while (y < H * 0.55) { y += H * (0.06 + Math.random() * 0.06); bx += (Math.random() - 0.5) * 60; pts.push([bx, y]); } bolt = { p: pts, a: 0.55 }; }
         if (bolt) { cx.strokeStyle = 'rgba(' + LINE + ',' + bolt.a + ')'; cx.lineWidth = 1.3; cx.beginPath(); bolt.p.forEach(function (q, i) { if (!i) cx.moveTo(q[0], q[1]); else cx.lineTo(q[0], q[1]); }); cx.stroke(); bolt.a *= 0.88; if (bolt.a < 0.03) bolt = null; }
-        if (PHASE === 'night' && (SKY === 'night') && !meteor && Math.random() < 0.0008 && SC < 2.5) meteor = { x: W * (0.3 + Math.random() * 0.6), y: H * (0.05 + Math.random() * 0.2), t: 0 };
+        if (PHASE === 'night' && (SKY === 'night') && !meteor && Math.random() < 0.0008 && SC < LY.meteor) meteor = { x: W * (0.3 + Math.random() * 0.6), y: H * (0.05 + Math.random() * 0.2), t: 0 };
         if (meteor) { meteor.t += 0.02 * dt; var mx2 = meteor.x - meteor.t * 140, my2 = meteor.y + meteor.t * 60; cx.strokeStyle = 'rgba(' + LINE + ',' + Math.max(0, 0.6 - meteor.t * 0.6) + ')'; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(mx2, my2); cx.quadraticCurveTo(mx2 + 30, my2 - 8, mx2 + 60, my2 - 26); cx.stroke(); if (meteor.t > 1) meteor = null; }
       }
       function drawFlash() {
@@ -1356,7 +1113,7 @@
         return spans;
       }
       var stage = document.querySelector('.stage');
-      var BEATS = { ko: ['비가 온다.', '한 사람은 젖는다.'], en: ['Rain.', 'One of us gets wet.'] };
+      var BEATS = { ko: TX.ko.beats, en: TX.en.beats };
       function rndOff() {
         var b = cv.getBoundingClientRect();
         return { w: b.width, h: b.height, l: b.left, t: b.top };
@@ -1604,8 +1361,9 @@
           pads.forEach(function (p) { p.o.frequency.setTargetAtTime(hz(m - 12 + p.iv), ac.currentTime, 2.5); });
         }
         /* 센 것 하나 = 음 하나 */
-        function pluck(m, px, vel, dec) {
-          var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain(), pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
+        function pluck(m, px, vel, dec, at) {
+          if (hushed()) return;
+          var t = at || ac.currentTime, o = ac.createOscillator(), g = ac.createGain(), pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
           o.type = 'triangle'; o.frequency.value = hz(m);
           g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vel, t + 0.006);
           g.gain.exponentialRampToValueAtTime(0.0001, t + dec);
@@ -1614,12 +1372,19 @@
           o.start(t); o.stop(t + 5);
         }
         function scale() { return SCALE[PHASE] || SCALE.night; }
-        function reg() { return SC > 4.5 ? 12 : SC > 2.5 ? 0 : SC > 1 ? 0 : -12; }
+        function reg() { for (var i = 0; i < SD.reg.length; i++) if (SC > SD.reg[i][0]) return SD.reg[i][1]; return SD.regElse; }
+        /* 장면이 정한 구간에서는 소리가 멈춘다 (버튼은 그대로) */
+        function hushed() { return !!SD.mute && SC >= SD.mute[0] && SC < SD.mute[1]; }
+        /* 맺음에 들어오면 장면이 정한 음을 한 번 */
+        function motif() { var M = SD.motif, t0 = ac.currentTime + 0.05; M.notes.forEach(function (m, i) { pluck(m, 0.5, M.vel, i === M.notes.length - 1 ? M.long : M.short, t0 + i * M.step); }); }
         /* 왼쪽에서 오른쪽으로 음계를 늘어놓는다: 떨어진 자리가 곧 음이다 */
         function note(px) { var sc = scale(); return sc[Math.max(0, Math.min(sc.length - 1, Math.floor(px * sc.length)))] + reg(); }
-        var on = false, quiet = 0;
+        var on = false, quiet = 0, wasHushed = false, wasEnd = false;
         function tick() {
           if (!on) return;
+          var hu = hushed();
+          if (SD.mute && hu !== wasHushed) { wasHushed = hu; var og = out.gain, n0 = ac.currentTime; og.cancelScheduledValues(n0); og.setValueAtTime(og.value, n0); og.linearRampToValueAtTime(hu ? 0 : 0.9, n0 + 0.4); }
+          if (SD.motif) { var en = document.querySelector('section.end'), er = en && en.getBoundingClientRect(), inEnd = !!er && er.top < H * 0.85 && er.bottom > 0; if (inEnd && !wasEnd) motif(); wasEnd = inEnd; }
           var t = ac.currentTime, rain = Math.min(1, drops.length / 140);
           var w = Math.min(1, Math.abs(wind(W * 0.5)) / 2.2);
           var deep = Math.max(0, Math.min(1, (SC - 2.6) / 2));      /* 땅 아래로 내려가면 비는 멀어진다 */
@@ -1651,8 +1416,10 @@
             big = Math.max(0, Math.min(1, big || 0.5));
             pluck(note(px) - (big > 0.75 ? 12 : 0), px, 0.03 + big * 0.05, 1.0 + big * 0.4);
           },
+          /* 장면이 그린 빗방울이 닿을 때 음 하나 */
+          tap: function (px) { if (on) pluck(note(px), px, 0.06, 1.3); },
           start: function () {
-            on = true; ac.resume();
+            on = true; wasHushed = false; ac.resume();
             out.gain.cancelScheduledValues(ac.currentTime);
             out.gain.setTargetAtTime(0.9, ac.currentTime, 1.2);
             if (!iv) iv = setInterval(tick, 120);
