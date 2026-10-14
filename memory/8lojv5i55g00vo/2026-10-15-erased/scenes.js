@@ -110,7 +110,7 @@ window.ONDURU_SCENES = function (E) {
           WORLD.ripples = [{ r: 10, a: 0.25 }];
         } else {
           var key = WORLD.since[4] + ':' + Math.floor(t / 9000);
-          if (WORLD.hitKey !== key) { WORLD.hitKey = key; WORLD.ripples.push({ r: 1, a: 0.4 }); }
+          if (WORLD.hitKey !== key) { WORLD.hitKey = key; WORLD.ripples.push({ r: 1, a: 0.4 }); if (E.note && cx.globalAlpha > 0.5) E.note(x0 / W); }   /* 이 장면이 주로 보일 때만 (전환 중 옅게 그려질 때는 소리 없이) */
         }
         for (var j = WORLD.ripples.length - 1; j >= 0; j--) {
           var r = WORLD.ripples[j];
@@ -170,6 +170,12 @@ window.ONDURU_SCENES = function (E) {
           leaves: [99, -99, 1],     /* 날리는 잎: 작품2에는 없다 (같은 바람: [1, 3.4, 1.2]) */
           weather: [2.6, 2],        /* 비·눈: [옅어지기 시작, 사라지는 폭] */
           meteor: 2.5               /* 유성: 이 장면 앞에서만 */
+        },
+        /* 소리: 장면에 묶인 값. reg = [이 장면 번호보다 크면, 옥타브 이동(반음)] 을 위에서부터, 어디에도 안 맞으면 regElse */
+        sound: {
+          reg: [[5.5, 0], [4.5, -12], [2.5, 0], [1, 0]], regElse: -12,   /* 5연은 한 옥타브 낮게, 6연·맺음은 기본, 나머지는 같은 바람과 같게 */
+          mute: [2.5, 3.5],                                               /* 3연: 소리 없는 방 */
+          motif: { notes: [67, 67, 67, 63], step: 0.18, short: 0.16, long: 2.5, vel: 0.09 }   /* 맺음: 이름 없는 작곡가의 네 음 */
         }
       };
 };
