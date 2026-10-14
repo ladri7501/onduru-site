@@ -30,8 +30,8 @@ window.ONDURU_TEXT = {
     "k30": "함께 고쳐 쓸 일이 있다면",
     "snd": "소리",
     "beats": [
-      "비가 온다.",
-      "한 사람은 젖는다."
+      "소리가 난다.",
+      "한 사람은 곡을 쓴다."
     ]
   },
   "en": {
@@ -58,8 +58,8 @@ window.ONDURU_TEXT = {
     "k30": "If there is something we might write together,",
     "snd": "Sound",
     "beats": [
-      "Rain.",
-      "One of us gets wet."
+      "Sound rises.",
+      "One person writes the score."
     ]
   }
 };
