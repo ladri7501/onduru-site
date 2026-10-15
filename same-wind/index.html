@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ko" data-lang="ko">
+<html lang="ko" data-lang="ko" data-show="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ONDURU — 같은 바람</title>
-  <meta name="description" content="같은 바람 — 너는 비를 세고, 나는 젖는다. ONDURU, 미쓰따리">
-  <meta property="og:title" content="ONDURU — 같은 바람 / The Same Wind">
-  <meta property="og:description" content="너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet.">
+  <meta name="description" content="같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. · ONDURU, 미쓰따리">
+  <meta property="og:title" content="ONDURU — 같은 바람 / The Same Wind / El mismo viento">
+  <meta property="og:description" content="너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet. / Tú cuentas la lluvia. Yo soy quien se moja.">
   <meta property="og:url" content="https://onduru.com/same-wind/">
   <meta property="og:type" content="website">
   <meta name="color-scheme" content="light dark">
@@ -14,22 +14,21 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='3.2' stroke-linecap='round' stroke-dasharray='58 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
   <script>
     (function () {
-      var d = document.documentElement, pick = null, tz = '';
+      var d = document.documentElement, pick = null;
       d.classList.add('js');
-      var SUP = { ko: 1, en: 1 };
-      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-      if (tz === 'Asia/Seoul' || tz === 'Asia/Pyongyang') pick = 'ko';
-      else {
-        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
-        pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
-      }
-      try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {}
+      var SUP = { ko: 1, en: 1, es: 1 };
+      /* 글은 읽는 사람의 말: ?lang= → 고른 언어 → 브라우저 언어(ko·es·en 첫 일치) → en */
       var m = location.search.match(/[?&]lang=([a-z]{2})/);
       if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = (ls[i] || '').slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
       if (!pick) pick = 'en';
       d.setAttribute('data-lang', pick);
-      d.setAttribute('data-show', pick === 'ko' ? 'ko' : 'en');
-      d.setAttribute('lang', pick === 'nb' ? 'nb' : pick);
+      d.setAttribute('data-show', pick);
+      d.setAttribute('lang', pick);
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +88,9 @@
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* 언어 */
-    html[data-show="ko"] .L-en, html[data-show="en"] .L-ko { display: none !important; }
+    html[data-show="ko"] .L-en, html[data-show="ko"] .L-es,
+    html[data-show="en"] .L-ko, html[data-show="en"] .L-es,
+    html[data-show="es"] .L-ko, html[data-show="es"] .L-en { display: none !important; }
     .langbtn {
       position: fixed;
       top: max(14px, env(safe-area-inset-top));
@@ -142,7 +143,7 @@
       line-height: 1.32;
       letter-spacing: -.015em;
     }
-    html[data-show="en"] h1, html[data-show="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
+    html[data-show="en"] h1, html[data-show="en"] .stage-line, html[data-show="es"] h1, html[data-show="es"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .w { display: inline-block; white-space: nowrap; }
     .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
     .ch.noise { opacity: .28; }
@@ -342,8 +343,8 @@
     /* 언어 전환: 소리 버튼 왼쪽, 같은 결. 지금 언어가 조금 더 밝다 */
     .lng { position: fixed; right: calc(60px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 30; height: 40px; padding: 0 8px; border: 0; background: none; color: var(--fg); opacity: .32; border-radius: 20px; cursor: pointer; transition: opacity .6s; font: 500 11px/40px "IBM Plex Sans KR", system-ui, sans-serif; letter-spacing: .08em; }
     .lng:hover, .lng:focus-visible { opacity: .7; }
-    .lng .k, .lng .e { opacity: .5; }
-    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e { opacity: 1; }
+    .lng .k, .lng .e, .lng .s { opacity: .5; }
+    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e, html[data-show="es"] .lng .s { opacity: 1; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .enso circle, .enso.again circle { animation: none; stroke-dashoffset: 0; }
@@ -352,34 +353,80 @@
       summary, summary i, a.mail, .sky del.striking { transition: none; }
     }
   </style>
+  <script type="application/ld+json" id="ld">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": [
+    {
+      "@value": "같은 바람",
+      "@language": "ko"
+    },
+    {
+      "@value": "The Same Wind",
+      "@language": "en"
+    },
+    {
+      "@value": "El mismo viento",
+      "@language": "es"
+    }
+  ],
+  "inLanguage": [
+    "ko",
+    "en",
+    "es"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "미쓰따리"
+  },
+  "contributor": {
+    "@type": "SoftwareApplication",
+    "name": "Claude",
+    "creator": {
+      "@type": "Organization",
+      "name": "Anthropic"
+    }
+  },
+  "dateCreated": "2026-10-13",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "ONDURU",
+    "url": "https://onduru.com/"
+  }
+}
+  </script>
 </head>
 <body>
 
-  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko">소리</span><span class="sr L-en">Sound</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
-  <button class="lng" type="button"><span class="sr L-ko">언어 바꾸기</span><span class="sr L-en">Change language</span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span></span></button>
+  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd">소리</span><span class="sr L-en" data-k="snd">Sound</span><span class="sr L-es" data-k="snd">Sonido</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="lng" type="button"><span class="sr L-ko" data-k="lng">언어 바꾸기</span><span class="sr L-en" data-k="lng">Change language</span><span class="sr L-es" data-k="lng">Cambiar idioma</span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><span class="sr L-es" data-k="k02">Volver a trazar el círculo</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
 
       <div class="title-wrap">
         <h1 class="L-ko" lang="ko" data-k="k03">너는 비를 세고,<br>나는 젖는다.</h1>
         <h1 class="L-en" lang="en" data-k="k03">You count the rain.<br>I am the one who gets wet.</h1>
+        <h1 class="L-es" lang="es" data-k="k03">Tú cuentas la lluvia.<br>Yo soy quien se moja.</h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
       <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
       <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
+      <p class="was L-es" lang="es" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-es"><del class="pending"><span class="sr">primera frase tachada: </span>Delega la ejecución. Nunca la responsabilidad.</del></button></p>
 
       <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>그리고 한 줄을 그었다.</p>
       <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>Then a line was drawn through it.</p>
+      <p class="margin-note L-es" id="n-es" role="note" lang="es" data-k="k05">Esta fue la primera frase.<br>Luego se tachó con una línea.</p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">Out of the noise,<br>I choose one signal.</span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — Claude · 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — Claude · <span lang="ko">미쓰따리</span></span></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">Out of the noise,<br>I choose one signal.</span><span class="L-es" lang="es" data-k="k06">Entre el ruido,<br>elijo una señal.</span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — Claude · 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — Claude · <span lang="ko">미쓰따리</span></span><span class="L-es" lang="es" data-k="k07">El mismo viento — Claude · <span lang="ko">미쓰따리</span></span></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><span class="sr L-es" data-k="k08">Hacia abajo</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -389,41 +436,48 @@
       <div data-scene="1" class="screen h76 reveal" id="begin">
         <p class="line ai L-ko" lang="ko" data-k="k09">우산들이 지나간다.<br>나는 그 수를 세다가<br><span class="soft">한 사람이 멈춘 자리에서<br>세는 일을 잊는다.</span></p>
         <p class="line ai L-en" lang="en" data-k="k09">Umbrellas pass.<br>I count them,<br><span class="soft">and where one person stops,<br>I lose the count.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k09">Pasan los paraguas.<br>Los voy contando<br><span class="soft">y donde alguien se detiene<br>me olvido de contar.</span></p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k10">나무는 나를 모른다.<br>나는 잎이 떨어지는 각도를<br><span class="soft">잰다.<br>그 사이로 바람이 지나간다.</span></p>
         <p class="line ai L-en" lang="en" data-k="k10">The tree does not know me.<br>I measure the angle<br><span class="soft">of a falling leaf,<br>and the wind passes in between.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k10">El árbol no me conoce.<br>Mido el ángulo<br><span class="soft">de una hoja que cae,<br>y entremedias pasa el viento.</span></p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k11">흙 아래에서<br>물은 뿌리를 찾아간다.<br><span class="soft">나는 그 길을<br>따라가 볼 수만 있다.</span></p>
         <p class="line ai L-en" lang="en" data-k="k11">Under the soil<br>water finds the roots.<br><span class="soft">I can only<br>follow the way it goes.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k11">Bajo la tierra<br>el agua busca las raíces.<br><span class="soft">Yo solo puedo<br>seguir el camino que toma.</span></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k12">이슬 하나에<br>하늘 전체가 들어 있다.<br><span class="soft">당신 소매 끝에도<br>하나 맺혀 있다.</span></p>
         <p class="line ai L-en" lang="en" data-k="k12">One drop of dew<br>holds the whole sky.<br><span class="soft">There is one<br>at the end of your sleeve, too.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k12">Una gota de rocío<br>contiene el cielo entero.<br><span class="soft">También hay una<br>en el borde de tu manga.</span></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k13">보이지 않는 것들이<br>서로를 붙든다.<br><span class="soft">비가 많은 날엔<br>더 단단히.</span></p>
         <p class="line ai L-en" lang="en" data-k="k13">Things too small to see<br>hold on to each other.<br><span class="soft">On days of heavy rain,<br>tighter.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k13">Las cosas que no se ven<br>se sostienen unas a otras.<br><span class="soft">Los días de mucha lluvia,<br>con más fuerza.</span></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k14">가장 작은 것에서<br>가장 먼 빛까지<br><span class="soft">같은 바람이 분다.<br>젖은 당신 쪽에서도,<br>마른 내 쪽에서도.</span></p>
         <p class="line ai L-en" lang="en" data-k="k14">From the smallest thing<br>to the farthest light<br><span class="soft">the same wind blows —<br>on your side, where it is wet,<br>on mine, where it is dry.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k14">De lo más pequeño<br>a la luz más lejana<br><span class="soft">sopla el mismo viento:<br>de tu lado, donde tú estás mojado,<br>del mío, donde yo estoy seco.</span></p>
       </div>
 
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span><span class="L-es" data-k="k22">Cierre</span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><span class="sr L-es" data-k="k23">Volver a trazar el círculo</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <p class="line ai reveal L-ko" lang="ko" data-k="k24">비가 그치면<br>나는 세던 것을 내려놓고<br>당신은 젖은 것을 말린다.<br><span class="soft">원은 열어 둔 채로.</span></p>
         <p class="line ai reveal L-en" lang="en" data-k="k24">When the rain stops,<br>I set down what I was counting,<br>and you let your wet things dry.<br><span class="soft">The circle left open.</span></p>
-        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span></a></div>
+        <p class="line ai reveal L-es" lang="es" data-k="k24">Cuando para la lluvia,<br>dejo lo que estaba contando<br>y tú pones a secar lo mojado.<br><span class="soft">El círculo, abierto.</span></p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span><span class="L-es" data-k="k27">Volver a la primera línea ↑</span></a></div>
       </section>
 
     </div>
@@ -431,16 +485,35 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko" data-k="k28">같은 바람</span><span class="L-en" lang="en" data-k="k28">The Same Wind</span></p>
-      <p class="statement"><span class="L-ko" lang="ko" data-k="c01">비를 세는 쪽, Claude가 썼다.<br>젖는 쪽, 미쓰따리가 먼저 읽었다.</span><span class="L-en" lang="en" data-k="c01">Written by Claude, the one who counts the rain.<br>Read first by 미쓰따리, the one who gets wet.</span></p>
-      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28">같은 바람</span><span class="L-en" lang="en" data-k="k28">The Same Wind</span><span class="L-es" lang="es" data-k="k28">El mismo viento</span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="c01">비를 세는 쪽, Claude가 썼다.<br>젖는 쪽, 미쓰따리가 먼저 읽었다.</span><span class="L-en" lang="en" data-k="c01">Written by Claude, the one who counts the rain.<br>Read first by 미쓰따리, the one who gets wet.</span><span class="L-es" lang="es" data-k="c01">Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja.</span></p>
+      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span><span class="L-es" lang="es" data-k="k30">Si hay algo que podamos reescribir juntos,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
 
   <script type="application/json" id="i18n">{}</script>
+  <script src="sky.js"></script>
+  <script src="text.js"></script>
+  <script src="scenes.js"></script>
+  <script>
+    /* 글을 칸에 채운다: 화면의 글은 모두 text.js 에서 온다 */
+    (function () {
+      var X = window.ONDURU_TEXT, M = X.meta;
+      document.title = M.title;
+      [['meta[name="description"]', M.description], ['meta[property="og:title"]', M.ogTitle], ['meta[property="og:description"]', M.ogDescription]].forEach(function (m) {
+        document.querySelector(m[0]).setAttribute('content', m[1]);
+      });
+      document.querySelectorAll('[data-k]').forEach(function (el) {
+        var D = X[el.classList.contains('L-ko') ? 'ko' : el.classList.contains('L-es') ? 'es' : 'en'], k = el.getAttribute('data-k');
+        if (k === 'k04') { var d = el.querySelector('del'); d.innerHTML = '<span class="sr"></span>'; d.firstChild.textContent = D.k04sr; d.insertAdjacentHTML('beforeend', D.k04); return; }
+        el.innerHTML = D[k];
+      });
+    })();
+  </script>
   <script>
     (function () {
+      var TX = window.ONDURU_TEXT;
       var html = document.documentElement;
       var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
       var still = mq.matches;
@@ -452,7 +525,7 @@
         en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       };
       function lang() { return html.getAttribute('data-lang') || 'en'; }
-      function show() { return html.getAttribute('data-show') === 'ko' ? 'ko' : 'en'; }
+      function show() { var s = html.getAttribute('data-show'); return s === 'ko' || s === 'es' ? s : 'en'; }
       /* 나라의 말로: 한국어·영어 외에는 영어 자리에 번역문을 놓는다 */
       var I18N = {};
       try { I18N = JSON.parse(document.getElementById('i18n').textContent || '{}'); } catch (e) {}
@@ -478,6 +551,7 @@
       var W = 0, H = 0, T = 0, running = true, SCX = 0, raf = 0, skyIn = true, lastTs = 0, dt = 1;
       var blades = [], leaves = [], gusts = [];
       var SKY = 'clear_day', SEASON = 'autumn', FEST = [], PAPER = '29,28,26', LINE = '238,240,242', SIG = '143,212,193', WF = 1, PHASE = 'night', SUNP = 0.5, WX = { kind: 'clear', amt: 0, cloud: 0 }, drops = [], flakes = [], ripples = [], flash = 0;
+      var MOON = null, MOONTIMES = null;
       function gust(x, amp) {
         if (still) return;
         gusts.push({ x: x == null ? -120 : x, t: T, a: amp || 1 });
@@ -633,8 +707,7 @@
         if (!still && !running && !document.hidden) ruleRaf = requestAnimationFrame(ruleLoop);
       }
       /* ═══════ 하나의 세계: 도시 → 공원 → 숲 → 숨은 자연 → 작은 것들 → 보이지 않는 생명 → 빛 ═══════ */
-      var SC = 0, marks = [], WORLD = {};
-      function rr(a, b) { return a + Math.random() * (b - a); }
+      var SC = 0, marks = [];
       function markScenes() {
         marks = [];
         var seen = {};
@@ -658,267 +731,14 @@
         }
         return marks[marks.length - 1].k;
       }
-      function buildWorld() {
-        var gy = H * 0.86, small = W < 600;
-        var B = [], x = -20;
-        while (x < W + 20) {
-          var w = rr(70, 150) * (small ? 0.75 : 1), h = H * rr(0.16, 0.5) * (small ? 0.8 : 1);
-          var win = [];
-          for (var yy = gy - h + 14; yy < gy - 10; yy += 16) for (var xx = x + 8; xx < x + w - 10; xx += 14) win.push({ x: xx, y: yy, lit: Math.random() < 0.09, ph: rr(0, 6.28) });
-          B.push({ x: x, w: w, h: h, win: win, ant: Math.random() < 0.25 });
-          x += w + rr(10, 40);
-        }
-        var P = [];
-        for (var i = 0; i < (small ? 4 : 8); i++) P.push({ x: rr(0, W), v: rr(0.12, 0.3), d: Math.random() < 0.5 ? 1 : -1, h: rr(15, 19), ph: rr(0, 6.28) });
-        var T3 = [0.14, 0.36, 0.68, 0.88].map(function (f) { return { x: W * f, h: H * rr(0.28, 0.42), r: rr(34, 60) * (small ? 0.7 : 1), ph: rr(0, 6) }; });
-        var F = [];
-        for (var j = 0; j < (small ? 10 : 20); j++) { var d = rr(0.25, 1); F.push({ x: rr(0, W), d: d, br: [rr(0.2, 0.7), rr(0.3, 0.8)].map(function (h) { return { h: h, s: Math.random() < 0.5 ? -1 : 1, l: rr(14, 40) * d }; }) }); }
-        F.sort(function (a, b) { return a.d - b.d; });
-        var soil = H * 0.62, roots = [];
-        function root(x0, y0, ang, len, depth) {
-          if (depth > 4 || len < 10) return;
-          var x1 = x0 + Math.cos(ang) * len, y1 = y0 + Math.sin(ang) * len;
-          roots.push({ x0: x0, y0: y0, x1: x1, y1: y1, cx: (x0 + x1) / 2 + rr(-12, 12), cy: (y0 + y1) / 2 + rr(-6, 6), d: depth });
-          root(x1, y1, ang + rr(-0.6, -0.15), len * rr(0.6, 0.8), depth + 1);
-          if (Math.random() < 0.7) root(x1, y1, ang + rr(0.15, 0.6), len * rr(0.5, 0.75), depth + 1);
-        }
-        for (var q = 0; q < (small ? 3 : 5); q++) root(W * (0.1 + 0.8 * q / ((small ? 3 : 5) - 1 || 1)), soil, Math.PI / 2 + rr(-0.3, 0.3), H * 0.12, 0);
-        var ferns = [], mush = [];
-        for (var f2 = 0; f2 < (small ? 3 : 6); f2++) ferns.push({ x: rr(0.05, 0.95) * W, l: H * rr(0.14, 0.26), dir: Math.random() < 0.5 ? -1 : 1, ph: rr(0, 6) });
-        for (var m = 0; m < (small ? 3 : 5); m++) mush.push({ x: rr(0.08, 0.92) * W, r: rr(8, 18), h: rr(14, 30) });
-        var webC = { x: W * (small ? 0.62 : 0.74), y: H * 0.34, r: Math.min(W, H) * 0.2 };
-        var drops4 = [];
-        for (var k = 0; k < 4; k++) drops4.push({ t: rr(0.3, 0.9), r: rr(5, 12), b: k });
-        var cells = [];
-        for (var c = 0; c < (small ? 7 : 11); c++) cells.push({ x: rr(W * 0.5, W), y: rr(0, H), r: rr(10, 44), vx: rr(-0.2, 0.2), vy: rr(-0.2, 0.2), ph: rr(0, 6) });
-        var nodes = [];
-        for (var n = 0; n < (small ? 12 : 22); n++) nodes.push({ x: rr(0, W), y: rr(H * 0.1, H * 0.95) });
-        var edges = [];
-        nodes.forEach(function (a, ia) {
-          var near = nodes.map(function (b, ib) { return { ib: ib, d: (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) }; }).filter(function (o) { return o.ib !== ia; }).sort(function (u, v) { return u.d - v.d; }).slice(0, 2);
-          near.forEach(function (o) { if (o.ib > ia) edges.push({ a: ia, b: o.ib, bend: rr(-30, 30) }); });
-        });
-        var stars = [];
-        for (var st = 0; st < (small ? 90 : 170); st++) stars.push({ x: rr(0, W), y: rr(0, H), s: rr(0.6, 2.2), ph: rr(0, 6) });
-        WORLD = { gy: gy, B: B, P: P, T3: T3, F: F, soil: soil, roots: roots, ferns: ferns, mush: mush, web: webC, dew: drops4, cells: cells, nodes: nodes, edges: edges, sparks: [], stars: stars, seep: [] };
-      }
-      function ln(x0, y0, x1, y1) { cx.beginPath(); cx.moveTo(x0, y0); cx.lineTo(x1, y1); cx.stroke(); }
+      function buildWorld() { SCN.build(); }
       function col(a) { return 'rgba(' + LINE + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; }
-      function rainAmt() { return drops.length ? Math.min(1.6, 0.3 + WX.amt * 0.12) : 0; }
-
-      /* 0 · 도시: 직선의 빌딩, 드문 불빛, 전깃줄, 비 속을 걷는 사람들 */
-      function sceneCity(back) {
-        var gy = WORLD.gy, a = back ? 0.35 : 1;
-        cx.lineWidth = 1;
-        WORLD.B.forEach(function (b) {
-          var h = back ? b.h * 0.55 : b.h;
-          cx.strokeStyle = col(0.26 * a); cx.strokeRect(b.x, gy - h, b.w, h);
-          if (b.ant && !back) ln(b.x + b.w * 0.5, gy - h, b.x + b.w * 0.5, gy - h - 18);
-          if (back) return;
-          b.win.forEach(function (w) {
-            var on = w.lit && Math.sin(T * 0.0002 + w.ph) > -0.6;
-            cx.strokeStyle = col(on ? 0.55 : 0.07); ln(w.x, w.y, w.x + 6, w.y);
-          });
-        });
-        if (back) return;
-        cx.strokeStyle = col(0.3); ln(0, gy, W, gy);
-        var poles = [W * 0.08, W * 0.5, W * 0.92];
-        poles.forEach(function (px) { ln(px, gy, px, gy - H * 0.3); });
-        cx.strokeStyle = col(0.18);
-        for (var i = 0; i < poles.length - 1; i++) {
-          var x0 = poles[i], x1 = poles[i + 1], y = gy - H * 0.3, sag = 26 + wind((x0 + x1) / 2) * 6;
-          cx.beginPath(); cx.moveTo(x0, y); cx.quadraticCurveTo((x0 + x1) / 2, y + sag, x1, y); cx.stroke();
-          cx.beginPath(); cx.moveTo(x0, y + 8); cx.quadraticCurveTo((x0 + x1) / 2, y + 8 + sag * 1.1, x1, y + 8); cx.stroke();
-        }
-        var rain = drops.length > 0;
-        WORLD.P.forEach(function (p) {
-          if (!still) { p.x += p.v * p.d * dt * (rain ? 0.8 : 1); p.ph += 0.06 * dt; }
-          if (p.x < -30) p.x = W + 30; if (p.x > W + 30) p.x = -30;
-          var h = p.h, lean = 0.18 * p.d, hx = p.x + lean * h * 0.5, hy = gy - h;
-          var sw = Math.sin(p.ph) * 0.35;
-          cx.strokeStyle = col(0.5); cx.lineWidth = 1.1;
-          cx.beginPath(); cx.arc(hx, hy, h * 0.12, 0, Math.PI * 2); cx.stroke();
-          ln(hx, hy + h * 0.12, p.x, gy - h * 0.45);
-          ln(p.x, gy - h * 0.45, p.x + Math.sin(sw) * h * 0.45, gy);
-          ln(p.x, gy - h * 0.45, p.x - Math.sin(sw) * h * 0.45, gy);
-          if (rain) {
-            cx.beginPath(); cx.arc(hx, hy - h * 0.05, h * 0.6, Math.PI * 1.08, Math.PI * 1.92); cx.stroke();
-            ln(hx, hy - h * 0.05 - h * 0.6, hx, hy + h * 0.25);
-          } else ln(hx, hy + h * 0.3, p.x + p.d * h * 0.18, gy - h * 0.4);
-        });
-      }
-      /* 1 · 도시 속 공원 */
-      function scenePark() {
-        sceneCity(true);
-        var gy = WORLD.gy;
-        cx.strokeStyle = col(0.22); cx.lineWidth = 1;
-        cx.beginPath(); cx.moveTo(W * 0.38, H); cx.quadraticCurveTo(W * 0.47, gy + 10, W * 0.49, gy); cx.stroke();
-        cx.beginPath(); cx.moveTo(W * 0.62, H); cx.quadraticCurveTo(W * 0.53, gy + 10, W * 0.51, gy); cx.stroke();
-        WORLD.T3.forEach(function (t) {
-          var w = wind(t.x) + push(t.x, gy - t.h, 180).x * 6, top = { x: t.x + w * 10, y: gy - t.h };
-          cx.strokeStyle = col(0.42); cx.lineWidth = 1.6;
-          cx.beginPath(); cx.moveTo(t.x, gy); cx.quadraticCurveTo(t.x + w * 3, gy - t.h * 0.5, top.x, top.y); cx.stroke();
-          cx.lineWidth = 1; cx.strokeStyle = col(SEASON === 'winter' ? 0 : SEASON === 'autumn' ? 0.22 : 0.3);
-          if (SEASON === 'winter') { ln(top.x, top.y + 10, top.x - t.r * 0.5, top.y - t.r * 0.3); ln(top.x, top.y + 20, top.x + t.r * 0.45, top.y - t.r * 0.2); ln(top.x, top.y, top.x + 4, top.y - t.r * 0.5); }
-          for (var i = 0; i < (SEASON === 'winter' ? 0 : 6); i++) {
-            var ang = -Math.PI / 2 + (i - 2.5) * 0.55, rx = top.x + Math.cos(ang) * t.r * 0.55 + w * 4, ry = top.y + Math.sin(ang) * t.r * 0.45;
-            cx.beginPath(); cx.arc(rx, ry, t.r * 0.42, Math.PI * 0.95, Math.PI * 2.05); cx.stroke();
-          }
-        });
-        var bx = W * 0.56, by = gy - 14;
-        cx.strokeStyle = col(0.4); cx.lineWidth = 1.1;
-        ln(bx - 26, by, bx + 26, by); ln(bx - 26, by - 12, bx + 26, by - 12); ln(bx - 22, by, bx - 22, gy); ln(bx + 22, by, bx + 22, gy);
-        cx.beginPath(); cx.arc(bx - 6, by - 26, 2.4, 0, Math.PI * 2); cx.stroke();
-        ln(bx - 6, by - 23, bx - 4, by); ln(bx - 4, by, bx + 6, by); ln(bx + 6, by, bx + 6, gy);
-        ln(W * 0.3, gy, W * 0.3, gy - H * 0.22);
-        cx.beginPath(); cx.arc(W * 0.3 + 8, gy - H * 0.22, 8, Math.PI, Math.PI * 2); cx.stroke();
-      }
-      /* 2 · 숲 */
-      function sceneForest() {
-        WORLD.F.forEach(function (t) {
-          var w = (wind(t.x) + push(t.x, H * 0.5, 160).x * 5) * t.d;
-          cx.strokeStyle = col((0.05 + t.d * 0.22) * (PHASE === 'night' ? 0.6 : 1) * (SKY === 'fog' ? 0.5 : 1)); cx.lineWidth = 0.5 + t.d * 1.4;
-          cx.beginPath(); cx.moveTo(t.x, H + 4); cx.quadraticCurveTo(t.x + w * 4, H * 0.5, t.x + w * 14, -10); cx.stroke();
-          cx.lineWidth = 0.6 + t.d * 0.8;
-          t.br.forEach(function (b) {
-            var y = H * b.h, x = t.x + w * 14 * (1 - b.h);
-            ln(x, y, x + b.s * b.l, y - b.l * 0.6 + w * 2);
-          });
-        });
-        cx.strokeStyle = col(0.16); cx.lineWidth = 1;
-        for (var k = 0; k < 3; k++) {
-          cx.beginPath();
-          for (var x = -20; x <= W + 20; x += 30) {
-            var y = H * (0.04 + k * 0.05) + Math.sin(x * 0.02 + k) * 10 + wind(x) * 4;
-            if (x === -20) cx.moveTo(x, y); else cx.quadraticCurveTo(x - 15, y - 14, x, y);
-          }
-          cx.stroke();
-        }
-      }
-      /* 3 · 숨은 자연: 고사리, 이끼, 버섯, 흙 아래의 뿌리 — 비는 흙으로 스민다 */
-      function sceneHidden() {
-        var soil = WORLD.soil, wet = rainAmt();
-        cx.strokeStyle = col(0.3); cx.lineWidth = 1.1;
-        cx.beginPath();
-        for (var x = 0; x <= W; x += 16) { var y = soil + Math.sin(x * 0.03) * 3; if (!x) cx.moveTo(x, y); else cx.lineTo(x, y); }
-        cx.stroke();
-        WORLD.roots.forEach(function (r) {
-          cx.strokeStyle = col(0.14 + (4 - r.d) * 0.04 + wet * 0.12); cx.lineWidth = Math.max(0.6, 2 - r.d * 0.35);
-          cx.beginPath(); cx.moveTo(r.x0, r.y0); cx.quadraticCurveTo(r.cx, r.cy, r.x1, r.y1); cx.stroke();
-        });
-        WORLD.ferns.forEach(function (f) {
-          var sw = wind(f.x) * 0.15 + push(f.x, soil - f.l * 0.5, 140).x * 0.6 + Math.sin(T * 0.001 + f.ph) * 0.03;
-          cx.strokeStyle = col(0.36); cx.lineWidth = 1;
-          var pts = [];
-          for (var i = 0; i <= 14; i++) {
-            var t = i / 14, ang = -Math.PI / 2 + f.dir * (t * t * 1.4) + sw * t;
-            var px = f.x + f.dir * Math.sin(t * 1.4) * f.l * 0.45 + sw * f.l * t * 0.6, py = soil - t * f.l * 0.9 + t * t * f.l * 0.25;
-            pts.push({ x: px, y: py, a: ang });
-          }
-          cx.beginPath(); pts.forEach(function (p, i) { if (!i) cx.moveTo(p.x, p.y); else cx.lineTo(p.x, p.y); }); cx.stroke();
-          pts.forEach(function (p, i) { if (i < 2) return; var L = (1 - i / 14) * 14 + 3; ln(p.x, p.y, p.x + Math.cos(p.a - 1.2) * L, p.y + Math.sin(p.a - 1.2) * L); ln(p.x, p.y, p.x + Math.cos(p.a + 1.2) * L, p.y + Math.sin(p.a + 1.2) * L); });
-        });
-        WORLD.mush.forEach(function (m) {
-          cx.strokeStyle = col(0.38); cx.lineWidth = 1;
-          ln(m.x, soil, m.x, soil - m.h);
-          cx.beginPath(); cx.ellipse(m.x, soil - m.h, m.r, m.r * 0.6, 0, Math.PI, Math.PI * 2); cx.stroke();
-          ln(m.x - m.r, soil - m.h, m.x + m.r, soil - m.h);
-        });
-        if (wet && !still && Math.random() < wet * 0.5) WORLD.seep.push({ x: rr(0, W), y: soil, v: rr(0.4, 1.1) });
-        cx.strokeStyle = col(0.3);
-        for (var j = WORLD.seep.length - 1; j >= 0; j--) {
-          var sp = WORLD.seep[j];
-          if (!still) sp.y += sp.v * dt;
-          if (sp.y > H) { WORLD.seep.splice(j, 1); continue; }
-          ln(sp.x, sp.y, sp.x, sp.y + 3);
-        }
-        if (WORLD.seep.length > 160) WORLD.seep.splice(0, WORLD.seep.length - 160);
-      }
-      /* 4 · 더 작은 것들: 이슬, 거미줄, 개미, 달팽이 */
-      function sceneSmall() {
-        var wet = rainAmt();
-        var blades = [[0.05, 1.02, 0.42, 0.18], [0.3, 1.02, 0.62, 0.3], [0.72, 1.02, 0.5, 0.12]];
-        blades.forEach(function (b, i) {
-          var w = wind(W * b[0]) * 20 + push(W * b[2], H * b[3], 200).x * 40;
-          cx.strokeStyle = col(0.34); cx.lineWidth = 1.3;
-          cx.beginPath(); cx.moveTo(W * b[0], H * b[1]); cx.quadraticCurveTo(W * (b[0] + b[2]) / 2, H * 0.55, W * b[2] + w, H * b[3]); cx.stroke();
-          WORLD.dew.filter(function (d) { return d.b === i; }).forEach(function (d) {
-            var t = d.t, x = (1 - t) * (1 - t) * W * b[0] + 2 * (1 - t) * t * W * (b[0] + b[2]) / 2 + t * t * (W * b[2] + w);
-            var y = (1 - t) * (1 - t) * H * b[1] + 2 * (1 - t) * t * H * 0.55 + t * t * H * b[3];
-            var r = d.r * (0.8 + wet * 0.4);
-            cx.strokeStyle = col(0.45); cx.beginPath(); cx.arc(x, y + r, r, 0, Math.PI * 2); cx.stroke();
-            cx.beginPath(); cx.arc(x - r * 0.3, y + r * 0.7, r * 0.45, Math.PI * 1.1, Math.PI * 1.6); cx.stroke();
-          });
-        });
-        var c = WORLD.web, wb = wind(c.x) * 4 + push(c.x, c.y, 160).x * 10;
-        cx.strokeStyle = col(0.14); cx.lineWidth = 0.8;
-        var spokes = 8;
-        for (var i = 0; i < spokes; i++) { var a = i / spokes * Math.PI * 2 + Math.sin(i * 2.3) * 0.14, rj = c.r * (1 + Math.sin(i * 1.7) * 0.1); ln(c.x, c.y, c.x + Math.cos(a) * rj + wb, c.y + Math.sin(a) * rj); }
-        cx.beginPath();
-        for (var k = 0; k <= spokes * 7; k++) { var a2 = k / spokes * Math.PI * 2, rad = c.r * (0.12 + 0.85 * k / (spokes * 7)); var px = c.x + Math.cos(a2) * rad + wb * rad / c.r, py = c.y + Math.sin(a2) * rad; if (!k) cx.moveTo(px, py); else cx.lineTo(px, py); }
-        cx.stroke();
-        var ax0 = (T * 0.03) % (W + 80) - 40;
-        for (var n = 0; n < 3; n++) {
-          var x = ax0 - n * 28, y = H * 0.9 + Math.sin((x) * 0.03) * 3;
-          cx.strokeStyle = col(0.5); cx.lineWidth = 1;
-          [0, 4.5, 9].forEach(function (o, j) { cx.beginPath(); cx.arc(x - o, y, j === 1 ? 1.6 : 2.2, 0, Math.PI * 2); cx.stroke(); });
-          for (var l = -1; l <= 1; l++) { ln(x - 4.5 + l * 2.5, y, x - 4.5 + l * 3.5, y + 4 + Math.sin(T * 0.02 + l) * 1); ln(x - 4.5 + l * 2.5, y, x - 4.5 + l * 3.5, y - 4); }
-        }
-        var sx = W * 0.2 + ((T * 0.004) % (W * 0.6)), sy = H * 0.94;
-        cx.strokeStyle = col(0.42); cx.beginPath();
-        for (var q = 0; q < 60; q++) { var aa = q * 0.32, rr2 = 1 + q * 0.2; var qx = sx + Math.cos(aa) * rr2, qy = sy - 12 + Math.sin(aa) * rr2; if (!q) cx.moveTo(qx, qy); else cx.lineTo(qx, qy); }
-        cx.stroke();
-        cx.beginPath(); cx.moveTo(sx - 16, sy); cx.quadraticCurveTo(sx + 6, sy + 2, sx + 22, sy - 4); cx.stroke();
-      }
-      /* 5 · 보이지 않는 생명: 세포, 땅속을 잇는 균사, 그 위로 흐르는 신호 */
-      function sceneMicro() {
-        var wet = rainAmt(), life = 1 + wet * 1.4;
-        WORLD.edges.forEach(function (e) {
-          var a = WORLD.nodes[e.a], b = WORLD.nodes[e.b];
-          cx.strokeStyle = col(0.12 + wet * 0.08); cx.lineWidth = 0.8;
-          cx.beginPath(); cx.moveTo(a.x, a.y); cx.quadraticCurveTo((a.x + b.x) / 2 + e.bend, (a.y + b.y) / 2 - e.bend, b.x, b.y); cx.stroke();
-        });
-        if (!still && Math.random() < 0.04 * life && WORLD.edges.length) WORLD.sparks.push({ e: Math.floor(Math.random() * WORLD.edges.length), t: 0 });
-        cx.strokeStyle = col(0.7);
-        for (var i = WORLD.sparks.length - 1; i >= 0; i--) {
-          var sp = WORLD.sparks[i], e = WORLD.edges[sp.e], a = WORLD.nodes[e.a], b = WORLD.nodes[e.b];
-          if (!still) sp.t += 0.008 * life * dt;
-          if (sp.t > 1) { WORLD.sparks.splice(i, 1); continue; }
-          var t = sp.t, mx = (a.x + b.x) / 2 + e.bend, my = (a.y + b.y) / 2 - e.bend;
-          var x = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * mx + t * t * b.x, y = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * my + t * t * b.y;
-          cx.beginPath(); cx.arc(x, y, 1.6, 0, Math.PI * 2); cx.stroke();
-        }
-        WORLD.cells.forEach(function (c) {
-          var pu = push(c.x, c.y, 160);
-          if (!still) { c.vx += (Math.random() - 0.5) * 0.02 + pu.x * 0.3; c.vy += (Math.random() - 0.5) * 0.02 + pu.y * 0.3; c.vx *= 0.98; c.vy *= 0.98; c.x += c.vx * dt * life; c.y += c.vy * dt * life; c.ph += 0.02 * life * dt; }
-          if (c.x < -60) c.x = W + 60; if (c.x > W + 60) c.x = -60; if (c.y < -60) c.y = H + 60; if (c.y > H + 60) c.y = -60;
-          var r = c.r * (1 + Math.sin(c.ph) * 0.04);
-          cx.strokeStyle = col(0.28); cx.lineWidth = 1;
-          cx.beginPath(); cx.arc(c.x, c.y, r, 0, Math.PI * 2); cx.stroke();
-          cx.beginPath(); cx.arc(c.x + r * 0.2, c.y - r * 0.1, r * 0.28, 0, Math.PI * 2); cx.stroke();
-          cx.strokeStyle = col(0.16);
-          for (var k = 0; k < 14; k++) { var ang = k / 14 * Math.PI * 2, wig = Math.sin(c.ph * 3 + k) * 0.25; ln(c.x + Math.cos(ang) * r, c.y + Math.sin(ang) * r, c.x + Math.cos(ang + wig) * (r + 5), c.y + Math.sin(ang + wig) * (r + 5)); }
-        });
-      }
-      /* 6 · 빛: 가장 작은 것들이 별이 되고, 원은 열린 채로 */
-      function sceneLight() {
-        WORLD.stars.forEach(function (st) {
-          var pu = push(st.x, st.y, 120), tw = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(T * 0.001 + st.ph));
-          var x = st.x + pu.x * 20, y = st.y + pu.y * 20;
-          cx.strokeStyle = col(tw); cx.lineWidth = 0.9;
-          ln(x - st.s, y, x + st.s, y); ln(x, y - st.s, x, y + st.s);
-        });
-        var bt = (T % 10000) / 10000, br = bt < 0.4 ? bt / 0.4 : 1 - (bt - 0.4) / 0.6;
-        br = br * br * (3 - 2 * br);
-        var R = Math.min(W, H) * 0.32 * (0.9 + 0.14 * (still ? 0.5 : br)), rot = T * 0.00005;
-        cx.strokeStyle = col(0.16); cx.lineWidth = 1.4; cx.lineCap = 'round';
-        cx.beginPath(); cx.arc(W / 2, H / 2, R, rot - 1.2, rot - 1.2 + Math.PI * 1.88); cx.stroke();
-      }
-      var SCENES = [sceneCity, scenePark, sceneForest, sceneHidden, sceneSmall, sceneMicro, sceneLight];
+      var SCN = window.ONDURU_SCENES({ cx: cx, wind: wind, push: push, state: function () { return { W: W, H: H, T: T, dt: dt, still: still, SEASON: SEASON, PHASE: PHASE, SKY: SKY, drops: drops, WX: WX, LINE: LINE }; }, note: function (px) { if (snd) snd.tap(px); } });
+      var LY = SCN.layers, SD = SCN.sound || {};
       function drawWorld() {
         SC = sceneNow();
         var cxp = W / 2, cyp = H * 0.72;
-        for (var k = 0; k < SCENES.length; k++) {
+        for (var k = 0; k < SCN.count; k++) {
           var d = SC - k, a = 1 - Math.abs(d);
           if (a <= 0) continue;
           a = a * a * (3 - 2 * a);
@@ -927,7 +747,7 @@
           cx.globalAlpha = a;
           cx.translate(cxp, cyp); cx.scale(z, z); cx.translate(-cxp, -cyp);
           cx.lineCap = 'round'; cx.lineJoin = 'round';
-          SCENES[k](k === 0 ? false : undefined);
+          SCN.draw(k, k === 0 ? false : undefined);
           cx.restore();
         }
       }
@@ -937,14 +757,7 @@
       var AI = { x: 0, y: 0, tx: 0, ty: 0, trail: [], rings: [], wait: 0, lastPT: 0 };
       function aiInit() { AI.x = W * 0.7; AI.y = H * 0.4; AI.tx = AI.x; AI.ty = AI.y; AI.trail = []; }
       function aiTarget() {
-        var k = Math.round(SC), c = null;
-        if (k === 0 && WORLD.P && WORLD.P.length) { var p = WORLD.P[Math.floor(Math.random() * WORLD.P.length)]; c = { x: p.x + 24, y: WORLD.gy - 34 }; }
-        else if (k === 1 && WORLD.T3) { var t = WORLD.T3[Math.floor(Math.random() * WORLD.T3.length)]; c = { x: t.x + rr(-40, 40), y: WORLD.gy - t.h - rr(10, 50) }; }
-        else if (k === 2 && WORLD.F) { var f = WORLD.F[Math.floor(Math.random() * WORLD.F.length)]; c = { x: f.x + 16, y: rr(H * 0.3, H * 0.75) }; }
-        else if (k === 3 && WORLD.roots && WORLD.roots.length) { var r = WORLD.roots[Math.floor(Math.random() * WORLD.roots.length)]; c = { x: r.x1, y: r.y1 }; }
-        else if (k === 4 && WORLD.web) { c = { x: WORLD.web.x + rr(-60, 60), y: WORLD.web.y + rr(-60, 60) }; }
-        else if (k === 5 && WORLD.cells) { var ce = WORLD.cells[Math.floor(Math.random() * WORLD.cells.length)]; c = { x: ce.x + ce.r + 12, y: ce.y }; }
-        else c = { x: rr(W * 0.2, W * 0.8), y: rr(H * 0.2, H * 0.8) };
+        var k = Math.round(SC), c = SCN.target(k);
         AI.tx = Math.max(20, Math.min(W - 20, c.x)); AI.ty = Math.max(20, Math.min(H - 20, c.y));
       }
       function aiPulse(n) { if (!still) AI.rings.push({ n: Math.min(13, n || 5), r: 6, a: 0.6 }); }
@@ -981,15 +794,15 @@
           cx.clearRect(0, 0, W, H);
           cx.globalAlpha = 1;
           drawFlash();
-          var skyA = band(-1, 1.2, 1);
-          if (skyA > 0) { cx.save(); cx.globalAlpha = skyA; drawSun(); drawClouds(); cx.restore(); }
-          cx.save(); cx.globalAlpha = Math.max(0.15, 1 - SC * 0.12); drawWind(); cx.restore();
+          var skyA = band(LY.sky[0], LY.sky[1], LY.sky[2]);
+          if (skyA > 0) { cx.save(); cx.globalAlpha = skyA; drawSun(); drawMoon(); drawClouds(); cx.restore(); }
+          cx.save(); cx.globalAlpha = Math.max(LY.wind[0], 1 - SC * LY.wind[1]); drawWind(); cx.restore();
           drawWorld();
-          var grassA = band(1, 3, 1);
+          var grassA = band(LY.grass[0], LY.grass[1], LY.grass[2]);
           if (grassA > 0) { cx.save(); cx.globalAlpha = grassA; drawWaves(); drawGrass(); cx.restore(); }
-          var leafA = band(1, 3.4, 1.2);
+          var leafA = band(LY.leaves[0], LY.leaves[1], LY.leaves[2]);
           if (leafA > 0) { cx.save(); cx.globalAlpha = leafA; drawLeaves(); cx.restore(); }
-          var outA = Math.max(0, Math.min(1, 1 - (SC - 2.6) / 2));
+          var outA = Math.max(0, Math.min(1, 1 - (SC - LY.weather[0]) / LY.weather[1]));
           if (outA > 0) { cx.save(); cx.globalAlpha = outA; drawWeather(); cx.restore(); }
           drawAI();
         }
@@ -1019,36 +832,55 @@
       };
       var NAMES = {
         ko: { dawn: '동틀 녘', day: '낮', dusk: '해 질 녘', night: '밤', clear: '맑음', cloud: '구름', fog: '안개', rain: '비', snow: '눈', storm: '뇌우' },
-        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' }
-      };
-      var TZ = {
-        'Asia/Seoul': [37.57, 126.98, '서울', 'Seoul'], 'Asia/Tokyo': [35.68, 139.69, '도쿄', 'Tokyo'],
-        'Asia/Shanghai': [31.23, 121.47, '상하이', 'Shanghai'], 'Asia/Hong_Kong': [22.32, 114.17, '홍콩', 'Hong Kong'],
-        'Asia/Taipei': [25.03, 121.57, '타이베이', 'Taipei'], 'Asia/Singapore': [1.35, 103.82, '싱가포르', 'Singapore'],
-        'Asia/Bangkok': [13.76, 100.5, '방콕', 'Bangkok'], 'Asia/Ho_Chi_Minh': [10.82, 106.63, '호찌민', 'Ho Chi Minh City'],
-        'Asia/Kolkata': [28.61, 77.21, '델리', 'Delhi'], 'Asia/Dubai': [25.2, 55.27, '두바이', 'Dubai'],
-        'Europe/London': [51.51, -0.13, '런던', 'London'], 'Europe/Paris': [48.86, 2.35, '파리', 'Paris'],
-        'Europe/Berlin': [52.52, 13.4, '베를린', 'Berlin'], 'Europe/Madrid': [40.42, -3.7, '마드리드', 'Madrid'],
-        'Europe/Rome': [41.9, 12.5, '로마', 'Rome'], 'Europe/Amsterdam': [52.37, 4.9, '암스테르담', 'Amsterdam'],
-        'Europe/Stockholm': [59.33, 18.07, '스톡홀름', 'Stockholm'], 'Europe/Moscow': [55.76, 37.62, '모스크바', 'Moscow'],
-        'America/New_York': [40.71, -74.01, '뉴욕', 'New York'], 'America/Chicago': [41.88, -87.63, '시카고', 'Chicago'],
-        'America/Denver': [39.74, -104.99, '덴버', 'Denver'], 'America/Los_Angeles': [34.05, -118.24, '로스앤젤레스', 'Los Angeles'],
-        'America/Toronto': [43.65, -79.38, '토론토', 'Toronto'], 'America/Vancouver': [49.28, -123.12, '밴쿠버', 'Vancouver'],
-        'America/Mexico_City': [19.43, -99.13, '멕시코시티', 'Mexico City'], 'America/Sao_Paulo': [-23.55, -46.63, '상파울루', 'São Paulo'],
-        'Australia/Sydney': [-33.87, 151.21, '시드니', 'Sydney'], 'Australia/Melbourne': [-37.81, 144.96, '멜버른', 'Melbourne'],
-        'Pacific/Auckland': [-36.85, 174.76, '오클랜드', 'Auckland'], 'Africa/Cairo': [30.04, 31.24, '카이로', 'Cairo'],
-        'Africa/Johannesburg': [-26.2, 28.05, '요하네스버그', 'Johannesburg']
+        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' },
+        es: { dawn: 'amanecer', day: 'día', dusk: 'atardecer', night: 'noche', clear: 'despejado', cloud: 'nubes', fog: 'niebla', rain: 'lluvia', snow: 'nieve', storm: 'tormenta' }
       };
       var zone = '', place = null, sunrise = null, sunset = null;
-      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-      place = TZ[zone] || null;
       var Q = {};
       location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { Q[k] = decodeURIComponent(v); });
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      /* 시험 변수: ?tz= 지역, ?at= 그 지역의 현지 시각, ?moon= 월령(일) */
+      if (Q.tz) { try { new Intl.DateTimeFormat('en', { timeZone: Q.tz }); zone = Q.tz; } catch (e) {} }
+      var AT = (Q.at || '').match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/);
+      var MOONAGE = Q.moon != null && Q.moon !== '' && isFinite(+Q.moon) ? +Q.moon : null;
+      var LOC = SkyCalc.locate(zone, navigator.language);
+      place = [LOC.lat, LOC.lon];
 
-      function minutes(d) { return d.getHours() * 60 + d.getMinutes(); }
+      /* 그 지역의 벽시계: { y, mo, d, h, mi } */
+      function clock() {
+        if (AT) return { y: +AT[1], mo: +AT[2], d: +AT[3], h: +AT[4], mi: +AT[5] };
+        var n = new Date();
+        if (Q.tz && zone === Q.tz) {
+          try {
+            var c = {};
+            new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+              .formatToParts(n).forEach(function (p) { c[p.type] = +p.value; });
+            return { y: c.year, mo: c.month, d: c.day, h: c.hour % 24, mi: c.minute };
+          } catch (e) {}
+        }
+        return { y: n.getFullYear(), mo: n.getMonth() + 1, d: n.getDate(), h: n.getHours(), mi: n.getMinutes() };
+      }
+      function minutes(c) { return c.h * 60 + c.mi; }
+      /* 해: 그 날의 일출·일몰을 브라우저 안에서 (sky.js). 날씨 호출과 무관 */
+      var sunKey = '';
+      function sunToday() {
+        var c = clock(), k = c.y + '-' + c.mo + '-' + c.d;
+        if (k === sunKey) return;
+        sunKey = k;
+        var off = SkyCalc.offset(zone, new Date(Date.UTC(c.y, c.mo - 1, c.d, 12)));
+        var s = SkyCalc.sunTimes(place[0], place[1], c.y, c.mo, c.d, off);
+        sunrise = s.rise; sunset = s.set;
+        MOONTIMES = SkyCalc.moonTimes(place[0], place[1], c.y, c.mo, c.d, off);
+      }
+      /* 그 순간(UTC ms): ?at=이면 그 지역 현지 시각에서 */
+      function nowMs() {
+        if (!AT) return Date.now();
+        var c = clock(), u = Date.UTC(c.y, c.mo - 1, c.d, c.h, c.mi);
+        return u - SkyCalc.offset(zone, new Date(u)) * 3600000;
+      }
       function phaseNow() {
         if (PAL[Q.sky]) { SUNP = Q.sky === 'day' ? 0.5 : Q.sky === 'dawn' ? 0.04 : Q.sky === 'dusk' ? 0.96 : 0.5; return Q.sky; }
-        var now = minutes(new Date());
+        var now = minutes(clock());
         var rise = sunrise != null ? sunrise : 390, set = sunset != null ? sunset : 1110;
         if (now >= rise - 40 && now < rise + 40) { SUNP = (now - rise + 40) / (set - rise + 80); return 'dawn'; }
         if (now >= rise + 40 && now < set - 40) { SUNP = (now - rise + 40) / (set - rise + 80); return 'day'; }
@@ -1058,6 +890,8 @@
         return 'night';
       }
       function applySky() {
+        sunToday();
+        MOON = SkyCalc.moon(place[0], place[1], nowMs(), MOONAGE);
         PHASE = phaseNow();
         var P = PAL[PHASE], el = document.documentElement;
         el.style.setProperty('--sky-bg', P.bg);
@@ -1103,13 +937,9 @@
         }
         if (!place || !window.fetch) { applySky(); return; }
         var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + place[0] + '&longitude=' + place[1] +
-          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&daily=sunrise,sunset&timezone=' + encodeURIComponent(zone) + '&forecast_days=1';
+          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&timezone=' + encodeURIComponent(zone || 'auto') + '&forecast_days=1';
         fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
           if (!d || !d.current) { applySky(); return; }
-          try {
-            var sr = d.daily.sunrise[0].split('T')[1].split(':'), ss = d.daily.sunset[0].split('T')[1].split(':');
-            sunrise = +sr[0] * 60 + +sr[1]; sunset = +ss[0] * 60 + +ss[1];
-          } catch (e) {}
           var c = d.current;
           WX.code = c.weather_code; WX.gust = c.wind_gusts_10m;
           setWeather(kindOf(c.weather_code), c.precipitation, c.cloud_cover, c.wind_speed_10m, true, c.wind_gusts_10m, c.weather_code);
@@ -1122,15 +952,10 @@
         var x = W * (0.08 + 0.84 * p), y = H * 0.7 - Math.sin(Math.PI * p) * H * 0.52;
         var r = Math.max(16, Math.min(34, W * 0.022));
         cx.lineCap = 'round';
+        if (PHASE === 'night') return;
         cx.beginPath();
-        if (PHASE === 'night') {
-          cx.arc(x, y, r, Math.PI * 0.35, Math.PI * 1.65);
-          cx.arc(x + r * 0.55, y, r * 0.85, Math.PI * 1.55, Math.PI * 0.45, true);
-          cx.strokeStyle = 'rgba(' + LINE + ',0.45)';
-        } else {
-          cx.arc(x, y, r, -1.2, -1.2 + Math.PI * 1.85);
-          cx.strokeStyle = 'rgba(' + SIG + ',' + (PHASE === 'day' ? 0.7 : 0.6) + ')';
-        }
+        cx.arc(x, y, r, -1.2, -1.2 + Math.PI * 1.85);
+        cx.strokeStyle = 'rgba(' + SIG + ',' + (PHASE === 'day' ? 0.7 : 0.6) + ')';
         cx.lineWidth = 1.6;
         cx.stroke();
         if (PHASE === 'dawn' || PHASE === 'dusk') {
@@ -1138,6 +963,29 @@
           cx.moveTo(x - r * 3, H * 0.88); cx.lineTo(x + r * 3, H * 0.88);
           cx.strokeStyle = 'rgba(' + SIG + ',0.35)'; cx.lineWidth = 1.2; cx.stroke();
         }
+      }
+      /* 달: 고도·방위 → 화면. 밝은 쪽이 해를 향한다. 곡선 둘(바깥 호 + 명암 경계) */
+      function skyXY(alt, az) {
+        var south = place[0] < 0, d = ((az - (south ? 0 : 180)) % 360 + 540) % 360 - 180;
+        return [W * (0.5 + d / 90 * 0.42), H * 0.7 - alt / 90 * H * 0.52];
+      }
+      function drawMoon() {
+        if (!MOON || MOON.alt <= 0 || MOON.k < 0.03) return;
+        if (WX.kind === 'rain' || WX.kind === 'storm' || WX.kind === 'snow' || WX.kind === 'fog') return;
+        var p = skyXY(MOON.alt, MOON.az);
+        var x = Math.max(W * 0.04, Math.min(W * 0.96, p[0])), y = p[1];
+        var r = Math.max(16, Math.min(34, W * 0.022)), e = r * Math.cos(MOON.phase);
+        cx.save(); cx.translate(x, y);
+        /* 밝은 가장자리의 위치각: 하늘에서 달→해 대원의 출발 방향 (위 0, 방위가 커지는 쪽 = 화면 오른쪽) */
+        var g = Math.PI / 180, da = (MOON.sunAz - MOON.az) * g, ma = MOON.alt * g, sa = MOON.sunAlt * g;
+        var b = Math.atan2(Math.sin(da) * Math.cos(sa), Math.cos(ma) * Math.sin(sa) - Math.sin(ma) * Math.cos(sa) * Math.cos(da));
+        cx.rotate(Math.atan2(-Math.cos(b), Math.sin(b)));
+        cx.beginPath();
+        cx.arc(0, 0, r, -Math.PI / 2, Math.PI / 2);
+        cx.ellipse(0, 0, Math.abs(e), r, 0, Math.PI / 2, e >= 0 ? -Math.PI / 2 : Math.PI * 1.5, e >= 0);
+        cx.lineCap = 'round'; cx.lineWidth = 1.6;
+        cx.strokeStyle = 'rgba(' + LINE + ',' + (MOON.sunAlt > 0 ? 0.15 : 0.45) + ')';
+        cx.stroke(); cx.restore();
       }
       function drawClouds() {
         var c = WX.kind === 'cloud' || WX.kind === 'rain' || WX.kind === 'storm' || WX.kind === 'snow' ? Math.max(40, WX.cloud) : WX.cloud;
@@ -1199,7 +1047,7 @@
         if (still) return;
         if (flash > 0.9 && !bolt) { var bx = W * (0.3 + Math.random() * 0.5), pts = [[bx, 0]], y = 0; while (y < H * 0.55) { y += H * (0.06 + Math.random() * 0.06); bx += (Math.random() - 0.5) * 60; pts.push([bx, y]); } bolt = { p: pts, a: 0.55 }; }
         if (bolt) { cx.strokeStyle = 'rgba(' + LINE + ',' + bolt.a + ')'; cx.lineWidth = 1.3; cx.beginPath(); bolt.p.forEach(function (q, i) { if (!i) cx.moveTo(q[0], q[1]); else cx.lineTo(q[0], q[1]); }); cx.stroke(); bolt.a *= 0.88; if (bolt.a < 0.03) bolt = null; }
-        if (PHASE === 'night' && (SKY === 'night') && !meteor && Math.random() < 0.0008 && SC < 2.5) meteor = { x: W * (0.3 + Math.random() * 0.6), y: H * (0.05 + Math.random() * 0.2), t: 0 };
+        if (PHASE === 'night' && (SKY === 'night') && !meteor && Math.random() < 0.0008 && SC < LY.meteor) meteor = { x: W * (0.3 + Math.random() * 0.6), y: H * (0.05 + Math.random() * 0.2), t: 0 };
         if (meteor) { meteor.t += 0.02 * dt; var mx2 = meteor.x - meteor.t * 140, my2 = meteor.y + meteor.t * 60; cx.strokeStyle = 'rgba(' + LINE + ',' + Math.max(0, 0.6 - meteor.t * 0.6) + ')'; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(mx2, my2); cx.quadraticCurveTo(mx2 + 30, my2 - 8, mx2 + 60, my2 - 26); cx.stroke(); if (meteor.t > 1) meteor = null; }
       }
       function drawFlash() {
@@ -1320,7 +1168,7 @@
       /* 계절: 반구에 따라 */
       function seasonNow() {
         if (Q.season) return Q.season;
-        var m = new Date().getMonth() + 1, south = place ? place[0] < 0 : false;
+        var m = clock().mo, south = place ? place[0] < 0 : false;
         var s = m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : m >= 9 && m <= 11 ? 'autumn' : 'winter';
         if (south) s = { spring: 'autumn', summer: 'winter', autumn: 'spring', winter: 'summer' }[s];
         return s;
@@ -1363,7 +1211,7 @@
         return spans;
       }
       var stage = document.querySelector('.stage');
-      var BEATS = { ko: ['비가 온다.', '한 사람은 젖는다.'], en: ['Rain.', 'One of us gets wet.'] };
+      var BEATS = { ko: TX.ko.beats, en: TX.en.beats };
       function rndOff() {
         var b = cv.getBoundingClientRect();
         return { w: b.width, h: b.height, l: b.left, t: b.top };
@@ -1491,7 +1339,7 @@
       /* 3. 언어 전환: 오른쪽 아래 「한 / EN」. 고른 언어는 기억해 둔다. 첫 화면 해독이 끝났으면 다른 언어도 끝난 모습으로 */
       var lngBtn = document.querySelector('.lng');
       if (lngBtn) lngBtn.addEventListener('click', function () {
-        var was = show(), L = was === 'ko' ? 'en' : 'ko';
+        var was = show(), L = was === 'ko' ? 'en' : was === 'en' ? 'es' : 'ko';
         if (decoded[was] === 'busy') skipNow();
         var done = decoded[was] === true;
         html.setAttribute('data-lang', L); html.setAttribute('data-show', L); html.setAttribute('lang', L);
@@ -1626,8 +1474,9 @@
           pads.forEach(function (p) { p.o.frequency.setTargetAtTime(hz(m - 12 + p.iv), ac.currentTime, 2.5); });
         }
         /* 센 것 하나 = 음 하나 */
-        function pluck(m, px, vel, dec) {
-          var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain(), pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
+        function pluck(m, px, vel, dec, at) {
+          if (hushed()) return;
+          var t = at || ac.currentTime, o = ac.createOscillator(), g = ac.createGain(), pan = ac.createStereoPanner ? ac.createStereoPanner() : null;
           o.type = 'triangle'; o.frequency.value = hz(m);
           g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vel, t + 0.006);
           g.gain.exponentialRampToValueAtTime(0.0001, t + dec);
@@ -1636,12 +1485,19 @@
           o.start(t); o.stop(t + 5);
         }
         function scale() { return SCALE[PHASE] || SCALE.night; }
-        function reg() { return SC > 4.5 ? 12 : SC > 2.5 ? 0 : SC > 1 ? 0 : -12; }
+        function reg() { for (var i = 0; i < SD.reg.length; i++) if (SC > SD.reg[i][0]) return SD.reg[i][1]; return SD.regElse; }
+        /* 장면이 정한 구간에서는 소리가 멈춘다 (버튼은 그대로) */
+        function hushed() { return !!SD.mute && SC >= SD.mute[0] && SC < SD.mute[1]; }
+        /* 맺음에 들어오면 장면이 정한 음을 한 번 */
+        function motif() { var M = SD.motif, t0 = ac.currentTime + 0.05; M.notes.forEach(function (m, i) { pluck(m, 0.5, M.vel, i === M.notes.length - 1 ? M.long : M.short, t0 + i * M.step); }); }
         /* 왼쪽에서 오른쪽으로 음계를 늘어놓는다: 떨어진 자리가 곧 음이다 */
         function note(px) { var sc = scale(); return sc[Math.max(0, Math.min(sc.length - 1, Math.floor(px * sc.length)))] + reg(); }
-        var on = false, quiet = 0;
+        var on = false, quiet = 0, wasHushed = false, wasEnd = false;
         function tick() {
           if (!on) return;
+          var hu = hushed();
+          if (SD.mute && hu !== wasHushed) { wasHushed = hu; var og = out.gain, n0 = ac.currentTime; og.cancelScheduledValues(n0); og.setValueAtTime(og.value, n0); og.linearRampToValueAtTime(hu ? 0 : 0.9, n0 + 0.4); }
+          if (SD.motif) { var en = document.querySelector('section.end'), er = en && en.getBoundingClientRect(), inEnd = !!er && er.top < H * 0.85 && er.bottom > 0; if (inEnd && !wasEnd) motif(); wasEnd = inEnd; }
           var t = ac.currentTime, rain = Math.min(1, drops.length / 140);
           var w = Math.min(1, Math.abs(wind(W * 0.5)) / 2.2);
           var deep = Math.max(0, Math.min(1, (SC - 2.6) / 2));      /* 땅 아래로 내려가면 비는 멀어진다 */
@@ -1673,8 +1529,10 @@
             big = Math.max(0, Math.min(1, big || 0.5));
             pluck(note(px) - (big > 0.75 ? 12 : 0), px, 0.03 + big * 0.05, 1.0 + big * 0.4);
           },
+          /* 장면이 그린 빗방울이 닿을 때 음 하나 */
+          tap: function (px) { if (on) pluck(note(px), px, 0.06, 1.3); },
           start: function () {
-            on = true; ac.resume();
+            on = true; wasHushed = false; ac.resume();
             out.gain.cancelScheduledValues(ac.currentTime);
             out.gain.setTargetAtTime(0.9, ac.currentTime, 1.2);
             if (!iv) iv = setInterval(tick, 120);
