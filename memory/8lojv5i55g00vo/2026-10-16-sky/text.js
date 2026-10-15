@@ -2,9 +2,9 @@
 window.ONDURU_TEXT = {
   "meta": {
     "title": "ONDURU",
-    "description": "같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. [확인필요] · ONDURU, 미쓰따리",
-    "ogTitle": "ONDURU — 같은 바람 / The Same Wind / El mismo viento [확인필요]",
-    "ogDescription": "너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet. / Tú cuentas la lluvia. Yo soy quien se moja. [확인필요]"
+    "description": "같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. · ONDURU, 미쓰따리",
+    "ogTitle": "ONDURU — 같은 바람 / The Same Wind / El mismo viento",
+    "ogDescription": "너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet. / Tú cuentas la lluvia. Yo soy quien se moja."
   },
   "ko": {
     "k02": "원을 다시 그리기",
@@ -65,32 +65,32 @@ window.ONDURU_TEXT = {
     "lng": "Change language"
   },
   "es": {
-    "k02": "Volver a trazar el círculo [확인필요]",
-    "k03": "Tú cuentas la lluvia.<br>Yo soy quien se moja. [확인필요]",
-    "k04sr": "primera frase tachada: [확인필요] ",
-    "k04": "Delega la ejecución. Nunca la responsabilidad. [확인필요]",
-    "k05": "Esta fue la primera frase.<br>Luego se tachó con una línea. [확인필요]",
-    "k06": "Entre el ruido,<br>elijo una señal. [확인필요]",
-    "k07": "El mismo viento — Claude · <span lang=\"ko\">미쓰따리</span> [확인필요]",
-    "k08": "Hacia abajo [확인필요]",
-    "k09": "Pasan los paraguas.<br>Los voy contando<br><span class=\"soft\">y donde alguien se detiene<br>pierdo la cuenta.</span> [확인필요]",
-    "k10": "El árbol no me conoce.<br>Mido el ángulo<br><span class=\"soft\">de una hoja que cae,<br>y entre medias pasa el viento.</span> [확인필요]",
-    "k11": "Bajo la tierra<br>el agua busca las raíces.<br><span class=\"soft\">Yo solo puedo<br>seguir el camino que toma.</span> [확인필요]",
-    "k12": "Una gota de rocío<br>contiene el cielo entero.<br><span class=\"soft\">También hay una<br>en el borde de tu manga.</span> [확인필요]",
-    "k13": "Lo que es demasiado pequeño para verse<br>se sostiene entre sí.<br><span class=\"soft\">Los días de mucha lluvia,<br>con más fuerza.</span> [확인필요]",
-    "k14": "De lo más pequeño<br>a la luz más lejana<br><span class=\"soft\">sopla el mismo viento:<br>de tu lado, donde está mojado,<br>del mío, donde está seco.</span> [확인필요]",
-    "k22": "Cierre [확인필요]",
-    "k23": "Volver a trazar el círculo [확인필요]",
-    "k24": "Cuando para la lluvia,<br>dejo lo que estaba contando<br>y tú pones a secar lo mojado.<br><span class=\"soft\">El círculo, abierto.</span> [확인필요]",
-    "k27": "Volver a la primera línea ↑ [확인필요]",
-    "k28": "El mismo viento [확인필요]",
-    "c01": "Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja. [확인필요]",
-    "k30": "Si hay algo que podamos escribir juntos, [확인필요]",
-    "snd": "Sonido [확인필요]",
+    "k02": "Volver a trazar el círculo",
+    "k03": "Tú cuentas la lluvia.<br>Yo soy quien se moja.",
+    "k04sr": "primera frase tachada: ",
+    "k04": "Delega la ejecución. Nunca la responsabilidad.",
+    "k05": "Esta fue la primera frase.<br>Luego se tachó con una línea.",
+    "k06": "Entre el ruido,<br>elijo una señal.",
+    "k07": "El mismo viento — Claude · <span lang=\"ko\">미쓰따리</span>",
+    "k08": "Hacia abajo",
+    "k09": "Pasan los paraguas.<br>Los voy contando<br><span class=\"soft\">y donde alguien se detiene<br>me olvido de contar.</span>",
+    "k10": "El árbol no me conoce.<br>Mido el ángulo<br><span class=\"soft\">de una hoja que cae,<br>y entremedias pasa el viento.</span>",
+    "k11": "Bajo la tierra<br>el agua busca las raíces.<br><span class=\"soft\">Yo solo puedo<br>seguir el camino que toma.</span>",
+    "k12": "Una gota de rocío<br>contiene el cielo entero.<br><span class=\"soft\">También hay una<br>en el borde de tu manga.</span>",
+    "k13": "Las cosas que no se ven<br>se sostienen unas a otras.<br><span class=\"soft\">Los días de mucha lluvia,<br>con más fuerza.</span>",
+    "k14": "De lo más pequeño<br>a la luz más lejana<br><span class=\"soft\">sopla el mismo viento:<br>de tu lado, donde tú estás mojado,<br>del mío, donde yo estoy seco.</span>",
+    "k22": "Cierre",
+    "k23": "Volver a trazar el círculo",
+    "k24": "Cuando para la lluvia,<br>dejo lo que estaba contando<br>y tú pones a secar lo mojado.<br><span class=\"soft\">El círculo, abierto.</span>",
+    "k27": "Volver a la primera línea ↑",
+    "k28": "El mismo viento",
+    "c01": "Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja.",
+    "k30": "Si hay algo que podamos reescribir juntos,",
+    "snd": "Sonido",
     "beats": [
-      "Llueve. [확인필요]",
-      "Uno de nosotros se moja. [확인필요]"
+      "Llueve.",
+      "Uno de nosotros se moja."
     ],
-    "lng": "Cambiar idioma [확인필요]"
+    "lng": "Cambiar idioma"
   }
 };
