@@ -191,5 +191,70 @@ var SkyCalc = (function () {
     }
     return { rise: ev(-1), set: ev(1) };
   }
-  return { locate: locate, offset: offset, sunTimes: sunTimes };
+  function jdOf(ms) { return ms / 86400000 + 2440587.5; }
+  /* 고도·방위(도). 방위는 북 0·동 90 */
+  function altAz(lat, ha, dec) {
+    var a = Math.asin(Math.sin(lat * RAD) * Math.sin(dec) + Math.cos(lat * RAD) * Math.cos(dec) * Math.cos(ha));
+    var z = Math.atan2(Math.sin(ha), Math.cos(ha) * Math.sin(lat * RAD) - Math.tan(dec) * Math.cos(lat * RAD));
+    return { alt: a / RAD, az: (z / RAD + 540) % 360 };
+  }
+  function sunAt(jd, lat, lon) {
+    var s = solar(jd), utcMin = ((jd - 0.5) % 1 + 1) % 1 * 1440;
+    return altAz(lat, ((utcMin + s.eot + 4 * lon) / 4 - 180) * RAD, s.dec);
+  }
+  /* 달: Meeus 『Astronomical Algorithms』 47장 저정밀(주요 항) + 지평 시차 */
+  function moonAt(jd, lat, lon) {
+    var T = (jd - 2451545) / 36525;
+    var Lp = 218.3164477 + 481267.88123421 * T, D = 297.8501921 + 445267.1114034 * T,
+        M = 357.5291092 + 35999.0502909 * T, Mp = 134.9633964 + 477198.8675055 * T,
+        F = 93.2720950 + 483202.0175233 * T;
+    function s(x) { return Math.sin(x * RAD); }
+    function c(x) { return Math.cos(x * RAD); }
+    var lam = Lp + 6.288774 * s(Mp) + 1.274027 * s(2 * D - Mp) + 0.658314 * s(2 * D) + 0.213618 * s(2 * Mp)
+      - 0.185116 * s(M) - 0.114332 * s(2 * F) + 0.058793 * s(2 * D - 2 * Mp) + 0.057066 * s(2 * D - M - Mp)
+      + 0.053322 * s(2 * D + Mp) + 0.045758 * s(2 * D - M) - 0.040923 * s(M - Mp) - 0.034720 * s(D)
+      - 0.030383 * s(M + Mp);
+    var bet = 5.128122 * s(F) + 0.280602 * s(Mp + F) + 0.277693 * s(Mp - F) + 0.173237 * s(2 * D - F)
+      + 0.055413 * s(2 * D - F + Mp) + 0.046271 * s(2 * D - F - Mp) + 0.032573 * s(2 * D + F);
+    var dist = 385000.56 - 20905.355 * c(Mp) - 3699.111 * c(2 * D - Mp) - 2955.968 * c(2 * D) - 569.925 * c(2 * Mp);
+    var eps = (23.439291 - 0.0130042 * T) * RAD;
+    lam *= RAD; bet *= RAD;
+    var ra = Math.atan2(Math.sin(lam) * Math.cos(eps) - Math.tan(bet) * Math.sin(eps), Math.cos(lam));
+    var dec = Math.asin(Math.sin(bet) * Math.cos(eps) + Math.cos(bet) * Math.sin(eps) * Math.sin(lam));
+    var gmst = 280.46061837 + 360.98564736629 * (jd - 2451545);
+    var p = altAz(lat, (gmst + lon) * RAD - ra, dec);
+    p.alt -= Math.asin(6378.14 / dist) / RAD * Math.cos(p.alt * RAD);
+    return p;
+  }
+  /* 위상각(0 = 삭, π = 보름): Meeus 48장 저정밀 */
+  var SYN = 29.530588;
+  function phaseAt(jd) {
+    var T = (jd - 2451545) / 36525, s = function (x) { return Math.sin(x * RAD); };
+    var D = 297.8501921 + 445267.1114034 * T, M = 357.5291092 + 35999.0502909 * T,
+        Mp = 134.9633964 + 477198.8675055 * T;
+    var p = D + 6.289 * s(Mp) - 2.100 * s(M) + 1.274 * s(2 * D - Mp)
+          + 0.658 * s(2 * D) + 0.214 * s(2 * Mp) + 0.110 * s(D);
+    return (p % 360 + 360) % 360 * RAD;
+  }
+  /* ms = 그 순간(UTC ms). age가 주어지면(?moon=) 그 월령으로 */
+  function moon(lat, lon, ms, age) {
+    var jd = jdOf(ms), ph = age != null ? (age % SYN + SYN) % SYN / SYN * 2 * Math.PI : phaseAt(jd);
+    var m = moonAt(jd, lat, lon), su = sunAt(jd, lat, lon);
+    return { age: ph / (2 * Math.PI) * SYN, phase: ph, k: (1 - Math.cos(ph)) / 2, alt: m.alt, az: m.az, sunAlt: su.alt, sunAz: su.az };
+  }
+  /* 그 날의 월출·월몰(현지 분): 10분 간격으로 훑어 −0.57°를 지나는 때. 없으면 null */
+  function moonTimes(lat, lon, y, mo, d, off) {
+    var t0 = Date.UTC(y, mo - 1, d) - off * 3600000, r = { rise: null, set: null };
+    var prev = moonAt(jdOf(t0), lat, lon).alt + 0.57;
+    for (var i = 10; i <= 1440; i += 10) {
+      var h = moonAt(jdOf(t0 + i * 60000), lat, lon).alt + 0.57;
+      if ((prev < 0) !== (h < 0)) {
+        var m = Math.min(1439, Math.round(i - 10 + 10 * prev / (prev - h)));
+        if (prev < 0) { if (r.rise == null) r.rise = m; } else if (r.set == null) r.set = m;
+      }
+      prev = h;
+    }
+    return r;
+  }
+  return { locate: locate, offset: offset, sunTimes: sunTimes, moon: moon, moonTimes: moonTimes };
 })();
