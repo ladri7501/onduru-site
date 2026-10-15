@@ -116,10 +116,17 @@ var SkyCalc = (function () {
     'US/Michigan':'America/Detroit', 'US/Mountain':'America/Denver', 'US/Pacific':'America/Los_Angeles', 'US/Samoa':'Pacific/Pago_Pago', 'W-SU':'Europe/Moscow',
     'WET':'Europe/Lisbon'
   };
+  var R = {
+    AR:'America/Argentina/Buenos_Aires', AU:'Australia/Sydney', BR:'America/Sao_Paulo', CA:'America/Toronto', CL:'America/Santiago',
+    CN:'Asia/Shanghai', DE:'Europe/Berlin', ES:'Europe/Madrid', FR:'Europe/Paris', GB:'Europe/London',
+    ID:'Asia/Jakarta', IN:'Asia/Kolkata', KZ:'Asia/Almaty', MX:'America/Mexico_City', NZ:'Pacific/Auckland',
+    PT:'Europe/Lisbon', RU:'Europe/Moscow'
+  };
   /* tzmap:end */
-  /* 나라 → zone.tab의 첫 지역 (수도 보조) */
+  /* 나라 → 대표 지역 (수도 보조): 보정 목록 R, 없으면 zone.tab의 첫 지역 */
   var CC = {};
   for (var k in Z) if (!CC[Z[k][2]]) CC[Z[k][2]] = k;
+  for (k in R) CC[k] = R[k];
 
   /* 이 시간대의 UTC 시차(시). 없으면 기기 시차 */
   function offset(zone, date) {
