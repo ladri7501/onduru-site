@@ -154,5 +154,42 @@ var SkyCalc = (function () {
     }
     return { lat: 30, lon: offset(zone) * 15, via: 'offset' };
   }
-  return { locate: locate, offset: offset };
+  var RAD = Math.PI / 180;
+  /* 해: NOAA Solar Calculator 공식 (적위·균시차·시간각) */
+  function solar(jd) {
+    var t = (jd - 2451545) / 36525;
+    var L0 = (280.46646 + t * (36000.76983 + t * 0.0003032)) % 360;
+    var M = 357.52911 + t * (35999.05029 - 0.0001537 * t);
+    var e = 0.016708634 - t * (0.000042037 + 0.0000001267 * t);
+    var C = Math.sin(M * RAD) * (1.914602 - t * (0.004817 + 0.000014 * t))
+          + Math.sin(2 * M * RAD) * (0.019993 - 0.000101 * t)
+          + Math.sin(3 * M * RAD) * 0.000289;
+    var om = 125.04 - 1934.136 * t;
+    var lam = L0 + C - 0.00569 - 0.00478 * Math.sin(om * RAD);
+    var eps = 23 + (26 + (21.448 - t * (46.815 + t * (0.00059 - t * 0.001813))) / 60) / 60
+            + 0.00256 * Math.cos(om * RAD);
+    var y = Math.pow(Math.tan(eps * RAD / 2), 2);
+    var eot = 4 / RAD * (y * Math.sin(2 * L0 * RAD) - 2 * e * Math.sin(M * RAD)
+      + 4 * e * y * Math.sin(M * RAD) * Math.cos(2 * L0 * RAD)
+      - 0.5 * y * y * Math.sin(4 * L0 * RAD) - 1.25 * e * e * Math.sin(2 * M * RAD));
+    return { dec: Math.asin(Math.sin(eps * RAD) * Math.sin(lam * RAD)), eot: eot };
+  }
+  /* 그 날(y,mo,d)의 일출·일몰, 현지 분. off = UTC 시차(시). 극야·백야는 null */
+  function sunTimes(lat, lon, y, mo, d, off) {
+    var jd0 = Date.UTC(y, mo - 1, d) / 86400000 + 2440587.5;
+    function at(utcMin, sign) {
+      var s = solar(jd0 + utcMin / 1440);
+      var c = (Math.cos(90.833 * RAD) - Math.sin(lat * RAD) * Math.sin(s.dec))
+            / (Math.cos(lat * RAD) * Math.cos(s.dec));
+      if (c > 1 || c < -1) return null;
+      return 720 - 4 * lon - s.eot + sign * 4 * Math.acos(c) / RAD;
+    }
+    function ev(sign) {
+      var m = at(720 - 4 * lon, sign);    /* 한낮 근처에서 한 번 */
+      if (m != null) m = at(m, sign);     /* 그 시각에서 다시 */
+      return m == null ? null : Math.round(((m + off * 60) % 1440 + 1440) % 1440);
+    }
+    return { rise: ev(-1), set: ev(1) };
+  }
+  return { locate: locate, offset: offset, sunTimes: sunTimes };
 })();

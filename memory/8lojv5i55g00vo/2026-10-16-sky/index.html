@@ -806,6 +806,16 @@
         return { y: n.getFullYear(), mo: n.getMonth() + 1, d: n.getDate(), h: n.getHours(), mi: n.getMinutes() };
       }
       function minutes(c) { return c.h * 60 + c.mi; }
+      /* 해: 그 날의 일출·일몰을 브라우저 안에서 (sky.js). 날씨 호출과 무관 */
+      var sunKey = '';
+      function sunToday() {
+        var c = clock(), k = c.y + '-' + c.mo + '-' + c.d;
+        if (k === sunKey) return;
+        sunKey = k;
+        var off = SkyCalc.offset(zone, new Date(Date.UTC(c.y, c.mo - 1, c.d, 12)));
+        var s = SkyCalc.sunTimes(place[0], place[1], c.y, c.mo, c.d, off);
+        sunrise = s.rise; sunset = s.set;
+      }
       function phaseNow() {
         if (PAL[Q.sky]) { SUNP = Q.sky === 'day' ? 0.5 : Q.sky === 'dawn' ? 0.04 : Q.sky === 'dusk' ? 0.96 : 0.5; return Q.sky; }
         var now = minutes(clock());
@@ -818,6 +828,7 @@
         return 'night';
       }
       function applySky() {
+        sunToday();
         PHASE = phaseNow();
         var P = PAL[PHASE], el = document.documentElement;
         el.style.setProperty('--sky-bg', P.bg);
@@ -863,13 +874,9 @@
         }
         if (!place || !window.fetch) { applySky(); return; }
         var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + place[0] + '&longitude=' + place[1] +
-          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&daily=sunrise,sunset&timezone=' + encodeURIComponent(zone || 'auto') + '&forecast_days=1';
+          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&timezone=' + encodeURIComponent(zone || 'auto') + '&forecast_days=1';
         fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
           if (!d || !d.current) { applySky(); return; }
-          try {
-            var sr = d.daily.sunrise[0].split('T')[1].split(':'), ss = d.daily.sunset[0].split('T')[1].split(':');
-            sunrise = +sr[0] * 60 + +sr[1]; sunset = +ss[0] * 60 + +ss[1];
-          } catch (e) {}
           var c = d.current;
           WX.code = c.weather_code; WX.gust = c.wind_gusts_10m;
           setWeather(kindOf(c.weather_code), c.precipitation, c.cloud_cover, c.wind_speed_10m, true, c.wind_gusts_10m, c.weather_code);
