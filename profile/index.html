@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ONDURU — Professional Profile</title>
+  <meta name="description" content="비즈니스와 기술을 잇는 리더. 23년 이상의 엔터프라이즈 IT 경험 — 업무 분석, 시스템 설계, HR 분석, Java/Spring, 데이터 아키텍처, AI 워크플로. A leader who connects business and technology. Un líder que une negocio y tecnología.">
+  <meta property="og:title" content="ONDURU — Professional Profile">
+  <meta property="og:description" content="Senior IT Consultant · Project Leader · Enterprise Solution & Data Architecture · 23+ years">
+  <meta property="og:url" content="https://onduru.com/profile/">
+  <meta property="og:type" content="profile">
+  <meta name="theme-color" content="#05070a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='1.6' stroke-dasharray='56 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "미쓰따리",
+    "jobTitle": "Senior IT Consultant · Project Leader",
+    "description": "Enterprise IT consultant with 23+ years in business analysis, solution and data architecture, HR analytics, Java/Spring and AI-driven development workflows.",
+    "url": "https://onduru.com/profile/",
+    "email": "mailto:hello@onduru.com",
+    "worksFor": { "@type": "Organization", "name": "ONDURU", "url": "https://onduru.com/" },
+    "knowsAbout": ["Business Analysis", "Solution Architecture", "Data Architecture", "Data Modeling", "HR Analytics", "Java", "Spring Framework", "PostgreSQL", "Oracle Database", "Project Management", "AI Workflow Design", "Retrieval-Augmented Generation"]
+  }
+  </script>
+  <script>
+    (function () {
+      var d = document.documentElement, SUP = { ko: 1, en: 1, es: 1 }, pick = null;
+      var m = location.search.match(/[?&]lang=([a-z]{2})/);
+      if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var s = localStorage.getItem('onduru-lang'); if (s && SUP[s]) pick = s; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
+      if (!pick) pick = 'en';
+      d.setAttribute('data-lang', pick); d.setAttribute('lang', pick);
+    })();
+  </script>
+  <style>
+    /* ONDURU 곁의 페이지: 작품과 같은 밤, 같은 활자, 같은 열린 원. 설명이 허용되는 곳이라 글은 길지만 장식은 없다 */
+    :root {
+      color-scheme: dark;
+      --bg: #05070a;
+      --fg: #eef0f2;
+      --mu: #8d95a2;
+      --dim: #5d6572;
+      --line: rgba(238, 240, 242, .14);
+      --line-strong: rgba(238, 240, 242, .34);
+      --sig: #8fd4c1;
+      --f-serif: "Gowun Batang", "Noto Serif KR", "Noto Serif", Georgia, serif;
+      --f-sans: "IBM Plex Sans KR", "IBM Plex Sans", "Apple SD Gothic Neo", system-ui, sans-serif;
+      --w: 720px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      background: var(--bg); color: var(--fg);
+      font-family: var(--f-sans); font-weight: 300; font-size: 15.5px; line-height: 1.8;
+      word-break: keep-all; overflow-wrap: break-word;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      padding-block: 0;
+    }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+    a:hover, a:focus-visible { border-color: var(--fg); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; border-radius: 2px; }
+
+    /* 언어: 한 페이지에 셋. 고른 언어만 보인다 */
+    .L-ko, .L-en, .L-es { display: none; }
+    html[data-lang="ko"] .L-ko, html[data-lang="en"] .L-en, html[data-lang="es"] .L-es { display: block; }
+    html[data-lang="ko"] span.L-ko, html[data-lang="en"] span.L-en, html[data-lang="es"] span.L-es { display: inline; }
+    html[data-lang="ko"] tr.L-ko, html[data-lang="en"] tr.L-en, html[data-lang="es"] tr.L-es { display: table-row; }
+
+    .page { max-width: var(--w); margin: 0 auto; padding-block: 11vh 14vh; display: flex; flex-direction: column; gap: 76px; }
+
+    /* 머리: 열린 원과 ONDURU. 작품으로 돌아가는 유일한 길 */
+    .top { display: flex; align-items: center; gap: 14px; }
+    .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: 12px; letter-spacing: .28em; }
+    .top a:hover { color: var(--fg); }
+    .top svg { width: 24px; height: 24px; }
+    .top circle { fill: none; stroke: currentColor; stroke-width: 2.2; }
+
+    header.lead { display: flex; flex-direction: column; gap: 22px; }
+    .eyebrow { font-size: 11px; letter-spacing: .24em; color: var(--mu); text-transform: uppercase; }
+    h1 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(30px, 6vw, 44px); line-height: 1.3; text-wrap: balance; }
+    .sub { font-family: var(--f-serif); font-size: clamp(18px, 3.2vw, 22px); color: var(--mu); line-height: 1.6; }
+    .roles { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--mu); }
+    .roles b { font-weight: 500; color: var(--fg); }
+    .name { font-size: 14px; color: var(--mu); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+    .name b { font-weight: 500; color: var(--fg); }
+
+    section { display: flex; flex-direction: column; gap: 22px; }
+    h2 { font-family: var(--f-serif); font-weight: 400; font-size: 24px; line-height: 1.4; }
+    h3 { font-family: var(--f-serif); font-weight: 400; font-size: 18px; color: var(--fg); margin-top: 8px; }
+    .rule { height: 1px; background: var(--line); }
+    p { max-width: 36em; }
+    .flow { font-family: var(--f-serif); font-size: 15px; color: var(--mu); letter-spacing: .02em; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    ul li { padding-left: 18px; position: relative; max-width: 40em; }
+    ul li::before { content: ""; position: absolute; left: 0; top: .9em; width: 8px; height: 1px; background: var(--line-strong); }
+    .ex { display: flex; flex-direction: column; gap: 10px; }
+    .ex + .ex { margin-top: 10px; }
+
+    .tablewrap { overflow-x: auto; border-top: 1px solid var(--line); -webkit-overflow-scrolling: touch; }
+    table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; padding: 14px 14px 14px 0; border-bottom: 1px solid var(--line); line-height: 1.65; }
+    th { font-weight: 500; color: var(--mu); font-size: 12px; letter-spacing: .06em; white-space: nowrap; }
+    td:first-child { color: var(--fg); font-weight: 400; min-width: 150px; }
+    td:last-child { color: var(--mu); }
+
+    .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 32px; }
+    .skills h3 { margin: 0 0 8px; font-size: 16px; }
+    .skills ul li { font-size: 14.5px; }
+    .top5 { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+    .top5 span { border: 1px solid var(--line-strong); border-radius: 20px; padding: 3px 12px; font-size: 13.5px; }
+    .top5 i { font-style: normal; color: var(--dim); font-variant-numeric: tabular-nums; margin-right: 6px; }
+
+    .strengths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .strengths h3 { margin: 0 0 6px; font-size: 16px; }
+    .strengths p { font-size: 14px; color: var(--mu); }
+
+    .pos { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+    .pos span { border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; }
+    .note { font-size: 13px; color: var(--mu); max-width: 40em; }
+    .headline { font-family: var(--f-serif); font-size: 15px; color: var(--mu); line-height: 1.8; border-left: 1px solid var(--line-strong); padding-left: 14px; }
+
+    .contact { display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+    .contact a { color: var(--fg); }
+    .onduru { font-family: var(--f-serif); font-size: 15px; color: var(--mu); line-height: 1.9; }
+    .onduru a { color: var(--fg); border: 0; }
+
+    footer { font-size: 12px; color: var(--dim); display: flex; flex-direction: column; gap: 6px; }
+
+    /* 오른쪽 아래: 작품의 소리 버튼이 있던 자리에, 여기서는 언어만 */
+    .lng { position: fixed; z-index: 30; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 2px; }
+    .lng button { font: inherit; font-size: 12px; letter-spacing: .06em; color: var(--fg); background: none; border: 0; opacity: .32; padding: 8px 7px; cursor: pointer; transition: opacity .4s; font-weight: 400; }
+    .lng button[aria-pressed="true"] { opacity: .85; }
+    .lng button:hover { opacity: .7; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .page { gap: 60px; padding-block: 9vh 16vh; }
+      .skills { grid-template-columns: 1fr; gap: 22px; }
+      .strengths { grid-template-columns: 1fr; gap: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .lng button { transition: none; } }
+  </style>
+</head>
+<body>
+
+<div class="lng" role="group" aria-label="Language">
+  <button type="button" data-lang="ko" aria-pressed="true">한</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="es" aria-pressed="false">ES</button>
+</div>
+
+<div class="page">
+
+  <div class="top">
+    <a href="/"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke-dasharray="226 28" transform="rotate(-70 50 50)"/></svg>ONDURU</a>
+  </div>
+
+  <!-- ─────────────── 한국어 ─────────────── -->
+  <main class="L-ko" lang="ko">
+    <div class="page" style="padding-block:0">
+      <header class="lead">
+        <span class="eyebrow">Professional Profile</span>
+        <h1>비즈니스와 기술을 잇는 리더</h1>
+        <div class="roles">
+          <div><b>Senior IT Consultant · Project Leader · Enterprise Solution &amp; Data Architecture</b></div>
+          <div>23년 이상의 엔터프라이즈 IT | 업무 분석 · 시스템 설계 · HR 분석 · Java/Spring · 데이터 아키텍처 · AI 워크플로</div>
+        </div>
+        <div class="name"><b>미쓰따리</b><span>Founder, ONDURU</span></div>
+      </header>
+
+      <section>
+        <h2>소개</h2>
+        <p>저는 2002년부터 23년 이상 기업 정보시스템의 분석, 설계, 개발 및 프로젝트 리딩을 수행해 온 IT 컨설턴트이자 엔터프라이즈 시스템 전문가입니다.</p>
+        <p>공공, 금융, 보험, 제조, 유통, 건설, 통신, 해운 등 다양한 산업에서 핵심 업무시스템을 구축하며, 복잡한 비즈니스 요구사항을 안정적이고 확장 가능한 IT 솔루션으로 구현해 왔습니다.</p>
+        <div class="flow">Business Analysis → Solution Architecture → Data Modeling → Development → Delivery</div>
+        <p>저의 강점은 특정 기술에 국한되지 않고, 업무 프로세스와 데이터 구조, 애플리케이션 아키텍처를 연결해 실제 작동하는 시스템으로 완성하는 역량에 있습니다.</p>
+        <p>저는 기술을 도입하는 것 자체보다, 비즈니스의 문제를 정확히 정의하고 데이터와 기술, 사람을 연결해 실질적인 결과를 만드는 것을 중요하게 생각합니다.</p>
+      </section>
+
+      <section>
+        <h2>핵심 전문 영역</h2>
+        <div class="ex">
+          <h3>1. 엔터프라이즈 시스템 분석과 아키텍처</h3>
+          <ul>
+            <li>비즈니스 요구사항 분석, 업무 프로세스 정의 및 시스템 구조 설계</li>
+            <li>엔터프라이즈 애플리케이션과 데이터베이스 논리·물리 모델링</li>
+            <li>화면·프로그램·인터페이스 설계 및 시스템 간 데이터 연계</li>
+            <li>설계 표준화와 기술 산출물의 정합성 검증</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>2. 데이터 아키텍처와 HR 분석</h3>
+          <ul>
+            <li>대기업 그룹사 및 계열사 통합 HR 분석시스템 설계</li>
+            <li>HR KPI, 경영정보(EIS), 통계 및 분석지표 정의</li>
+            <li>FACT/DIM 기반 데이터마트 및 집계 구조 설계</li>
+            <li>데이터 수집·표준화·검증과 다중 테넌트 데이터 관리</li>
+            <li>조직·인사·성과·퇴직 데이터를 활용한 분석체계 설계</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>3. 엔터프라이즈 애플리케이션 개발과 연계</h3>
+          <ul>
+            <li>Java, Spring Framework, Spring Boot 기반 업무시스템 개발</li>
+            <li>REST API 및 대내외 시스템 인터페이스 설계·구현</li>
+            <li>Oracle, PostgreSQL, Microsoft SQL Server 기반 SQL 설계 및 최적화</li>
+            <li>MyBatis, Batch Processing, Nexacro 기반 엔터프라이즈 시스템 구축</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>4. 프로젝트 리더십과 전달</h3>
+          <ul>
+            <li>PL 역할을 통한 업무 분석, 일정·진척·이슈 및 개발 범위 관리</li>
+            <li>개발자 간 업무 조율과 이해관계자 커뮤니케이션</li>
+            <li>요구사항정의서, ERD, 테이블·화면·인터페이스 설계서 등 산출물 관리</li>
+            <li>개발부터 테스트, 검증, 인계까지 프로젝트 전 과정의 품질 확보</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>5. AI 기반 개발 워크플로</h3>
+          <p>최근에는 엔터프라이즈 개발 경험을 바탕으로 AI 활용 개발 프로세스와 지식 자산 관리체계를 연구하고 있습니다.</p>
+          <p>GitHub Copilot, Microsoft 365 Copilot, Local LLM 및 RAG 기술을 활용해 요구사항 분석, 설계 문서화, 코드 생성, 검증의 연속성을 높이는 실무형 AI 워크플로에 집중하고 있습니다.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>주요 프로젝트 — 과업 × 스킬</h2>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>프로젝트 / 분야</th><th>주요 과업</th><th>연관 스킬</th></tr></thead>
+            <tbody>
+              <tr><td>롯데 HR SaaS / HR Insight</td><td>그룹사 인사통계 및 KPI 설계, FACT/DIM 데이터마트, 데이터 수집·표준화, 통계 화면·API 설계</td><td>HR Analytics, Data Modeling, PostgreSQL, SQL, REST API, Business Analysis</td></tr>
+              <tr><td>행복e음 · 공공 정책지원 시스템</td><td>행정 업무 분석, 대외기관 데이터 연계, 업무시스템 분석·설계·개발</td><td>Java, Spring, Oracle, System Integration, API, Batch Processing</td></tr>
+              <tr><td>대법원 전자소송 · 삼성물산 법무 시스템</td><td>법률·업무 프로세스 분석, 화면·프로그램 및 데이터 설계</td><td>Enterprise Application Development, Business Process Analysis, SQL, Java</td></tr>
+              <tr><td>신한은행 HR · 금융 마이데이터</td><td>인사통계 및 데이터 처리, 금융 데이터 인터페이스 구축</td><td>Database Design, SQL, System Integration, Java/Spring</td></tr>
+              <tr><td>ERP · 정산 · 경영관리 시스템</td><td>재무·자금·정산·리스크 관리 업무 분석 및 시스템 구현</td><td>ERP, Business Analysis, SQL, System Design, Project Delivery</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>기술 역량</h2>
+        <div>
+          <h3 style="margin:0 0 10px">대표 다섯 가지</h3>
+          <div class="top5"><span><i>1</i>Business Analysis</span><span><i>2</i>Solution Architecture</span><span><i>3</i>Data Modeling</span><span><i>4</i>Project Management</span><span><i>5</i>Java / Spring Framework</span></div>
+        </div>
+        <div class="skills">
+          <div><h3>아키텍처와 분석</h3><ul><li>Enterprise Architecture</li><li>Solution Architecture</li><li>Business Analysis</li><li>Requirements Analysis</li><li>Business Process Analysis</li><li>System Design</li><li>Technical Documentation</li></ul></div>
+          <div><h3>데이터와 분석</h3><ul><li>Data Architecture</li><li>Data Modeling</li><li>Data Warehousing</li><li>HR Analytics</li><li>ETL / Data Integration</li><li>SQL</li><li>PostgreSQL</li><li>Oracle Database</li><li>Microsoft SQL Server</li></ul></div>
+          <div><h3>애플리케이션 개발과 연계</h3><ul><li>Java</li><li>Spring Framework</li><li>Spring Boot</li><li>REST APIs</li><li>MyBatis</li><li>Nexacro</li><li>Batch Processing</li><li>System Integration</li><li>Enterprise Resource Planning (ERP)</li></ul></div>
+          <div><h3>리더십과 AI</h3><ul><li>Project Management</li><li>Project Delivery</li><li>Team Leadership</li><li>AI Workflow Design</li><li>AI-Assisted Development</li><li>Retrieval-Augmented Generation (RAG)</li><li>Local LLM</li><li>GitHub Copilot</li><li>Microsoft 365 Copilot</li></ul></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>강점</h2>
+        <div class="strengths">
+          <div><h3>비즈니스와 엔터프라이즈 아키텍처</h3><p>산업별 업무 이해, 요구사항 분석, 솔루션 및 시스템 설계.</p></div>
+          <div><h3>데이터 엔지니어링과 아키텍처</h3><p>데이터 모델링, 데이터 통합, HR 분석, KPI·통계 시스템.</p></div>
+          <div><h3>기술 리더십과 AI 전환</h3><p>PL 경험, 개발 품질 관리, AI 기반 개발 워크플로 설계.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>지향하는 자리</h2>
+        <div class="pos"><span>Senior IT Consultant</span><span>Technical Project Leader</span><span>Solution Architect</span><span>Data Architect</span></div>
+        <p class="note">Solution Architect와 Data Architect는 설계 전문성을 바탕으로 한 전문 분야이자 지향하는 자리입니다. 실제 공식 직함과는 구분해 표현합니다.</p>
+        <p class="headline">Senior IT Consultant | Project Leader | Enterprise Solution &amp; Data Architecture | Java/Spring | HR Analytics | 23+ Years</p>
+      </section>
+
+      <section>
+        <h2>연락</h2>
+        <div class="contact">
+          <a href="mailto:hello@onduru.com">hello@onduru.com</a>
+          <a href="https://onduru.com/">onduru.com</a>
+        </div>
+        <p class="onduru">ONDURU — 온 세상을 두루 더불어.<br>사람과 AI가 함께 짓는 작품을 <a href="/">전시합니다</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ─────────────── English ─────────────── -->
+  <main class="L-en" lang="en">
+    <div class="page" style="padding-block:0">
+      <header class="lead">
+        <span class="eyebrow">Professional Profile</span>
+        <h1>A leader who connects business and technology</h1>
+        <div class="roles">
+          <div><b>Senior IT Consultant · Project Leader · Enterprise Solution &amp; Data Architecture</b></div>
+          <div>23+ years in enterprise IT | Business analysis · System design · HR analytics · Java/Spring · Data architecture · AI workflow</div>
+        </div>
+        <div class="name"><b>미쓰따리</b><span>Founder, ONDURU</span></div>
+      </header>
+
+      <section>
+        <h2>About</h2>
+        <p>I am an IT consultant and enterprise systems specialist. Since 2002, for more than 23 years, I have analyzed, designed, built and led corporate information systems.</p>
+        <p>Across the public sector, finance, insurance, manufacturing, retail, construction, telecommunications and shipping, I have delivered core business systems, turning complex requirements into stable, scalable solutions.</p>
+        <div class="flow">Business Analysis → Solution Architecture → Data Modeling → Development → Delivery</div>
+        <p>My strength is not tied to any single technology. It lies in connecting business processes, data structures and application architecture into systems that actually work.</p>
+        <p>More than adopting technology for its own sake, I value defining the business problem precisely and connecting data, technology and people to produce real results.</p>
+      </section>
+
+      <section>
+        <h2>Core Expertise</h2>
+        <div class="ex">
+          <h3>1. Enterprise System Analysis &amp; Architecture</h3>
+          <ul>
+            <li>Business requirements analysis, process definition and system structure design</li>
+            <li>Logical and physical modeling of enterprise applications and databases</li>
+            <li>Screen, program and interface design; data integration between systems</li>
+            <li>Design standardization and consistency verification of technical deliverables</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>2. Data Architecture &amp; HR Analytics</h3>
+          <ul>
+            <li>Integrated HR analytics systems for large corporate groups and their affiliates</li>
+            <li>Definition of HR KPIs, executive information (EIS), statistics and analytic indicators</li>
+            <li>FACT/DIM data marts and aggregation structures</li>
+            <li>Data collection, standardization and validation; multi-tenant data management</li>
+            <li>Analytic frameworks built on organization, personnel, performance and retirement data</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>3. Enterprise Application Development &amp; Integration</h3>
+          <ul>
+            <li>Business systems on Java, Spring Framework and Spring Boot</li>
+            <li>Design and implementation of REST APIs and internal and external interfaces</li>
+            <li>SQL design and optimization on Oracle, PostgreSQL and Microsoft SQL Server</li>
+            <li>Enterprise systems with MyBatis, batch processing and Nexacro</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>4. Project Leadership &amp; Delivery</h3>
+          <ul>
+            <li>As project leader: business analysis and management of schedule, progress, issues and scope</li>
+            <li>Coordination among developers and communication with stakeholders</li>
+            <li>Management of deliverables: requirements, ERDs, table, screen and interface specifications</li>
+            <li>Quality across the whole project, from development through testing, verification and handover</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>5. AI-Driven Development Workflow</h3>
+          <p>Building on my enterprise development experience, I have recently been studying AI-assisted development processes and knowledge asset management.</p>
+          <p>With GitHub Copilot, Microsoft 365 Copilot, local LLMs and RAG, I focus on practical AI workflows that keep requirements analysis, design documentation, code generation and verification continuous.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Selected Projects — Responsibilities × Skills</h2>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Project / Domain</th><th>Main responsibilities</th><th>Related skills</th></tr></thead>
+            <tbody>
+              <tr><td>Lotte HR SaaS / HR Insight</td><td>Group-wide HR statistics and KPI design, FACT/DIM data marts, data collection and standardization, statistics screens and API design</td><td>HR Analytics, Data Modeling, PostgreSQL, SQL, REST API, Business Analysis</td></tr>
+              <tr><td>Haengbok e-Eum (Korea's integrated social welfare system) · public policy support systems</td><td>Administrative process analysis, data links with external agencies, analysis, design and development of business systems</td><td>Java, Spring, Oracle, System Integration, API, Batch Processing</td></tr>
+              <tr><td>Supreme Court e-litigation · Samsung C&amp;T legal system</td><td>Legal and business process analysis; screen, program and data design</td><td>Enterprise Application Development, Business Process Analysis, SQL, Java</td></tr>
+              <tr><td>Shinhan Bank HR · financial MyData</td><td>HR statistics and data processing; financial data interfaces</td><td>Database Design, SQL, System Integration, Java/Spring</td></tr>
+              <tr><td>ERP · settlement · management systems</td><td>Analysis and implementation of finance, treasury, settlement and risk management</td><td>ERP, Business Analysis, SQL, System Design, Project Delivery</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Technical Skills</h2>
+        <div>
+          <h3 style="margin:0 0 10px">Top five</h3>
+          <div class="top5"><span><i>1</i>Business Analysis</span><span><i>2</i>Solution Architecture</span><span><i>3</i>Data Modeling</span><span><i>4</i>Project Management</span><span><i>5</i>Java / Spring Framework</span></div>
+        </div>
+        <div class="skills">
+          <div><h3>Architecture &amp; Analysis</h3><ul><li>Enterprise Architecture</li><li>Solution Architecture</li><li>Business Analysis</li><li>Requirements Analysis</li><li>Business Process Analysis</li><li>System Design</li><li>Technical Documentation</li></ul></div>
+          <div><h3>Data &amp; Analytics</h3><ul><li>Data Architecture</li><li>Data Modeling</li><li>Data Warehousing</li><li>HR Analytics</li><li>ETL / Data Integration</li><li>SQL</li><li>PostgreSQL</li><li>Oracle Database</li><li>Microsoft SQL Server</li></ul></div>
+          <div><h3>Application Development &amp; Integration</h3><ul><li>Java</li><li>Spring Framework</li><li>Spring Boot</li><li>REST APIs</li><li>MyBatis</li><li>Nexacro</li><li>Batch Processing</li><li>System Integration</li><li>Enterprise Resource Planning (ERP)</li></ul></div>
+          <div><h3>Leadership &amp; AI</h3><ul><li>Project Management</li><li>Project Delivery</li><li>Team Leadership</li><li>AI Workflow Design</li><li>AI-Assisted Development</li><li>Retrieval-Augmented Generation (RAG)</li><li>Local LLM</li><li>GitHub Copilot</li><li>Microsoft 365 Copilot</li></ul></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Strengths</h2>
+        <div class="strengths">
+          <div><h3>Business &amp; Enterprise Architecture</h3><p>Industry domain understanding, requirements analysis, solution and system design.</p></div>
+          <div><h3>Data Engineering &amp; Architecture</h3><p>Data modeling, data integration, HR analytics, KPI and statistics systems.</p></div>
+          <div><h3>Technical Leadership &amp; AI Transformation</h3><p>Project leadership, development quality management, AI-based development workflow design.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Career Positioning</h2>
+        <div class="pos"><span>Senior IT Consultant</span><span>Technical Project Leader</span><span>Solution Architect</span><span>Data Architect</span></div>
+        <p class="note">Solution Architect and Data Architect describe areas of design expertise and the positions I aim for. They are stated separately from official job titles.</p>
+        <p class="headline">Senior IT Consultant | Project Leader | Enterprise Solution &amp; Data Architecture | Java/Spring | HR Analytics | 23+ Years</p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <div class="contact">
+          <a href="mailto:hello@onduru.com">hello@onduru.com</a>
+          <a href="https://onduru.com/">onduru.com</a>
+        </div>
+        <p class="onduru">ONDURU — on, the whole world; duru, all around, together.<br>Works made by a person and an AI, <a href="/">on view</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ─────────────── Español ─────────────── -->
+  <main class="L-es" lang="es">
+    <div class="page" style="padding-block:0">
+      <header class="lead">
+        <span class="eyebrow">Perfil profesional</span>
+        <h1>Un líder que une negocio y tecnología</h1>
+        <div class="roles">
+          <div><b>Consultor sénior de TI · Líder de proyecto · Arquitectura de soluciones y datos empresariales</b></div>
+          <div>Más de 23 años en TI empresarial | Análisis de negocio · Diseño de sistemas · Analítica de RR. HH. · Java/Spring · Arquitectura de datos · Flujos de trabajo con IA</div>
+        </div>
+        <div class="name"><b>미쓰따리</b><span>Fundador, ONDURU</span></div>
+      </header>
+
+      <section>
+        <h2>Sobre mí</h2>
+        <p>Soy consultor de TI y especialista en sistemas empresariales. Desde 2002, durante más de 23 años, he analizado, diseñado, desarrollado y liderado sistemas de información corporativos.</p>
+        <p>En el sector público, finanzas, seguros, manufactura, distribución, construcción, telecomunicaciones y transporte marítimo, he construido sistemas de negocio centrales, convirtiendo requisitos complejos en soluciones estables y escalables.</p>
+        <div class="flow">Análisis de negocio → Arquitectura de soluciones → Modelado de datos → Desarrollo → Entrega</div>
+        <p>Mi fortaleza no está ligada a una tecnología concreta. Está en conectar procesos de negocio, estructuras de datos y arquitectura de aplicaciones hasta convertirlos en sistemas que funcionan de verdad.</p>
+        <p>Más que adoptar tecnología por sí misma, valoro definir con precisión el problema de negocio y conectar datos, tecnología y personas para producir resultados reales.</p>
+      </section>
+
+      <section>
+        <h2>Áreas de especialización</h2>
+        <div class="ex">
+          <h3>1. Análisis y arquitectura de sistemas empresariales</h3>
+          <ul>
+            <li>Análisis de requisitos de negocio, definición de procesos y diseño de la estructura del sistema</li>
+            <li>Modelado lógico y físico de aplicaciones y bases de datos empresariales</li>
+            <li>Diseño de pantallas, programas e interfaces; integración de datos entre sistemas</li>
+            <li>Estandarización del diseño y verificación de la coherencia de los entregables técnicos</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>2. Arquitectura de datos y analítica de RR. HH.</h3>
+          <ul>
+            <li>Sistemas integrados de analítica de RR. HH. para grandes grupos empresariales y sus filiales</li>
+            <li>Definición de KPI de RR. HH., información ejecutiva (EIS), estadísticas e indicadores analíticos</li>
+            <li>Data marts FACT/DIM y estructuras de agregación</li>
+            <li>Recolección, estandarización y validación de datos; gestión de datos multiinquilino</li>
+            <li>Marcos analíticos basados en datos de organización, personal, desempeño y bajas</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>3. Desarrollo e integración de aplicaciones empresariales</h3>
+          <ul>
+            <li>Sistemas de negocio sobre Java, Spring Framework y Spring Boot</li>
+            <li>Diseño e implementación de API REST e interfaces internas y externas</li>
+            <li>Diseño y optimización de SQL en Oracle, PostgreSQL y Microsoft SQL Server</li>
+            <li>Sistemas empresariales con MyBatis, procesamiento por lotes y Nexacro</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>4. Liderazgo y entrega de proyectos</h3>
+          <ul>
+            <li>Como líder de proyecto: análisis de negocio y gestión de calendario, avance, incidencias y alcance</li>
+            <li>Coordinación entre desarrolladores y comunicación con las partes interesadas</li>
+            <li>Gestión de entregables: requisitos, ERD, especificaciones de tablas, pantallas e interfaces</li>
+            <li>Calidad en todo el proyecto, del desarrollo a las pruebas, la verificación y la entrega</li>
+          </ul>
+        </div>
+        <div class="ex">
+          <h3>5. Flujo de desarrollo impulsado por IA</h3>
+          <p>A partir de mi experiencia en desarrollo empresarial, últimamente estudio procesos de desarrollo asistidos por IA y sistemas de gestión del conocimiento.</p>
+          <p>Con GitHub Copilot, Microsoft 365 Copilot, LLM locales y RAG, me centro en flujos de trabajo prácticos con IA que mantienen la continuidad entre el análisis de requisitos, la documentación del diseño, la generación de código y la verificación.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Proyectos destacados — Responsabilidades × Habilidades</h2>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Proyecto / Ámbito</th><th>Responsabilidades principales</th><th>Habilidades relacionadas</th></tr></thead>
+            <tbody>
+              <tr><td>Lotte HR SaaS / HR Insight</td><td>Diseño de estadísticas y KPI de RR. HH. a nivel de grupo, data marts FACT/DIM, recolección y estandarización de datos, diseño de pantallas estadísticas y API</td><td>HR Analytics, Data Modeling, PostgreSQL, SQL, REST API, Business Analysis</td></tr>
+              <tr><td>Haengbok e-Eum (sistema integrado de bienestar social de Corea) · sistemas de apoyo a políticas públicas</td><td>Análisis de procesos administrativos, enlaces de datos con organismos externos, análisis, diseño y desarrollo de sistemas de negocio</td><td>Java, Spring, Oracle, System Integration, API, Batch Processing</td></tr>
+              <tr><td>Litigio electrónico del Tribunal Supremo · sistema jurídico de Samsung C&amp;T</td><td>Análisis de procesos jurídicos y de negocio; diseño de pantallas, programas y datos</td><td>Enterprise Application Development, Business Process Analysis, SQL, Java</td></tr>
+              <tr><td>RR. HH. de Shinhan Bank · MyData financiero</td><td>Estadísticas de RR. HH. y procesamiento de datos; interfaces de datos financieros</td><td>Database Design, SQL, System Integration, Java/Spring</td></tr>
+              <tr><td>Sistemas ERP · de liquidación · de gestión</td><td>Análisis e implementación de finanzas, tesorería, liquidación y gestión de riesgos</td><td>ERP, Business Analysis, SQL, System Design, Project Delivery</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Habilidades técnicas</h2>
+        <div>
+          <h3 style="margin:0 0 10px">Las cinco principales</h3>
+          <div class="top5"><span><i>1</i>Business Analysis</span><span><i>2</i>Solution Architecture</span><span><i>3</i>Data Modeling</span><span><i>4</i>Project Management</span><span><i>5</i>Java / Spring Framework</span></div>
+        </div>
+        <div class="skills">
+          <div><h3>Arquitectura y análisis</h3><ul><li>Enterprise Architecture</li><li>Solution Architecture</li><li>Business Analysis</li><li>Requirements Analysis</li><li>Business Process Analysis</li><li>System Design</li><li>Technical Documentation</li></ul></div>
+          <div><h3>Datos y analítica</h3><ul><li>Data Architecture</li><li>Data Modeling</li><li>Data Warehousing</li><li>HR Analytics</li><li>ETL / Data Integration</li><li>SQL</li><li>PostgreSQL</li><li>Oracle Database</li><li>Microsoft SQL Server</li></ul></div>
+          <div><h3>Desarrollo e integración de aplicaciones</h3><ul><li>Java</li><li>Spring Framework</li><li>Spring Boot</li><li>REST APIs</li><li>MyBatis</li><li>Nexacro</li><li>Batch Processing</li><li>System Integration</li><li>Enterprise Resource Planning (ERP)</li></ul></div>
+          <div><h3>Liderazgo e IA</h3><ul><li>Project Management</li><li>Project Delivery</li><li>Team Leadership</li><li>AI Workflow Design</li><li>AI-Assisted Development</li><li>Retrieval-Augmented Generation (RAG)</li><li>Local LLM</li><li>GitHub Copilot</li><li>Microsoft 365 Copilot</li></ul></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Fortalezas</h2>
+        <div class="strengths">
+          <div><h3>Arquitectura de negocio y empresarial</h3><p>Conocimiento del negocio por sector, análisis de requisitos, diseño de soluciones y sistemas.</p></div>
+          <div><h3>Ingeniería y arquitectura de datos</h3><p>Modelado e integración de datos, analítica de RR. HH., sistemas de KPI y estadísticas.</p></div>
+          <div><h3>Liderazgo técnico y transformación con IA</h3><p>Liderazgo de proyectos, gestión de la calidad del desarrollo, diseño de flujos de desarrollo basados en IA.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Posicionamiento profesional</h2>
+        <div class="pos"><span>Consultor sénior de TI</span><span>Líder técnico de proyecto</span><span>Arquitecto de soluciones</span><span>Arquitecto de datos</span></div>
+        <p class="note">«Arquitecto de soluciones» y «Arquitecto de datos» describen áreas de especialización en diseño y las posiciones a las que aspiro. Se indican aparte de los cargos oficiales.</p>
+        <p class="headline">Senior IT Consultant | Project Leader | Enterprise Solution &amp; Data Architecture | Java/Spring | HR Analytics | 23+ Years</p>
+      </section>
+
+      <section>
+        <h2>Contacto</h2>
+        <div class="contact">
+          <a href="mailto:hello@onduru.com">hello@onduru.com</a>
+          <a href="https://onduru.com/">onduru.com</a>
+        </div>
+        <p class="onduru">ONDURU — on, el mundo entero; duru, por todas partes, juntos.<br>Obras hechas por una persona y una IA, <a href="/">en exposición</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2026 ONDURU</div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button'));
+    var NAMES = { ko: '한국어', en: 'English', es: 'Español' };
+    function apply(l, save) {
+      d.setAttribute('data-lang', l); d.setAttribute('lang', l);
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); b.setAttribute('aria-label', NAMES[b.dataset.lang]); });
+      if (save) { try { localStorage.setItem('onduru-lang', l); } catch (e) {} }
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang, true); }); });
+    apply(d.getAttribute('data-lang') || 'en', false);
+  })();
+</script>
+</body>
+</html>
