@@ -15,22 +15,21 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='3.2' stroke-linecap='round' stroke-dasharray='58 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
   <script>
     (function () {
-      var d = document.documentElement, pick = null, tz = '';
+      var d = document.documentElement, pick = null;
       d.classList.add('js');
-      var SUP = { ko: 1, en: 1 };
-      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-      if (tz === 'Asia/Seoul' || tz === 'Asia/Pyongyang') pick = 'ko';
-      else {
-        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
-        pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
-      }
-      try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {}
+      var SUP = { ko: 1, en: 1, es: 1 };
+      /* 글은 읽는 사람의 말: ?lang= → 고른 언어 → 브라우저 언어(ko·es·en 첫 일치) → en */
       var m = location.search.match(/[?&]lang=([a-z]{2})/);
       if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = (ls[i] || '').slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
       if (!pick) pick = 'en';
       d.setAttribute('data-lang', pick);
-      d.setAttribute('data-show', pick === 'ko' ? 'ko' : 'en');
-      d.setAttribute('lang', pick === 'nb' ? 'nb' : pick);
+      d.setAttribute('data-show', pick);
+      d.setAttribute('lang', pick);
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,7 +89,9 @@
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* 언어 */
-    html[data-show="ko"] .L-en, html[data-show="en"] .L-ko { display: none !important; }
+    html[data-show="ko"] .L-en, html[data-show="ko"] .L-es,
+    html[data-show="en"] .L-ko, html[data-show="en"] .L-es,
+    html[data-show="es"] .L-ko, html[data-show="es"] .L-en { display: none !important; }
     .langbtn {
       position: fixed;
       top: max(14px, env(safe-area-inset-top));
@@ -143,7 +144,7 @@
       line-height: 1.32;
       letter-spacing: -.015em;
     }
-    html[data-show="en"] h1, html[data-show="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
+    html[data-show="en"] h1, html[data-show="en"] .stage-line, html[data-show="es"] h1, html[data-show="es"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .w { display: inline-block; white-space: nowrap; }
     .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
     .ch.noise { opacity: .28; }
@@ -343,8 +344,8 @@
     /* 언어 전환: 소리 버튼 왼쪽, 같은 결. 지금 언어가 조금 더 밝다 */
     .lng { position: fixed; right: calc(60px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 30; height: 40px; padding: 0 8px; border: 0; background: none; color: var(--fg); opacity: .32; border-radius: 20px; cursor: pointer; transition: opacity .6s; font: 500 11px/40px "IBM Plex Sans KR", system-ui, sans-serif; letter-spacing: .08em; }
     .lng:hover, .lng:focus-visible { opacity: .7; }
-    .lng .k, .lng .e { opacity: .5; }
-    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e { opacity: 1; }
+    .lng .k, .lng .e, .lng .s { opacity: .5; }
+    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e, html[data-show="es"] .lng .s { opacity: 1; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .enso circle, .enso.again circle { animation: none; stroke-dashoffset: 0; }
@@ -356,31 +357,34 @@
 </head>
 <body>
 
-  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
-  <button class="lng" type="button"><span class="sr L-ko" data-k="lng"></span><span class="sr L-en" data-k="lng"></span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span></span></button>
+  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><span class="sr L-es" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="lng" type="button"><span class="sr L-ko" data-k="lng"></span><span class="sr L-en" data-k="lng"></span><span class="sr L-es" data-k="lng"></span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k02"></span><span class="sr L-en" data-k="k02"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02"></span><span class="sr L-en" data-k="k02"></span><span class="sr L-es" data-k="k02"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
 
       <div class="title-wrap">
         <h1 class="L-ko" lang="ko" data-k="k03"></h1>
         <h1 class="L-en" lang="en" data-k="k03"></h1>
+        <h1 class="L-es" lang="es" data-k="k03"></h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
       <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"></del></button></p>
       <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"></del></button></p>
+      <p class="was L-es" lang="es" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-es"><del class="pending"></del></button></p>
 
       <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05"></p>
       <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05"></p>
+      <p class="margin-note L-es" id="n-es" role="note" lang="es" data-k="k05"></p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06"></span><span class="L-en" lang="en" data-k="k06"></span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07"></span><span class="L-en" lang="en" data-k="k07"></span></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06"></span><span class="L-en" lang="en" data-k="k06"></span><span class="L-es" lang="es" data-k="k06"></span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07"></span><span class="L-en" lang="en" data-k="k07"></span><span class="L-es" lang="es" data-k="k07"></span></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08"></span><span class="sr L-en" data-k="k08"></span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08"></span><span class="sr L-en" data-k="k08"></span><span class="sr L-es" data-k="k08"></span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -390,41 +394,48 @@
       <div data-scene="1" class="screen h76 reveal" id="begin">
         <p class="line ai L-ko" lang="ko" data-k="k09"></p>
         <p class="line ai L-en" lang="en" data-k="k09"></p>
+        <p class="line ai L-es" lang="es" data-k="k09"></p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k10"></p>
         <p class="line ai L-en" lang="en" data-k="k10"></p>
+        <p class="line ai L-es" lang="es" data-k="k10"></p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k11"></p>
         <p class="line ai L-en" lang="en" data-k="k11"></p>
+        <p class="line ai L-es" lang="es" data-k="k11"></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k12"></p>
         <p class="line ai L-en" lang="en" data-k="k12"></p>
+        <p class="line ai L-es" lang="es" data-k="k12"></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k13"></p>
         <p class="line ai L-en" lang="en" data-k="k13"></p>
+        <p class="line ai L-es" lang="es" data-k="k13"></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
         <p class="line ai L-ko" lang="ko" data-k="k14"></p>
         <p class="line ai L-en" lang="en" data-k="k14"></p>
+        <p class="line ai L-es" lang="es" data-k="k14"></p>
       </div>
 
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22"></span><span class="L-en" data-k="k22"></span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22"></span><span class="L-en" data-k="k22"></span><span class="L-es" data-k="k22"></span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k23"></span><span class="sr L-en" data-k="k23"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23"></span><span class="sr L-en" data-k="k23"></span><span class="sr L-es" data-k="k23"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <p class="line ai reveal L-ko" lang="ko" data-k="k24"></p>
         <p class="line ai reveal L-en" lang="en" data-k="k24"></p>
-        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27"></span><span class="L-en" data-k="k27"></span></a></div>
+        <p class="line ai reveal L-es" lang="es" data-k="k24"></p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27"></span><span class="L-en" data-k="k27"></span><span class="L-es" data-k="k27"></span></a></div>
       </section>
 
     </div>
@@ -432,9 +443,9 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko" data-k="k28"></span><span class="L-en" lang="en" data-k="k28"></span></p>
-      <p class="statement"><span class="L-ko" lang="ko" data-k="c01"></span><span class="L-en" lang="en" data-k="c01"></span></p>
-      <p><span class="L-ko" lang="ko" data-k="k30"></span><span class="L-en" lang="en" data-k="k30"></span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28"></span><span class="L-en" lang="en" data-k="k28"></span><span class="L-es" lang="es" data-k="k28"></span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="c01"></span><span class="L-en" lang="en" data-k="c01"></span><span class="L-es" lang="es" data-k="c01"></span></p>
+      <p><span class="L-ko" lang="ko" data-k="k30"></span><span class="L-en" lang="en" data-k="k30"></span><span class="L-es" lang="es" data-k="k30"></span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
@@ -452,7 +463,7 @@
         document.querySelector(m[0]).setAttribute('content', m[1]);
       });
       document.querySelectorAll('[data-k]').forEach(function (el) {
-        var D = X[el.classList.contains('L-ko') ? 'ko' : 'en'], k = el.getAttribute('data-k');
+        var D = X[el.classList.contains('L-ko') ? 'ko' : el.classList.contains('L-es') ? 'es' : 'en'], k = el.getAttribute('data-k');
         if (k === 'k04') { var d = el.querySelector('del'); d.innerHTML = '<span class="sr"></span>'; d.firstChild.textContent = D.k04sr; d.insertAdjacentHTML('beforeend', D.k04); return; }
         el.innerHTML = D[k];
       });
@@ -472,7 +483,7 @@
         en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       };
       function lang() { return html.getAttribute('data-lang') || 'en'; }
-      function show() { return html.getAttribute('data-show') === 'ko' ? 'ko' : 'en'; }
+      function show() { var s = html.getAttribute('data-show'); return s === 'ko' || s === 'es' ? s : 'en'; }
       /* 나라의 말로: 한국어·영어 외에는 영어 자리에 번역문을 놓는다 */
       var I18N = {};
       try { I18N = JSON.parse(document.getElementById('i18n').textContent || '{}'); } catch (e) {}
@@ -779,7 +790,8 @@
       };
       var NAMES = {
         ko: { dawn: '동틀 녘', day: '낮', dusk: '해 질 녘', night: '밤', clear: '맑음', cloud: '구름', fog: '안개', rain: '비', snow: '눈', storm: '뇌우' },
-        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' }
+        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' },
+        es: { dawn: 'amanecer', day: 'día', dusk: 'atardecer', night: 'noche', clear: 'despejado', cloud: 'nubes', fog: 'niebla', rain: 'lluvia', snow: 'nieve', storm: 'tormenta' }
       };
       var zone = '', place = null, sunrise = null, sunset = null;
       var Q = {};
@@ -1285,7 +1297,7 @@
       /* 3. 언어 전환: 오른쪽 아래 「한 / EN」. 고른 언어는 기억해 둔다. 첫 화면 해독이 끝났으면 다른 언어도 끝난 모습으로 */
       var lngBtn = document.querySelector('.lng');
       if (lngBtn) lngBtn.addEventListener('click', function () {
-        var was = show(), L = was === 'ko' ? 'en' : 'ko';
+        var was = show(), L = was === 'ko' ? 'en' : was === 'en' ? 'es' : 'ko';
         if (decoded[was] === 'busy') skipNow();
         var done = decoded[was] === true;
         html.setAttribute('data-lang', L); html.setAttribute('data-show', L); html.setAttribute('lang', L);
