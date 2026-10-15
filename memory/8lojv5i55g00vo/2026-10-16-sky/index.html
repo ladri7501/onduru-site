@@ -440,6 +440,7 @@
   </footer>
 
   <script type="application/json" id="i18n">{}</script>
+  <script src="sky.js"></script>
   <script src="text.js"></script>
   <script src="scenes.js"></script>
   <script>
@@ -779,24 +780,6 @@
         ko: { dawn: '동틀 녘', day: '낮', dusk: '해 질 녘', night: '밤', clear: '맑음', cloud: '구름', fog: '안개', rain: '비', snow: '눈', storm: '뇌우' },
         en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' }
       };
-      var TZ = {
-        'Asia/Seoul': [37.57, 126.98, '서울', 'Seoul'], 'Asia/Tokyo': [35.68, 139.69, '도쿄', 'Tokyo'],
-        'Asia/Shanghai': [31.23, 121.47, '상하이', 'Shanghai'], 'Asia/Hong_Kong': [22.32, 114.17, '홍콩', 'Hong Kong'],
-        'Asia/Taipei': [25.03, 121.57, '타이베이', 'Taipei'], 'Asia/Singapore': [1.35, 103.82, '싱가포르', 'Singapore'],
-        'Asia/Bangkok': [13.76, 100.5, '방콕', 'Bangkok'], 'Asia/Ho_Chi_Minh': [10.82, 106.63, '호찌민', 'Ho Chi Minh City'],
-        'Asia/Kolkata': [28.61, 77.21, '델리', 'Delhi'], 'Asia/Dubai': [25.2, 55.27, '두바이', 'Dubai'],
-        'Europe/London': [51.51, -0.13, '런던', 'London'], 'Europe/Paris': [48.86, 2.35, '파리', 'Paris'],
-        'Europe/Berlin': [52.52, 13.4, '베를린', 'Berlin'], 'Europe/Madrid': [40.42, -3.7, '마드리드', 'Madrid'],
-        'Europe/Rome': [41.9, 12.5, '로마', 'Rome'], 'Europe/Amsterdam': [52.37, 4.9, '암스테르담', 'Amsterdam'],
-        'Europe/Stockholm': [59.33, 18.07, '스톡홀름', 'Stockholm'], 'Europe/Moscow': [55.76, 37.62, '모스크바', 'Moscow'],
-        'America/New_York': [40.71, -74.01, '뉴욕', 'New York'], 'America/Chicago': [41.88, -87.63, '시카고', 'Chicago'],
-        'America/Denver': [39.74, -104.99, '덴버', 'Denver'], 'America/Los_Angeles': [34.05, -118.24, '로스앤젤레스', 'Los Angeles'],
-        'America/Toronto': [43.65, -79.38, '토론토', 'Toronto'], 'America/Vancouver': [49.28, -123.12, '밴쿠버', 'Vancouver'],
-        'America/Mexico_City': [19.43, -99.13, '멕시코시티', 'Mexico City'], 'America/Sao_Paulo': [-23.55, -46.63, '상파울루', 'São Paulo'],
-        'Australia/Sydney': [-33.87, 151.21, '시드니', 'Sydney'], 'Australia/Melbourne': [-37.81, 144.96, '멜버른', 'Melbourne'],
-        'Pacific/Auckland': [-36.85, 174.76, '오클랜드', 'Auckland'], 'Africa/Cairo': [30.04, 31.24, '카이로', 'Cairo'],
-        'Africa/Johannesburg': [-26.2, 28.05, '요하네스버그', 'Johannesburg']
-      };
       var zone = '', place = null, sunrise = null, sunset = null;
       var Q = {};
       location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { Q[k] = decodeURIComponent(v); });
@@ -805,7 +788,8 @@
       if (Q.tz) { try { new Intl.DateTimeFormat('en', { timeZone: Q.tz }); zone = Q.tz; } catch (e) {} }
       var AT = (Q.at || '').match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/);
       var MOONAGE = Q.moon != null && Q.moon !== '' && isFinite(+Q.moon) ? +Q.moon : null;
-      place = TZ[zone] || null;
+      var LOC = SkyCalc.locate(zone, navigator.language);
+      place = [LOC.lat, LOC.lon];
 
       /* 그 지역의 벽시계: { y, mo, d, h, mi } */
       function clock() {
@@ -879,7 +863,7 @@
         }
         if (!place || !window.fetch) { applySky(); return; }
         var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + place[0] + '&longitude=' + place[1] +
-          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&daily=sunrise,sunset&timezone=' + encodeURIComponent(zone) + '&forecast_days=1';
+          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&daily=sunrise,sunset&timezone=' + encodeURIComponent(zone || 'auto') + '&forecast_days=1';
         fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
           if (!d || !d.current) { applySky(); return; }
           try {
