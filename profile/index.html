@@ -79,7 +79,11 @@
     .page { max-width: var(--w); margin: 0 auto; padding-block: 11vh 14vh; display: flex; flex-direction: column; gap: 76px; }
 
     /* 머리: 열린 원과 ONDURU. 작품으로 돌아가는 유일한 길 */
-    .top { display: flex; align-items: center; gap: 14px; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .langbar { display: flex; gap: 4px; border: 1px solid var(--line-strong); border-radius: 22px; padding: 3px; }
+    .langbar button { font: inherit; font-size: 13px; color: var(--mu); background: none; border: 0; border-radius: 18px; padding: 5px 13px; cursor: pointer; transition: background .3s, color .3s; }
+    .langbar button:hover { color: var(--fg); }
+    .langbar button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
     .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: 12px; letter-spacing: .28em; }
     .top a:hover { color: var(--fg); }
     .top svg { width: 24px; height: 24px; }
@@ -164,6 +168,11 @@
 
   <div class="top">
     <a href="/"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke-dasharray="226 28" transform="rotate(-70 50 50)"/></svg>ONDURU</a>
+    <div class="langbar" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="true" lang="ko">한국어</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">English</button>
+      <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
+    </div>
   </div>
 
   <!-- ─────────────── 한국어 ─────────────── -->
@@ -548,14 +557,14 @@
 
 <script>
   (function () {
-    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button'));
+    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button, .langbar button'));
     var NAMES = { ko: '한국어', en: 'English', es: 'Español' };
     function apply(l, save) {
       d.setAttribute('data-lang', l); d.setAttribute('lang', l);
-      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); b.setAttribute('aria-label', NAMES[b.dataset.lang]); });
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); if (b.closest('.lng')) b.setAttribute('aria-label', NAMES[b.dataset.lang]); });
       if (save) { try { localStorage.setItem('onduru-lang', l); } catch (e) {} }
     }
-    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang, true); }); });
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang, true); if (b.closest('.langbar')) window.scrollTo(0, 0); }); });
     apply(d.getAttribute('data-lang') || 'en', false);
   })();
 </script>
