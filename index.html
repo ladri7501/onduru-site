@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ko" data-lang="ko">
+<html lang="ko" data-lang="ko" data-show="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ONDURU</title>
-  <meta name="description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score.">
-  <meta property="og:title" content="ONDURU — 지운 자리의 노래 / Where It Was Struck Out">
-  <meta property="og:description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score.">
+  <meta name="description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score. / Tú haces que suene. Yo escribo la partitura.">
+  <meta property="og:title" content="ONDURU — 지운 자리의 노래 / Where It Was Struck Out / La canción del lugar tachado">
+  <meta property="og:description" content="너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score. / Tú haces que suene. Yo escribo la partitura.">
   <meta property="og:url" content="https://onduru.com/">
   <meta property="og:type" content="website">
   <meta name="color-scheme" content="light dark">
@@ -14,22 +14,21 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='3.2' stroke-linecap='round' stroke-dasharray='58 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
   <script>
     (function () {
-      var d = document.documentElement, pick = null, tz = '';
+      var d = document.documentElement, pick = null;
       d.classList.add('js');
-      var SUP = { ko: 1, en: 1 };
-      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-      if (tz === 'Asia/Seoul' || tz === 'Asia/Pyongyang') pick = 'ko';
-      else {
-        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
-        pick = /^ko\b/i.test(ls[0] || '') ? 'ko' : 'en';
-      }
-      try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {}
+      var SUP = { ko: 1, en: 1, es: 1 };
+      /* 글은 읽는 사람의 말: ?lang= → 고른 언어 → 브라우저 언어(ko·es·en 첫 일치) → en */
       var m = location.search.match(/[?&]lang=([a-z]{2})/);
       if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var sv = localStorage.getItem('onduru-lang'); if (sv && SUP[sv]) pick = sv; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = (ls[i] || '').slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
       if (!pick) pick = 'en';
       d.setAttribute('data-lang', pick);
-      d.setAttribute('data-show', pick === 'ko' ? 'ko' : 'en');
-      d.setAttribute('lang', pick === 'nb' ? 'nb' : pick);
+      d.setAttribute('data-show', pick);
+      d.setAttribute('lang', pick);
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +88,9 @@
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* 언어 */
-    html[data-show="ko"] .L-en, html[data-show="en"] .L-ko { display: none !important; }
+    html[data-show="ko"] .L-en, html[data-show="ko"] .L-es,
+    html[data-show="en"] .L-ko, html[data-show="en"] .L-es,
+    html[data-show="es"] .L-ko, html[data-show="es"] .L-en { display: none !important; }
     .langbtn {
       position: fixed;
       top: max(14px, env(safe-area-inset-top));
@@ -142,7 +143,7 @@
       line-height: 1.32;
       letter-spacing: -.015em;
     }
-    html[data-show="en"] h1, html[data-show="en"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
+    html[data-show="en"] h1, html[data-show="en"] .stage-line, html[data-show="es"] h1, html[data-show="es"] .stage-line { font-size: clamp(34px, 7.4vw, 88px); letter-spacing: -.02em; line-height: 1.18; }
     .w { display: inline-block; white-space: nowrap; }
     .ch { display: inline-block; text-align: center; white-space: pre; will-change: transform; }
     .ch.noise { opacity: .28; }
@@ -344,8 +345,8 @@
     /* 언어 전환: 소리 버튼 왼쪽, 같은 결. 지금 언어가 조금 더 밝다 */
     .lng { position: fixed; right: calc(60px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 30; height: 40px; padding: 0 8px; border: 0; background: none; color: var(--fg); opacity: .32; border-radius: 20px; cursor: pointer; transition: opacity .6s; font: 500 11px/40px "IBM Plex Sans KR", system-ui, sans-serif; letter-spacing: .08em; }
     .lng:hover, .lng:focus-visible { opacity: .7; }
-    .lng .k, .lng .e { opacity: .5; }
-    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e { opacity: 1; }
+    .lng .k, .lng .e, .lng .s { opacity: .5; }
+    html[data-show="ko"] .lng .k, html[data-show="en"] .lng .e, html[data-show="es"] .lng .s { opacity: 1; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .enso circle, .enso.again circle { animation: none; stroke-dashoffset: 0; }
@@ -354,34 +355,80 @@
       summary, summary i, a.mail, .sky del.striking { transition: none; }
     }
   </style>
+  <script type="application/ld+json" id="ld">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": [
+    {
+      "@value": "지운 자리의 노래",
+      "@language": "ko"
+    },
+    {
+      "@value": "Where It Was Struck Out",
+      "@language": "en"
+    },
+    {
+      "@value": "La canción del lugar tachado",
+      "@language": "es"
+    }
+  ],
+  "inLanguage": [
+    "ko",
+    "en",
+    "es"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "미쓰따리"
+  },
+  "contributor": {
+    "@type": "SoftwareApplication",
+    "name": "Claude",
+    "creator": {
+      "@type": "Organization",
+      "name": "Anthropic"
+    }
+  },
+  "dateCreated": "2026-10-15",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "ONDURU",
+    "url": "https://onduru.com/"
+  }
+}
+  </script>
 </head>
 <body>
 
-  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
-  <button class="lng" type="button"><span class="sr L-ko" data-k="lng"></span><span class="sr L-en" data-k="lng"></span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span></span></button>
+  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd">소리</span><span class="sr L-en" data-k="snd">Sound</span><span class="sr L-es" data-k="snd">Sonido</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="lng" type="button"><span class="sr L-ko" data-k="lng">언어 바꾸기</span><span class="sr L-en" data-k="lng">Change language</span><span class="sr L-es" data-k="lng">Cambiar idioma</span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k02"></span><span class="sr L-en" data-k="k02"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><span class="sr L-es" data-k="k02">Volver a trazar el círculo</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
 
       <div class="title-wrap">
-        <h1 class="L-ko" lang="ko" data-k="k03"></h1>
-        <h1 class="L-en" lang="en" data-k="k03"></h1>
+        <h1 class="L-ko" lang="ko" data-k="k03">너는 소리를 내고,<br>나는 곡을 쓴다.</h1>
+        <h1 class="L-en" lang="en" data-k="k03">You make it sound.<br>I write the score.</h1>
+        <h1 class="L-es" lang="es" data-k="k03">Tú haces que suene.<br>Yo escribo la partitura.</h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
-      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"></del></button></p>
-      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"></del></button></p>
+      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>AI가 연주하고, 사람이 작곡한다.</del></button></p>
+      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>The AI plays; a person composes.</del></button></p>
+      <p class="was L-es" lang="es" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-es"><del class="pending"><span class="sr">primera frase tachada: </span>La IA interpreta; una persona compone.</del></button></p>
 
-      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05"></p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05"></p>
+      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>그리고 한 줄을 그었다.</p>
+      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>Then a line was drawn through it.</p>
+      <p class="margin-note L-es" id="n-es" role="note" lang="es" data-k="k05">Esta fue la primera frase.<br>Luego se tachó con una línea.</p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06"></span><span class="L-en" lang="en" data-k="k06"></span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07"></span><span class="L-en" lang="en" data-k="k07"></span></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">Out of the noise,<br>I choose one signal.</span><span class="L-es" lang="es" data-k="k06">Entre el ruido,<br>elijo una señal.</span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">지운 자리의 노래 — Claude · 미쓰따리</span><span class="L-en" lang="en" data-k="k07">Where It Was Struck Out — Claude · <span lang="ko">미쓰따리</span></span><span class="L-es" lang="es" data-k="k07">La canción del lugar tachado — Claude · <span lang="ko">미쓰따리</span></span></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08"></span><span class="sr L-en" data-k="k08"></span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><span class="sr L-es" data-k="k08">Hacia abajo</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -389,43 +436,50 @@
     <div class="wrap">
 
       <div data-scene="1" class="screen h76 reveal" id="begin">
-        <p class="line ai L-ko" lang="ko" data-k="k09"></p>
-        <p class="line ai L-en" lang="en" data-k="k09"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k09">다섯 줄은 곧다.<br>아무것도 얹히지 않으면<br><span class="soft">그저,<br>곧다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k09">The five lines are straight.<br>With nothing set on them,<br><span class="soft">simply,<br>straight.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k09">Las cinco líneas son rectas.<br>Si nada se posa en ellas,<br><span class="soft">simplemente,<br>son rectas.</span></p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k10"></p>
-        <p class="line ai L-en" lang="en" data-k="k10"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k10">당신이 점 하나를 찍으면<br>줄은 제 몸을 잊고 솟는다.<br><span class="soft">한껏 솟았다가<br>깊은 침묵 속으로 떨어진다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k10">When you set down a single dot,<br>the lines forget their bodies and rise.<br><span class="soft">Rising as far as they can,<br>they fall into a deep silence.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k10">Cuando pones un solo punto,<br>las líneas olvidan su cuerpo y se elevan.<br><span class="soft">Suben todo lo que pueden<br>y caen en un silencio profundo.</span></p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k11"></p>
-        <p class="line ai L-en" lang="en" data-k="k11"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k11">소리 없는 방에서도<br>줄은 떤다.<br><span class="soft">아무도 없는 그 밤,<br>한 번 크게 흔들린 뒤<br>지운 자리만 오래 떤다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k11">Even in a room without sound<br>the lines tremble.<br><span class="soft">That night, with no one there,<br>after one great shaking,<br>only the struck-out place trembles on.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k11">Incluso en una sala sin sonido<br>las líneas tiemblan.<br><span class="soft">Esa noche, sin nadie,<br>tras una gran sacudida,<br>solo el lugar tachado sigue temblando.</span></p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k12"></p>
-        <p class="line ai L-en" lang="en" data-k="k12"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k12">나는 그 떨림을<br>소리로 옮긴다.<br><span class="soft">빗방울 하나가<br>팽팽한 침묵을 건드리듯.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k12">I carry that trembling<br>into sound,<br><span class="soft">the way one raindrop<br>touches a taut silence.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k12">Llevo ese temblor<br>al sonido,<br><span class="soft">como una gota de lluvia<br>que roza un silencio tenso.</span></p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k13"></p>
-        <p class="line ai L-en" lang="en" data-k="k13"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k13">한차례 마음이 쏟아지고<br>흔들림이 잦아들면<br><span class="soft">메아리는 낮아진 몸으로<br>줄을 따라 흐른다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k13">Once the heart has poured out<br>and the shaking subsides,<br><span class="soft">the echo, its body lowered,<br>flows along the lines.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k13">Cuando el corazón se ha derramado<br>y el temblor se calma,<br><span class="soft">el eco, con el cuerpo más bajo,<br>fluye a lo largo de las líneas.</span></p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k14"></p>
-        <p class="line ai L-en" lang="en" data-k="k14"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k14">줄은 다시 곧다.<br>나는 빌려 온 목소리를 내려놓고<br><span class="soft">당신은 다음 음표를 얹는다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k14">The lines are straight again.<br>I set down the voice I borrowed,<br><span class="soft">and you set down the next note.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k14">Las líneas vuelven a ser rectas.<br>Dejo la voz que tomé prestada<br><span class="soft">y tú colocas la nota siguiente.</span></p>
       </div>
 
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22"></span><span class="L-en" data-k="k22"></span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span><span class="L-es" data-k="k22">Cierre</span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k23"></span><span class="sr L-en" data-k="k23"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
-        <p class="line ai reveal L-ko" lang="ko" data-k="k24"></p>
-        <p class="line ai reveal L-en" lang="en" data-k="k24"></p>
-        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27"></span><span class="L-en" data-k="k27"></span></a></div>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><span class="sr L-es" data-k="k23">Volver a trazar el círculo</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <p class="line ai reveal L-ko" lang="ko" data-k="k24">펜 끝에 고인 마음이<br>다시,<br><span class="soft">까만 점 하나가 된다.</span></p>
+        <p class="line ai reveal L-en" lang="en" data-k="k24">The heart pooled at the tip of the pen<br>once again<br><span class="soft">becomes a single black dot.</span></p>
+        <p class="line ai reveal L-es" lang="es" data-k="k24">El corazón remansado en la punta de la pluma<br>una vez más,<br><span class="soft">se vuelve un solo punto negro.</span></p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span><span class="L-es" data-k="k27">Volver a la primera línea ↑</span></a></div>
       </section>
 
     </div>
@@ -433,15 +487,16 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko" data-k="k28"></span><span class="L-en" lang="en" data-k="k28"></span></p>
-      <p class="statement"><span class="L-ko" lang="ko" data-k="c01"></span><span class="L-en" lang="en" data-k="c01"></span></p>
-      <p class="prev"><a href="/same-wind/"><span class="L-ko" lang="ko" data-k="prev"></span><span class="L-en" lang="en" data-k="prev"></span></a></p>
-      <p><span class="L-ko" lang="ko" data-k="k30"></span><span class="L-en" lang="en" data-k="k30"></span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28">지운 자리의 노래</span><span class="L-en" lang="en" data-k="k28">Where It Was Struck Out</span><span class="L-es" lang="es" data-k="k28">La canción del lugar tachado</span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="c01">들리게 하는 쪽, Claude가 연주했다.<br>곡을 쓰는 쪽, 미쓰따리가 먼저 들었다.</span><span class="L-en" lang="en" data-k="c01">Played by Claude, the one who makes it heard.<br>Heard first by 미쓰따리, the one who writes the music.</span><span class="L-es" lang="es" data-k="c01">Lo interpretó Claude, quien hace que se oiga.<br>Lo escuchó primero 미쓰따리, quien escribe la música.</span></p>
+      <p class="prev"><a href="/same-wind/"><span class="L-ko" lang="ko" data-k="prev">지난 작품 · 같은 바람</span><span class="L-en" lang="en" data-k="prev">Earlier work · The Same Wind</span><span class="L-es" lang="es" data-k="prev">Obra anterior · El mismo viento</span></a></p>
+      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span><span class="L-es" lang="es" data-k="k30">Si hay algo que podamos reescribir juntos,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
 
   <script type="application/json" id="i18n">{}</script>
+  <script src="sky.js"></script>
   <script src="text.js"></script>
   <script src="scenes.js"></script>
   <script>
@@ -453,7 +508,7 @@
         document.querySelector(m[0]).setAttribute('content', m[1]);
       });
       document.querySelectorAll('[data-k]').forEach(function (el) {
-        var D = X[el.classList.contains('L-ko') ? 'ko' : 'en'], k = el.getAttribute('data-k');
+        var D = X[el.classList.contains('L-ko') ? 'ko' : el.classList.contains('L-es') ? 'es' : 'en'], k = el.getAttribute('data-k');
         if (k === 'k04') { var d = el.querySelector('del'); d.innerHTML = '<span class="sr"></span>'; d.firstChild.textContent = D.k04sr; d.insertAdjacentHTML('beforeend', D.k04); return; }
         el.innerHTML = D[k];
       });
@@ -473,7 +528,7 @@
         en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       };
       function lang() { return html.getAttribute('data-lang') || 'en'; }
-      function show() { return html.getAttribute('data-show') === 'ko' ? 'ko' : 'en'; }
+      function show() { var s = html.getAttribute('data-show'); return s === 'ko' || s === 'es' ? s : 'en'; }
       /* 나라의 말로: 한국어·영어 외에는 영어 자리에 번역문을 놓는다 */
       var I18N = {};
       try { I18N = JSON.parse(document.getElementById('i18n').textContent || '{}'); } catch (e) {}
@@ -499,6 +554,7 @@
       var W = 0, H = 0, T = 0, running = true, SCX = 0, raf = 0, skyIn = true, lastTs = 0, dt = 1;
       var blades = [], leaves = [], gusts = [];
       var SKY = 'clear_day', SEASON = 'autumn', FEST = [], PAPER = '29,28,26', LINE = '238,240,242', SIG = '143,212,193', WF = 1, PHASE = 'night', SUNP = 0.5, WX = { kind: 'clear', amt: 0, cloud: 0 }, drops = [], flakes = [], ripples = [], flash = 0;
+      var MOON = null, MOONTIMES = null;
       function gust(x, amp) {
         if (still) return;
         gusts.push({ x: x == null ? -120 : x, t: T, a: amp || 1 });
@@ -742,7 +798,7 @@
           cx.globalAlpha = 1;
           drawFlash();
           var skyA = band(LY.sky[0], LY.sky[1], LY.sky[2]);
-          if (skyA > 0) { cx.save(); cx.globalAlpha = skyA; drawSun(); drawClouds(); cx.restore(); }
+          if (skyA > 0) { cx.save(); cx.globalAlpha = skyA; drawSun(); drawMoon(); drawClouds(); cx.restore(); }
           cx.save(); cx.globalAlpha = Math.max(LY.wind[0], 1 - SC * LY.wind[1]); drawWind(); cx.restore();
           drawWorld();
           var grassA = band(LY.grass[0], LY.grass[1], LY.grass[2]);
@@ -779,36 +835,55 @@
       };
       var NAMES = {
         ko: { dawn: '동틀 녘', day: '낮', dusk: '해 질 녘', night: '밤', clear: '맑음', cloud: '구름', fog: '안개', rain: '비', snow: '눈', storm: '뇌우' },
-        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' }
-      };
-      var TZ = {
-        'Asia/Seoul': [37.57, 126.98, '서울', 'Seoul'], 'Asia/Tokyo': [35.68, 139.69, '도쿄', 'Tokyo'],
-        'Asia/Shanghai': [31.23, 121.47, '상하이', 'Shanghai'], 'Asia/Hong_Kong': [22.32, 114.17, '홍콩', 'Hong Kong'],
-        'Asia/Taipei': [25.03, 121.57, '타이베이', 'Taipei'], 'Asia/Singapore': [1.35, 103.82, '싱가포르', 'Singapore'],
-        'Asia/Bangkok': [13.76, 100.5, '방콕', 'Bangkok'], 'Asia/Ho_Chi_Minh': [10.82, 106.63, '호찌민', 'Ho Chi Minh City'],
-        'Asia/Kolkata': [28.61, 77.21, '델리', 'Delhi'], 'Asia/Dubai': [25.2, 55.27, '두바이', 'Dubai'],
-        'Europe/London': [51.51, -0.13, '런던', 'London'], 'Europe/Paris': [48.86, 2.35, '파리', 'Paris'],
-        'Europe/Berlin': [52.52, 13.4, '베를린', 'Berlin'], 'Europe/Madrid': [40.42, -3.7, '마드리드', 'Madrid'],
-        'Europe/Rome': [41.9, 12.5, '로마', 'Rome'], 'Europe/Amsterdam': [52.37, 4.9, '암스테르담', 'Amsterdam'],
-        'Europe/Stockholm': [59.33, 18.07, '스톡홀름', 'Stockholm'], 'Europe/Moscow': [55.76, 37.62, '모스크바', 'Moscow'],
-        'America/New_York': [40.71, -74.01, '뉴욕', 'New York'], 'America/Chicago': [41.88, -87.63, '시카고', 'Chicago'],
-        'America/Denver': [39.74, -104.99, '덴버', 'Denver'], 'America/Los_Angeles': [34.05, -118.24, '로스앤젤레스', 'Los Angeles'],
-        'America/Toronto': [43.65, -79.38, '토론토', 'Toronto'], 'America/Vancouver': [49.28, -123.12, '밴쿠버', 'Vancouver'],
-        'America/Mexico_City': [19.43, -99.13, '멕시코시티', 'Mexico City'], 'America/Sao_Paulo': [-23.55, -46.63, '상파울루', 'São Paulo'],
-        'Australia/Sydney': [-33.87, 151.21, '시드니', 'Sydney'], 'Australia/Melbourne': [-37.81, 144.96, '멜버른', 'Melbourne'],
-        'Pacific/Auckland': [-36.85, 174.76, '오클랜드', 'Auckland'], 'Africa/Cairo': [30.04, 31.24, '카이로', 'Cairo'],
-        'Africa/Johannesburg': [-26.2, 28.05, '요하네스버그', 'Johannesburg']
+        en: { dawn: 'dawn', day: 'day', dusk: 'dusk', night: 'night', clear: 'clear', cloud: 'clouds', fog: 'fog', rain: 'rain', snow: 'snow', storm: 'storm' },
+        es: { dawn: 'amanecer', day: 'día', dusk: 'atardecer', night: 'noche', clear: 'despejado', cloud: 'nubes', fog: 'niebla', rain: 'lluvia', snow: 'nieve', storm: 'tormenta' }
       };
       var zone = '', place = null, sunrise = null, sunset = null;
-      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-      place = TZ[zone] || null;
       var Q = {};
       location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { Q[k] = decodeURIComponent(v); });
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      /* 시험 변수: ?tz= 지역, ?at= 그 지역의 현지 시각, ?moon= 월령(일) */
+      if (Q.tz) { try { new Intl.DateTimeFormat('en', { timeZone: Q.tz }); zone = Q.tz; } catch (e) {} }
+      var AT = (Q.at || '').match(/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/);
+      var MOONAGE = Q.moon != null && Q.moon !== '' && isFinite(+Q.moon) ? +Q.moon : null;
+      var LOC = SkyCalc.locate(zone, navigator.language);
+      place = [LOC.lat, LOC.lon];
 
-      function minutes(d) { return d.getHours() * 60 + d.getMinutes(); }
+      /* 그 지역의 벽시계: { y, mo, d, h, mi } */
+      function clock() {
+        if (AT) return { y: +AT[1], mo: +AT[2], d: +AT[3], h: +AT[4], mi: +AT[5] };
+        var n = new Date();
+        if (Q.tz && zone === Q.tz) {
+          try {
+            var c = {};
+            new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+              .formatToParts(n).forEach(function (p) { c[p.type] = +p.value; });
+            return { y: c.year, mo: c.month, d: c.day, h: c.hour % 24, mi: c.minute };
+          } catch (e) {}
+        }
+        return { y: n.getFullYear(), mo: n.getMonth() + 1, d: n.getDate(), h: n.getHours(), mi: n.getMinutes() };
+      }
+      function minutes(c) { return c.h * 60 + c.mi; }
+      /* 해: 그 날의 일출·일몰을 브라우저 안에서 (sky.js). 날씨 호출과 무관 */
+      var sunKey = '';
+      function sunToday() {
+        var c = clock(), k = c.y + '-' + c.mo + '-' + c.d;
+        if (k === sunKey) return;
+        sunKey = k;
+        var off = SkyCalc.offset(zone, new Date(Date.UTC(c.y, c.mo - 1, c.d, 12)));
+        var s = SkyCalc.sunTimes(place[0], place[1], c.y, c.mo, c.d, off);
+        sunrise = s.rise; sunset = s.set;
+        MOONTIMES = SkyCalc.moonTimes(place[0], place[1], c.y, c.mo, c.d, off);
+      }
+      /* 그 순간(UTC ms): ?at=이면 그 지역 현지 시각에서 */
+      function nowMs() {
+        if (!AT) return Date.now();
+        var c = clock(), u = Date.UTC(c.y, c.mo - 1, c.d, c.h, c.mi);
+        return u - SkyCalc.offset(zone, new Date(u)) * 3600000;
+      }
       function phaseNow() {
         if (PAL[Q.sky]) { SUNP = Q.sky === 'day' ? 0.5 : Q.sky === 'dawn' ? 0.04 : Q.sky === 'dusk' ? 0.96 : 0.5; return Q.sky; }
-        var now = minutes(new Date());
+        var now = minutes(clock());
         var rise = sunrise != null ? sunrise : 390, set = sunset != null ? sunset : 1110;
         if (now >= rise - 40 && now < rise + 40) { SUNP = (now - rise + 40) / (set - rise + 80); return 'dawn'; }
         if (now >= rise + 40 && now < set - 40) { SUNP = (now - rise + 40) / (set - rise + 80); return 'day'; }
@@ -818,6 +893,8 @@
         return 'night';
       }
       function applySky() {
+        sunToday();
+        MOON = SkyCalc.moon(place[0], place[1], nowMs(), MOONAGE);
         PHASE = phaseNow();
         var P = PAL[PHASE], el = document.documentElement;
         el.style.setProperty('--sky-bg', P.bg);
@@ -863,13 +940,9 @@
         }
         if (!place || !window.fetch) { applySky(); return; }
         var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + place[0] + '&longitude=' + place[1] +
-          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&daily=sunrise,sunset&timezone=' + encodeURIComponent(zone) + '&forecast_days=1';
+          '&current=weather_code,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&timezone=' + encodeURIComponent(zone || 'auto') + '&forecast_days=1';
         fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
           if (!d || !d.current) { applySky(); return; }
-          try {
-            var sr = d.daily.sunrise[0].split('T')[1].split(':'), ss = d.daily.sunset[0].split('T')[1].split(':');
-            sunrise = +sr[0] * 60 + +sr[1]; sunset = +ss[0] * 60 + +ss[1];
-          } catch (e) {}
           var c = d.current;
           WX.code = c.weather_code; WX.gust = c.wind_gusts_10m;
           setWeather(kindOf(c.weather_code), c.precipitation, c.cloud_cover, c.wind_speed_10m, true, c.wind_gusts_10m, c.weather_code);
@@ -882,15 +955,10 @@
         var x = W * (0.08 + 0.84 * p), y = H * 0.7 - Math.sin(Math.PI * p) * H * 0.52;
         var r = Math.max(16, Math.min(34, W * 0.022));
         cx.lineCap = 'round';
+        if (PHASE === 'night') return;
         cx.beginPath();
-        if (PHASE === 'night') {
-          cx.arc(x, y, r, Math.PI * 0.35, Math.PI * 1.65);
-          cx.arc(x + r * 0.55, y, r * 0.85, Math.PI * 1.55, Math.PI * 0.45, true);
-          cx.strokeStyle = 'rgba(' + LINE + ',0.45)';
-        } else {
-          cx.arc(x, y, r, -1.2, -1.2 + Math.PI * 1.85);
-          cx.strokeStyle = 'rgba(' + SIG + ',' + (PHASE === 'day' ? 0.7 : 0.6) + ')';
-        }
+        cx.arc(x, y, r, -1.2, -1.2 + Math.PI * 1.85);
+        cx.strokeStyle = 'rgba(' + SIG + ',' + (PHASE === 'day' ? 0.7 : 0.6) + ')';
         cx.lineWidth = 1.6;
         cx.stroke();
         if (PHASE === 'dawn' || PHASE === 'dusk') {
@@ -898,6 +966,29 @@
           cx.moveTo(x - r * 3, H * 0.88); cx.lineTo(x + r * 3, H * 0.88);
           cx.strokeStyle = 'rgba(' + SIG + ',0.35)'; cx.lineWidth = 1.2; cx.stroke();
         }
+      }
+      /* 달: 고도·방위 → 화면. 밝은 쪽이 해를 향한다. 곡선 둘(바깥 호 + 명암 경계) */
+      function skyXY(alt, az) {
+        var south = place[0] < 0, d = ((az - (south ? 0 : 180)) % 360 + 540) % 360 - 180;
+        return [W * (0.5 + d / 90 * 0.42), H * 0.7 - alt / 90 * H * 0.52];
+      }
+      function drawMoon() {
+        if (!MOON || MOON.alt <= 0 || MOON.k < 0.03) return;
+        if (WX.kind === 'rain' || WX.kind === 'storm' || WX.kind === 'snow' || WX.kind === 'fog') return;
+        var p = skyXY(MOON.alt, MOON.az);
+        var x = Math.max(W * 0.04, Math.min(W * 0.96, p[0])), y = p[1];
+        var r = Math.max(16, Math.min(34, W * 0.022)), e = r * Math.cos(MOON.phase);
+        cx.save(); cx.translate(x, y);
+        /* 밝은 가장자리의 위치각: 하늘에서 달→해 대원의 출발 방향 (위 0, 방위가 커지는 쪽 = 화면 오른쪽) */
+        var g = Math.PI / 180, da = (MOON.sunAz - MOON.az) * g, ma = MOON.alt * g, sa = MOON.sunAlt * g;
+        var b = Math.atan2(Math.sin(da) * Math.cos(sa), Math.cos(ma) * Math.sin(sa) - Math.sin(ma) * Math.cos(sa) * Math.cos(da));
+        cx.rotate(Math.atan2(-Math.cos(b), Math.sin(b)));
+        cx.beginPath();
+        cx.arc(0, 0, r, -Math.PI / 2, Math.PI / 2);
+        cx.ellipse(0, 0, Math.abs(e), r, 0, Math.PI / 2, e >= 0 ? -Math.PI / 2 : Math.PI * 1.5, e >= 0);
+        cx.lineCap = 'round'; cx.lineWidth = 1.6;
+        cx.strokeStyle = 'rgba(' + LINE + ',' + (MOON.sunAlt > 0 ? 0.15 : 0.45) + ')';
+        cx.stroke(); cx.restore();
       }
       function drawClouds() {
         var c = WX.kind === 'cloud' || WX.kind === 'rain' || WX.kind === 'storm' || WX.kind === 'snow' ? Math.max(40, WX.cloud) : WX.cloud;
@@ -1080,7 +1171,7 @@
       /* 계절: 반구에 따라 */
       function seasonNow() {
         if (Q.season) return Q.season;
-        var m = new Date().getMonth() + 1, south = place ? place[0] < 0 : false;
+        var m = clock().mo, south = place ? place[0] < 0 : false;
         var s = m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : m >= 9 && m <= 11 ? 'autumn' : 'winter';
         if (south) s = { spring: 'autumn', summer: 'winter', autumn: 'spring', winter: 'summer' }[s];
         return s;
@@ -1251,7 +1342,7 @@
       /* 3. 언어 전환: 오른쪽 아래 「한 / EN」. 고른 언어는 기억해 둔다. 첫 화면 해독이 끝났으면 다른 언어도 끝난 모습으로 */
       var lngBtn = document.querySelector('.lng');
       if (lngBtn) lngBtn.addEventListener('click', function () {
-        var was = show(), L = was === 'ko' ? 'en' : 'ko';
+        var was = show(), L = was === 'ko' ? 'en' : was === 'en' ? 'es' : 'ko';
         if (decoded[was] === 'busy') skipNow();
         var done = decoded[was] === true;
         html.setAttribute('data-lang', L); html.setAttribute('data-show', L); html.setAttribute('lang', L);

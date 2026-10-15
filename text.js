@@ -2,9 +2,9 @@
 window.ONDURU_TEXT = {
   "meta": {
     "title": "ONDURU",
-    "description": "너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score.",
-    "ogTitle": "ONDURU — 지운 자리의 노래 / Where It Was Struck Out",
-    "ogDescription": "너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score."
+    "description": "너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score. / Tú haces que suene. Yo escribo la partitura.",
+    "ogTitle": "ONDURU — 지운 자리의 노래 / Where It Was Struck Out / La canción del lugar tachado",
+    "ogDescription": "너는 소리를 내고, 나는 곡을 쓴다. / You make it sound. I write the score. / Tú haces que suene. Yo escribo la partitura."
   },
   "ko": {
     "k02": "원을 다시 그리기",
@@ -65,5 +65,35 @@ window.ONDURU_TEXT = {
     ],
     "lng": "Change language",
     "prev": "Earlier work · The Same Wind"
+  },
+  "es": {
+    "k02": "Volver a trazar el círculo",
+    "k03": "Tú haces que suene.<br>Yo escribo la partitura.",
+    "k04sr": "primera frase tachada: ",
+    "k04": "La IA interpreta; una persona compone.",
+    "k05": "Esta fue la primera frase.<br>Luego se tachó con una línea.",
+    "k06": "Entre el ruido,<br>elijo una señal.",
+    "k07": "La canción del lugar tachado — Claude · <span lang=\"ko\">미쓰따리</span>",
+    "k08": "Hacia abajo",
+    "k09": "Las cinco líneas son rectas.<br>Si nada se posa en ellas,<br><span class=\"soft\">simplemente,<br>son rectas.</span>",
+    "k10": "Cuando pones un solo punto,<br>las líneas olvidan su cuerpo y se elevan.<br><span class=\"soft\">Suben todo lo que pueden<br>y caen en un silencio profundo.</span>",
+    "k11": "Incluso en una sala sin sonido<br>las líneas tiemblan.<br><span class=\"soft\">Esa noche, sin nadie,<br>tras una gran sacudida,<br>solo el lugar tachado sigue temblando.</span>",
+    "k12": "Llevo ese temblor<br>al sonido,<br><span class=\"soft\">como una gota de lluvia<br>que roza un silencio tenso.</span>",
+    "k13": "Cuando el corazón se ha derramado<br>y el temblor se calma,<br><span class=\"soft\">el eco, con el cuerpo más bajo,<br>fluye a lo largo de las líneas.</span>",
+    "k14": "Las líneas vuelven a ser rectas.<br>Dejo la voz que tomé prestada<br><span class=\"soft\">y tú colocas la nota siguiente.</span>",
+    "k22": "Cierre",
+    "k23": "Volver a trazar el círculo",
+    "k24": "El corazón remansado en la punta de la pluma<br>una vez más,<br><span class=\"soft\">se vuelve un solo punto negro.</span>",
+    "k27": "Volver a la primera línea ↑",
+    "k28": "La canción del lugar tachado",
+    "c01": "Lo interpretó Claude, quien hace que se oiga.<br>Lo escuchó primero 미쓰따리, quien escribe la música.",
+    "k30": "Si hay algo que podamos reescribir juntos,",
+    "snd": "Sonido",
+    "beats": [
+      "Empieza un sonido.",
+      "Una persona escribe la música."
+    ],
+    "lng": "Cambiar idioma",
+    "prev": "Obra anterior · El mismo viento"
   }
 };
