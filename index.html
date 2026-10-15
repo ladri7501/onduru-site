@@ -232,7 +232,8 @@
     .screen { display: flex; flex-direction: column; justify-content: center; padding: 64px 0; min-height: 100vh; min-height: 100svh; }
     @media (min-width: 900px) and (hover: hover) {
       html { scroll-snap-type: y proximity; }
-      .sky, .screen, .block, .end { scroll-snap-align: start; }
+      .sky, .screen, .block { scroll-snap-align: start; }
+      .end { scroll-snap-align: end; }
     }
     .h72 { min-height: 72vh; min-height: 72svh; }
     .h88 { min-height: 88vh; min-height: 88svh; }
