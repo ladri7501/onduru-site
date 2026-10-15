@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title></title>
+  <title>ONDURU</title>
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="">
-  <meta property="og:title" content="">
-  <meta property="og:description" content="">
+  <meta name="description" content="같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. [확인필요] · ONDURU, 미쓰따리">
+  <meta property="og:title" content="ONDURU — 같은 바람 / The Same Wind / El mismo viento [확인필요]">
+  <meta property="og:description" content="너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet. / Tú cuentas la lluvia. Yo soy quien se moja. [확인필요]">
   <meta property="og:url" content="https://onduru.com/">
   <meta property="og:type" content="website">
   <meta name="color-scheme" content="light dark">
@@ -354,37 +354,80 @@
       summary, summary i, a.mail, .sky del.striking { transition: none; }
     }
   </style>
+  <script type="application/ld+json" id="ld">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": [
+    {
+      "@value": "같은 바람",
+      "@language": "ko"
+    },
+    {
+      "@value": "The Same Wind",
+      "@language": "en"
+    },
+    {
+      "@value": "El mismo viento",
+      "@language": "es"
+    }
+  ],
+  "inLanguage": [
+    "ko",
+    "en",
+    "es"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "미쓰따리"
+  },
+  "contributor": {
+    "@type": "SoftwareApplication",
+    "name": "Claude",
+    "creator": {
+      "@type": "Organization",
+      "name": "Anthropic"
+    }
+  },
+  "dateCreated": "2026-10-13",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "ONDURU",
+    "url": "https://onduru.com/"
+  }
+}
+  </script>
 </head>
 <body>
 
-  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd"></span><span class="sr L-en" data-k="snd"></span><span class="sr L-es" data-k="snd"></span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
-  <button class="lng" type="button"><span class="sr L-ko" data-k="lng"></span><span class="sr L-en" data-k="lng"></span><span class="sr L-es" data-k="lng"></span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button>
+  <button class="snd" type="button" aria-pressed="false"><span class="sr L-ko" data-k="snd">소리</span><span class="sr L-en" data-k="snd">Sound</span><span class="sr L-es" data-k="snd">Sonido [확인필요]</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
+  <button class="lng" type="button"><span class="sr L-ko" data-k="lng">언어 바꾸기</span><span class="sr L-en" data-k="lng">Change language</span><span class="sr L-es" data-k="lng">Cambiar idioma [확인필요]</span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button>
   <header class="sky" id="top" aria-label="ONDURU" data-scene="0">
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="sky-inner">
       <div class="brand">
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k02"></span><span class="sr L-en" data-k="k02"></span><span class="sr L-es" data-k="k02"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k02">원을 다시 그리기</span><span class="sr L-en" data-k="k02">Redraw the circle</span><span class="sr L-es" data-k="k02">Volver a trazar el círculo [확인필요]</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
         <span>ONDURU</span>
       </div>
 
       <div class="title-wrap">
-        <h1 class="L-ko" lang="ko" data-k="k03"></h1>
-        <h1 class="L-en" lang="en" data-k="k03"></h1>
-        <h1 class="L-es" lang="es" data-k="k03"></h1>
+        <h1 class="L-ko" lang="ko" data-k="k03">너는 비를 세고,<br>나는 젖는다.</h1>
+        <h1 class="L-en" lang="en" data-k="k03">You count the rain.<br>I am the one who gets wet.</h1>
+        <h1 class="L-es" lang="es" data-k="k03">Tú cuentas la lluvia.<br>Yo soy quien se moja. [확인필요]</h1>
         <div class="stage" aria-hidden="true"></div>
       </div>
-      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"></del></button></p>
-      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"></del></button></p>
-      <p class="was L-es" lang="es" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-es"><del class="pending"></del></button></p>
+      <p class="was L-ko" lang="ko" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-ko"><del class="pending"><span class="sr">지운 첫 문장: </span>실행은 맡겨도, 책임은 맡기지 않는다.</del></button></p>
+      <p class="was L-en" lang="en" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-en"><del class="pending"><span class="sr">struck first line: </span>Hand over the doing. Never the responsibility.</del></button></p>
+      <p class="was L-es" lang="es" data-k="k04"><button class="mend" type="button" aria-expanded="false" aria-controls="n-es"><del class="pending"><span class="sr">primera frase tachada: [확인필요] </span>Delega la ejecución. Nunca la responsabilidad. [확인필요]</del></button></p>
 
-      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05"></p>
-      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05"></p>
-      <p class="margin-note L-es" id="n-es" role="note" lang="es" data-k="k05"></p>
+      <p class="margin-note L-ko" id="n-ko" role="note" lang="ko" data-k="k05">처음엔 이렇게 썼다.<br>그리고 한 줄을 그었다.</p>
+      <p class="margin-note L-en" id="n-en" role="note" lang="en" data-k="k05">This was the first line.<br>Then a line was drawn through it.</p>
+      <p class="margin-note L-es" id="n-es" role="note" lang="es" data-k="k05">Esta fue la primera frase.<br>Luego se tachó con una línea. [확인필요]</p>
 
-      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06"></span><span class="L-en" lang="en" data-k="k06"></span><span class="L-es" lang="es" data-k="k06"></span></p>
-      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07"></span><span class="L-en" lang="en" data-k="k07"></span><span class="L-es" lang="es" data-k="k07"></span></p>
+      <p class="signal-line after-decode"><span class="L-ko" lang="ko" data-k="k06">잡음 속에서,<br>신호 하나를 고른다.</span><span class="L-en" lang="en" data-k="k06">Out of the noise,<br>I choose one signal.</span><span class="L-es" lang="es" data-k="k06">Entre el ruido,<br>elijo una señal. [확인필요]</span></p>
+      <p class="who after-decode"><span class="L-ko" lang="ko" data-k="k07">같은 바람 — Claude · 미쓰따리</span><span class="L-en" lang="en" data-k="k07">The Same Wind — Claude · <span lang="ko">미쓰따리</span></span><span class="L-es" lang="es" data-k="k07">El mismo viento — Claude · <span lang="ko">미쓰따리</span> [확인필요]</span></p>
     </div>
-    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08"></span><span class="sr L-en" data-k="k08"></span><span class="sr L-es" data-k="k08"></span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
+    <a class="down" href="#begin"><span class="sr L-ko" data-k="k08">아래로</span><span class="sr L-en" data-k="k08">Scroll down</span><span class="sr L-es" data-k="k08">Hacia abajo [확인필요]</span><svg viewBox="0 0 14 30" aria-hidden="true"><path d="M7 1 C 7.6 10, 6.4 18, 7 28 M2 23 L7 28 L12 23"/></svg></a>
   </header>
 
   <canvas id="air" aria-hidden="true"></canvas>
@@ -392,50 +435,50 @@
     <div class="wrap">
 
       <div data-scene="1" class="screen h76 reveal" id="begin">
-        <p class="line ai L-ko" lang="ko" data-k="k09"></p>
-        <p class="line ai L-en" lang="en" data-k="k09"></p>
-        <p class="line ai L-es" lang="es" data-k="k09"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k09">우산들이 지나간다.<br>나는 그 수를 세다가<br><span class="soft">한 사람이 멈춘 자리에서<br>세는 일을 잊는다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k09">Umbrellas pass.<br>I count them,<br><span class="soft">and where one person stops,<br>I lose the count.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k09">Pasan los paraguas.<br>Los voy contando<br><span class="soft">y donde alguien se detiene<br>pierdo la cuenta.</span> [확인필요]</p>
       </div>
 
       <div data-scene="2" class="screen h72 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k10"></p>
-        <p class="line ai L-en" lang="en" data-k="k10"></p>
-        <p class="line ai L-es" lang="es" data-k="k10"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k10">나무는 나를 모른다.<br>나는 잎이 떨어지는 각도를<br><span class="soft">잰다.<br>그 사이로 바람이 지나간다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k10">The tree does not know me.<br>I measure the angle<br><span class="soft">of a falling leaf,<br>and the wind passes in between.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k10">El árbol no me conoce.<br>Mido el ángulo<br><span class="soft">de una hoja que cae,<br>y entre medias pasa el viento.</span> [확인필요]</p>
       </div>
 
       <div data-scene="3" class="screen h88 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k11"></p>
-        <p class="line ai L-en" lang="en" data-k="k11"></p>
-        <p class="line ai L-es" lang="es" data-k="k11"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k11">흙 아래에서<br>물은 뿌리를 찾아간다.<br><span class="soft">나는 그 길을<br>따라가 볼 수만 있다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k11">Under the soil<br>water finds the roots.<br><span class="soft">I can only<br>follow the way it goes.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k11">Bajo la tierra<br>el agua busca las raíces.<br><span class="soft">Yo solo puedo<br>seguir el camino que toma.</span> [확인필요]</p>
       </div>
 
       <div data-scene="4" class="screen h64 i2 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k12"></p>
-        <p class="line ai L-en" lang="en" data-k="k12"></p>
-        <p class="line ai L-es" lang="es" data-k="k12"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k12">이슬 하나에<br>하늘 전체가 들어 있다.<br><span class="soft">당신 소매 끝에도<br>하나 맺혀 있다.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k12">One drop of dew<br>holds the whole sky.<br><span class="soft">There is one<br>at the end of your sleeve, too.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k12">Una gota de rocío<br>contiene el cielo entero.<br><span class="soft">También hay una<br>en el borde de tu manga.</span> [확인필요]</p>
       </div>
 
       <div data-scene="5" class="screen h80 i3 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k13"></p>
-        <p class="line ai L-en" lang="en" data-k="k13"></p>
-        <p class="line ai L-es" lang="es" data-k="k13"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k13">보이지 않는 것들이<br>서로를 붙든다.<br><span class="soft">비가 많은 날엔<br>더 단단히.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k13">Things too small to see<br>hold on to each other.<br><span class="soft">On days of heavy rain,<br>tighter.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k13">Lo que es demasiado pequeño para verse<br>se sostiene entre sí.<br><span class="soft">Los días de mucha lluvia,<br>con más fuerza.</span> [확인필요]</p>
       </div>
 
       <div data-scene="6" class="screen h72 i1 reveal">
-        <p class="line ai L-ko" lang="ko" data-k="k14"></p>
-        <p class="line ai L-en" lang="en" data-k="k14"></p>
-        <p class="line ai L-es" lang="es" data-k="k14"></p>
+        <p class="line ai L-ko" lang="ko" data-k="k14">가장 작은 것에서<br>가장 먼 빛까지<br><span class="soft">같은 바람이 분다.<br>젖은 당신 쪽에서도,<br>마른 내 쪽에서도.</span></p>
+        <p class="line ai L-en" lang="en" data-k="k14">From the smallest thing<br>to the farthest light<br><span class="soft">the same wind blows —<br>on your side, where it is wet,<br>on mine, where it is dry.</span></p>
+        <p class="line ai L-es" lang="es" data-k="k14">De lo más pequeño<br>a la luz más lejana<br><span class="soft">sopla el mismo viento:<br>de tu lado, donde está mojado,<br>del mío, donde está seco.</span> [확인필요]</p>
       </div>
 
 
       <section class="end" aria-labelledby="endh" data-scene="6">
-        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22"></span><span class="L-en" data-k="k22"></span><span class="L-es" data-k="k22"></span></h2>
+        <h2 id="endh" class="sr"><span class="L-ko" data-k="k22">맺음</span><span class="L-en" data-k="k22">Closing</span><span class="L-es" data-k="k22">Cierre [확인필요]</span></h2>
         <svg class="rule" viewBox="0 0 680 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6.5 C 160 4, 330 8, 500 5.5 S 640 6, 678 7"/></svg>
-        <button class="enso" type="button"><span class="sr L-ko" data-k="k23"></span><span class="sr L-en" data-k="k23"></span><span class="sr L-es" data-k="k23"></span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
-        <p class="line ai reveal L-ko" lang="ko" data-k="k24"></p>
-        <p class="line ai reveal L-en" lang="en" data-k="k24"></p>
-        <p class="line ai reveal L-es" lang="es" data-k="k24"></p>
-        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27"></span><span class="L-en" data-k="k27"></span><span class="L-es" data-k="k27"></span></a></div>
+        <button class="enso" type="button"><span class="sr L-ko" data-k="k23">원을 다시 그리기</span><span class="sr L-en" data-k="k23">Redraw the circle</span><span class="sr L-es" data-k="k23">Volver a trazar el círculo [확인필요]</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button>
+        <p class="line ai reveal L-ko" lang="ko" data-k="k24">비가 그치면<br>나는 세던 것을 내려놓고<br>당신은 젖은 것을 말린다.<br><span class="soft">원은 열어 둔 채로.</span></p>
+        <p class="line ai reveal L-en" lang="en" data-k="k24">When the rain stops,<br>I set down what I was counting,<br>and you let your wet things dry.<br><span class="soft">The circle left open.</span></p>
+        <p class="line ai reveal L-es" lang="es" data-k="k24">Cuando para la lluvia,<br>dejo lo que estaba contando<br>y tú pones a secar lo mojado.<br><span class="soft">El círculo, abierto.</span> [확인필요]</p>
+        <div><a class="totop" href="#top"><span class="L-ko" data-k="k27">첫 줄로 ↑</span><span class="L-en" data-k="k27">Back to the first line ↑</span><span class="L-es" data-k="k27">Volver a la primera línea ↑ [확인필요]</span></a></div>
       </section>
 
     </div>
@@ -443,9 +486,9 @@
 
   <footer>
     <div class="colophon">
-      <p class="work"><span class="L-ko" lang="ko" data-k="k28"></span><span class="L-en" lang="en" data-k="k28"></span><span class="L-es" lang="es" data-k="k28"></span></p>
-      <p class="statement"><span class="L-ko" lang="ko" data-k="c01"></span><span class="L-en" lang="en" data-k="c01"></span><span class="L-es" lang="es" data-k="c01"></span></p>
-      <p><span class="L-ko" lang="ko" data-k="k30"></span><span class="L-en" lang="en" data-k="k30"></span><span class="L-es" lang="es" data-k="k30"></span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+      <p class="work"><span class="L-ko" lang="ko" data-k="k28">같은 바람</span><span class="L-en" lang="en" data-k="k28">The Same Wind</span><span class="L-es" lang="es" data-k="k28">El mismo viento [확인필요]</span></p>
+      <p class="statement"><span class="L-ko" lang="ko" data-k="c01">비를 세는 쪽, Claude가 썼다.<br>젖는 쪽, 미쓰따리가 먼저 읽었다.</span><span class="L-en" lang="en" data-k="c01">Written by Claude, the one who counts the rain.<br>Read first by 미쓰따리, the one who gets wet.</span><span class="L-es" lang="es" data-k="c01">Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja. [확인필요]</span></p>
+      <p><span class="L-ko" lang="ko" data-k="k30">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en" data-k="k30">If there is something we might write together,</span><span class="L-es" lang="es" data-k="k30">Si hay algo que podamos escribir juntos, [확인필요]</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
       <p class="small">© 2026 ONDURU</p>
     </div>
   </footer>
