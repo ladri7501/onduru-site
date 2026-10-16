@@ -1378,8 +1378,9 @@
         var now = Date.now(); if (now - lastScroll < 400) return; lastScroll = now; gust(null, 0.3);
       }, { passive: true });
 
-      /* 끝에서 한 번 더 내리면 첫 줄로: 바닥에 닿고 300ms 지난 뒤의 아래 입력만, 돌아간 뒤 2초는 쉼 */
-      var endAt = 0, backAt = 0, touchY = null;
+      /* 끝에서 한 번 더 내리면 첫 줄로: 바닥에 닿고 300ms 지난 뒤의 아래 입력만, 돌아간 뒤 2초는 쉼.
+         휠은 200ms 넘게 끊긴 뒤의 새 입력만 (관성 꼬리는 새 손짓이 아님) */
+      var endAt = 0, backAt = 0, touchY = null, wheelAt = 0;
       function atBottom() { return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; }
       function markEnd() { if (!atBottom()) endAt = 0; else if (!endAt) endAt = Date.now(); }
       function onceMore() {
@@ -1390,7 +1391,10 @@
         return true;
       }
       window.addEventListener('scroll', markEnd, { passive: true });
-      window.addEventListener('wheel', function (e) { if (e.deltaY > 0 && onceMore()) e.preventDefault(); }, { passive: false });
+      window.addEventListener('wheel', function (e) {
+        var now = Date.now(), fresh = now - wheelAt >= 200; wheelAt = now;
+        if (e.deltaY > 0 && fresh && onceMore()) e.preventDefault();
+      }, { passive: false });
       window.addEventListener('keydown', function (e) {
         if (e.altKey || e.ctrlKey || e.metaKey) return;
         var t = e.target, tag = t && t.tagName;
