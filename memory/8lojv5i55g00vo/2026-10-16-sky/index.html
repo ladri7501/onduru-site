@@ -1378,6 +1378,32 @@
         var now = Date.now(); if (now - lastScroll < 400) return; lastScroll = now; gust(null, 0.3);
       }, { passive: true });
 
+      /* 끝에서 한 번 더 내리면 첫 줄로: 바닥에 닿고 300ms 지난 뒤의 아래 입력만, 돌아간 뒤 2초는 쉼 */
+      var endAt = 0, backAt = 0, touchY = null;
+      function atBottom() { return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; }
+      function markEnd() { if (!atBottom()) endAt = 0; else if (!endAt) endAt = Date.now(); }
+      function onceMore() {
+        var now = Date.now();
+        if (!endAt || !atBottom() || now - endAt < 300 || now - backAt < 2000) return false;
+        backAt = now; endAt = 0;
+        document.getElementById('top').scrollIntoView({ behavior: still ? 'instant' : 'smooth', block: 'start' });
+        return true;
+      }
+      window.addEventListener('scroll', markEnd, { passive: true });
+      window.addEventListener('wheel', function (e) { if (e.deltaY > 0 && onceMore()) e.preventDefault(); }, { passive: false });
+      window.addEventListener('keydown', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        var t = e.target, tag = t && t.tagName;
+        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(tag))) return;
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey && !/^(BUTTON|SUMMARY)$/.test(tag))) { if (onceMore()) e.preventDefault(); }
+      });
+      window.addEventListener('touchstart', function (e) { touchY = e.touches[0].clientY; }, { passive: true });
+      window.addEventListener('touchend', function (e) {
+        if (touchY !== null && touchY - e.changedTouches[0].clientY > 40) onceMore();
+        touchY = null;
+      }, { passive: true });
+      markEnd();
+
 
       var items = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window && !still) {
