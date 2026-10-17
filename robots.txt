@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /memory/
+
+Sitemap: https://onduru.com/sitemap.xml
