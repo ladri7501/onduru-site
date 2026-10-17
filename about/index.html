@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ONDURU에 대하여</title>
+  <meta name="theme-color" content="#05070a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='1.6' stroke-dasharray='56 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var d = document.documentElement, SUP = { ko: 1, en: 1, es: 1 }, pick = null;
+      var m = location.search.match(/[?&]lang=([a-z]{2})/);
+      if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var s = localStorage.getItem('onduru-lang'); if (s && SUP[s]) pick = s; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
+      if (!pick) pick = 'en';
+      d.setAttribute('data-lang', pick); d.setAttribute('lang', pick);
+    })();
+  </script>
+  <style>
+    /* ONDURU의 도록: 작품 곁의 라벨. 프로필과 같은 밤, 같은 활자, 같은 열린 원. 하늘은 없다 */
+    :root {
+      color-scheme: dark;
+      --bg: #05070a;
+      --fg: #eef0f2;
+      --mu: #8d95a2;
+      --dim: #5d6572;
+      --line: rgba(238, 240, 242, .14);
+      --line-strong: rgba(238, 240, 242, .34);
+      --sig: #8fd4c1;
+      --f-serif: "Gowun Batang", "Noto Serif KR", "Noto Serif", Georgia, serif;
+      --f-sans: "IBM Plex Sans KR", "IBM Plex Sans", "Apple SD Gothic Neo", system-ui, sans-serif;
+      --w: 720px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    body {
+      background: var(--bg); color: var(--fg);
+      font-family: var(--f-sans); font-weight: 300; font-size: 15.5px; line-height: 1.8;
+      word-break: keep-all; overflow-wrap: break-word;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      padding-block: 0;
+    }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+    a:hover, a:focus-visible { border-color: var(--fg); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; border-radius: 2px; }
+
+    /* 언어: 한 페이지에 셋. 고른 언어만 보인다 */
+    .L-ko, .L-en, .L-es { display: none; }
+    html[data-lang="ko"] .L-ko, html[data-lang="en"] .L-en, html[data-lang="es"] .L-es { display: block; }
+    html[data-lang="ko"] span.L-ko, html[data-lang="en"] span.L-en, html[data-lang="es"] span.L-es { display: inline; }
+
+    .page { max-width: var(--w); margin: 0 auto; padding-block: 8vh 10vh; display: flex; flex-direction: column; gap: 44px; }
+
+    /* 머리: 열린 원과 ONDURU. 전시로 돌아가는 길 */
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .langbar { display: flex; gap: 4px; border: 1px solid var(--line-strong); border-radius: 22px; padding: 3px; }
+    .langbar button { font: inherit; font-size: 13px; color: var(--mu); background: none; border: 0; border-radius: 18px; padding: 5px 13px; cursor: pointer; transition: background .3s, color .3s; }
+    .langbar button:hover { color: var(--fg); }
+    .langbar button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+    .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: 12px; letter-spacing: .28em; }
+    .top a:hover { color: var(--fg); }
+    .top svg { width: 24px; height: 24px; }
+    .top circle { fill: none; stroke: currentColor; stroke-width: 2.2; }
+
+    .doc { display: flex; flex-direction: column; gap: 30px; }
+    header.lead { display: flex; flex-direction: column; gap: 16px; }
+    h1 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(30px, 6vw, 44px); line-height: 1.3; text-wrap: balance; }
+    .sub { font-family: var(--f-serif); font-size: clamp(18px, 3.2vw, 22px); color: var(--mu); line-height: 1.6; max-width: 30em; }
+
+    /* 라벨: 칸 이름은 작게, 사실은 그 아래 */
+    section { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 14px; }
+    h2 { font-size: 11px; font-weight: 400; letter-spacing: .24em; color: var(--mu); }
+    p { max-width: 36em; }
+    ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    ul li { padding-left: 18px; position: relative; max-width: 40em; }
+    ul li::before { content: ""; position: absolute; left: 0; top: .9em; width: 8px; height: 1px; background: var(--line-strong); }
+
+    .works { display: flex; flex-direction: column; gap: 20px; }
+    .work { display: flex; flex-direction: column; gap: 0; }
+    .work .now { font-size: 11px; letter-spacing: .16em; color: var(--dim); }
+    .work h3 { font-family: var(--f-serif); font-weight: 400; font-size: 20px; line-height: 1.5; }
+    .work .when { font-size: 13px; color: var(--mu); }
+    .work .line { font-family: var(--f-serif); font-size: 16px; }
+    .work .credit { font-size: 13.5px; color: var(--mu); }
+    .work .see { align-self: flex-start; margin-top: 2px; font-size: 14px; }
+
+    .mail a { color: var(--fg); }
+    .note { font-size: 13.5px; color: var(--mu); }
+
+    footer { font-size: 12px; color: var(--dim); display: flex; flex-direction: column; gap: 6px; }
+
+    /* 오른쪽 아래: 작품의 소리 버튼이 있던 자리에, 여기서는 언어만 */
+    .lng { position: fixed; z-index: 30; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 2px; }
+    .lng button { font: inherit; font-size: 12px; letter-spacing: .06em; color: var(--fg); background: none; border: 0; opacity: .32; padding: 8px 7px; cursor: pointer; transition: opacity .4s; font-weight: 400; }
+    .lng button[aria-pressed="true"] { opacity: .85; }
+    .lng button:hover { opacity: .7; }
+
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .page { gap: 36px; padding-block: 6vh 14vh; }
+      .doc { gap: 26px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .lng button, .langbar button { transition: none; } }
+  </style>
+</head>
+<body>
+
+<div class="lng" role="group" aria-label="Language">
+  <button type="button" data-lang="ko" aria-pressed="true">한</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="es" aria-pressed="false">ES</button>
+</div>
+
+<div class="page">
+
+  <div class="top">
+    <a href="/"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke-dasharray="226 28" transform="rotate(-70 50 50)"/></svg>ONDURU</a>
+    <div class="langbar" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="true" lang="ko">한국어</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">English</button>
+      <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
+    </div>
+  </div>
+
+  <!-- ─────────────── 한국어 ─────────────── -->
+  <main class="L-ko" lang="ko">
+    <div class="doc">
+      <header class="lead">
+        <h1>ONDURU에 대하여</h1>
+        <p class="sub">온 세상을 두루 더불어. ONDURU는 사람과 AI가 함께 짓는 작품을 전시하는 곳입니다.</p>
+      </header>
+
+      <section>
+        <h2>이름</h2>
+        <p>ON은 온, 온 세상. DURU는 두루두루, 더불어. 사람과 AI가 더불어 짓는다는 뜻까지 담았습니다.</p>
+      </section>
+
+      <section>
+        <h2>짓는 방식</h2>
+        <ul>
+          <li>주제와 글은 사람이 씁니다.</li>
+          <li>AI는 변주하고 실행합니다.</li>
+          <li>사람이 먼저 감상한 뒤에만 공개합니다.</li>
+          <li>지난 판은 지우지 않고 보관합니다.</li>
+          <li>설명은 작품 곁에만 둡니다.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>작품</h2>
+        <div class="works">
+          <div class="work">
+            <span class="now">지금 걸린 것</span>
+            <h3>지운 자리의 노래</h3>
+            <span class="when">2026년 10월</span>
+            <p class="line">「너는 소리를 내고, 나는 곡을 쓴다.」</p>
+            <p class="credit">미쓰따리 × Claude (Anthropic) 공동창작 — 글·결정: 미쓰따리 / 변주·실행: Claude</p>
+            <a class="see" href="/">보기</a>
+          </div>
+          <div class="work">
+            <span class="now">지난 것</span>
+            <h3>같은 바람</h3>
+            <span class="when">2026년 10월</span>
+            <p class="line">「너는 비를 세고, 나는 젖는다.」</p>
+            <p class="credit">미쓰따리 × Claude (Anthropic) 공동창작 — 글·결정: 미쓰따리 / 변주·실행: Claude</p>
+            <a class="see" href="/same-wind/">보기</a>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>만든 사람</h2>
+        <p>미쓰따리 · Founder, ONDURU. 기반 작업은 여러 AI와 협력했습니다.</p>
+      </section>
+
+      <section>
+        <h2>연락</h2>
+        <p class="mail"><a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+        <p class="note">ONDURU의 공식 주소는 onduru.com, 메일은 hello@onduru.com뿐입니다.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ─────────────── English (S2 뒤에 채운다) ─────────────── -->
+  <main class="L-en" lang="en">
+    <div class="doc"></div>
+  </main>
+
+  <!-- ─────────────── Español (S2 뒤에 채운다) ─────────────── -->
+  <main class="L-es" lang="es">
+    <div class="doc"></div>
+  </main>
+
+  <footer>
+    <div>© 2026 ONDURU</div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button, .langbar button'));
+    var NAMES = { ko: '한국어', en: 'English', es: 'Español' };
+    function apply(l, save) {
+      d.setAttribute('data-lang', l); d.setAttribute('lang', l);
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); if (b.closest('.lng')) b.setAttribute('aria-label', NAMES[b.dataset.lang]); });
+      if (save) { try { localStorage.setItem('onduru-lang', l); } catch (e) {} }
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang, true); if (b.closest('.langbar')) window.scrollTo(0, 0); }); });
+    apply(d.getAttribute('data-lang') || 'en', false);
+  })();
+</script>
+</body>
+</html>
