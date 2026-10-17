@@ -14,15 +14,27 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "ONDURU",
-    "url": "https://onduru.com/",
-    "email": "hello@onduru.com",
-    "founder": { "@type": "Person", "name": "미쓰따리" },
-    "description": "On, the whole world. Duru, all around, together. ONDURU shows works made together by a person and an AI.",
-    "hasPart": [
-      { "@type": "CreativeWork", "url": "https://onduru.com/" },
-      { "@type": "CreativeWork", "url": "https://onduru.com/same-wind/" }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://onduru.com/#org",
+        "name": "ONDURU",
+        "url": "https://onduru.com/",
+        "email": "hello@onduru.com",
+        "founder": { "@type": "Person", "name": "미쓰따리" },
+        "description": "On, the whole world. Duru, all around, together. ONDURU shows works made together by a person and an AI."
+      },
+      {
+        "@type": "WebSite",
+        "name": "ONDURU",
+        "url": "https://onduru.com/",
+        "inLanguage": ["ko", "en", "es"],
+        "publisher": { "@id": "https://onduru.com/#org" },
+        "hasPart": [
+          { "@type": "CreativeWork", "url": "https://onduru.com/" },
+          { "@type": "CreativeWork", "url": "https://onduru.com/same-wind/" }
+        ]
+      }
     ]
   }
   </script>
