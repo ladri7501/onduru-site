@@ -213,9 +213,10 @@
       stroke-dasharray: 232 20; stroke-dashoffset: 252;
       animation: draw 1.4s ease-out .3s forwards;
     }
-    .enso.again circle { animation: draw 1.4s ease-out forwards; }
+    .enso.again circle { animation: redraw 1.4s ease-out forwards; }
     @media (hover: hover) { .enso:hover circle { stroke: var(--accent); } .sky .enso:hover circle { stroke: var(--signal); } }
     @keyframes draw { from { stroke-dashoffset: 252; } to { stroke-dashoffset: 0; } }
+    @keyframes redraw { from { stroke-dashoffset: 252; } to { stroke-dashoffset: 0; } }
 
     /* ───────── 본문: 종이 (하늘을 따른다) ───────── */
     body { background: var(--sky-bg, #05070a) fixed; color: var(--sky-fg, #eef0f2); transition: color 2s ease; }
@@ -1213,7 +1214,7 @@
         return spans;
       }
       var stage = document.querySelector('.stage');
-      var BEATS = { ko: TX.ko.beats, en: TX.en.beats };
+      var BEATS = { ko: TX.ko.beats, en: TX.en.beats, es: TX.es.beats };
       function rndOff() {
         var b = cv.getBoundingClientRect();
         return { w: b.width, h: b.height, l: b.left, t: b.top };

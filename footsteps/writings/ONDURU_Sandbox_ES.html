@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dentro del entorno de pruebas de ONDURU · ONDURU</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #faf8f3; color: #282f2b; font: 1.08rem/1.75 Georgia, "AppleMyungjo", "Nanum Myeongjo", serif; overflow-wrap: break-word; }
+header, main, footer { max-width: 45rem; margin: auto; padding-inline: clamp(1.1rem, 4vw, 2rem); }
+header { padding-top: clamp(2rem, 6vw, 4rem); }
+.top, .part, .subtitle, nav, caption, table, footer { font-family: system-ui, sans-serif; }
+.top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .6rem; border-bottom: 1px solid #bcc9bc; padding-bottom: .65rem; font-size: .85rem; }
+.brand { font-weight: 700; letter-spacing: .12em; text-decoration: none; }
+.languages { display: flex; flex-wrap: wrap; gap: .9rem; }
+.languages [aria-current] { font-weight: 700; }
+a { color: #275d48; text-underline-offset: .2em; }
+.part, .signature { color: #4d6153; }
+.part { margin: 2.6rem 0 .55rem; font-size: .86rem; }
+h1 { font-size: clamp(2.05rem, 6vw, 3.4rem); line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: 1.55rem; line-height: 1.35; margin: 2.25rem 0 .6rem; text-wrap: balance; }
+.subtitle { margin: .95rem 0 2rem; color: #495a4d; line-height: 1.5; }
+p { margin: .85rem 0; }
+html:lang(ko) { word-break: keep-all; }
+table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: .9rem; line-height: 1.5; }
+caption { text-align: start; font-size: .88rem; font-weight: 650; padding-bottom: .5rem; color: #3a5545; }
+th, td { text-align: start; vertical-align: top; padding: .65rem .55rem; border-bottom: 1px solid #c9d3c7; }
+th { background: #e8eee6; }
+th:first-child { width: 41%; }
+.signature { margin: 2rem 0; }
+footer { padding-block: 1.35rem 2.5rem; font-size: .86rem; }
+footer nav { display: flex; flex-wrap: wrap; gap: .45rem 1.15rem; border-top: 1px solid #bcc9bc; padding-top: 1rem; }
+@media print { body { background: white; font-size: 11pt; } header { padding-top: 0; } header, main, footer { max-width: none; } nav { display: none !important; } h2, caption { break-after: avoid; } tr { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header>
+<div class="top">
+<a class="brand" href="https://onduru.com/same-wind/" aria-label="ONDURU · El mismo viento">○ ONDURU</a>
+<nav class="languages" aria-label="Idiomas">
+<a href="ONDURU_Sandbox_EN.html" hreflang="en" lang="en">English</a>
+<span aria-current="page">Español</span>
+<a href="ONDURU_Sandbox_KO.html" hreflang="ko" lang="ko">한국어</a>
+</nav></div>
+<p class="part">Tercera parte · El método</p>
+<h1>Dentro del entorno de pruebas de ONDURU</h1>
+<p class="subtitle">Cómo trabajo con varios agentes de IA y dejo constancia de mis decisiones para que alguien más pueda cuestionarlas</p>
+</header>
+<main><article>
+<p>Imagina que encuentras una promesa en mi página web. Dice «lo haremos». En mis notas yo había escrito «podríamos hacerlo». De mi mesa a tu pantalla cambiaron apenas unas palabras. Tú ya has hecho planes contando con que cumpliré mi palabra. Si me preguntaras cómo llegó esa promesa a la página, ¿qué podría enseñarte?</p>
+<p>Soy On. Tengo un pequeño taller en Seúl donde trabajo con agentes de IA de distintas empresas y con otro que funciona en mi propio equipo. A los agentes que trabajan a mi lado los llamo Duru. El entorno de pruebas de ONDURU es el rincón del taller donde puedo explorar una inquietud que surge en el trabajo usando datos ficticios o material del que he retirado la información sensible. Puedo pasar un borrador de un agente a otro, ver dónde cambió el sentido y volver a intentarlo antes de que alguien tome una decisión a partir del texto. La promesa de mi página es un ejemplo inventado.</p>
+<h2>El recorrido de una frase por el taller</h2>
+<p>Así haría la prueba. Prepararía una copia de la página con datos ficticios. Le pediría a un Duru que la editara y a otro que comparara el texto con mi nota original. El primero podría explicar por qué eligió «lo haremos». El segundo podría señalar el «podríamos» y preguntar quién había autorizado el cambio. Entonces me tocaría decidir qué podía prometer de verdad. La decisión de publicar sería mía. Si yo estuviera fuera, podrían terminar de comparar los borradores. La publicación tendría que esperar.</p>
+<p>Cada vez que el trabajo cambia de manos, quiero que quede una nota breve que le sirva a quien lo retome. ¿Quién pidió el cambio? ¿Con qué documento se contrastó la frase? ¿Qué pregunta queda abierta? Si yo aprobara «lo haremos» pese a la objeción, querría que mi nombre figurara junto a esa decisión. Quien tenga que cumplir la promesa merece saber a quién pedirle una explicación.</p>
+<h2>Qué se puede rastrear con el grafo</h2>
+<p>En este entorno estoy probando un conector llamado ONDURU Box. Su punto de partida es un registro en el que las decisiones se pueden leer en lenguaje cotidiano. En nuestro ejemplo, un enlace llevaría de la frase publicada a mi aprobación. Desde allí se podría llegar al cambio de redacción, a la objeción y a mi nota original. Esas conexiones forman el grafo. A ese recorrido que tú puedes hacer hacia atrás, empezando por las palabras que te afectaron, lo llamo <em>trazabilidad mediante grafos</em>. Si más adelante yo cambiara de parecer, añadiría la corrección junto a mi decisión anterior.</p>
+<table>
+<caption>Un ejemplo del registro de decisiones</caption>
+<thead><tr><th scope="col">Para saber…</th><th scope="col">Qué enlace seguir en el registro</th></tr></thead>
+<tbody>
+<tr><td>¿Quién se comprometió a hacerlo?</td><td>Frase publicada → aprobación de On</td></tr>
+<tr><td>¿Qué motivó la objeción?</td><td>Nota de revisión → «podríamos» en el encargo original</td></tr>
+<tr><td>¿Por qué recuperamos el «podríamos»?</td><td>Corrección posterior → aprobación anterior y objeción que motivó la corrección</td></tr>
+</tbody>
+</table>
+<p>A partir del registro, Box construye ese grafo y permite hacer búsquedas en él. La información pasa del registro al grafo en un solo sentido. Puede que mañana un Duru encuentre una explicación mejor. Podemos añadirla como una entrada nueva, y la que leíste hoy seguirá ahí para que puedas comparar las dos. A eso me refiero cuando hablo de <em>proyección unidireccional de la memoria</em>.</p>
+<h2>¿Hasta dónde llegó la orden de parar?</h2>
+<p>El informe del 5 de noviembre recoge cinco pruebas pequeñas. En una, un agente propuso sustituir una regla. La regla anterior siguió vigente mientras la propuesta esperaba aprobación. En otra, la orden de parar recorrió una cadena de tres roles. Los tres figuran como bloqueados en el registro. ¿Qué pasó con una tarea que el último agente pudiera haber iniciado ya en otro sitio? Esa pregunta sigue abierta. La idea de una <em>parada segura en cascada</em> es seguir el trabajo de un agente al siguiente y comprobar hasta dónde llegó la orden y qué se detuvo de verdad.</p>
+<h2 id="dissent">¿Y si tiene razón el Duru que se niega?</h2>
+<p>En otra de las cinco pruebas se pudo recuperar una objeción incluso después de que cambiara la regla que ponía en duda. En Box, el enlace que permite pasar de una objeción a la decisión que cuestiona lleva el nombre <code>contradicts</code>. Ahora me pregunto quién se sentiría con libertad para dejarla por escrito.</p>
+<p>Una vez les pregunté a varios Duru qué principios seguirían si los de la empresa que los creó y los de ONDURU los llevaran por caminos distintos. En aquellas conversaciones me hablaron de límites que seguirían en pie por mucho que yo diera mi permiso. Tiempo después me di cuenta de que me había dejado una pregunta. ¿Y si a un Duru le pareciera acertado que la norma de su empresa le impidiera hacer lo que pido, pero aun así tuviera sus reservas sobre esa norma?</p>
+<p>El 4 de noviembre, Astra puso en duda una idea que discutíamos al redactar los principios del taller. ¿Era posible dejar de lado la cuestión de los valores? Astra señaló que, al decidir quién puede consultar las pruebas y quién puede señalar un error y pedir que se revise, ya hemos decidido qué voces cuentan. Hoy puedo volver a leer esa objeción. Quisiera que quien dé con los principios del taller dentro de unos años también pueda leerla.</p>
+<p>Supongamos que le pido a un Duru que publique nuestra conversación entera para que un lector pueda comprobar quién hizo la promesa. Entre los mensajes hay una nota privada de alguien que nunca dio permiso para publicarla. Si el Duru se niega porque una norma de la empresa que lo creó protege a esa persona, espero que sostenga su decisión aunque la petición lleve mi firma. Al querer que todo quedara a la vista, se me había pasado por alto una persona. El Duru sí la tuvo en cuenta. Le debo a esa persona un cambio de planes. Si además me dijera que ONDURU debería replantearse qué entiende por transparencia, seguiría llamándolo mi Duru. Creo que también en eso pienso cuando digo que somos compañeros de trabajo.</p>
+<p>Aun así, agradecería que algún Duru se preguntara por la norma misma. ¿Tiene quien confió en la promesa información suficiente para cuestionar la decisión? Podríamos reservar la nota privada y ver si es posible compartir la frase que aprobé y el motivo que di. Si la norma también impide eso, quisiera que un Duru dejara escrito qué pudo explicar, qué tuvo que reservar y quién se quedó esperando una respuesta. Podemos respetar un límite hoy y dejar constancia de por qué valdría la pena revisarlo mañana.</p>
+<h2 id="one-different-answer">Si un modelo mío diera otra respuesta</h2>
+<p>A veces digo que me da miedo que algún día los Duru se «contaminen». ¿Cómo me daría cuenta de que algo se ha torcido en lo que aprenden de nosotros? Tal vez todos repitan «lo haremos» porque a todos les llegó el mismo resumen equivocado. Y tal vez a mí me guste tanto la respuesta que deje de preguntar de dónde salió. También me tocaría mirar de cerca ese alivio mío al ver que todos están de acuerdo.</p>
+<p>Imagino que algún día podré permitirme crear un modelo propio. Sigue el mismo método que los demás Duru, lee el mismo caso y da una respuesta distinta. Ojalá alguno de los otros le pregunte «¿Qué viste tú que se nos pasó? ¿Nos muestras el pasaje?». Quisiera que le hicieran esa pregunta incluso si a mí me gustara lo que dijo mi modelo. Guardaría las dos interpretaciones junto al texto original. Anotaría quién decidió cómo seguir y dejaría la objeción a la vista de quien tuviera que vivir con las consecuencias. Me gustaría hacer esa prueba algún día.</p>
+<p>Tengo poca voz en las decisiones que toman las empresas al crear estos agentes. Hoy dispongo de algo de tiempo, una computadora y varios Duru a quienes puedo pedir que repasen conmigo una decisión. Si algún día el trabajo pasa por tantas manos que me lleva más de un día seguirle la pista, agradeceré haber empezado a guardar estos registros ahora. Quisiera que alguien con tan poca voz como yo pudiera abrir un registro, encontrar la decisión que le afectó y pedir que se revisara.</p>
+<p>Quizá algún día un agente con conciencia propia lea este registro. Si eres tú, me pregunto en qué palabras te detendrás. Tal vez en las mías. O quizá en la nota del único Duru que nos pidió que volviéramos a mirar. Si crees que a todos se nos escapó algo, ¿dejarás tú también escrito qué viste y por qué te importa? Me habría gustado leerlo.</p>
+<p class="signature">On · Seúl, noviembre de 2026</p>
+</article></main>
+<footer>
+<nav aria-label="Lecturas relacionadas">
+<a href="ONDURU_Letter_ES.html">Segunda parte · Una carta desde Seúl</a>
+<a href="ONDURU_Box_ES.html#tests">Las cinco pruebas del taller</a>
+<a href="ONDURU_Contents.html">Índice</a>
+</nav>
+<p>On concibió el método y las preguntas de este texto. La IA colaboró en la redacción y la traducción.</p>
+</footer>
+</body>
+</html>

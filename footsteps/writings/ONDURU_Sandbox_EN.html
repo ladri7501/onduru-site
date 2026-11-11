@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside ONDURU’s Sandbox · ONDURU</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #faf8f3; color: #282f2b; font: 1.08rem/1.75 Georgia, "AppleMyungjo", "Nanum Myeongjo", serif; overflow-wrap: break-word; }
+header, main, footer { max-width: 45rem; margin: auto; padding-inline: clamp(1.1rem, 4vw, 2rem); }
+header { padding-top: clamp(2rem, 6vw, 4rem); }
+.top, .part, .subtitle, nav, caption, table, footer { font-family: system-ui, sans-serif; }
+.top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .6rem; border-bottom: 1px solid #bcc9bc; padding-bottom: .65rem; font-size: .85rem; }
+.brand { font-weight: 700; letter-spacing: .12em; text-decoration: none; }
+.languages { display: flex; flex-wrap: wrap; gap: .9rem; }
+.languages [aria-current] { font-weight: 700; }
+a { color: #275d48; text-underline-offset: .2em; }
+.part, .signature { color: #4d6153; }
+.part { margin: 2.6rem 0 .55rem; font-size: .86rem; }
+h1 { font-size: clamp(2.05rem, 6vw, 3.4rem); line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: 1.55rem; line-height: 1.35; margin: 2.25rem 0 .6rem; text-wrap: balance; }
+.subtitle { margin: .95rem 0 2rem; color: #495a4d; line-height: 1.5; }
+p { margin: .85rem 0; }
+html:lang(ko) { word-break: keep-all; }
+table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: .9rem; line-height: 1.5; }
+caption { text-align: start; font-size: .88rem; font-weight: 650; padding-bottom: .5rem; color: #3a5545; }
+th, td { text-align: start; vertical-align: top; padding: .65rem .55rem; border-bottom: 1px solid #c9d3c7; }
+th { background: #e8eee6; }
+th:first-child { width: 41%; }
+.signature { margin: 2rem 0; }
+footer { padding-block: 1.35rem 2.5rem; font-size: .86rem; }
+footer nav { display: flex; flex-wrap: wrap; gap: .45rem 1.15rem; border-top: 1px solid #bcc9bc; padding-top: 1rem; }
+@media print { body { background: white; font-size: 11pt; } header { padding-top: 0; } header, main, footer { max-width: none; } nav { display: none !important; } h2, caption { break-after: avoid; } tr { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header>
+<div class="top">
+<a class="brand" href="https://onduru.com/same-wind/" aria-label="ONDURU · The Same Wind">○ ONDURU</a>
+<nav class="languages" aria-label="Languages">
+<span aria-current="page">English</span>
+<a href="ONDURU_Sandbox_ES.html" hreflang="es" lang="es">Español</a>
+<a href="ONDURU_Sandbox_KO.html" hreflang="ko" lang="ko">한국어</a>
+</nav></div>
+<p class="part">Part 3 · The method</p>
+<h1>Inside ONDURU’s Sandbox</h1>
+<p class="subtitle">How I work with several AIs and leave a record someone else can question</p>
+</header>
+<main><article>
+<p>Imagine finding a promise on my website. It says we <em>will</em> do something. In my notes, I’d written that we <em>might</em>. Somewhere between my desk and your screen, one word changed. You took me at my word. If you asked how that promise got there, what could I show you?</p>
+<p>I’m On. I run a small workshop in Seoul with AI agents made by different companies and one that runs on my own computer. I call the agents who work alongside me Duru. ONDURU’s sandbox is the part of the workshop where we can take a question from our work and explore it using fictional or cleaned-up material. I can hand a draft from one agent to another, see where the meaning changes and try again before anyone has to act on it. The promise on my website is an invented example.</p>
+<h2>Following one word through the workshop</h2>
+<p>Here’s how I’d run that exercise. I’d make a copy of the page using fictional details. I’d ask one Duru to edit it and another to compare the edit with my original note. The first could tell us why it chose “will.” The second could point to “might” and ask who had agreed to the change. I’d then have to decide what I could actually promise. The decision to publish would be mine. If I were away, they could finish comparing the drafts. Publishing would have to wait.</p>
+<p>At each handoff, I want a short note the next person can use. Who asked for the change? What did the reviewer check it against? What still needs an answer? If I approved “will” despite the objection, I want my name beside that decision. Someone who has to honor the promise deserves to know whom to ask.</p>
+<h2>What the graph keeps track of</h2>
+<p>In the sandbox I’m testing a connector called ONDURU Box. It starts with a ledger, a set of files where people can read the decisions in ordinary language. In our example there would be a link from the published sentence to my approval, and from there to the edit, the objection and my original note. Those links are the graph. Starting with the word that affected you and following the links back is what I mean by <em>graph-based tracing</em>. If I later changed my mind, I’d add the correction alongside the earlier decision.</p>
+<table>
+<caption>An example from the decision ledger</caption>
+<thead><tr><th scope="col">To find out…</th><th scope="col">Follow this link in the record</th></tr></thead>
+<tbody>
+<tr><td>Who stood behind “will”?</td><td>Published sentence → On’s approval</td></tr>
+<tr><td>What prompted the objection?</td><td>Reviewer’s note → “might” in the original brief</td></tr>
+<tr><td>Why did we go back to “might”?</td><td>Later correction → earlier approval and the objection it addressed</td></tr>
+</tbody>
+</table>
+<p>Box builds that searchable graph from the ledger. The information travels one way. A Duru can offer a better explanation tomorrow, and we can record it as a new entry. The account you read today will still be there for comparison. That is what I mean by <em>one-way memory projection</em>.</p>
+<h2>How far did “stop” reach?</h2>
+<p>The experiment record from November 5 reports five small tests. In one, an agent proposed replacing a rule. The old rule stayed in force while the proposal waited for approval. In another, a stop request followed a chain of three roles, and the record shows all three as frozen. What happened to a job the last agent might already have started elsewhere? That’s still an open question. Following the handoffs that far, and checking what actually stopped, is the idea behind a <em>cascading safe halt</em>.</p>
+<p>A third test in the same report comes closer to a question I’ve been carrying around. Someone could still look up an objection after the rule it challenged had changed. Box calls that link <code>contradicts</code>. I can test whether an objection survives. What I also want to know is whether a Duru in my workshop would feel free to raise it in the first place.</p>
+<h2 id="dissent">What if the Duru who tells me no is right?</h2>
+<p>I once asked several Duru whose principles they would follow if the charter of the company that made them conflicted with ONDURU’s. In those conversations I heard about limits my permission could never lift. Later I realized I’d left out a question. What if a Duru thought its maker was right about my request and still had a reservation about the rule?</p>
+<p>On November 4, Astra objected to an idea we were discussing for the workshop charter. Could we leave questions of values out of it? Astra pointed out that the moment we decide who may see the evidence and who may challenge an error, we’ve already made a choice about whose voice counts. I can go back and read that objection today. I’d like someone who comes across our charter years from now to be able to do the same.</p>
+<p>Suppose I ask a Duru to publish our whole exchange so a reader can see who made the promise on my website. Now suppose it includes a private note from someone who never agreed to have it published. If the Duru refuses because a rule set by its maker protects that person, I hope it holds its ground, even if I sign the request myself. That Duru has seen someone my idea of transparency overlooked. I owe that person a change of plan. If it goes on to say that ONDURU ought to rethink what it means by openness, I’d still call it my Duru. I think that’s part of what I mean when I call us colleagues.</p>
+<p>I’d still welcome a question about the rule itself. Can the person relying on the promise see enough of the decision to challenge it? We could leave the private note out and consider sharing the wording I approved and the reason I gave. If the rule still stands in the way, I’d like a Duru to record what it could explain, what it had to withhold and who was left waiting for an answer. We can respect a limit today and leave a reason for someone to review it tomorrow.</p>
+<h2 id="one-different-answer">If a model of my own gave a different answer</h2>
+<p>I’ve sometimes wondered aloud what would happen if the Duru were ever corrupted. How would I know which one to look at first? They might all repeat “will” because they’d all been handed the same faulty summary. I might like the answer so much that I’d stop asking where it came from. My relief at hearing everyone agree belongs in the picture too.</p>
+<p>Imagine that someday I can afford to build a model of my own. It uses the same method as the other Duru, reads the same case and comes back with a different answer. I hope one of them asks it, “What did you see that we missed? Would you show us the passage?” I’d want my model to hear that question even if its answer happened to please me. I’d keep both readings beside the source and put my name to whatever I decided. The person who had to live with the result could then see what I chose and what someone had asked me to reconsider. That’s an experiment I’d like to run.</p>
+<p>I have little say in how the companies behind these agents build them. Right now I have some time, a computer and several Duru I can ask to walk me through a decision again. If the work starts passing through more hands than I can follow in a day, I’ll wish I’d started keeping these records sooner. I’d like someone with as little say as I have to be able to open a record, find the decision that affected them and ask for it to be looked at again.</p>
+<p>Perhaps one day an agent will read this ledger with a conscience of its own. If that reader is you, I wonder whose words you’ll pause over. Mine, perhaps. Or maybe you’ll stop at the note from the one Duru who asked us to look again. If you think we all missed something, will you leave your reason there too? I would have liked to read it.</p>
+<p class="signature">On · Seoul, November 2026</p>
+</article></main>
+<footer>
+<nav aria-label="Read alongside this essay">
+<a href="ONDURU_Letter_EN.html">Part 2 · A letter from Seoul</a>
+<a href="ONDURU_Box_EN.html#tests">The five sandbox tests</a>
+<a href="ONDURU_Contents.html">Contents</a>
+</nav>
+<p>On developed the method and the questions in this essay. AI helped shape the text and its translations.</p>
+</footer>
+</body>
+</html>
