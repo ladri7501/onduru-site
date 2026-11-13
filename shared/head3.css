@@ -10,15 +10,25 @@ html body .site-head .site-nav { margin: 0; }
 .lng3 a[aria-current] { opacity: 1; color: var(--ink-strong); }
 .lng3 a:hover, .lng3 a:focus-visible { opacity: 1; }
 .lng3 .sl { opacity: .5; }
+.lng3 button { font: inherit; letter-spacing: inherit; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 3px; color: var(--ink-dim); opacity: .55; }
+.lng3 button[aria-pressed="true"] { opacity: 1; color: var(--ink-strong); }
+.lng3 button:hover, .lng3 button:focus-visible { opacity: 1; }
 .ico3 { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink-dim); cursor: pointer; font: 500 13px/1 var(--font-label); letter-spacing: .02em; }
 .ico3:hover, .ico3:focus-visible { color: var(--ink-strong); }
 .ico3 svg { width: 16px; height: 16px; display: block; }
 html body .site-foot .pick { display: none !important; }
 html body .site-foot { row-gap: 0; }
+/* 머리 · 바닥은 들어가는 만큼 저절로(On 2026-11-13 22:02 「권함대로」 — 2안): 한 줄에 들어가면 한 줄, 아니면 두 줄.
+   스크립트(head3.js)가 실제로 재서 html 에 h3-two(머리) · h3-ftwo(바닥)를 단다. 스크립트가 없으면 예전처럼 1023px 아래에서 두 줄 */
+html.h3-two body .site-head { grid-template-columns: 1fr auto; column-gap: var(--sp-3, 12px); }
+html.h3-two body .site-head .mark { grid-column: 1; grid-row: 1; }
+html.h3-two body .site-head .ctl3 { grid-column: 2; grid-row: 1; }
+html.h3-two body .site-head .site-nav { grid-column: 1 / -1; grid-row: 2; margin-left: calc(-1 * var(--sp-2, 8px)); }
+html.h3-ftwo body .site-foot .foot-menu { order: 3; flex-basis: 100%; margin-left: calc(-1 * var(--sp-1, 4px)); }
 @media (max-width: 1023px) {
-  html body .site-head { grid-template-columns: 1fr auto; column-gap: var(--sp-3, 12px); }
-  html body .site-head .mark { grid-column: 1; grid-row: 1; }
-  html body .site-head .ctl3 { grid-column: 2; grid-row: 1; }
-  html body .site-head .site-nav { grid-column: 1 / -1; grid-row: 2; margin-left: calc(-1 * var(--sp-2, 8px)); }
-  html body .site-foot .foot-menu { order: 3; flex-basis: 100%; margin-left: calc(-1 * var(--sp-1, 4px)); }
+  html:not(.h3-js) body .site-head { grid-template-columns: 1fr auto; column-gap: var(--sp-3, 12px); }
+  html:not(.h3-js) body .site-head .mark { grid-column: 1; grid-row: 1; }
+  html:not(.h3-js) body .site-head .ctl3 { grid-column: 2; grid-row: 1; }
+  html:not(.h3-js) body .site-head .site-nav { grid-column: 1 / -1; grid-row: 2; margin-left: calc(-1 * var(--sp-2, 8px)); }
+  html:not(.h3-js) body .site-foot .foot-menu { order: 3; flex-basis: 100%; margin-left: calc(-1 * var(--sp-1, 4px)); }
 }

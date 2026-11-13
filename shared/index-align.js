@@ -21,11 +21,14 @@
     ts.forEach(function (el) { if (el.hidden) return; var off = head(el).getBoundingClientRect().top - el.getBoundingClientRect().top; el.style.scrollMarginTop = Math.round(y - off) + 'px'; });
     var end = ts[ts.length - 1], last = (tabs && on) ? on : end;      /* 칸 하나씩이면 열린 칸이 줄에 설 만큼만 */
     if (!tail) { tail = document.createElement('div'); tail.className = 'index-tail'; tail.setAttribute('aria-hidden', 'true'); end.parentNode.insertBefore(tail, end.nextSibling); }
+    var sy0 = window.pageYOffset || 0;      /* 다시 재는 동안 읽던 자리가 맨 위로 튀지 않게 */
     tail.style.height = '0px';
     var sy = window.pageYOffset || 0, S = last.getBoundingClientRect().top + sy - (parseFloat(last.style.scrollMarginTop) || 0), want = S + window.innerHeight, have = root.scrollHeight;
     /* 목록이 긴 페이지(시뮬레이션 열둘)는 끝에서 목록이 밀려 올라가지 않을 만큼도 — 목록을 품은 칸의 바닥이 목록 아래에 있게(고정된 머리 아래로 목록이 내려온 뒤 2026-11-13) */
     var box = nav.parentNode, keep = (parseFloat(getComputedStyle(nav).top) || 0) + nav.offsetHeight - (box.getBoundingClientRect().bottom + sy - S);
-    tail.style.height = Math.max(0, Math.ceil(want - have), Math.ceil(keep)) + 'px';
+    var th = Math.max(0, Math.ceil(want - have), Math.ceil(keep)); tail.style.height = th + 'px';
+    var lack = Math.ceil(want - root.scrollHeight); if (lack > 0) tail.style.height = (th + lack) + 'px';      /* 페이지의 최소 높이가 모자람을 가린 때(짧은 칸) — 한 번 더 채운다 */
+    if (Math.abs((window.pageYOffset || 0) - sy0) > 1) window.scrollTo(0, sy0);
   }
   function soon() { clearTimeout(t); t = setTimeout(place, 120); }
   function idOf(h) { h = String(h || ''); var k = h.indexOf('#'); return k < 0 ? '' : decodeURIComponent(h.slice(k + 1)); }

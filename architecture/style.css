@@ -113,7 +113,7 @@ figure { margin: 0; }
 .back-end { margin-top: var(--sp-6); }
 
 /* ───────── 9. 넓은 화면 ───────── */
-@media (min-width: 840px) {
+@media (min-width: 48.75em) {
   .shell { display: grid; grid-template-columns: clamp(9.5rem, 16vw, 22rem) minmax(0, 1fr); column-gap: var(--sp-7); align-items: baseline; }  /* 곁의 첫 줄과 큰 제목을 한 밑줄에 맞춘다(On 16:08 「큰 타이틀 수평이 안맞음」) */
   .shell.is-single { display: block; padding-left: calc(var(--gutter) + clamp(9.5rem, 16vw, 22rem) + var(--sp-7)); }
   /* 목록: 왼쪽에 붙어 따라온다 */
@@ -520,3 +520,15 @@ dd.inner { color: var(--ink-faint); }
 /* 한 칸으로 서는 화면(1240px 아래)에서는 글이 본문이다 — 휴대폰에서 본문을 17px 아래로 내리지 않는다(CI 가이드 T-3 · 2026-11-13 전체 시뮬레이션) */
 @media (max-width: 1239px) { .ax-sec p, .ax-sec .legend li, .ax-panel p, .ax-panel .nd dd { font-size: var(--fs-body); } }
 @media (prefers-reduced-motion: reduce) { .ax-chip, .js .ax-right { transition: none; } }
+
+/* On 2026-11-13 22:02 「권함대로」(C) */
+@media (min-width: 1240px) {
+  .ax-left { display: contents; }
+  .ax-left > #views { grid-column: 1; grid-row: 1; }
+  .ax-left > #round { grid-column: 1; grid-row: 2; }
+  .ax-map { grid-column: 2; grid-row: 1 / span 3; }
+  .ax-right { grid-column: 3; grid-row: 1 / span 3; }
+  .ax-left > #intro { grid-column: 1 / 3; grid-row: 4; margin-top: var(--sp-6); max-width: var(--measure); }      /* 다른 페이지와 같은 글 기둥(34em) */
+  .ax-left > #read { grid-column: 3; grid-row: 4; margin-top: var(--sp-6); }
+  .ax-left > .ax-v1 { grid-column: 1 / -1; grid-row: 5; }
+}

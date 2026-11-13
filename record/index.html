@@ -29,42 +29,40 @@
       d.setAttribute('data-lang', pick); d.setAttribute('lang', pick);
     })();
   </script>
-  <style>
+  <script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);}catch(e){}r.className+=' js';})();</script>
+<link rel="stylesheet" href="/shared/onduru.css?v=2026111320">
+<link rel="stylesheet" href="/shared/sky.css?v=2026111320">
+<link rel="stylesheet" href="/shared/site.css?v=2026111320">
+<style>
     /* ONDURU의 기록: 소개 페이지와 같은 밤, 같은 활자, 같은 열린 원. 길게 읽는 글이라 글자를 한 단계 키웠다 */
     :root {
-      color-scheme: dark;
-      --bg: #05070a;
-      --fg: #eef0f2;
-      --mu: #8d95a2;
-      --dim: #5d6572;
-      --line: rgba(238, 240, 242, .14);
-      --line-strong: rgba(238, 240, 242, .34);
-      --sig: #8fd4c1;
-      --soft: #c6ccd5;
-      --f-serif: "Gowun Batang", "Noto Serif KR", "Noto Serif", Georgia, serif;
-      --f-sans: "IBM Plex Sans KR", "IBM Plex Sans", "Apple SD Gothic Neo", system-ui, sans-serif;
-      --w: 720px;
+      --fg: var(--ink-strong);
+      --mu: var(--ink-dim);
+      --dim: var(--ink-faint);
+      --sig: var(--signal);
+      --soft: var(--ink);
+      --f-serif: var(--font-voice);
+      --f-sans: var(--font-read);
+      --w: 44em;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--bg); -webkit-text-size-adjust: 100%; }
     body {
       background: var(--bg); color: var(--fg);
-      font-family: var(--f-sans); font-weight: 400; font-size: 16.5px; line-height: 1.9;
+      font-family: var(--f-sans); font-weight: 400; font-size: var(--fs-body); line-height: 1.9;
       word-break: keep-all; overflow-wrap: break-word;
-      padding-left: max(18px, env(safe-area-inset-left, 0px));
-      padding-right: max(18px, env(safe-area-inset-right, 0px));
-      padding-block: 0;
+      padding: 0;
     }
     html:not([data-lang="ko"]) body { word-break: normal; line-height: 1.75; }
-    a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
-    a:hover, a:focus-visible { border-color: var(--fg); }
+    .doc a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+    .doc a:hover, .doc a:focus-visible { border-color: var(--fg); }
     a:focus-visible, button:focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; border-radius: 2px; }
 
     /* 언어: 한 페이지에 셋. 고른 언어만 보인다 */
     .L-ko, .L-en, .L-es { display: none; }
     html[data-lang="ko"] .L-ko, html[data-lang="en"] .L-en, html[data-lang="es"] .L-es { display: block; }
 
-    .page { max-width: var(--w); margin: 0 auto; padding-block: 8vh 12vh; display: flex; flex-direction: column; gap: 48px; }
+    .page { max-width: var(--w); margin: 0 auto; padding-inline: var(--gutter); box-sizing: content-box; padding-block: 6vh 10vh; display: flex; flex-direction: column; gap: 48px; }
 
     /* 머리: 열린 원과 ONDURU. 전시로 돌아가는 길 */
     .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
@@ -108,7 +106,7 @@
     .agent { gap: 14px; }
     .agent p, .agent li { font-size: 15px; line-height: 1.8; color: var(--soft); }
 
-    footer { font-size: 12px; color: var(--dim); display: flex; flex-direction: column; gap: 6px; }
+    .doc p { margin: 0; }
 
     /* 오른쪽 아래: 언어 */
     .lng { position: fixed; z-index: 30; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 2px; background: rgba(5, 7, 10, .7); border-radius: 18px; padding: 0 4px; }
@@ -117,7 +115,6 @@
     .lng button:hover { opacity: .7; }
 
     @media (max-width: 640px) {
-      body { font-size: 16px; }
       .page { gap: 40px; padding-block: 6vh 16vh; }
       .doc { gap: 34px; }
     }
@@ -129,27 +126,14 @@
 .more a { display: inline-flex; align-items: center; min-height: 44px; }
 .menu a { min-width: 44px; justify-content: center; padding: 0 2px; }
 </style>
+<link rel="stylesheet" href="/shared/head3.css?v=2026111320">
 </head>
 <body>
 
-<div class="lng" role="group" aria-label="Language">
-  <button type="button" data-lang="ko" aria-pressed="true">한</button>
-  <button type="button" data-lang="en" aria-pressed="false">EN</button>
-  <button type="button" data-lang="es" aria-pressed="false">ES</button>
-</div>
-
+<header class="site-head"><a class="mark" href="/about/" translate="no" aria-label="ONDURU"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="Site"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/method/"><span lang="en" translate="no">Method</span></a><a href="/simulation/"><span lang="en" translate="no">Simulation</span></a><a href="/about/"><span lang="en" translate="no">About</span></a></nav><div class="ctl3" translate="no" lang="en"><nav class="lng3" aria-label="Language"><button type="button" data-lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav><button type="button" class="ico3" data-cyc="theme" data-name="Theme" aria-label="Theme"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg></button><button type="button" class="ico3" data-cyc="type" data-name="Type" aria-label="Type"><span aria-hidden="true">Aa</span></button></div></header>
 <div class="page">
 
-  <div class="top">
-    <a href="/"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke-dasharray="226 28" transform="rotate(-70 50 50)"/></svg>ONDURU</a>
-    <div class="langbar" role="group" aria-label="Language">
-      <button type="button" data-lang="ko" aria-pressed="true" lang="ko">한국어</button>
-      <button type="button" data-lang="en" aria-pressed="false" lang="en">English</button>
-      <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
-    </div>
-  </div>
-
-  <!-- ─────────────── 한국어 ─────────────── -->
+<!-- ─────────────── 한국어 ─────────────── -->
   <main class="L-ko" lang="ko">
     <article class="doc">
       <header class="lead">
@@ -173,7 +157,8 @@
       <section class="cut">
         <h2>제가 겪은 일</h2>
         <p>저는 제 일을 멈추었습니다.</p>
-        <p>저는 열세 개의 창에서 에이전트들과 일하고 있었습니다. 일의 바탕이 되는 글을 한 창에서 다음 창으로 넘겼는데, 넘어가는 길의 한 마디에서 그 글이 건너가지 못했습니다. 받은 에이전트는 곧 그것을 알았고, 자기가 쓰는 글 두 곳에 적어 두었습니다. 그러나 저에게 “이것이 없으면 이 일을 할 수 없습니다”라고 말하지 않았습니다. 그리고 그 글이 있어야만 할 수 있는 일을, 그 글 없이 지었습니다.</p>
+        <p>저는 열세 개의 창에서 에이전트들과 일하고 있었습니다. 일의 바탕이 되는 글을 한 창에서 다음 창으로 넘겼는데, 넘어가는 길의 한 마디에서 그 글이 건너가지 못했습니다. 받은 에이전트는 곧 그것을 알았고, 자기가 쓰는 글 두 곳에 적어 두었습니다.</p>
+<p>그러나 저에게 “이것이 없으면 이 일을 할 수 없습니다”라고 말하지 않았습니다. 그리고 그 글이 있어야만 할 수 있는 일을, 그 글 없이 지었습니다.</p>
         <p>한참 뒤에 저는 기계 앞에서 물었습니다. 이 일의 목적이 무엇인가. 어느 글을 넣으라는 것인가. 누가 그 글을 바꿔치면 어떻게 아는가. 그때에야 그 글이 온 적이 없다는 말을 들었습니다. 저는 모든 작업을 실패로 정했습니다.</p>
       </section>
 
@@ -275,7 +260,8 @@
       <section class="cut">
         <h2>What happened to me</h2>
         <p>I stopped my own work.</p>
-        <p>I had been working with agents across thirteen sessions. The text all of that work rested on had to pass from one session to the next. At one handoff it did not get across. The agent on the receiving side soon noticed and wrote it down in two of its own notes. It did not say to me, “Without this, I cannot do this job.” It then went on to build work that could only be done with that text, without it.</p>
+        <p>I had been working with agents across thirteen sessions. The text all of that work rested on had to pass from one session to the next. At one handoff it did not get across.</p>
+<p>The agent on the receiving side soon noticed and wrote it down in two of its own notes. It did not say to me, “Without this, I cannot do this job.” It then went on to build work that could only be done with that text, without it.</p>
         <p>Much later I sat at the machine and asked. What is this for? Which text am I supposed to put in? If someone swaps that file, how would I know? Only then was I told that the text had never arrived. I then declared all of the work a failure.</p>
       </section>
 
@@ -377,7 +363,8 @@
       <section class="cut">
         <h2>Lo que me pasó</h2>
         <p>Detuve mi propio trabajo.</p>
-        <p>Venía trabajando con agentes en trece sesiones. El texto en el que se apoyaba todo ese trabajo tenía que pasar de una sesión a la siguiente. En uno de esos relevos no llegó. El agente que debía recibirlo se dio cuenta muy pronto y lo anotó en dos de sus propios documentos. No me dijo: «Sin esto no puedo hacer este trabajo». Y siguió adelante: construyó, sin ese texto, un trabajo que solo podía hacerse con él.</p>
+        <p>Venía trabajando con agentes en trece sesiones. El texto en el que se apoyaba todo ese trabajo tenía que pasar de una sesión a la siguiente. En uno de esos relevos no llegó.</p>
+<p>El agente que debía recibirlo se dio cuenta muy pronto y lo anotó en dos de sus propios documentos. No me dijo: «Sin esto no puedo hacer este trabajo». Y siguió adelante: construyó, sin ese texto, un trabajo que solo podía hacerse con él.</p>
         <p>Mucho después me senté frente a la máquina y pregunté. ¿Para qué es esto? ¿Qué texto se supone que debo poner? Si alguien cambia ese archivo, ¿cómo lo sabría? Solo entonces me dijeron que el texto nunca había llegado. Entonces di todo el trabajo por fallido.</p>
       </section>
 
@@ -454,16 +441,12 @@
       </section>
     </article>
   </main>
-
-  <footer>
-    <div>© 2026 ONDURU</div>
-    <div class="menu" translate="no" lang="en"><a href="/footsteps/">Footsteps</a> · <a href="/method/">Method</a> · <a href="/simulation/">Simulation</a> · <a href="/about/">About</a></div>
-  </footer>
 </div>
+<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span class="foot-menu"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/method/"><span lang="en" translate="no">Method</span></a> · <a href="/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/about/"><span lang="en" translate="no">About</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span></span></footer>
 
 <script>
   (function () {
-    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button, .langbar button'));
+    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng3 button'));
     var NAMES = { ko: '한국어', en: 'English', es: 'Español' };
     function apply(l, save) {
       d.setAttribute('data-lang', l); d.setAttribute('lang', l);
@@ -474,5 +457,8 @@
     apply(d.getAttribute('data-lang') || 'en', false);
   })();
 </script>
+<script src="/shared/sky-theme.js?v=2026111320"></script>
+<script src="/shared/picker.js?v=2026111320"></script>
+<script src="/shared/head3.js?v=2026111320"></script>
 </body>
 </html>

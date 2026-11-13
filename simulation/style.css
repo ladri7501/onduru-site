@@ -112,7 +112,7 @@ figure { margin: 0; }
 .back-end { margin-top: var(--sp-6); }
 
 /* ───────── 9. 넓은 화면 ───────── */
-@media (min-width: 840px) {
+@media (min-width: 48.75em) {
   .shell { display: grid; grid-template-columns: clamp(9.5rem, 16vw, 22rem) minmax(0, 1fr); column-gap: var(--sp-7); align-items: baseline; }  /* 곁의 첫 줄과 큰 제목을 한 밑줄에 맞춘다(On 16:08 「큰 타이틀 수평이 안맞음」) */
   .shell.is-single { display: block; padding-left: calc(var(--gutter) + clamp(9.5rem, 16vw, 22rem) + var(--sp-7)); }
   /* 목록: 왼쪽에 붙어 따라온다 */
