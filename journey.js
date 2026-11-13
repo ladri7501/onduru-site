@@ -182,8 +182,16 @@
   }
 
   /* 0 — 문이 열린다. 첫 화면에서는 시간이 문을 조금 열어 두고, 나머지는 스크롤이 연다 */
+  /* 첫 화면의 문은 살짝 더 열렸다 지금 틈으로 돌아오기를 되풀이한다 — 문고리를 잡고 싶게(On 2026-11-13 19:41). 스크롤 · Play · 멈춤이면 부드럽게 가라앉는다 */
+  var BKA = 0, BKT = 0;
+  function beckon(u) {
+    var tgt = (!frozen() && !playing && u < 0.05) ? 1 - u / 0.05 : 0, dt = Math.min(64, Math.max(0, T - BKT)); BKT = T;
+    BKA += (tgt - BKA) * Math.min(1, dt / 300); if (BKA < 0.001) return 0;
+    var ph = ((T - 2700) % 3600 + 3600) % 3600 / 3600, b = T < 2700 ? 0 : ease(seg(ph, 0.0, 0.28)) * (1 - ease(seg(ph, 0.42, 0.72)));      /* 1초 열고 · 잠깐 · 1초 닫고 · 쉼 — 3.6초마다 */
+    return 0.14 * b * BKA;
+  }
   function shotDoor(u) {
-    var d = doorAt(), intro = frozen() ? 0.2 : 0.2 * ease(seg(T, 500, 2700)), o = Math.max(intro, ease(seg(u, 0.05, 0.7))), yt = d.yb - d.dh, i;
+    var d = doorAt(), intro = frozen() ? 0.2 : 0.2 * ease(seg(T, 500, 2700)), o = Math.max(intro + beckon(u), ease(seg(u, 0.05, 0.7))), yt = d.yb - d.dh, i;
     cx.lineWidth = 1; cx.strokeStyle = ink(0.16); line(W * 0.03, d.yb, W * 0.97, d.yb);
     var ex = d.x + d.dw * Math.cos(o * 80 * RAD);
     if (o > 0.02) {
@@ -644,7 +652,7 @@
     }
     var PT = progress();
     if (playing || REDUCE || Math.abs(PT - P) < 0.0008) P = PT; else P += (PT - P) * Math.min(1, dt / 150);   /* 손으로 밀어도 장면이 부드럽게 따라간다 */
-    marks(); placeDoorHit(); if (MQ) pump(); lift(); draw();
+    marks(); placeDoorHit(); if (REGATHER && P < 0.02) { REGATHER = false; titleIn(); } if (MQ) pump(); lift(); draw();
     if (P !== PT) kick();
     if (!frozen() || playing || WIND || (MQ && !morseDone())) kick(); else last = 0;
   }
@@ -729,7 +737,7 @@
       h.classList.add('fit'); h.style.fontSize = '100px';
       rg.selectNodeContents(h); var w = rg.getBoundingClientRect().width;
       var aim = (W >= 900 && W > H) ? Math.min(avail, W * 0.5) : avail;
-      if (w > 0) h.style.fontSize = Math.max(18, 0.5 * Math.min(aim / w * 100 * 0.985, H * 0.12)).toFixed(2) + 'px';      /* 지금 크기의 반(On 2026-11-13 18:30) */
+      if (w > 0) { var full = Math.min(aim / w * 100 * 0.985, H * 0.12); h.style.fontSize = Math.min(full, Math.max(24, 0.5 * full)).toFixed(2) + 'px'; }      /* 지금 크기의 반(On 18:30), 휴대폰에선 장면의 말(17px)보다 커 보이게 24px 아래로는 줄이지 않되 한 줄을 넘지 않게(19:33) */
     });
     /* 낮은 화면(가로로 든 휴대폰): 글 덩이가 화면 아래로 넘치면 제목을 줄인다 — 30px 아래로는 줄이지 않는다 */
     for (var g = 0; g < 8; g++) {
@@ -771,11 +779,14 @@
   if (btnSound) btnSound.addEventListener('click', function () { setSound(!SOUND); });
   document.addEventListener('visibilitychange', function () { if (document.hidden) stopMorse(); else if (SOUND) { var c = CUT; CUT = -1; morse(c); } });
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, stopSnap, { passive: true }); });
-  [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); }); });
+  /* 마지막 페이지(별의 글자 · 맺음)에서 언어를 바꾸면 바뀐 언어로 첫 페이지까지 올라가고, 거기서 제목이 다시 모인다(On 2026-11-13 19:54) */
+  var REGATHER = false;
+  function pickLang(l) { var end = P >= SHOTS.length - 1; setLang(l); if (!end) return; if (playing) setPlay(false); REGATHER = true; window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); kick(); }
+  [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.addEventListener('click', function () { pickLang(b.getAttribute('data-set')); }); });
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, function (e) { if (playing && !(e.target && e.target.closest && e.target.closest('.ctl'))) setPlay(false); }, { passive: true }); });
   window.addEventListener('scroll', onScroll, { passive: true });
   /* 언어 — 이전 작품처럼 한 단추 「한 / EN / ES」, 누를 때마다 다음 언어로 */
-  [].forEach.call(document.querySelectorAll('[data-act="lang"]'), function (b) { b.addEventListener('click', function () { setLang({ ko: 'en', en: 'es', es: 'ko' }[LANG] || 'ko'); }); });
+  [].forEach.call(document.querySelectorAll('[data-act="lang"]'), function (b) { b.addEventListener('click', function () { pickLang({ ko: 'en', en: 'es', es: 'ko' }[LANG] || 'ko'); }); });
   /* 열린 원 — 누르면 다시 그린다(이전 작품과 같음) */
   [].forEach.call(document.querySelectorAll('.enso'), function (b) { b.addEventListener('click', function () { if (REDUCE) return; b.classList.remove('again'); void b.offsetWidth; b.classList.add('again'); PNT.x = W * 0.5; PNT.y = H * 0.5; PNT.g = 0.6; kick(); }); });
   /* 손끝 — 움직인 빠르기를 바람으로, 누르면 한 번 크게 */
