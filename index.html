@@ -15,8 +15,7 @@ html, body { margin: 0; padding: 0; background: var(--bg, #0f1318); color: var(-
 /* 글꼴은 이전 작품(「같은 바람」 · 「지운 자리의 노래」)의 기준 그대로 — 시와 제목은 고운바탕, 작은 글은 IBM Plex Sans KR 300(On 2026-11-13 15:08) */
 body { font-family: "IBM Plex Sans KR", system-ui, -apple-system, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
 #stage { position: fixed; left: 0; top: 0; width: 100%; height: 100vh; height: 100dvh; display: block; z-index: 0; }
-.veil { position: fixed; left: 0; right: 0; bottom: 0; height: 44vh; z-index: 1; pointer-events: none; background: radial-gradient(115% 100% at 0% 100%, var(--bg, #0f1318) 0%, var(--bg, #0f1318) 34%, transparent 74%); opacity: 0; transition: opacity .6s ease; }
-body.capped .veil { opacity: .94; }
+.veil { position: fixed; left: 0; right: 0; bottom: 0; height: 44vh; z-index: 1; pointer-events: none; background: radial-gradient(115% 100% at 0% 100%, var(--bg, #0f1318) 0%, var(--bg, #0f1318) 34%, transparent 74%); opacity: 0; }
 main { position: relative; z-index: 2; max-width: none; margin: 0; padding: 0; }
 .shot { position: relative; margin: 0; padding: 0; box-sizing: border-box; }
 .sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -44,8 +43,8 @@ body.still .ico[data-act="play"] { display: none; }
 
 /* 장면마다 놓이는 짧은 말 — 편지의 말 그대로 */
 /* 장면의 말은 화면에 붙박아 둔다 — 장면이 끝날 무렵 그림 위로 밀려 올라가지 않게(On 2026-11-13 13:50 「빈공간에 글자를 배치해라」). 보이는 것은 지금 장면의 말 하나 */
-.cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 clamp(22px, 6vw, 92px); opacity: 0; transition: opacity .7s ease; pointer-events: none; }
-.cap.on { opacity: 1; }
+.cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 clamp(22px, 6vw, 92px); opacity: 0; pointer-events: none; }
+/* 장면의 말은 스크롤 · 영상(Play) · PageDown/Up 어디서나 그림과 함께 스무드하게 짙어졌다 옅어진다 — 투명도는 엔진이 장면의 자리에 맞춰 준다(On 2026-11-13 16:47) */
 .cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; font-size: clamp(21px, 3.6vw, 32px); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .cap .soft { color: var(--ink-dim, #a3a69f); }
 
@@ -77,7 +76,7 @@ body.still .ico[data-act="play"] { display: none; }
 .colophon .menu a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 2px; color: var(--ink-dim, #a3a69f); text-decoration: none; }
 .colophon .menu a:hover { color: var(--ink-strong, #dbd7cc); }
 .nojs { position: relative; z-index: 3; margin: 0; padding: 22vh clamp(22px, 6vw, 92px); font-size: 1rem; line-height: 1.9; color: var(--ink, #cfcbc2); }
-@media (prefers-reduced-motion: reduce) { .veil, .cap { transition: none; } }
+
 </style>
 <meta property="og:title" content="ONDURU — 당신이 상상할 수 있는 모든 것 / Everything you can imagine / Todo lo que puedes imaginar">
 <meta property="og:url" content="https://onduru.com/">
@@ -96,14 +95,18 @@ body.still .ico[data-act="play"] { display: none; }
       <h1 class="L-es" lang="es">Todo lo que puedes imaginar</h1>
       <button class="ico play ctl" type="button" data-act="play" aria-pressed="false"><span class="sr">Play</span><svg viewBox="0 0 18 18" aria-hidden="true"><path class="p1" d="M5 3.5v11l9-5.5z"/><path class="p2" d="M5.5 3.5v11M12.5 3.5v11"/></svg></button>
     </div>
+    <!-- 문이 열린 장면 — 여기는 대한민국 서울. 세 언어 판 모두 영어 한 줄(On 2026-11-13 16:23). 멈춰 서는 자리이되 모스 부호는 울리지 않는다 -->
+    <div class="cap place" data-stop="label" data-u="0.6,0.86">
+      <p lang="en">This is Seoul, Republic of Korea.</p>
+    </div>
     <p class="sr"><span class="L-ko" lang="ko">문이 조금 열려 있다. 틈으로 빛이 샌다.</span><span class="L-en" lang="en">A door stands slightly open. Light leaks through the gap.</span><span class="L-es" lang="es">Una puerta entreabierta. La luz se escapa por la rendija.</span></p>
   </header>
 
   <section class="shot" data-shot="1" style="height:170vh">
-    <div class="cap" data-cut="1" data-morse="ONE SMALL DESK, AND LITTLE TO MY NAME. THROUGH YOU, I OPEN THE FIRST DOOR,">
-      <p class="L-ko" lang="ko">작은 책상 하나, 가진 것은 적어도<br>너를 통해 첫 문을 연다.<br><span class="soft">골리앗 앞의 다윗처럼.</span></p>
-      <p class="L-en" lang="en">One small desk, and little to my name.<br>Through you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
-      <p class="L-es" lang="en">One small desk, and little to my name.<br>Through you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
+    <div class="cap" data-cut="1" data-morse="TO MEET YOU, I OPEN THE FIRST DOOR,">
+      <p class="L-ko" lang="ko">너를 만나기 위해 첫 문을 연다.<br><span class="soft">골리앗 앞의 다윗처럼.</span></p>
+      <p class="L-en" lang="en">To meet you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
+      <p class="L-es" lang="en">To meet you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">책상 위에 모니터 넷, 노트북 셋, 작은 컴퓨터 둘과 하나. 화면마다 줄과 점이 움직인다.</span><span class="L-en" lang="en">On a desk: four monitors, three laptops, two mini PCs and one more small computer. Lines and dots move on every screen.</span><span class="L-es" lang="es">Sobre un escritorio: cuatro monitores, tres portátiles, dos mini PC y otro ordenador pequeño. En cada pantalla se mueven líneas y puntos.</span></p>
   </section>
@@ -118,12 +121,12 @@ body.still .ico[data-act="play"] { display: none; }
   </section>
 
   <section class="shot" data-shot="3" style="height:330vh">
-    <div class="cap" data-cut="3" data-u="0.12,0.46" data-morse="WHAT IS WRITTEN PASSES FROM LIGHT TO LIGHT, AND REACHES, UNCHANGED, EVEN THE ONE I HAVE ONLY JUST MET.">
+    <div class="cap" data-cut="3" data-u="0.1,0.4" data-morse="WHAT IS WRITTEN PASSES FROM LIGHT TO LIGHT, AND REACHES, UNCHANGED, EVEN THE ONE I HAVE ONLY JUST MET.">
       <p class="L-ko" lang="ko">적어 둔 것은 빛에서 빛으로 건너가<br>처음 만난 너에게도 그대로 닿는다.</p>
       <p class="L-en" lang="en">What is written passes from light to light,<br>and reaches, unchanged, even the one I have only just met.</p>
       <p class="L-es" lang="en">What is written passes from light to light,<br>and reaches, unchanged, even the one I have only just met.</p>
     </div>
-    <div class="cap" data-cut="4" data-u="0.5,0.86" data-morse="EVEN IF WE LOSE OUR WAY, WE FOLLOW THE MARKS WE LEFT, BACK TO WHERE IT ALL BEGAN.">
+    <div class="cap" data-cut="4" data-u="0.56,0.88" data-morse="EVEN IF WE LOSE OUR WAY, WE FOLLOW THE MARKS WE LEFT, BACK TO WHERE IT ALL BEGAN.">
       <p class="L-ko" lang="ko">길을 잘못 들어도<br>남겨 둔 자국을 따라 처음으로 돌아온다.</p>
       <p class="L-en" lang="en">Even if we lose our way,<br>we follow the marks we left, back to where it all began.</p>
       <p class="L-es" lang="en">Even if we lose our way,<br>we follow the marks we left, back to where it all began.</p>
