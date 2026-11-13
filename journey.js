@@ -546,6 +546,12 @@
   function progress() { var y = window.pageYOffset || root.scrollTop || 0, k = 0, i; for (i = 0; i < SHOTS.length; i++) if (y >= TOPS[i]) k = i; return k + clamp((y - TOPS[k]) / span(k)); }
   function sm(x) { x = clamp(x); return x * x * (3 - 2 * x); }
   var veil = document.querySelector('.veil');
+  var doorHit = document.querySelector('.doorhit');
+  function placeDoorHit() {      /* 첫 화면의 문 위에 보이지 않는 단추 — 누르면 Play(On 2026-11-13 18:30 「오른쪽 영역을 클릭하면 자동으로 재생」) */
+    if (!doorHit) return; var on = P < 0.5 && !playing;
+    if (on) { var d = doorAt(), pad = Math.max(10, d.dw * 0.12); doorHit.style.left = (d.x - pad).toFixed(1) + 'px'; doorHit.style.top = (d.yb - d.dh - pad).toFixed(1) + 'px'; doorHit.style.width = (d.dw + 2 * pad).toFixed(1) + 'px'; doorHit.style.height = (d.dh + 2 * pad).toFixed(1) + 'px'; }
+    if (on !== doorHit._on) { doorHit._on = on; doorHit.classList.toggle('on', on); }
+  }
   function marks() {
     var k = Math.min(SHOTS.length - 1, Math.floor(P)), u = P - k, any = false, i;
     for (i = 0; i < SHOTS.length; i++) { var s = SHOTS[i], on = (i === k && u >= RANGE[i][0] && u <= RANGE[i][1]); if (on !== s._on) { s._on = on; s.classList.toggle('on', on); } if (on && i > 0) any = true; }
@@ -579,7 +585,7 @@
     }
     var PT = progress();
     if (playing || REDUCE || Math.abs(PT - P) < 0.0008) P = PT; else P += (PT - P) * Math.min(1, dt / 150);   /* 손으로 밀어도 장면이 부드럽게 따라간다 */
-    marks(); if (MQ) pump(); lift(); draw();
+    marks(); placeDoorHit(); if (MQ) pump(); lift(); draw();
     if (P !== PT) kick();
     if (!frozen() || playing || WIND || (MQ && !morseDone())) kick(); else last = 0;
   }
@@ -664,7 +670,7 @@
       h.classList.add('fit'); h.style.fontSize = '100px';
       rg.selectNodeContents(h); var w = rg.getBoundingClientRect().width;
       var aim = (W >= 900 && W > H) ? Math.min(avail, W * 0.5) : avail;
-      if (w > 0) h.style.fontSize = Math.max(12, Math.min(aim / w * 100 * 0.985, H * 0.12)).toFixed(2) + 'px';
+      if (w > 0) h.style.fontSize = Math.max(18, 0.5 * Math.min(aim / w * 100 * 0.985, H * 0.12)).toFixed(2) + 'px';      /* 지금 크기의 반(On 2026-11-13 18:30) */
     });
     /* 낮은 화면(가로로 든 휴대폰): 글 덩이가 화면 아래로 넘치면 제목을 줄인다 — 30px 아래로는 줄이지 않는다 */
     for (var g = 0; g < 8; g++) {

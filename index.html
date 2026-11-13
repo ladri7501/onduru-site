@@ -56,9 +56,9 @@ body.still .ico[data-act="play"] { display: none; }
 /* 장면의 말은 화면에 붙박아 둔다 — 장면이 끝날 무렵 그림 위로 밀려 올라가지 않게(On 2026-11-13 13:50 「빈공간에 글자를 배치해라」). 보이는 것은 지금 장면의 말 하나 */
 .cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 max(var(--gutter), calc((100% - var(--col)) / 2)); opacity: 0; pointer-events: none; }
 /* 장면의 말은 스크롤 · 영상(Play) · PageDown/Up 어디서나 그림과 함께 스무드하게 짙어졌다 옅어진다 — 투명도는 엔진이 장면의 자리에 맞춰 준다(On 2026-11-13 16:47) */
-.cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; max-width: var(--measure); font-size: max(15px, min(32px, max(21px, 3.6vw), 5.2vh)); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+.cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; max-width: var(--measure); font-size: max(14px, calc(0.5 * min(32px, max(21px, 3.6vw), 5.2vh))); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .cap .soft { color: var(--ink-dim, #a3a69f); }
-/* 글자 크기는 화면의 너비와 높이를 함께 보고 저절로 — PC 32px · 세로 휴대폰 21px · 가로 휴대폰은 높이를 따라 줄어든다(On 2026-11-13 17:45 「가로 사이즈 글자 무지 커」). 낮은 화면은 줄 간격도 줄인다 */
+/* 글자 크기는 화면의 너비와 높이를 함께 보고 저절로(On 2026-11-13 17:45), 그 값의 반(On 18:30 「지금 보는 문자 크기의 50 정도」) — PC 16px · 휴대폰 14px. 낮은 화면은 줄 간격도 줄인다 */
 @media (max-height: 520px) { .cap p { line-height: 1.55; } }
 @media (orientation: portrait) { .cap p { line-height: 1.65; } }
 
@@ -78,11 +78,15 @@ body.still .ico[data-act="play"] { display: none; }
 .ctrl .ply .p2, .ctrl .ply[aria-pressed="true"] .p1 { display: none; }
 .ctrl .ply[aria-pressed="true"] .p2 { display: inline; }
 body.still .ctrl .ply { display: none; }
+.doorhit { position: fixed; z-index: 3; left: 0; top: 0; width: 0; height: 0; padding: 0; border: 0; background: transparent; cursor: pointer; display: none; -webkit-tap-highlight-color: transparent; }
+.doorhit.on { display: block; }
+body.still .doorhit, body.playing .doorhit { display: none !important; }
 .ctrl button:focus-visible, .enso:focus-visible, a:focus-visible { outline: 2px solid var(--signal, #8fd4c1); outline-offset: 3px; }
 /* 맺음 — 이전 작품의 바닥(colophon) 짜임 그대로: 첫머리로 · 금 · 작품 이름 · 두 줄 · 만든 이 줄 · 연락 · © 와 메뉴.
    마지막 장면이 다 그려진 뒤 본문 흐름으로 올라온다(그림도 함께 올라간다 — journey.js). On 2026-11-13 15:08 「세번째 전시부터는 … 하단 영역에 메뉴가 보이게」 */
 .endfoot { position: relative; z-index: 2; box-sizing: border-box; padding: 24px max(var(--gutter), calc((100% - var(--col)) / 2)) max(56px, env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--ink-faint, #868a86); }
 .endfoot p { margin: 0; }
+.endfoot .endline { margin: 0 0 18px; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; font-size: max(14px, calc(0.5 * min(32px, max(21px, 3.6vw), 5.2vh))); line-height: 1.85; color: var(--ink-strong, #dbd7cc); }      /* 맨 끝의 한 줄 — 장면의 말과 같은 글꼴 · 크기 */
 .endfoot > p, .endfoot > .colophon { max-width: var(--measure); }
 .endfoot .totop { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--ink-dim, #a3a69f); text-decoration: none; }
 .endfoot .totop:hover { color: var(--ink-strong, #dbd7cc); }
@@ -106,6 +110,7 @@ body.still .ctrl .ply { display: none; }
 <body>
 <div class="ctrl ctl"><button class="lng" type="button" data-act="lang"><span class="sr L-ko" lang="ko">언어 바꾸기</span><span class="sr L-en" lang="en">Change language</span><span class="sr L-es" lang="es">Cambiar idioma</span><span aria-hidden="true"><span class="k">한</span> / <span class="e">EN</span> / <span class="s">ES</span></span></button><button class="snd" type="button" data-act="sound" aria-pressed="false"><span class="sr L-ko" lang="ko">소리</span><span class="sr L-en" lang="en">Sound</span><span class="sr L-es" lang="es">Sonido</span><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button><button class="ply" type="button" data-act="play" aria-pressed="false"><span class="sr L-ko" lang="ko">재생</span><span class="sr L-en" lang="en">Play</span><span class="sr L-es" lang="es">Reproducir</span><svg viewBox="0 0 20 20" aria-hidden="true"><path class="p1" d="M6.5 4.5v11l9-5.5z"/><path class="p2" d="M7 4.5v11M13 4.5v11"/></svg></button></div>
 <canvas id="stage" aria-hidden="true"></canvas>
+<button class="doorhit ctl" type="button" data-act="play" tabindex="-1" aria-hidden="true"></button>
 <div class="veil" aria-hidden="true"></div>
 <main id="main">
   <header class="shot first" data-shot="0" style="height:150vh">
@@ -114,13 +119,12 @@ body.still .ctrl .ply { display: none; }
       <h1 class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</h1>
       <h1 class="L-en" lang="en">Everything you can imagine</h1>
       <h1 class="L-es" lang="es">Todo lo que puedes imaginar</h1>
-      <p class="sub L-ko" lang="ko">당신에게까지 이어졌기를</p>
-      <p class="sub L-en" lang="en">May it have found its way to you</p>
-      <p class="sub L-es" lang="es">Que haya llegado hasta ti</p>
     </div>
-    <!-- 문이 열린 장면 — 여기는 대한민국 서울. 세 언어 판 모두 영어 한 줄(On 2026-11-13 16:23). 멈춰 서는 자리이되 모스 부호는 울리지 않는다 -->
+    <!-- 문이 열린 장면 — 「ONDURU의 작업실」(On 2026-11-13 18:30, 16:23의 서울 줄을 바꿈). 멈춰 서는 자리이되 모스 부호는 울리지 않는다 -->
     <div class="cap place" data-stop="label" data-u="0.6,0.86">
-      <p lang="en">This is Seoul, Republic of Korea.</p>
+      <p class="L-ko" lang="ko">ONDURU의 작업실</p>
+      <p class="L-en" lang="en">ONDURU’s workshop</p>
+      <p class="L-es" lang="es">El taller de ONDURU</p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">문이 조금 열려 있다. 틈으로 빛이 샌다.</span><span class="L-en" lang="en">A door stands slightly open. Light leaks through the gap.</span><span class="L-es" lang="es">Una puerta entreabierta. La luz se escapa por la rendija.</span></p>
   </header>
@@ -188,6 +192,7 @@ body.still .ctrl .ply { display: none; }
   </section>
 </main>
 <footer class="endfoot">
+  <p class="endline"><span class="L-ko" lang="ko">당신에게까지 이어졌기를</span><span class="L-en" lang="en">May it have found its way to you</span><span class="L-es" lang="en">May it have found its way to you</span></p>
   <p><a class="totop" href="#main" lang="en">Back to the door ↑</a></p>
   <div class="colophon">
     <p class="work"><span class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</span><span class="L-en" lang="en">Everything you can imagine</span><span class="L-es" lang="es">Todo lo que puedes imaginar</span></p>
