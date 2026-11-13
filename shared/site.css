@@ -260,3 +260,6 @@ blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
 @keyframes onduru-ring-turn { from { transform: rotate(-360deg); } to { transform: rotate(0deg); } }
 .index a[aria-current] .ring { animation: onduru-ring-turn 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) both; }
 @media (prefers-reduced-motion: reduce) { .index a[aria-current] .ring { animation: none; } }
+
+/* 발자취: 누른 칸 하나만(On 2026-11-13 20:15). 스크립트가 hidden 을 단다 — 칸에 display 가 걸려 있어도 감춘다 */
+.sec[hidden], .index-tail[hidden] { display: none !important; }

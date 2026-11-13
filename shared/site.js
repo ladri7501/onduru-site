@@ -30,6 +30,7 @@
       /* 바닥에 닿았으면 마지막 칸(짧아서 줄에 못 닿는 칸) */
       if (window.scrollY > 0 && window.innerHeight + window.scrollY >= root.scrollHeight - 2) now = secs.length - 1;
       if (lock >= 0) now = lock;
+      if (index.hasAttribute('data-tabs')) { var on = index.getAttribute('data-on'); for (i = 0; i < links.length; i++) if (links[i].getAttribute('href') === '#' + on) now = i; }      /* 칸 하나씩: 열린 칸(On 2026-11-13 20:15) */
       if (now === cur) return;
       if (cur >= 0) links[cur].removeAttribute('aria-current');
       cur = now;
