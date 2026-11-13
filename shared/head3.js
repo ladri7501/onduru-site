@@ -28,4 +28,9 @@
     g.bs[(g.i + 1) % g.bs.length].click(); setTimeout(sync, 0);
   });
   d.addEventListener('onduru:sky', sync); sync(); setTimeout(sync, 300);
+  /* 화면을 돌리면 확대를 처음 크기로(On 21:29 2안) — 확대된 채일 때만, 잠깐 최대 배율을 1로 묶었다가 푼다 */
+  var vp = d.querySelector('meta[name="viewport"]'), base = vp && vp.getAttribute('content');
+  function unzoom() { if (!vp || !window.visualViewport || window.visualViewport.scale <= 1.01) return; vp.setAttribute('content', base + ', maximum-scale=1'); setTimeout(function () { vp.setAttribute('content', base); }, 500); }
+  window.addEventListener('orientationchange', function () { setTimeout(unzoom, 60); });
+  if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener('change', function () { setTimeout(unzoom, 60); });
 })();

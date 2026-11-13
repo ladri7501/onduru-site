@@ -1,7 +1,7 @@
 /* ONDURU — 머리 · 바닥 3안(head3.css) · On 2026-11-13 20:34
    머리: 위에 고정 · 로고 + 단추 묶음(한 / EN / ES · 바탕 · 글꼴) · 메뉴. 휴대폰 두 줄 · PC 한 줄
    바닥: © · 메뉴 · On × Agent — 휴대폰 두 줄 · PC 한 줄. 바탕 · 글꼴의 단추 줄은 숨기고(기능은 그대로) 머리의 ◐ · Aa 로 고른다 */
-html { scroll-padding-top: var(--head-h, 0px); }
+html { scroll-padding-top: var(--head-h, 0px); touch-action: manipulation; }      /* 두 번 톡 확대 막기 — 손가락으로 벌리는 확대는 그대로(On 21:29 2안) */
 html body .site-head { position: sticky; top: 0; z-index: 40; background: var(--bg); display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: var(--sp-5, 24px); row-gap: 0; flex-wrap: nowrap; }
 html body .site-head .site-nav { margin: 0; }
 .ctl3 { display: inline-flex; align-items: center; justify-self: end; gap: 2px; }

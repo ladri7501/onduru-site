@@ -17,6 +17,7 @@
 html, body { margin: 0; padding: 0; background: var(--bg, #0f1318); color: var(--ink, #cfcbc2); transition: background-color 1.6s ease; }
 /* 글꼴은 이전 작품(「같은 바람」 · 「지운 자리의 노래」)의 기준 그대로 — 시와 제목은 고운바탕, 작은 글은 IBM Plex Sans KR 300(On 2026-11-13 15:08) */
 body { font-family: "IBM Plex Sans KR", system-ui, -apple-system, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+html { touch-action: manipulation; }      /* 두 번 톡 확대 막기 — 손가락으로 벌리는 확대는 그대로(On 2026-11-13 21:29) */
 #stage { position: fixed; left: 0; top: 0; width: 100%; height: 100vh; height: 100dvh; display: block; z-index: 0; }
 .veil { position: fixed; left: 0; right: 0; bottom: 0; height: 44vh; z-index: 1; pointer-events: none; background: radial-gradient(115% 100% at 0% 100%, var(--bg, #0f1318) 0%, var(--bg, #0f1318) 34%, transparent 74%); opacity: 0; }
 main { position: relative; z-index: 2; max-width: none; margin: 0; padding: 0; }

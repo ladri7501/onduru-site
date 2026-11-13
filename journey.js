@@ -862,6 +862,12 @@
     window.addEventListener('touchend', function (e) { if (ty !== null && ty - e.changedTouches[0].clientY > 40) onceMore(); ty = null; }, { passive: true });
   })();
   window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); buildText(); kick(); }, 160); });
+  (function () {      /* 화면을 돌리면 확대를 처음 크기로 — 확대된 채일 때만(On 2026-11-13 21:29) */
+    var vp = document.querySelector('meta[name="viewport"]'), base = vp && vp.getAttribute('content');
+    function unzoom() { if (!vp || !window.visualViewport || window.visualViewport.scale <= 1.01) return; vp.setAttribute('content', base + ', maximum-scale=1'); setTimeout(function () { vp.setAttribute('content', base); }, 500); }
+    window.addEventListener('orientationchange', function () { setTimeout(unzoom, 60); });
+    if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener('change', function () { setTimeout(unzoom, 60); });
+  })();
   if (REDUCE) body.classList.add('still');
 
   var l0 = Q.lang; if (!l0) { try { l0 = localStorage.getItem('onduru-lang'); } catch (e) {} } if (!l0) l0 = (navigator.language || 'ko').slice(0, 2);
