@@ -530,6 +530,7 @@
       [].forEach.call(c.querySelectorAll('p'), function (x) { if (getComputedStyle(x).display !== 'none') p = x; });
       if (!p) return; var over = p.getBoundingClientRect().bottom - lim;
       if (over > 0) c.style.top = Math.max(0, c.getBoundingClientRect().top - over).toFixed(1) + 'px';
+      c._fit = c.style.top; c._def = c.getBoundingClientRect().top; c._pt = null; c.style.transition = '';      /* 기본 자리 — 빈 곳 찾기는 여기서 시작한다 */
     });
   }
   function measure() {
@@ -612,6 +613,56 @@
     root.classList.remove('tveil'); if (!TREADY || !titleEl || P > 0.4) return;
     var h = titleEl.querySelector('h1.L-' + LANG); if (h) gather(h);
   }
+  /* ── 장면의 말은 선에 걸터앉지 않는다 — 그림에서 빈 곳을 찾아 옮긴다(On 2026-11-13 20:55 「바다에서 인물 사진을 찍을 때 수평선에 목이 걸리는 것처럼」).
+     그린 그림을 작게 줄여(4px 한 칸) 글 줄마다의 자리에 선 · 점이 얼마나 지나가는지 재고, 가장 비어 있는 높이로 옮긴다.
+     처음 나타날 때는 그 자리에서 나타나고, 보이는 동안 장면이 바뀌어 선이 글에 닿으면 부드럽게 옮겨 간다 ── */
+  var SC = document.createElement('canvas'), SX = SC.getContext ? SC.getContext('2d', { willReadFrequently: true }) : null, SS = 4, PLT = 0;
+  function inkMap() {
+    var sw = Math.max(1, Math.round(W / SS)), sh = Math.max(1, Math.round(H / SS));
+    if (SC.width !== sw || SC.height !== sh) { SC.width = sw; SC.height = sh; }
+    SX.clearRect(0, 0, sw, sh); SX.drawImage(cv, 0, 0, sw, sh);
+    try { return { w: sw, h: sh, d: SX.getImageData(0, 0, sw, sh).data }; } catch (e) { return null; }
+  }
+  function lineBoxes(p, top0) {      /* 글 줄마다 하나의 상자(말의 맨 위에서 잰 높이) */
+    var rg = document.createRange(); rg.selectNodeContents(p); var rs = rg.getClientRects(), L = [], i, j, r;
+    for (i = 0; i < rs.length; i++) { r = rs[i]; if (r.width < 1 || r.height < 1) continue;
+      for (j = 0; j < L.length; j++) if (Math.abs(L[j].c - (r.top + r.bottom) / 2) < r.height * 0.45) break;
+      if (j === L.length) L.push({ l: r.left, r: r.right, t: r.top - top0, b: r.bottom - top0, c: (r.top + r.bottom) / 2 });
+      else { L[j].l = Math.min(L[j].l, r.left); L[j].r = Math.max(L[j].r, r.right); L[j].t = Math.min(L[j].t, r.top - top0); L[j].b = Math.max(L[j].b, r.bottom - top0); } }
+    return L;
+  }
+  function inkAt(m, L, top, pad) {
+    var s = 0, k, i, j, x0, x1, y0, y1, o;
+    for (k = 0; k < L.length; k++) {
+      x0 = Math.max(0, Math.floor((L[k].l - pad) / SS)); x1 = Math.min(m.w, Math.ceil((L[k].r + pad) / SS));
+      y0 = Math.max(0, Math.floor((top + L[k].t - pad) / SS)); y1 = Math.min(m.h, Math.ceil((top + L[k].b + pad) / SS));
+      for (j = y0; j < y1; j++) { o = j * m.w; for (i = x0; i < x1; i++) s += m.d[(o + i) * 4 + 3]; }
+    }
+    return s;
+  }
+  function placeCaps() {
+    if (!SX || REDUCE) return; var now = Date.now(); if (now - PLT < 150) return; PLT = now;
+    var m = null, vis = null, va = 0;
+    CAPS.forEach(function (c) {
+      var a = c._op || 0;
+      if (a <= 0.01) { if (c._pt != null) { c._pt = null; c.style.transition = ''; c.style.top = c._fit || ''; } return; }
+      var p = c.querySelector('.L-' + LANG); if (!p || c._def == null) return;
+      if (!m) m = inkMap(); if (!m) return;
+      var cur = c.getBoundingClientRect().top, L = lineBoxes(p, cur); if (!L.length) return;
+      var bh = 0, k; for (k = 0; k < L.length; k++) bh = Math.max(bh, L[k].b);
+      var pad = Math.max(8, H * 0.012), lo = Math.max(64, H * 0.08), hi = H - bh - Math.max(12, H * 0.025), def = c._def, step = Math.max(6, H * 0.015);
+      if (hi < lo) return;
+      function score(y) { return inkAt(m, L, y, pad) + 1500 * Math.abs(y - def) / H; }      /* 같은 값이면 원래 자리(아래쪽)에 가깝게 */
+      var sc = score(cur), best = cur, bs = sc, y, v;
+      for (y = lo; y <= hi + 0.5; y += step) { v = score(y); if (v < bs) { bs = v; best = y; } }
+      v = score(def); if (v <= bs) { bs = v; best = def; }
+      if (c._pt == null) { c.style.transition = 'none'; c._pt = best; c._mt = now; c._mv = 0; c.style.top = best.toFixed(1) + 'px'; }      /* 처음 나타나는 자리 */
+      else if (Math.abs(best - c._pt) > 2 && sc > 2500 && bs < sc * 0.4 && now - (c._mt || 0) > (c._mv ? 1200 : 400) && a >= (c._pa || 0) - 0.002) { c.style.transition = 'top .6s cubic-bezier(.3,.6,.2,1)'; c._pt = best; c._mt = now; c._mv = (c._mv || 0) + 1; c.style.top = best.toFixed(1) + 'px'; }      /* 선이 분명히 닿을 때만 — 첫 고침은 0.4초 뒤, 그다음은 1.2초에 한 번까지, 옅어지는 동안은 그대로 */
+      c._pa = a;
+      if (c._k > 0 && a > va) { va = a; vis = c; }
+    });
+    if (veil) { var dy = 0; if (vis) { var b = vis._pt != null ? vis._pt + (vis.getBoundingClientRect().height) : H; dy = Math.min(0, b + H * 0.1 - H); } veil.style.transform = dy ? 'translateY(' + dy.toFixed(0) + 'px)' : ''; }      /* 옅은 가림막도 말을 따라 */
+  }
   var doorHit = document.querySelector('.doorhit');
   function placeDoorHit() {      /* 첫 화면의 문 위에 보이지 않는 단추 — 누르면 Play(On 2026-11-13 18:30 「오른쪽 영역을 클릭하면 자동으로 재생」) */
     if (!doorHit) return; var on = P < 0.5 && !playing;
@@ -652,7 +703,7 @@
     }
     var PT = progress();
     if (playing || REDUCE || Math.abs(PT - P) < 0.0008) P = PT; else P += (PT - P) * Math.min(1, dt / 150);   /* 손으로 밀어도 장면이 부드럽게 따라간다 */
-    marks(); placeDoorHit(); if (REGATHER && P < 0.02) { REGATHER = false; titleIn(); } if (MQ) pump(); lift(); draw();
+    marks(); placeDoorHit(); if (REGATHER && P < 0.02) { REGATHER = false; titleIn(); } if (MQ) pump(); lift(); draw(); placeCaps();
     if (P !== PT) kick();
     if (!frozen() || playing || WIND || (MQ && !morseDone())) kick(); else last = 0;
   }
