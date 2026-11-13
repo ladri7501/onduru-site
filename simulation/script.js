@@ -11,13 +11,25 @@
   if (index) {
     var links = [].slice.call(index.querySelectorAll('a[href^="#"]'));
     var secs = links.map(function (a) { return d.getElementById(a.getAttribute('href').slice(1)); });
-    var cur = -1, waiting = false;
+    var cur = -1, waiting = false, lock = -1;
+    /* 목록에서 누른 칸은 그 칸을 짚는다 — 짧은 칸이라 다음 칸까지 줄에 닿아도(On 2026-11-13 13:50). 사람이 다시 밀면 풀린다 */
+    var lockTo = function (id) { for (var j = 0; j < links.length; j++) if (links[j].getAttribute('href') === '#' + id) { lock = j; return true; } return false; };
+    links.forEach(function (a, j) { a.addEventListener('click', function () { lock = j; mark(); }); });
+    var unlock = function (e) {
+      if (lock < 0) return;
+      if (e.type === 'keydown' && !/^(PageUp|PageDown|ArrowUp|ArrowDown|Home|End| |Spacebar)$/.test(e.key)) return;
+      lock = -1; ask();
+    };
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, unlock, { passive: true }); });
+    window.addEventListener('hashchange', function () { if (lockTo(location.hash.slice(1))) mark(); });
+    if (location.hash) lockTo(location.hash.slice(1));
     var mark = function () {
       waiting = false;
       var line = Math.max(120, window.innerHeight * 0.33), now = -1, i;
       for (i = 0; i < secs.length; i++) { if (secs[i] && secs[i].getBoundingClientRect().top <= line) now = i; }
       /* 바닥에 닿았으면 마지막 칸(짧아서 줄에 못 닿는 칸) */
       if (window.scrollY > 0 && window.innerHeight + window.scrollY >= root.scrollHeight - 2) now = secs.length - 1;
+      if (lock >= 0) now = lock;
       if (now === cur) return;
       if (cur >= 0) links[cur].removeAttribute('aria-current');
       cur = now;

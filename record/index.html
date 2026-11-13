@@ -2,6 +2,7 @@
 <html lang="ko" data-lang="ko">
 <head>
   <meta charset="utf-8">
+<script>(function(){try{var H=history,L=location;if(L.pathname==='/'||!H.replaceState)return;var at=L.pathname+L.search+L.hash;window.ONDURU_AT=at;var go=function(){H.replaceState({onduruPath:at},'','/');};if(L.hash)addEventListener('load',function(){setTimeout(go,0);});else go();addEventListener('hashchange',function(){if(!L.hash)return;at=at.split('#')[0]+L.hash;window.ONDURU_AT=at;go();});document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(a&&a.origin===L.origin&&a.pathname==='/'&&!a.hash)H.replaceState(null,'','/');},true);}catch(e){}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>거슬러 갈 길 · The Way Back · El camino de vuelta — ONDURU</title>
   <meta name="description" content="모델을 만드는 회사들에게 보내는 공개 기록. / An open record to the companies that build AI models. / Registro abierto a las empresas que crean modelos de IA.">
@@ -121,7 +122,12 @@
       .doc { gap: 34px; }
     }
     @media (prefers-reduced-motion: reduce) { .lng button, .langbar button { transition: none; } }
-  </style>
+  /* 누를 것 44px(상호작용 기준 IN-1) — 2026-11-13 전체 시뮬레이션에서 더함. 다른 창의 글과 꼴은 그대로 */
+.lng button { min-width: 44px; min-height: 44px; }
+.top > a, footer a { display: inline-flex; align-items: center; min-height: 44px; }
+.langbar button { min-height: 44px; }
+.more a { display: inline-flex; align-items: center; min-height: 44px; }
+</style>
 </head>
 <body>
 

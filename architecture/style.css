@@ -159,7 +159,7 @@ figure { margin: 0; }
 .prose strong { color: var(--ink-strong); }
 .prose .signature, .prose .sign { margin-top: var(--sp-6); font-family: var(--font-voice); color: var(--ink-strong); }
 /* 글 목록의 제목 — 누르면 그 글이 열린다(On 16:03) */
-.writing h3 a.title-link { color: inherit; text-decoration: none; display: inline-block; padding: var(--sp-2) 0; }
+.writing h3 a.title-link { color: inherit; text-decoration: none; display: inline-block; min-height: var(--tap); padding: var(--sp-2) 0; }   /* 누를 것 44px(IN-1) — 2026-11-13 */
 .writing h3 a.title-link:hover, .writing h3 a.title-link:focus-visible { text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 0.2em; }
 
 /* 넓은 화면 — R48 */
@@ -245,6 +245,22 @@ blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
 @media (forced-colors: active) { .one::before, .step > blockquote::before, .prose blockquote::before, blockquote.q::before, .sec-ko blockquote.voice::before { background: CanvasText; } }
 /* 낱말 칸이 넓어야 하는 목록(발자취의 「넘겨받은 것」) — 라틴 글자의 라벨은 길다 */
 :lang(en) .pairs.pairs-wide .pair, :lang(es) .pairs.pairs-wide .pair { grid-template-columns: 10.5em minmax(0, 1fr); }
+
+/* ───────── 소개의 Works — 제목만 줄로 세우고, 제목을 누르면 작품으로. 만든 이 줄은 맨 아래 한 번(On 2026-11-13 13:50) ───────── */
+.works-list { list-style: none; margin: 0 0 var(--sp-4); padding: 0; max-width: var(--measure); }
+.work-li { padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+.work-li:first-child { border-top: 0; padding-top: 0; }
+.work-li .when { margin: 0 0 var(--sp-1); }
+.work-li.is-current .state { color: var(--ink-strong); border-color: var(--ink-strong); }
+.work-li h3 { margin: 0; }
+.work-li h3 a.title-link { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--ink-strong); text-decoration: none; }
+.work-li h3 a.title-link:hover, .work-li h3 a.title-link:focus-visible { text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 0.2em; }
+#works .credit { margin: 0; }
+
+/* ───────── 목록의 열린 원 — 짚는 자리가 바뀔 때 한 바퀴 돈다(On 2026-11-13 13:50 「로고는 돌게 해라」). 움직임 줄이기에서는 돌지 않는다 ───────── */
+@keyframes onduru-ring-turn { from { transform: rotate(-360deg); } to { transform: rotate(0deg); } }
+.index a[aria-current] .ring { animation: onduru-ring-turn 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .index a[aria-current] .ring { animation: none; } }
 
 
 /* ═════════ 구성도 — 앞 판의 꾸밈(읽는 법 · 풀이 목록이 그대로 쓴다) ═════════ */
@@ -501,4 +517,6 @@ dd.inner { color: var(--ink-faint); }
   .js .ax-close { display: inline-flex; align-items: center; float: right; min-height: var(--tap); margin: calc(-1 * var(--sp-2)) 0 0 var(--sp-3); padding: 0 0.9em; font: 500 var(--fs-small)/1 var(--font-label); color: var(--ink); background: transparent; border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; }
   .ax-row { grid-template-columns: repeat(auto-fill, minmax(7.2rem, 1fr)); }
 }
+/* 한 칸으로 서는 화면(1240px 아래)에서는 글이 본문이다 — 휴대폰에서 본문을 17px 아래로 내리지 않는다(CI 가이드 T-3 · 2026-11-13 전체 시뮬레이션) */
+@media (max-width: 1239px) { .ax-sec p, .ax-sec .legend li, .ax-panel p, .ax-panel .nd dd { font-size: var(--fs-body); } }
 @media (prefers-reduced-motion: reduce) { .ax-chip, .js .ax-right { transition: none; } }

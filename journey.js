@@ -15,7 +15,7 @@
   var W = 1, H = 1, DPR = 1, U = 1, T = Q.t ? +Q.t : 0, HOLD = false, P = 0, LANG = 'ko';
   var INK = '207,203,194', STR = '219,215,204', SIG = '143,212,193', BG = '15,19,24';
   var TAU = Math.PI * 2, RAD = Math.PI / 180;
-  var FOCUS = [], FOCUS_IN = [], WORLD = {};
+  var FOCUS = [], FOCUS_IN = [], WORLD = {}, DOORTOP = 0;
 
   /* 맨 끝의 문장 — 한국어는 On의 말(08:52 · 띄어쓰기만 바로잡음). 영어 · 스페인어는 기본값(On이 고친다) */
   var SENT = {
@@ -165,7 +165,9 @@
   }
 
   /* ── 문 ── */
-  function doorAt() { var portrait = H > W, dh = Math.min(H * 0.56, W * (portrait ? 1.05 : 0.5)), dw = dh * 0.46; return { dw: dw, dh: dh, x: W * (portrait ? 0.5 : 0.64) - dw / 2, yb: H * 0.8 }; }
+  function doorBase() { var portrait = H > W, dh = Math.min(H * 0.56, W * (portrait ? 1.05 : 0.5)); return { dh: dh, mid: W * (portrait ? 0.5 : 0.64), yb: H * 0.8 }; }
+  /* 문은 첫 화면의 글(제목 · 만든 이 · 줄들)과 겹치지 않게 그 아래에 선다 — DOORTOP 은 fitTitle() 이 잰다(On 2026-11-13 13:30) */
+  function doorAt() { var b = doorBase(), dh = b.dh; if (DOORTOP > 0) dh = Math.max(Math.min(dh, b.yb - DOORTOP), H * 0.2); var dw = dh * 0.46; return { dw: dw, dh: dh, x: b.mid - dw / 2, yb: b.yb }; }
   function leaf(x0, yb, dw, dh, o, right, a) {      /* 문짝. o: 열린 정도(0 닫힘 ~ 1) · right: 경첩이 오른쪽. 문고리는 열린 원 */
     var th = o * 80 * RAD, ex = right ? x0 + dw - dw * Math.cos(th) : x0 + dw * Math.cos(th), hx = right ? x0 + dw : x0, dz = Math.sin(th) * dh * 0.07, yt = yb - dh;
     cx.strokeStyle = ink(0.62 * a); cx.lineWidth = 1.2; poly([[hx, yt], [ex, yt + dz], [ex, yb - dz * 0.7], [hx, yb]], true); cx.lineWidth = 1;
@@ -499,13 +501,40 @@
     if (!SENT[l]) l = 'ko'; LANG = l; root.setAttribute('data-lang', l); root.setAttribute('lang', l);
     try { localStorage.setItem('onduru-lang', l); } catch (e) {}
     [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === l)); });
-    buildText(); kick();
+    fitTitle(); buildWorld(); buildText(); kick();
+  }
+  /* 제목을 한 줄로 — 글이 든 너비를 채우는 크기를 재서 넣는다(높이의 18%를 넘지 않게). 그다음 문이 설 자리를 잰다 */
+  function fitTitle() {
+    if (!titleEl) return;
+    var cs = getComputedStyle(titleEl), avail = titleEl.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), rg = document.createRange();
+    [].forEach.call(titleEl.querySelectorAll('h1'), function (h) {
+      if (getComputedStyle(h).display === 'none') return;
+      h.classList.add('fit'); h.style.fontSize = '100px';
+      rg.selectNodeContents(h); var w = rg.getBoundingClientRect().width;
+      if (w > 0) h.style.fontSize = Math.max(12, Math.min(avail / w * 100 * 0.985, H * 0.18)).toFixed(2) + 'px';
+    });
+    /* 낮은 화면(가로로 든 휴대폰): 글 덩이가 화면 아래로 넘치면 제목을 줄인다 — 30px 아래로는 줄이지 않는다 */
+    for (var g = 0; g < 8; g++) {
+      var bot = 0, t0 = titleEl.getBoundingClientRect().top;
+      [].forEach.call(titleEl.children, function (el) { var st = getComputedStyle(el); if (st.display !== 'none' && st.position !== 'absolute') bot = Math.max(bot, el.getBoundingClientRect().bottom - t0); });
+      if (bot <= H * 0.96) break;
+      var shrunk = false;
+      [].forEach.call(titleEl.querySelectorAll('h1.fit'), function (h) { var f = parseFloat(h.style.fontSize); if (f > 30) { h.style.fontSize = Math.max(30, f * 0.88).toFixed(2) + 'px'; shrunk = true; } });
+      if (!shrunk) break;
+    }
+    var b = doorBase(), half = b.dh * 0.23 + 12, top = titleEl.getBoundingClientRect().top, lim = 0;
+    [].forEach.call(titleEl.children, function (el) {
+      var st = getComputedStyle(el); if (st.display === 'none' || st.position === 'absolute' || st.position === 'fixed') return;
+      rg.selectNodeContents(el); var r = rg.getBoundingClientRect();
+      if (r.width > 0 && r.right > b.mid - half && r.left < b.mid + half) lim = Math.max(lim, r.bottom - top);
+    });
+    DOORTOP = lim > 0 ? lim + H * 0.035 : 0;
   }
   function size() {
     W = root.clientWidth || window.innerWidth; H = window.innerHeight; DPR = Math.min(window.devicePixelRatio || 1, 2); U = Math.min(W, H);
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
     INK = hex('--ink', INK); STR = hex('--ink-strong', STR); SIG = hex('--signal', SIG); BG = hex('--bg', BG);
-    measure(); buildWorld();
+    fitTitle(); measure(); buildWorld();
   }
 
   btnPlay.forEach(function (b) { b.addEventListener('click', function () { setPlay(!playing); }); });
@@ -519,6 +548,6 @@
   var l0 = Q.lang; if (!l0) { try { l0 = localStorage.getItem('onduru-lang'); } catch (e) {} } if (!l0) l0 = (navigator.language || 'ko').slice(0, 2);
   size(); setLang(l0);
   if (Q.p != null) { var pv = +Q.p, k0 = Math.max(0, Math.min(SHOTS.length - 1, Math.floor(pv))); window.scrollTo(0, TOPS[k0] + (pv - k0) * span(k0)); }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { buildText(); kick(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitTitle(); buildWorld(); buildText(); kick(); });
   body.classList.add('ready'); kick();
 })();

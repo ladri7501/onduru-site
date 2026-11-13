@@ -5,7 +5,8 @@
   function save(l) { try { localStorage.setItem(KEY, l); } catch (e) {} }
   var links = d.querySelectorAll('.langs a[hreflang]');
   function sync() {
-    var h = location.hash || '';
+    /* 실제 사이트는 주소줄을 「/」로 두므로(2026-11-13) 읽던 자리는 window.ONDURU_AT 에서 읽는다 */
+    var at = window.ONDURU_AT || '', h = location.hash || (at.indexOf('#') >= 0 ? at.slice(at.indexOf('#')) : '');
     for (var i = 0; i < links.length; i++) { var a = links[i], base = a.getAttribute('data-href') || a.getAttribute('href'); a.setAttribute('data-href', base); a.setAttribute('href', base + h); }
   }
   for (var i = 0; i < links.length; i++) links[i].addEventListener('click', function () { save(this.getAttribute('hreflang')); });

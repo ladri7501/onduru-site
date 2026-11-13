@@ -2,6 +2,7 @@
 <html lang="ko" data-theme="night" data-type="myeongjo" data-lang="ko">
 <head>
 <meta charset="utf-8">
+<script>(function(){try{var s=history.state,n=performance.getEntriesByType?performance.getEntriesByType('navigation')[0]:null,t=n?n.type:'';if(s&&s.onduruPath&&s.onduruPath.charAt(0)==='/'&&s.onduruPath!=='/'&&(t==='reload'||t==='back_forward'))location.replace(s.onduruPath);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>ONDURU</title>
@@ -22,7 +23,9 @@ main { position: relative; z-index: 2; max-width: none; margin: 0; padding: 0; }
 
 /* 첫 화면 */
 .title { position: sticky; top: 0; height: 100vh; height: 100dvh; box-sizing: border-box; padding: clamp(92px, 17vh, 190px) clamp(22px, 6vw, 92px) 0; pointer-events: none; }
-.title h1 { margin: 0 0 .7em; max-width: 9.2em; font-family: "Noto Serif KR", "Gowun Batang", serif; font-weight: 400; font-size: clamp(1.9rem, 1.15rem + 2.7vw, 3.7rem); line-height: 1.32; letter-spacing: -.01em; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+/* 제목은 한 줄 — 화면 너비를 채우도록 스크립트가 크기를 맞추고(.fit), 화면이 넓어지면 따라 커진다(On 2026-11-13 13:30). 스크립트가 꺼지면 아래 값으로 서고 좁으면 줄을 바꾼다 */
+.title h1 { margin: 0 0 .7em; max-width: none; font-family: "Noto Serif KR", "Gowun Batang", serif; font-weight: 400; font-size: clamp(1.9rem, 0.5rem + 4.6vw, 9rem); line-height: 1.32; letter-spacing: -.01em; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+.title h1.fit { white-space: nowrap; }
 .title .who { margin: 0; max-width: 26em; font-size: .8rem; line-height: 1.75; color: var(--ink-faint, #868a86); }
 .title .go { margin: 2.4em 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .6em 1.2em; pointer-events: auto; }
 .title .hint { font-size: .8rem; color: var(--ink-faint, #868a86); }
@@ -34,11 +37,12 @@ body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: no
 @media (max-width: 720px) { .title { padding-top: clamp(64px, 9vh, 96px); } .title h1 { max-width: none; } .title .go { position: absolute; left: 22px; right: 80px; bottom: 6vh; margin: 0; } }
 
 /* 장면마다 놓이는 짧은 말 — 편지의 말 그대로 */
-.cap { position: sticky; top: 76vh; margin: 0; padding: 0 clamp(22px, 6vw, 92px); opacity: 0; transition: opacity .7s ease; pointer-events: none; }
+/* 장면의 말은 화면에 붙박아 둔다 — 장면이 끝날 무렵 그림 위로 밀려 올라가지 않게(On 2026-11-13 13:50 「빈공간에 글자를 배치해라」). 보이는 것은 지금 장면의 말 하나 */
+.cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 clamp(22px, 6vw, 92px); opacity: 0; transition: opacity .7s ease; pointer-events: none; }
 .shot.on .cap { opacity: 1; }
 .cap p { margin: 0; font-family: "Noto Serif KR", "Gowun Batang", serif; font-weight: 400; font-size: clamp(1.25rem, 1rem + 1.3vw, 2.05rem); line-height: 1.55; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .cap .soft { color: var(--ink-dim, #a3a69f); }
-.cap.close { top: 62vh; }
+.cap.close { top: 62vh; top: 62svh; }
 .shot.on .cap.close { pointer-events: auto; }
 .cap.close .work { margin-top: 1.5em; font-size: .92rem; line-height: 1.7; color: var(--ink-dim, #a3a69f); }
 .cap.close .who, .cap.close .links { margin-top: .5em; font-family: "IBM Plex Sans", "IBM Plex Sans KR", system-ui, sans-serif; font-size: .78rem; line-height: 1.8; color: var(--ink-faint, #868a86); }
@@ -58,8 +62,8 @@ body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: no
 .ico[data-act="play"][aria-pressed="true"] .p2 { display: inline; }
 .nojs { position: relative; z-index: 3; margin: 0; padding: 22vh clamp(22px, 6vw, 92px); font-size: 1rem; line-height: 1.9; color: var(--ink, #cfcbc2); }
 @media (prefers-reduced-motion: reduce) { .veil, .cap { transition: none; } }
-.notice { margin-top: 18px; font-size: 13px; line-height: 1.6; letter-spacing: .02em; }
-.notice a { display: inline-block; padding: 6px 0; color: var(--signal); text-decoration: none; }
+.notice { margin-top: 18px; font-size: 13px; line-height: 1.6; letter-spacing: .02em; pointer-events: auto; }
+.notice a { display: inline-flex; align-items: center; min-height: 44px; color: var(--signal); text-decoration: none; }
 .notice a span { border-bottom: 1px solid currentColor; padding-bottom: 2px; }
 </style>
 <meta property="og:title" content="ONDURU — 당신이 상상할 수 있는 모든 것 / Everything you can imagine / Todo lo que puedes imaginar">

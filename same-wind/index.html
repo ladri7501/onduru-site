@@ -2,6 +2,7 @@
 <html lang="ko" data-lang="ko" data-show="ko">
 <head>
   <meta charset="utf-8">
+<script>(function(){try{var H=history,L=location;if(L.pathname==='/'||!H.replaceState)return;var at=L.pathname+L.search+L.hash;window.ONDURU_AT=at;var go=function(){H.replaceState({onduruPath:at},'','/');};if(L.hash)addEventListener('load',function(){setTimeout(go,0);});else go();addEventListener('hashchange',function(){if(!L.hash)return;at=at.split('#')[0]+L.hash;window.ONDURU_AT=at;go();});document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(a&&a.origin===L.origin&&a.pathname==='/'&&!a.hash)H.replaceState(null,'','/');},true);}catch(e){}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ONDURU — 같은 바람</title>
   <meta name="description" content="같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. · ONDURU, On">
@@ -496,9 +497,9 @@
   </footer>
 
   <script type="application/json" id="i18n">{}</script>
-  <script src="sky.js"></script>
-  <script src="text.js"></script>
-  <script src="scenes.js"></script>
+  <script src="/same-wind/sky.js"></script>
+  <script src="/same-wind/text.js"></script>
+  <script src="/same-wind/scenes.js"></script>
   <script>
     /* 글을 칸에 채운다: 화면의 글은 모두 text.js 에서 온다 */
     (function () {
