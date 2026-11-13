@@ -28,6 +28,10 @@ html[data-size] .site-head, html[data-size] .site-foot {
   --sp-1: calc(0.25rem / var(--ts, 1)); --sp-2: calc(0.5rem / var(--ts, 1)); --sp-3: calc(0.75rem / var(--ts, 1));
   --sp-4: calc(1rem / var(--ts, 1)); --sp-5: calc(1.5rem / var(--ts, 1)); --tap: calc(2.75rem / var(--ts, 1));
 }
+/* 문장은 줄 끝까지 이어 쓴다(On 2026-11-14 00:00) — 줄 길이를 고르려고 미리 꺾는 규칙(pretty · balance)을 본문 · 목록 · 따옴에서 걷고,
+   줄이 다 찬 자리에서만 다음 줄로 넘긴다. 제목(h1~h3)은 그대로 고르게. 작가가 넣은 줄바꿈은 건드리지 않는다. 전시는 이 꾸밈을 쓰지 않는다 */
+html body { text-wrap: wrap; }
+html body .voice, html body blockquote, html body blockquote.q { text-wrap: wrap; }
 html[data-size] .tier-block.is-k { margin-left: calc(-1 * min(var(--sp-4), var(--gutter))); margin-right: calc(-1 * min(var(--sp-4), var(--gutter))); }
 html[data-size="l"] .sz3, html[data-size="xl"] .sz3 { color: var(--ink-strong); }
 html body .site-foot { row-gap: 0; }
