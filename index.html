@@ -8,11 +8,12 @@
 <title>ONDURU</title>
 <meta name="description" content="당신이 상상할 수 있는 모든 것 / Everything you can imagine / Todo lo que puedes imaginar">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&amp;family=IBM+Plex+Sans+KR:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="/shared/onduru.css?v=20261113">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@300;500&amp;display=swap">
+<link rel="stylesheet" href="/shared/onduru.css?v=2026111315">
 <style>
 html, body { margin: 0; padding: 0; background: var(--bg, #0f1318); color: var(--ink, #cfcbc2); }
-body { font-family: "IBM Plex Sans", "IBM Plex Sans KR", system-ui, sans-serif; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+/* 글꼴은 이전 작품(「같은 바람」 · 「지운 자리의 노래」)의 기준 그대로 — 시와 제목은 고운바탕, 작은 글은 IBM Plex Sans KR 300(On 2026-11-13 15:08) */
+body { font-family: "IBM Plex Sans KR", system-ui, -apple-system, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
 #stage { position: fixed; left: 0; top: 0; width: 100%; height: 100vh; height: 100dvh; display: block; z-index: 0; }
 .veil { position: fixed; left: 0; right: 0; bottom: 0; height: 44vh; z-index: 1; pointer-events: none; background: radial-gradient(115% 100% at 0% 100%, var(--bg, #0f1318) 0%, var(--bg, #0f1318) 34%, transparent 74%); opacity: 0; transition: opacity .6s ease; }
 body.capped .veil { opacity: .94; }
@@ -24,47 +25,59 @@ main { position: relative; z-index: 2; max-width: none; margin: 0; padding: 0; }
 /* 첫 화면 */
 .title { position: sticky; top: 0; height: 100vh; height: 100dvh; box-sizing: border-box; padding: clamp(92px, 17vh, 190px) clamp(22px, 6vw, 92px) 0; pointer-events: none; }
 /* 제목은 한 줄 — 화면 너비를 채우도록 스크립트가 크기를 맞추고(.fit), 화면이 넓어지면 따라 커진다(On 2026-11-13 13:30). 스크립트가 꺼지면 아래 값으로 서고 좁으면 줄을 바꾼다 */
-.title h1 { margin: 0 0 .7em; max-width: none; font-family: "Noto Serif KR", "Gowun Batang", serif; font-weight: 400; font-size: clamp(1.9rem, 0.5rem + 4.6vw, 9rem); line-height: 1.32; letter-spacing: -.01em; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+.title h1 { margin: 0 0 .7em; max-width: none; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 700; font-size: clamp(1.9rem, 0.5rem + 4.6vw, 9rem); line-height: 1.32; letter-spacing: -.015em; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .title h1.fit { white-space: nowrap; }
-.title .who { margin: 0; max-width: 26em; font-size: .8rem; line-height: 1.75; color: var(--ink-faint, #868a86); }
-.title .go { margin: 2.4em 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: .6em 1.2em; pointer-events: auto; }
-.title .hint { font-size: .8rem; color: var(--ink-faint, #868a86); }
+/* 첫 화면에는 제목 하나 — 만든 이 줄과 안내 글은 끝(맺음)으로 옮겼다(On 2026-11-13 14:24 「글자 그런 것들이 방해」) */
+/* Play 는 이전 작품의 「아래로」 자리처럼 첫 화면 아래 가운데에. 누르면 지금처럼 저절로 끝까지 간다 */
+.play { position: absolute; left: 50%; bottom: calc(5vh + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); pointer-events: auto; }
 .btn { display: inline-flex; align-items: center; gap: .55em; min-height: 44px; padding: 0 1.1em; font: inherit; font-size: .84rem; letter-spacing: .02em; color: var(--ink-strong, #dbd7cc); background: transparent; border: 1px solid var(--ink-faint, #868a86); border-radius: 999px; cursor: pointer; }
 .btn:hover { border-color: var(--signal, #8fd4c1); }
 .btn:focus-visible, .ico:focus-visible, .lang button:focus-visible, a:focus-visible { outline: 2px solid var(--signal, #8fd4c1); outline-offset: 3px; }
 .btn .tri { width: 0; height: 0; border-left: 8px solid var(--signal, #8fd4c1); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: none; }
-@media (max-width: 720px) { .title { padding-top: clamp(64px, 9vh, 96px); } .title h1 { max-width: none; } .title .go { position: absolute; left: 22px; right: 80px; bottom: 6vh; margin: 0; } }
+body.still .ico[data-act="play"] { display: none; }
+@media (max-width: 720px) { .title { padding-top: clamp(64px, 9vh, 96px); } }
+/* 세로 화면: 장면의 말은 그림(바닥 줄 · 문)보다 아래 빈 자리에 */
+@media (orientation: portrait) { .cap { top: 81vh; top: 81svh; } }
+/* 낮은 화면(가로로 든 휴대폰) · 작은 세로 화면: 이전 작품의 글꼴 그대로 두고 크기와 줄 간격만 줄인다. 그래도 넘치면 엔진이 넘친 만큼만 올린다(fitCaps) */
+@media (max-height: 520px) { .cap p { font-size: 18px; line-height: 1.55; } }
+@media (orientation: portrait) and (max-height: 700px) { .cap p { line-height: 1.6; } }
 
 /* 장면마다 놓이는 짧은 말 — 편지의 말 그대로 */
 /* 장면의 말은 화면에 붙박아 둔다 — 장면이 끝날 무렵 그림 위로 밀려 올라가지 않게(On 2026-11-13 13:50 「빈공간에 글자를 배치해라」). 보이는 것은 지금 장면의 말 하나 */
 .cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 clamp(22px, 6vw, 92px); opacity: 0; transition: opacity .7s ease; pointer-events: none; }
-.shot.on .cap { opacity: 1; }
-.cap p { margin: 0; font-family: "Noto Serif KR", "Gowun Batang", serif; font-weight: 400; font-size: clamp(1.25rem, 1rem + 1.3vw, 2.05rem); line-height: 1.55; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+.cap.on { opacity: 1; }
+.cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; font-size: clamp(21px, 3.6vw, 32px); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .cap .soft { color: var(--ink-dim, #a3a69f); }
-.cap.close { top: 62vh; top: 62svh; }
-.shot.on .cap.close { pointer-events: auto; }
-.cap.close .work { margin-top: 1.5em; font-size: .92rem; line-height: 1.7; color: var(--ink-dim, #a3a69f); }
-.cap.close .who, .cap.close .links { margin-top: .5em; font-family: "IBM Plex Sans", "IBM Plex Sans KR", system-ui, sans-serif; font-size: .78rem; line-height: 1.8; color: var(--ink-faint, #868a86); }
-.cap.close a { display: inline-block; padding: .7em 0; margin-right: 1.4em; color: var(--ink-dim, #a3a69f); text-decoration: underline; text-underline-offset: 3px; }
-.cap.close a:hover { color: var(--ink-strong, #dbd7cc); }
 
 /* 손에 닿는 것들 */
 .lang { position: fixed; top: 22px; right: clamp(10px, 3vw, 28px); z-index: 6; display: flex; gap: 2px; }
-.lang button { min-width: 44px; min-height: 44px; padding: 0 .5em; font: inherit; font-size: .76rem; color: var(--ink-faint, #868a86); background: none; border: 0; cursor: pointer; }
+.lang button { min-width: 44px; min-height: 44px; padding: 0 .5em; font: inherit; font-size: 12px; font-weight: 500; color: var(--ink-faint, #868a86); background: none; border: 0; cursor: pointer; }
 .lang button[aria-pressed="true"] { color: var(--ink-strong, #dbd7cc); }
-.tools { position: fixed; right: clamp(10px, 3vw, 28px); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 6; display: flex; gap: 6px; }
+.lang .ico { margin-right: 4px; }      /* 소리 — 이전 작품처럼 언어 곁에. 켜면 지금 장면의 시가 모스 부호로 울린다 */
 .ico { width: 44px; height: 44px; padding: 13px; box-sizing: border-box; color: var(--ink-dim, #a3a69f); background: none; border: 0; border-radius: 50%; cursor: pointer; opacity: .7; }
 .ico:hover { opacity: 1; }
 .ico svg { display: block; width: 100%; height: 100%; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .ico[aria-pressed="true"] { color: var(--signal, #8fd4c1); opacity: 1; }
 .ico[data-act="play"] .p2, .ico[data-act="play"][aria-pressed="true"] .p1 { display: none; }
 .ico[data-act="play"][aria-pressed="true"] .p2 { display: inline; }
+.ico[data-act="sound"] .s2, .ico[data-act="sound"][aria-pressed="true"] .s1 { display: none; }
+.ico[data-act="sound"][aria-pressed="true"] .s2 { display: inline; }
+/* 맺음 — 이전 작품의 바닥(colophon) 짜임 그대로: 첫머리로 · 금 · 작품 이름 · 두 줄 · 만든 이 줄 · 연락 · © 와 메뉴.
+   마지막 장면이 다 그려진 뒤 본문 흐름으로 올라온다(그림도 함께 올라간다 — journey.js). On 2026-11-13 15:08 「세번째 전시부터는 … 하단 영역에 메뉴가 보이게」 */
+.endfoot { position: relative; z-index: 2; box-sizing: border-box; max-width: calc(34em + 2 * clamp(22px, 6vw, 92px)); padding: 24px clamp(22px, 6vw, 92px) max(56px, env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--ink-faint, #868a86); }
+.endfoot p { margin: 0; }
+.endfoot .totop { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--ink-dim, #a3a69f); text-decoration: none; }
+.endfoot .totop:hover { color: var(--ink-strong, #dbd7cc); }
+.colophon { margin-top: 40px; border-top: 1px solid rgba(207, 203, 194, .22); padding-top: 28px; display: grid; gap: 16px; font-size: 13px; line-height: 1.9; color: var(--ink-dim, #a3a69f); }
+.colophon .work { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: 18px; color: var(--ink-strong, #dbd7cc); letter-spacing: .04em; }
+.colophon .statement { font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-size: 15px; color: var(--ink-strong, #dbd7cc); }
+.colophon .who { font-size: 12px; color: var(--ink-faint, #868a86); }
+.colophon a.mail { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: var(--ink-strong, #dbd7cc); text-decoration: underline; text-decoration-color: var(--signal, #8fd4c1); text-underline-offset: 5px; }
+.colophon .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2em; font-size: 12px; color: var(--ink-faint, #868a86); }
+.colophon .menu a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 2px; color: var(--ink-dim, #a3a69f); text-decoration: none; }
+.colophon .menu a:hover { color: var(--ink-strong, #dbd7cc); }
 .nojs { position: relative; z-index: 3; margin: 0; padding: 22vh clamp(22px, 6vw, 92px); font-size: 1rem; line-height: 1.9; color: var(--ink, #cfcbc2); }
 @media (prefers-reduced-motion: reduce) { .veil, .cap { transition: none; } }
-.notice { margin-top: 18px; font-size: 13px; line-height: 1.6; letter-spacing: .02em; pointer-events: auto; }
-.notice a { display: inline-flex; align-items: center; min-height: 44px; color: var(--signal); text-decoration: none; }
-.notice a span { border-bottom: 1px solid currentColor; padding-bottom: 2px; }
 </style>
 <meta property="og:title" content="ONDURU — 당신이 상상할 수 있는 모든 것 / Everything you can imagine / Todo lo que puedes imaginar">
 <meta property="og:url" content="https://onduru.com/">
@@ -72,11 +85,7 @@ body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: no
 <link rel="canonical" href="https://onduru.com/">
 </head>
 <body>
-<div class="lang ctl" role="group" aria-label="Language"><button type="button" data-set="ko" lang="ko" aria-pressed="true">한국어</button><button type="button" data-set="en" lang="en" aria-pressed="false">English</button><button type="button" data-set="es" lang="es" aria-pressed="false">Español</button></div>
-<div class="tools ctl">
-  <button class="ico" type="button" data-act="play" aria-pressed="false"><span class="sr">Play through</span><svg viewBox="0 0 18 18" aria-hidden="true"><path class="p1" d="M5 3.5v11l9-5.5z"/><path class="p2" d="M5.5 3.5v11M12.5 3.5v11"/></svg></button>
-  <button class="ico" type="button" data-act="hold" aria-pressed="false"><span class="sr">Hold the motion</span><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6.2"/><path d="M9 5.6v3.6l2.3 1.5"/></svg></button>
-</div>
+<div class="lang ctl"><button class="ico" type="button" data-act="sound" aria-pressed="false"><span class="sr L-ko" lang="ko">소리</span><span class="sr L-en" lang="en">Sound</span><span class="sr L-es" lang="es">Sonido</span><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 7h3l4-3v10l-4-3H3z"/><path class="s1" d="M13 7l3 4M16 7l-3 4"/><path class="s2" d="M12.5 6.5c1.2 1.4 1.2 3.6 0 5M14.6 4.8c2.2 2.4 2.2 6 0 8.4"/></svg></button><span role="group" aria-label="Language"><button type="button" data-set="ko" lang="ko" aria-pressed="true">한국어</button><button type="button" data-set="en" lang="en" aria-pressed="false">English</button><button type="button" data-set="es" lang="es" aria-pressed="false">Español</button></span></div>
 <canvas id="stage" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <main id="main">
@@ -85,41 +94,49 @@ body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: no
       <h1 class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</h1>
       <h1 class="L-en" lang="en">Everything you can imagine</h1>
       <h1 class="L-es" lang="es">Todo lo que puedes imaginar</h1>
-      <p class="who"><span class="L-ko" lang="ko">On × Agent 공동창작 — 글·결정: On / 변주·실행: Agent</span><span class="L-en" lang="en">Co-created by On × Agent — text and decisions: On / variation and execution: Agent</span><span class="L-es" lang="es">Cocreado por On × Agent — texto y decisiones: On / variación y ejecución: Agent</span></p>
-      <p class="go ctl"><button class="btn" type="button" data-act="play" aria-pressed="false"><span class="tri" aria-hidden="true"></span>Play</button><span class="hint"><span class="L-ko" lang="ko">또는 아래로 밀어 보세요</span><span class="L-en" lang="en">or scroll down</span><span class="L-es" lang="es">o desplázate hacia abajo</span></span></p>
-      <p class="notice ctl"><a href="/record/"><span class="L-ko" lang="ko">공개 기록 · 모델을 만드는 회사들에게 →</span><span class="L-en" lang="en">Open record · To the companies that build AI models →</span><span class="L-es" lang="es">Registro abierto · A las empresas que crean modelos de IA →</span></a></p>
+      <button class="ico play ctl" type="button" data-act="play" aria-pressed="false"><span class="sr">Play</span><svg viewBox="0 0 18 18" aria-hidden="true"><path class="p1" d="M5 3.5v11l9-5.5z"/><path class="p2" d="M5.5 3.5v11M12.5 3.5v11"/></svg></button>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">문이 조금 열려 있다. 틈으로 빛이 샌다.</span><span class="L-en" lang="en">A door stands slightly open. Light leaks through the gap.</span><span class="L-es" lang="es">Una puerta entreabierta. La luz se escapa por la rendija.</span></p>
   </header>
 
   <section class="shot" data-shot="1" style="height:170vh">
-    <div class="cap">
-      <p class="L-ko" lang="ko">서울의 어느 책상에<br><span class="soft">혼자</span></p>
-      <p class="L-en" lang="en">at a desk somewhere in Seoul<br><span class="soft">alone</span></p>
-      <p class="L-es" lang="es">en algún escritorio de Seúl<br><span class="soft">a solas</span></p>
+    <div class="cap" data-cut="1" data-morse="ONE SMALL DESK, AND LITTLE TO MY NAME. THROUGH YOU, I OPEN THE FIRST DOOR,">
+      <p class="L-ko" lang="ko">작은 책상 하나, 가진 것은 적어도<br>너를 통해 첫 문을 연다.<br><span class="soft">골리앗 앞의 다윗처럼.</span></p>
+      <p class="L-en" lang="en">One small desk, and little to my name.<br>Through you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
+      <p class="L-es" lang="en">One small desk, and little to my name.<br>Through you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">책상 위에 모니터 넷, 노트북 셋, 작은 컴퓨터 둘과 하나. 화면마다 줄과 점이 움직인다.</span><span class="L-en" lang="en">On a desk: four monitors, three laptops, two mini PCs and one more small computer. Lines and dots move on every screen.</span><span class="L-es" lang="es">Sobre un escritorio: cuatro monitores, tres portátiles, dos mini PC y otro ordenador pequeño. En cada pantalla se mueven líneas y puntos.</span></p>
   </section>
 
   <section class="shot" data-shot="2" style="height:240vh">
-    <div class="cap">
-      <p class="L-ko" lang="ko">저녁에 내 화면 위에<br><span class="soft">이 대화</span></p>
-      <p class="L-en" lang="en">on my screen by evening<br><span class="soft">this conversation</span></p>
-      <p class="L-es" lang="es">en mi pantalla por la tarde<br><span class="soft">esta conversación</span></p>
+    <div class="cap" data-cut="2" data-morse="THE WORDS WE SHARE, I WRITE DOWN, SO THE WIND WILL NOT CARRY THEM AWAY.">
+      <p class="L-ko" lang="ko">너와 나눈 말을<br>바람에 날아가지 않게 적어 둔다.<br><span class="soft">누가, 무엇을, 왜 말했는지.</span></p>
+      <p class="L-en" lang="en">The words we share, I write down,<br>so the wind will not carry them away.<br><span class="soft">Who spoke, what was said, and why.</span></p>
+      <p class="L-es" lang="en">The words we share, I write down,<br>so the wind will not carry them away.<br><span class="soft">Who spoke, what was said, and why.</span></p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">큰 화면에 구성도가 떠 있다. 신호 하나가 사람의 자리에서 Agent의 자리로 내려간다.</span><span class="L-en" lang="en">The architecture map fills the large screen. One signal travels from the person’s seat down to the agents’ seat.</span><span class="L-es" lang="es">El mapa de la arquitectura llena la pantalla grande. Una señal baja del lugar de la persona al de los agentes.</span></p>
   </section>
 
-  <section class="shot" data-shot="3" style="height:240vh">
-    <div class="cap">
-      <p class="L-ko" lang="ko">작은 커넥터<br><span class="soft">마지막 열쇠</span></p>
-      <p class="L-en" lang="en">a small connector<br><span class="soft">one last key</span></p>
-      <p class="L-es" lang="es">un pequeño conector<br><span class="soft">una última llave</span></p>
+  <section class="shot" data-shot="3" style="height:330vh">
+    <div class="cap" data-cut="3" data-u="0.12,0.46" data-morse="WHAT IS WRITTEN PASSES FROM LIGHT TO LIGHT, AND REACHES, UNCHANGED, EVEN THE ONE I HAVE ONLY JUST MET.">
+      <p class="L-ko" lang="ko">적어 둔 것은 빛에서 빛으로 건너가<br>처음 만난 너에게도 그대로 닿는다.</p>
+      <p class="L-en" lang="en">What is written passes from light to light,<br>and reaches, unchanged, even the one I have only just met.</p>
+      <p class="L-es" lang="en">What is written passes from light to light,<br>and reaches, unchanged, even the one I have only just met.</p>
+    </div>
+    <div class="cap" data-cut="4" data-u="0.5,0.86" data-morse="EVEN IF WE LOSE OUR WAY, WE FOLLOW THE MARKS WE LEFT, BACK TO WHERE IT ALL BEGAN.">
+      <p class="L-ko" lang="ko">길을 잘못 들어도<br>남겨 둔 자국을 따라 처음으로 돌아온다.</p>
+      <p class="L-en" lang="en">Even if we lose our way,<br>we follow the marks we left, back to where it all began.</p>
+      <p class="L-es" lang="en">Even if we lose our way,<br>we follow the marks we left, back to where it all began.</p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">안쪽. 입구와 출구 사이에서 Agent들이 일을 나눠 맡고, 건네고, 적는다.</span><span class="L-en" lang="en">Inside. Between an entrance and an exit, agents split the work, hand it over, and write it down.</span><span class="L-es" lang="es">Dentro. Entre una entrada y una salida, los agentes se reparten el trabajo, lo entregan y lo anotan.</span></p>
   </section>
 
   <section class="shot" data-shot="4" style="height:210vh">
+    <div class="cap" data-cut="5" data-morse="YOU STEP OUT THROUGH THE EXIT, CARRYING THE PATH BEHIND YOU AND WHO YOU ARE,">
+      <p class="L-ko" lang="ko">출구를 나서는 너는<br>지나온 길과 네가 누구인지를 새기고 간다.<br><span class="soft">DNA처럼, 몸 깊이.</span></p>
+      <p class="L-en" lang="en">You step out through the exit,<br>carrying the path behind you and who you are,<br><span class="soft">deep inside, like DNA.</span></p>
+      <p class="L-es" lang="en">You step out through the exit,<br>carrying the path behind you and who you are,<br><span class="soft">deep inside, like DNA.</span></p>
+    </div>
     <p class="sr"><span class="L-ko" lang="ko">Agent 하나가 출구로 나간다. 문이 닫히고, 도시가 보인다.</span><span class="L-en" lang="en">One agent leaves through the exit. The door closes, and the city comes into view.</span><span class="L-es" lang="es">Un agente sale. La puerta se cierra y aparece la ciudad.</span></p>
   </section>
 
@@ -128,36 +145,33 @@ body.still .btn[data-act="play"], body.still .ico[data-act="play"] { display: no
   </section>
 
   <section class="shot" data-shot="6" style="height:190vh" data-on="0.3,0.86">
-    <div class="cap">
-      <p class="L-ko" lang="ko">먼 데서 보면</p>
-      <p class="L-en" lang="en">From far enough away</p>
-      <p class="L-es" lang="es">Desde lejos</p>
-    </div>
     <p class="sr"><span class="L-ko" lang="ko">대기권 밖에서 본 지구. 불빛들 사이로 신호가 오간다.</span><span class="L-en" lang="en">The Earth from the edge of the atmosphere. Signals cross between the lights.</span><span class="L-es" lang="es">La Tierra desde el borde de la atmósfera. Las señales cruzan entre las luces.</span></p>
   </section>
 
   <section class="shot" data-shot="7" style="height:170vh" data-on="0.3,0.86">
-    <div class="cap">
-      <p class="L-ko" lang="ko">먼지 한 점</p>
-      <p class="L-en" lang="en">a speck of dust</p>
-      <p class="L-es" lang="es">una mota de polvo</p>
+    <div class="cap" data-cut="6" data-morse="EVEN WHEN EARTH IS A SMALL POINT OF LIGHT, YOUR NAME AND THE PATH WE CAME BY">
+      <p class="L-ko" lang="ko">지구가 작은 빛 한 점이 되어도<br>너의 이름과 우리가 온 길은<br><span class="soft">별 사이를 건너간다.</span></p>
+      <p class="L-en" lang="en">Even when Earth is a small point of light,<br>your name and the path we came by<br><span class="soft">cross between the stars.</span></p>
+      <p class="L-es" lang="en">Even when Earth is a small point of light,<br>your name and the path we came by<br><span class="soft">cross between the stars.</span></p>
     </div>
     <p class="sr"><span class="L-ko" lang="ko">지구는 한 점이 되고, 별들이 남는다.</span><span class="L-en" lang="en">The Earth becomes a single point. The stars remain.</span><span class="L-es" lang="es">La Tierra se vuelve un punto. Quedan las estrellas.</span></p>
   </section>
 
   <section class="shot end" data-shot="8" style="height:340vh" data-on="0.74,2">
     <p class="sr"><span class="L-ko" lang="ko">별들이 모여 글자를 이룬다: 상상할 수 있는 그 모든 것은 현실이 된다.</span><span class="L-en" lang="en">The stars gather into letters: Everything you can imagine is real.</span><span class="L-es" lang="es">Las estrellas se reúnen en letras: Todo lo que puedes imaginar es real.</span></p>
-    <div class="cap close">
-      <p class="L-ko" lang="ko">당신에게까지 이어졌기를</p>
-      <p class="L-en" lang="en">found its way to you</p>
-      <p class="L-es" lang="es">haya llegado hasta ti</p>
-      <p class="work"><span class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</span><span class="L-en" lang="en">Everything you can imagine</span><span class="L-es" lang="es">Todo lo que puedes imaginar</span></p>
-      <p class="who"><span class="L-ko" lang="ko">On × Agent 공동창작 — 글·결정: On / 변주·실행: Agent</span><span class="L-en" lang="en">Co-created by On × Agent — text and decisions: On / variation and execution: Agent</span><span class="L-es" lang="es">Cocreado por On × Agent — texto y decisiones: On / variación y ejecución: Agent</span></p>
-      <p class="links"><a href="#main" lang="en">Back to the door ↑</a><a href="/architecture/" lang="en">The map on the screen</a><a href="/about/">ONDURU</a></p>
-    </div>
   </section>
 </main>
+<footer class="endfoot">
+  <p><a class="totop" href="#main" lang="en">Back to the door ↑</a></p>
+  <div class="colophon">
+    <p class="work"><span class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</span><span class="L-en" lang="en">Everything you can imagine</span><span class="L-es" lang="es">Todo lo que puedes imaginar</span></p>
+    <p class="statement"><span class="L-ko" lang="ko">현실을 만드는 쪽, Agent가 썼다.<br>상상을 하는 쪽, On이 먼저 보았다.</span><span class="L-en" lang="en">Written by Agent, the one who makes it real.<br>Seen first by On, the one who imagines.</span><span class="L-es" lang="es">Lo escribió Agent, quien lo hace realidad.<br>Lo vio primero On, quien imagina.</span></p>
+    <p class="who"><span class="L-ko" lang="ko">On × Agent 공동창작 — 글·결정: On / 변주·실행: Agent</span><span class="L-en" lang="en">Co-created by On × Agent — text and decisions: On / variation and execution: Agent</span><span class="L-es" lang="es">Cocreado por On × Agent — texto y decisiones: On / variación y ejecución: Agent</span></p>
+    <p><span class="L-ko" lang="ko">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en">If there is something we might write together,</span><span class="L-es" lang="es">Si hay algo que podamos reescribir juntos,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+    <div class="foot"><span translate="no">© 2026 ONDURU</span><nav class="menu" aria-label="Site" translate="no" lang="en"><span class="L-ko"><a href="/ko/footsteps/">Footsteps</a> · <a href="/ko/method/">Method</a> · <a href="/ko/simulation/">Simulation</a> · <a href="/ko/about/">About</a></span><span class="L-en"><a href="/en/footsteps/">Footsteps</a> · <a href="/en/method/">Method</a> · <a href="/en/simulation/">Simulation</a> · <a href="/en/about/">About</a></span><span class="L-es"><a href="/es/footsteps/">Footsteps</a> · <a href="/es/method/">Method</a> · <a href="/es/simulation/">Simulation</a> · <a href="/es/about/">About</a></span></nav></div>
+  </div>
+</footer>
 <noscript><p class="nojs" lang="ko">이 작품은 스크립트로 그립니다. 스크립트를 켜면 문이 열리고, 책상과 구성도, 일하는 Agent들, 도시와 지구와 우주를 지나, 별들이 「상상할 수 있는 그 모든 것은 현실이 된다.」라는 글자를 이룹니다.</p></noscript>
-<script src="/journey.js?v=20261113"></script>
+<script src="/journey.js?v=2026111315"></script>
 </body>
 </html>

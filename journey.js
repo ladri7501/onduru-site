@@ -45,7 +45,7 @@
   function rng(seed) { var a = seed >>> 0; return function () { a = (a + 0x6D2B79F5) >>> 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
   function frozen() { return REDUCE || HOLD; }
   /* 깜박임 — 1.3초에 한 번(1초에 세 번의 한도 아래). 움직임 줄이기 · 멈춤에서는 켜진 채로 선다 */
-  function blink(ph) { if (frozen()) return 1; var u = ((T + (ph || 0)) % 1300) / 1300; return u < 0.5 ? 1 : u < 0.6 ? 1 - (u - 0.5) * 8.5 : u < 0.9 ? 0.15 : 0.15 + (u - 0.9) * 8.5; }
+  function blink(ph) { var mt = toneNow(); if (mt >= 0) return mt ? 1 : 0.12; if (frozen()) return 1; var u = ((T + (ph || 0)) % 1300) / 1300; return u < 0.5 ? 1 : u < 0.6 ? 1 - (u - 0.5) * 8.5 : u < 0.9 ? 0.15 : 0.15 + (u - 0.9) * 8.5; }
   /* 처음부터 끝까지 이어지는 하나 — 신호색 */
   function hero(x, y, r, a) { cx.lineWidth = 1.4; cx.strokeStyle = sig(0.9 * a); ring(x, y, r); cx.fillStyle = sig((0.45 + 0.55 * blink()) * a); dot(x, y, r * 0.42); cx.lineWidth = 1; }
   function box(aspect, top, bot, side) { var mw = W * (1 - 2 * side), mh = H * (1 - top - bot), w = Math.min(mw, mh * aspect), h = w / aspect; return { x: (W - w) / 2, y: H * top + (mh - h) / 2, w: w, h: h }; }
@@ -235,6 +235,14 @@
     cx.strokeStyle = ink(0.14); rrect(X(0.07), Y(0.01), B.w * 0.88, B.h * 0.98, 10);                             /* 방 — 영토 */
     cx.strokeStyle = ink(0.2); line(X(0.15), Y(0.925), X(0.87), Y(0.925));                                          /* 장부 — 넘길 때마다 한 눈금 */
     for (i = 0, k = Math.floor(t * 0.9) % 46; i < k; i++) { cx.strokeStyle = ink(0.45); line(X(0.15 + i * 0.0155), Y(0.925), X(0.15 + i * 0.0155), Y(0.925) - r * 0.9); }
+    /* 넷째 컷 — 길을 잘못 들면 남긴 자국을 따라 되짚는다: 신호가 장부의 눈금을 거슬러 가고, 되돌려 보내는 길이 밝아진다 */
+    var rb = ease(seg(u, 0.46, 0.56)) * (1 - ease(seg(u, 0.74, 0.84))), rq = seg(u, 0.48, 0.74);
+    if (rb > 0) {
+      var lx = lerp(X(0.87), X(0.15), ease(rq));
+      cx.strokeStyle = sig(0.5 * rb); line(lx, Y(0.925), X(0.87), Y(0.925));
+      cx.fillStyle = sig(0.95 * rb); dot(lx, Y(0.925), r * 0.55);
+      cx.setLineDash([3, 5]); cx.strokeStyle = sig(0.45 * rb); cx.beginPath(); cx.moveTo(X(ST[3][0]), Y(ST[3][1]) - r * 5); cx.quadraticCurveTo(X(0.465), Y(-0.06), X(ST[0][0]), Y(ST[0][1]) - r * 6); cx.stroke(); cx.setLineDash([]);
+    }
     /* 바닥의 길 */
     cx.strokeStyle = ink(0.13);
     for (i = 0; i < 2; i++) { var pts = []; for (j = 0; j < ROUTE[i].length; j++) pts.push([X(ROUTE[i][j][0]), Y(ROUTE[i][j][1])]); poly(pts); }
@@ -468,40 +476,127 @@
 
   /* ── 스크롤 → 장면 값 ── */
   var SHOTS = [].slice.call(document.querySelectorAll('.shot')), TOPS = [], HS = [], RANGE = [], titleEl = document.querySelector('.title');
+  var CAPS = [].slice.call(document.querySelectorAll('.cap')), STOPS = [], CUTY = {};
+  CAPS.forEach(function (c) { c._k = SHOTS.indexOf(c.closest('.shot')); var v = c.getAttribute('data-u'); c._r = v ? v.split(',').map(Number) : null; c._n = +(c.getAttribute('data-cut') || 0); });
+  /* 장면의 말이 화면 아래로 넘치면(작은 화면 · 긴 줄) 넘친 만큼만 올려 세운다 — 자리는 빈 곳(꾸밈의 top)이 먼저 */
+  function fitCaps() {
+    var lim = window.innerHeight - Math.max(10, window.innerHeight * 0.02);
+    CAPS.forEach(function (c) {
+      c.style.top = ''; var p = null;
+      [].forEach.call(c.querySelectorAll('p'), function (x) { if (getComputedStyle(x).display !== 'none') p = x; });
+      if (!p) return; var over = p.getBoundingClientRect().bottom - lim;
+      if (over > 0) c.style.top = Math.max(0, c.getBoundingClientRect().top - over).toFixed(1) + 'px';
+    });
+  }
   function measure() {
+    fitCaps();
     TOPS = SHOTS.map(function (s) { return s.offsetTop; }); HS = SHOTS.map(function (s) { return s.offsetHeight; });
     RANGE = SHOTS.map(function (s) { var v = (s.getAttribute('data-on') || '0.2,0.84').split(','); return [+v[0], +v[1]]; });
+    /* 멈춰 서는 자리 — 장면의 말이 한가운데 서는 곳(Play 가 지나가며 보여 주는 자리). 사람이 밀다 멈추면 가까운 자리로 부드럽게 간다 */
+    STOPS = [0]; CUTY = {};
+    CAPS.forEach(function (c) { var r = c._r || RANGE[c._k], y = Math.round(TOPS[c._k] + (r[0] + r[1]) / 2 * span(c._k)); if (c._n) { CUTY[c._n] = y; STOPS.push(y); } });
+    var L = SHOTS.length - 1; STOPS.push(Math.round(TOPS[L] + span(L)));      /* 마지막 장면이 다 그려진 자리 — 맺음(바닥)이 올라오기 직전 */
+    STOPS.push(Math.max(0, root.scrollHeight - window.innerHeight));
+    LIFT = -1;
   }
+  /* 맺음(바닥)이 올라오는 만큼 그림도 함께 올라간다 — 이전 작품처럼 마지막 장면 뒤에 바닥이 이어지는 페이지 짜임(On 2026-11-13 15:08) */
+  var LIFT = -1;
+  function lift() { var L = SHOTS.length - 1, d = Math.max(0, Math.round((window.pageYOffset || root.scrollTop || 0) - (TOPS[L] + span(L)))); if (d !== LIFT) { LIFT = d; cv.style.transform = d ? 'translate3d(0,' + (-d) + 'px,0)' : ''; } }
   function span(k) { return Math.max(1, HS[k] - (k === SHOTS.length - 1 ? window.innerHeight : 0)); }      /* 마지막 장면은 화면 하나만큼 덜 민다 */
   function progress() { var y = window.pageYOffset || root.scrollTop || 0, k = 0, i; for (i = 0; i < SHOTS.length; i++) if (y >= TOPS[i]) k = i; return k + clamp((y - TOPS[k]) / span(k)); }
   function marks() {
     var k = Math.min(SHOTS.length - 1, Math.floor(P)), u = P - k, any = false, i;
     for (i = 0; i < SHOTS.length; i++) { var s = SHOTS[i], on = (i === k && u >= RANGE[i][0] && u <= RANGE[i][1]); if (on !== s._on) { s._on = on; s.classList.toggle('on', on); } if (on && i > 0) any = true; }
     if (any !== body._cap) { body._cap = any; body.classList.toggle('capped', any); }
+    var cut = 0;
+    for (i = 0; i < CAPS.length; i++) { var c = CAPS[i], r = c._r || RANGE[c._k], con = (c._k === k && u >= r[0] && u <= r[1]); if (con !== c._on) { c._on = con; c.classList.toggle('on', con); } if (con && c._n) cut = c._n; }
+    if (cut !== CUT) morse(cut);
     if (titleEl) { var op = k === 0 ? 1 - seg(u, 0.1, 0.42) : 0; titleEl.style.opacity = op.toFixed(3); titleEl.style.visibility = op <= 0.01 ? 'hidden' : 'visible'; }
   }
 
   /* ── 돌리기 ── */
   var raf = 0, last = 0, playing = false, autoY = 0, DUR = 86000, rz = 0;
-  var btnPlay = [].slice.call(document.querySelectorAll('[data-act="play"]')), btnHold = document.querySelector('[data-act="hold"]');
+  var btnPlay = [].slice.call(document.querySelectorAll('[data-act="play"]')), btnHold = document.querySelector('[data-act="hold"]'), btnSound = document.querySelector('[data-act="sound"]');
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
   function tick(now) {
     raf = 0; var dt = last ? Math.min(64, now - last) : 16; last = now;
     if (!frozen()) T += dt;
-    if (playing) { var max = root.scrollHeight - window.innerHeight; autoY += max / DUR * dt; if (autoY >= max) { autoY = max; setPlay(false); } window.scrollTo(0, autoY); }
-    P = progress(); marks(); draw();
+    if (playing) {
+      var max = root.scrollHeight - window.innerHeight, wait = SOUND && MQ && CUT && CUTY[CUT] != null && autoY >= CUTY[CUT] && !morseDone();
+      if (!wait) autoY += max / DUR * dt;
+      if (autoY >= max) { autoY = max; setPlay(false); } window.scrollTo(0, autoY);
+    }
+    var PT = progress();
+    if (playing || REDUCE || Math.abs(PT - P) < 0.0008) P = PT; else P += (PT - P) * Math.min(1, dt / 150);   /* 손으로 밀어도 장면이 부드럽게 따라간다 */
+    marks(); lift(); draw();
+    if (P !== PT) kick();
     if (!frozen() || playing) kick(); else last = 0;
   }
   function setPlay(on) {
     playing = !!on && !REDUCE; if (playing) { if (HOLD) setHold(false); autoY = window.pageYOffset || 0; if (autoY >= root.scrollHeight - window.innerHeight - 2) { autoY = 0; window.scrollTo(0, 0); } }
     btnPlay.forEach(function (b) { b.setAttribute('aria-pressed', String(playing)); }); body.classList.toggle('playing', playing); kick();
   }
+  /* ── 멈춰 서는 자리로 — 사람이 밀다 멈추면(0.22초) 가장 가까운 자리로 부드럽게 간다. Play 중 · 움직임 줄이기에서는 하지 않는다 ── */
+  var snapT = 0, snapping = 0, snapEnd = 0;
+  function snapTo() {
+    if (playing || REDUCE) return;
+    var y = window.pageYOffset || 0, best = null, i;
+    for (i = 0; i < STOPS.length; i++) if (best === null || Math.abs(STOPS[i] - y) < Math.abs(best - y)) best = STOPS[i];
+    if (best === null || Math.abs(best - y) < 3 || Math.abs(best - y) > window.innerHeight * 0.9) return;
+    var y0 = y, d = Math.max(380, Math.min(900, Math.abs(best - y0) / window.innerHeight * 1100)), t0 = 0;
+    snapping = requestAnimationFrame(function step(now) {
+      if (!snapping) return; if (!t0) t0 = now;
+      var q = clamp((now - t0) / d), e = q < 0.5 ? 2 * q * q : 1 - Math.pow(-2 * q + 2, 2) / 2;
+      window.scrollTo(0, Math.round(y0 + (best - y0) * e));
+      if (q < 1) snapping = requestAnimationFrame(step); else { snapping = 0; snapEnd = Date.now(); }
+    });
+  }
+  function stopSnap() { if (snapping) { cancelAnimationFrame(snapping); snapping = 0; } clearTimeout(snapT); }
+  function onScroll() { kick(); if (snapping || playing || REDUCE || Date.now() - snapEnd < 120) return; clearTimeout(snapT); snapT = setTimeout(snapTo, 220); }
+
+  /* ── 소리 — 켜면 지금 장면의 시(영어 줄)가 국제 모스 부호로 울린다. 600 Hz 사인파 · 점 60 ms(선 3 · 글자 사이 3 · 낱말 사이 7) · 앞뒤 5 ms ── */
+  var AC = null, SOUND = false, MQ = null, CUT = 0, VOL = 0.16;
+  var MC = { A: '.-', B: '-...', C: '-.-.', D: '-..', E: '.', F: '..-.', G: '--.', H: '....', I: '..', J: '.---', K: '-.-', L: '.-..', M: '--', N: '-.', O: '---', P: '.--.', Q: '--.-', R: '.-.', S: '...', T: '-', U: '..-', V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..', ',': '--..--', '.': '.-.-.-' };
+  function morse(n) {
+    stopMorse(); CUT = n; if (!SOUND || !n || !AC) return;
+    var c = CAPS.filter(function (x) { return x._n === n; })[0]; if (!c) return;
+    var text = (c.getAttribute('data-morse') || '').toUpperCase(), du = 0.06, t0 = AC.currentTime + 0.5, t = t0, seq = [], words = text.split(/\s+/), w, ch, k, code, sy;
+    var osc = AC.createOscillator(), g = AC.createGain(); osc.type = 'sine'; osc.frequency.value = 600; g.gain.setValueAtTime(0, AC.currentTime); osc.connect(g); g.connect(AC.destination);
+    for (w = 0; w < words.length; w++) {
+      for (ch = 0; ch < words[w].length; ch++) {
+        code = MC[words[w][ch]]; if (!code) continue;
+        for (k = 0; k < code.length; k++) {
+          sy = code[k] === '.' ? du : 3 * du;
+          g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(VOL, t + 0.005); g.gain.setValueAtTime(VOL, t + sy - 0.005); g.gain.linearRampToValueAtTime(0, t + sy);
+          seq.push(t, t + sy); t += sy + du;
+        }
+        t += 2 * du;
+      }
+      t += 4 * du;
+    }
+    osc.start(t0); osc.stop(t + 0.1); MQ = { osc: osc, g: g, seq: seq, end: t };
+  }
+  function stopMorse() { if (MQ && AC) { try { MQ.g.gain.cancelScheduledValues(AC.currentTime); MQ.g.gain.setTargetAtTime(0, AC.currentTime, 0.01); MQ.osc.stop(AC.currentTime + 0.08); } catch (e) {} } MQ = null; }
+  function morseDone() { return !MQ || !AC || AC.currentTime > MQ.end; }
+  function toneNow() {      /* 신호색 점이 부호에 맞춰 켜졌다 꺼진다 — -1: 울리는 부호가 없다 */
+    if (!SOUND || !MQ || !AC) return -1; var now = AC.currentTime, q = MQ.seq, lo = 0, hi = q.length / 2 - 1, m;
+    if (now < q[0] || now > MQ.end) return -1;
+    while (lo <= hi) { m = (lo + hi) >> 1; if (now < q[2 * m]) hi = m - 1; else if (now > q[2 * m + 1]) lo = m + 1; else return 1; }
+    return 0;
+  }
+  function setSound(on) {
+    if (on && !AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; } }
+    if (!AC) on = false;
+    SOUND = !!on; if (btnSound) btnSound.setAttribute('aria-pressed', String(SOUND));
+    if (SOUND) { if (AC.resume) AC.resume(); var c = CUT; CUT = -1; morse(c); } else stopMorse();
+    kick();
+  }
   function setHold(on) { HOLD = !!on; if (btnHold) btnHold.setAttribute('aria-pressed', String(HOLD)); if (HOLD && playing) setPlay(false); kick(); }
   function setLang(l) {
     if (!SENT[l]) l = 'ko'; LANG = l; root.setAttribute('data-lang', l); root.setAttribute('lang', l);
     try { localStorage.setItem('onduru-lang', l); } catch (e) {}
     [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === l)); });
-    fitTitle(); buildWorld(); buildText(); kick();
+    fitTitle(); measure(); buildWorld(); buildText(); kick();
   }
   /* 제목을 한 줄로 — 글이 든 너비를 채우는 크기를 재서 넣는다(높이의 18%를 넘지 않게). 그다음 문이 설 자리를 잰다 */
   function fitTitle() {
@@ -511,7 +606,8 @@
       if (getComputedStyle(h).display === 'none') return;
       h.classList.add('fit'); h.style.fontSize = '100px';
       rg.selectNodeContents(h); var w = rg.getBoundingClientRect().width;
-      if (w > 0) h.style.fontSize = Math.max(12, Math.min(avail / w * 100 * 0.985, H * 0.18)).toFixed(2) + 'px';
+      var aim = (W >= 900 && W > H) ? Math.min(avail, W * 0.5) : avail;
+      if (w > 0) h.style.fontSize = Math.max(12, Math.min(aim / w * 100 * 0.985, H * 0.12)).toFixed(2) + 'px';
     });
     /* 낮은 화면(가로로 든 휴대폰): 글 덩이가 화면 아래로 넘치면 제목을 줄인다 — 30px 아래로는 줄이지 않는다 */
     for (var g = 0; g < 8; g++) {
@@ -539,15 +635,18 @@
 
   btnPlay.forEach(function (b) { b.addEventListener('click', function () { setPlay(!playing); }); });
   if (btnHold) btnHold.addEventListener('click', function () { setHold(!HOLD); });
+  if (btnSound) btnSound.addEventListener('click', function () { setSound(!SOUND); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopMorse(); else if (SOUND) { var c = CUT; CUT = -1; morse(c); } });
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, stopSnap, { passive: true }); });
   [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); }); });
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, function (e) { if (playing && !(e.target && e.target.closest && e.target.closest('.ctl'))) setPlay(false); }, { passive: true }); });
-  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); buildText(); kick(); }, 160); });
   if (REDUCE) body.classList.add('still');
 
   var l0 = Q.lang; if (!l0) { try { l0 = localStorage.getItem('onduru-lang'); } catch (e) {} } if (!l0) l0 = (navigator.language || 'ko').slice(0, 2);
   size(); setLang(l0);
   if (Q.p != null) { var pv = +Q.p, k0 = Math.max(0, Math.min(SHOTS.length - 1, Math.floor(pv))); window.scrollTo(0, TOPS[k0] + (pv - k0) * span(k0)); }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitTitle(); buildWorld(); buildText(); kick(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitTitle(); measure(); buildWorld(); buildText(); kick(); });
   body.classList.add('ready'); kick();
 })();

@@ -132,3 +132,10 @@ html { font-size: clamp(100%, 0.75rem + 0.3125vw, 125%); }
 .pick button:hover { color: var(--ink-strong); }
 .pick button[aria-pressed="true"] { border-color: var(--line-strong); color: var(--ink-strong); }
 @media print { .pick { display: none !important; } }
+/* 바닥은 화면 아래에 붙는다 — 글이 짧은 페이지에서 바닥이 화면 가운데 뜨지 않게(On 2026-11-13 13:50 「하단 영역은 고정으로 해야 한다. 전시는 예외이다」).
+ * 늘 떠 있는 바닥(position: fixed)은 쓰지 않는다 — 붙어 있는 것의 높이(NV-4) · 같은 길잡이가 한 화면에 둘(L-5) · 초점을 가림(접근성 2.4.11).
+ * 글이 길면 바닥은 글 끝에 그대로 있고, 짧으면 화면 아래 끝까지 내려와 선다. 작품(전시)에는 .site-foot 이 없다 */
+body { min-height: 100vh; min-height: 100svh; }
+.site-foot { position: sticky; top: 100vh; top: 100svh; }
+.nf-lang:only-of-type { min-height: 100vh; min-height: 100svh; }      /* 없는 주소: 스크립트가 고른 언어 덩이 하나만 남으면 그 안에서 바닥이 화면 아래로 */
+@media print { .site-foot { position: static; } }
