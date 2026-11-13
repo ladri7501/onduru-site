@@ -546,6 +546,64 @@
   function progress() { var y = window.pageYOffset || root.scrollTop || 0, k = 0, i; for (i = 0; i < SHOTS.length; i++) if (y >= TOPS[i]) k = i; return k + clamp((y - TOPS[k]) / span(k)); }
   function sm(x) { x = clamp(x); return x * x * (3 - 2 * x); }
   var veil = document.querySelector('.veil');
+  /* ── 글자가 들어올 때 — 「같은 바람」과 같은 해독(On 2026-11-13 19:03). 제목은 흩어진 자모가 날아와 초성으로 빛나고 글자가 되고,
+     장면의 말은 화면에 들어올 때마다 잡음 → 초성 → 글자. 맺음(별의 글자 · 마지막 줄 · 바닥)은 그대로 ── */
+  var CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ', NOISE = { ko: 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ', en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' };
+  function rnd(t) { return t.charAt(Math.floor(Math.random() * t.length)); }
+  function choOf(c) { var k = c.charCodeAt(0) - 0xAC00; return (k >= 0 && k < 11172) ? CHO.charAt(Math.floor(k / 588)) : c; }
+  function wrapChars(el) {
+    if (el._sp) return el._sp;
+    var spans = [], nodes = [], wk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    while (wk.nextNode()) { var n = wk.currentNode; if (!/^\s*$/.test(n.nodeValue) && !n.parentNode.closest('.sr,.ch,.w')) nodes.push(n); }
+    nodes.forEach(function (n) {
+      var frag = document.createDocumentFragment(), t = document.createElement('span'); t.className = 'sr'; t.textContent = n.nodeValue; frag.appendChild(t);
+      n.nodeValue.split(/(\s+)/).forEach(function (tok) {
+        if (!tok) return; if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+        var w = document.createElement('span'); w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+        Array.prototype.forEach.call(tok, function (c) { var e = document.createElement('span'); e.className = 'ch'; e.textContent = c; e.setAttribute('data-f', c); w.appendChild(e); spans.push(e); });
+        frag.appendChild(w);
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+    return (el._sp = spans);
+  }
+  function lgOf(el) { return el.getAttribute('lang') === 'ko' ? 'ko' : 'en'; }
+  /* 장면의 말 — 같은 바람의 settle 그대로: 글자마다 잡음 → 초성(0.2초) → 글자, 앞에서부터 차례로 */
+  function settle(el) {
+    if (REDUCE || !el || el._busy) return;
+    var sp = wrapChars(el), L = lgOf(el), noise = NOISE[L], left = sp.length; if (!left) return; el._busy = true;
+    sp.forEach(function (e, i) {
+      var f = e.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f;
+      e.classList.remove('lock'); e.style.width = e.getBoundingClientRect().width + 'px'; e.classList.add('noise'); e.textContent = rnd(noise);
+      setTimeout(function () {
+        e.classList.remove('noise'); e.classList.add('cho'); e.textContent = cho;
+        setTimeout(function () { e.classList.remove('cho'); e.textContent = f; e.style.width = ''; if (--left === 0) el._busy = false; }, 200);
+      }, 160 + i * 24 + Math.random() * 160);
+    });
+  }
+  /* 제목 — 같은 바람의 gather 그대로: 흩어진 자모가 날아와, 초성으로 빛나고, 글자가 된다 */
+  function gather(el) {
+    if (REDUCE || !el || el._busy) return;
+    var sp = wrapChars(el), L = lgOf(el), noise = NOISE[L], left = sp.length; if (!left) return; el._busy = true;
+    sp.forEach(function (e, i) {
+      var f = e.getAttribute('data-f'), cho = L === 'ko' ? choOf(f) : f, r = e.getBoundingClientRect();
+      var tx = Math.random() * W - r.left, ty = Math.random() * H - r.top;
+      e.classList.remove('lock'); e.style.width = r.width + 'px'; e.classList.add('fly', 'noise'); e.style.transition = 'none'; e.style.opacity = '0';
+      e.style.transform = 'translate(' + tx.toFixed(0) + 'px,' + ty.toFixed(0) + 'px) rotate(' + ((Math.random() - 0.5) * 50).toFixed(0) + 'deg) scale(.8)'; e.textContent = rnd(noise);
+      var delay = 250 + i * 30 + Math.random() * 160, dur = 900 + Math.random() * 400;
+      setTimeout(function () {
+        void e.offsetWidth; e.style.transition = 'transform ' + dur.toFixed(0) + 'ms cubic-bezier(.16,.8,.22,1), opacity 700ms ease'; e.style.opacity = '1'; e.style.transform = 'none';
+        var iv = setInterval(function () { e.textContent = rnd(noise); }, 75);
+        setTimeout(function () { clearInterval(iv); e.classList.remove('noise'); e.classList.add('cho'); e.textContent = cho; }, dur * 0.7);
+        setTimeout(function () { e.classList.remove('cho', 'fly'); e.classList.add('lock'); e.textContent = f; e.style.width = ''; e.style.transition = ''; e.style.transform = ''; e.style.opacity = ''; if (--left === 0) el._busy = false; }, dur + 60);
+      }, delay);
+    });
+  }
+  var TREADY = false;
+  function titleIn() {      /* 첫 화면이 보일 때만 — 글꼴이 다 온 뒤, 그리고 언어를 바꿀 때마다 */
+    root.classList.remove('tveil'); if (!TREADY || !titleEl || P > 0.4) return;
+    var h = titleEl.querySelector('h1.L-' + LANG); if (h) gather(h);
+  }
   var doorHit = document.querySelector('.doorhit');
   function placeDoorHit() {      /* 첫 화면의 문 위에 보이지 않는 단추 — 누르면 Play(On 2026-11-13 18:30 「오른쪽 영역을 클릭하면 자동으로 재생」) */
     if (!doorHit) return; var on = P < 0.5 && !playing;
@@ -563,6 +621,7 @@
       /* 그림과 같은 값(P)으로 — 스크롤 · Play · PageDown/Up 모두 같은 빠르기로 짙어지고 옅어진다 */
       var a = sm((P - (c._a0 - c._fi)) / (2 * c._fi)) * (1 - sm((P - (c._a1 - c._fo)) / (2 * c._fo)));
       if (c._op === undefined || Math.abs(a - c._op) > 0.001 || (a === 0 && c._op !== 0)) { c._op = a; c.style.opacity = a.toFixed(3); }
+      if (a > 0.05) { var vp = c.querySelector('.L-' + LANG); if (vp && c._sd !== vp) { c._sd = vp; settle(vp); } } else if (a === 0) c._sd = null;      /* 들어올 때마다 잡음 → 초성 → 글자 */
       if (c._k > 0) va = Math.max(va, a);
     }
     if (veil && Math.abs(va - (veil._op || 0)) > 0.001) { veil._op = va; veil.style.opacity = (0.94 * va).toFixed(3); }
@@ -571,7 +630,7 @@
   }
 
   /* ── 돌리기 ── */
-  var raf = 0, last = 0, playing = false, autoY = 0, DUR = 86000, rz = 0;
+  var raf = 0, last = 0, playing = false, autoY = 0, VHMS = 45.4, rz = 0;      /* Play 빠르기 — 화면높이 1%를 45.4ms에(한 화면 4.54초). 기기가 달라도 장면마다 같은 시간(On 2026-11-13 19:05 「장면마다 2초 줄여」) */
   var btnPlay = [].slice.call(document.querySelectorAll('[data-act="play"]')), btnHold = document.querySelector('[data-act="hold"]'), btnSound = document.querySelector('[data-act="sound"]');
   function kick() { if (!raf) raf = requestAnimationFrame(tick); }
   function tick(now) {
@@ -580,7 +639,7 @@
     PNT.vx *= 0.9; PNT.vy *= 0.9; PNT.g *= 0.92; WIND = !REDUCE && !!cx.getTransform && (Math.abs(PNT.vx) + Math.abs(PNT.vy) > 0.15 || PNT.g > 0.02);
     if (playing) {
       var max = root.scrollHeight - window.innerHeight;
-      autoY += max / DUR * dt;      /* 부호를 기다리지 않는다 — 소리가 켜져도 꺼져도 같은 빠르기 */
+      autoY += window.innerHeight / 100 / VHMS * dt;      /* 부호를 기다리지 않는다 — 소리가 켜져도 꺼져도 같은 빠르기 */
       if (autoY >= max) { autoY = max; setPlay(false); } window.scrollTo(0, autoY);
     }
     var PT = progress();
@@ -659,7 +718,7 @@
     if (!SENT[l]) l = 'ko'; LANG = l; root.setAttribute('data-lang', l); root.setAttribute('lang', l);
     try { localStorage.setItem('onduru-lang', l); } catch (e) {}
     [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === l)); });
-    fitTitle(); measure(); buildWorld(); buildText(); kick();
+    fitTitle(); measure(); buildWorld(); buildText(); titleIn(); kick();
   }
   /* 제목을 한 줄로 — 글이 든 너비를 채우는 크기를 재서 넣는다(높이의 18%를 넘지 않게). 그다음 문이 설 자리를 잰다 */
   function fitTitle() {
@@ -745,7 +804,11 @@
 
   var l0 = Q.lang; if (!l0) { try { l0 = localStorage.getItem('onduru-lang'); } catch (e) {} } if (!l0) l0 = (navigator.language || 'ko').slice(0, 2);
   size(); setLang(l0);
-  if (Q.p != null) { var pv = +Q.p, k0 = Math.max(0, Math.min(SHOTS.length - 1, Math.floor(pv))); window.scrollTo(0, TOPS[k0] + (pv - k0) * span(k0)); }
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitTitle(); measure(); buildWorld(); buildText(); kick(); });
+  /* 새로 고침하면 첫 페이지(문)부터 — 브라우저가 보던 자리를 되살리지 않게(On 2026-11-13 19:12) */
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  if (Q.p != null) { var pv = +Q.p, k0 = Math.max(0, Math.min(SHOTS.length - 1, Math.floor(pv))); window.scrollTo(0, TOPS[k0] + (pv - k0) * span(k0)); } else window.scrollTo(0, 0);
+  if (!REDUCE) root.classList.add('tveil');      /* 제목은 글꼴이 다 온 뒤 날아와 모인다 — 그 전엔 잠깐 가려 둔다(늦어도 2.5초 뒤엔 보인다) */
+  setTimeout(function () { if (!TREADY) { TREADY = true; titleIn(); } }, 2500);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitTitle(); measure(); buildWorld(); buildText(); if (!TREADY) { TREADY = true; titleIn(); } kick(); });
   body.classList.add('ready'); kick();
 })();

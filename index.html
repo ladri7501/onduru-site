@@ -56,9 +56,9 @@ body.still .ico[data-act="play"] { display: none; }
 /* 장면의 말은 화면에 붙박아 둔다 — 장면이 끝날 무렵 그림 위로 밀려 올라가지 않게(On 2026-11-13 13:50 「빈공간에 글자를 배치해라」). 보이는 것은 지금 장면의 말 하나 */
 .cap { position: fixed; left: 0; right: 0; top: 76vh; top: 76svh; z-index: 2; margin: 0; padding: 0 max(var(--gutter), calc((100% - var(--col)) / 2)); opacity: 0; pointer-events: none; }
 /* 장면의 말은 스크롤 · 영상(Play) · PageDown/Up 어디서나 그림과 함께 스무드하게 짙어졌다 옅어진다 — 투명도는 엔진이 장면의 자리에 맞춰 준다(On 2026-11-13 16:47) */
-.cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; max-width: var(--measure); font-size: max(14px, calc(0.5 * min(32px, max(21px, 3.6vw), 5.2vh))); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
+.cap p { margin: 0; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; max-width: var(--measure); font-size: clamp(12px, calc(9px + 0.7vmin), 18px); line-height: 1.85; color: var(--ink-strong, #dbd7cc); word-break: keep-all; }
 .cap .soft { color: var(--ink-dim, #a3a69f); }
-/* 글자 크기는 화면의 너비와 높이를 함께 보고 저절로(On 2026-11-13 17:45), 그 값의 반(On 18:30 「지금 보는 문자 크기의 50 정도」) — PC 16px · 휴대폰 14px. 낮은 화면은 줄 간격도 줄인다 */
+/* 글자 크기는 반응형 — 화면의 짧은 변을 따라 12px(휴대폰)에서 18px(큰 모니터)까지 저절로, 보통 PC 16px 안팎(On 2026-11-13 18:30 「50 정도」 · 19:14 「해상도에 따라 그 범위 안에서」). 낮은 화면은 줄 간격도 줄인다 */
 @media (max-height: 520px) { .cap p { line-height: 1.55; } }
 @media (orientation: portrait) { .cap p { line-height: 1.65; } }
 
@@ -78,6 +78,15 @@ body.still .ico[data-act="play"] { display: none; }
 .ctrl .ply .p2, .ctrl .ply[aria-pressed="true"] .p1 { display: none; }
 .ctrl .ply[aria-pressed="true"] .p2 { display: inline; }
 body.still .ctrl .ply { display: none; }
+/* 글자가 들어올 때 — 「같은 바람」과 같은 해독(On 2026-11-13 19:03): 잡음 → 초성 → 글자. 맺음(별의 글자)은 그대로 */
+.w { display: inline-block; white-space: nowrap; }
+.ch { display: inline-block; text-align: center; white-space: pre; }
+.ch.fly { will-change: transform, opacity; }
+.ch.noise { opacity: .28; }
+.ch.cho { opacity: .62; }
+.ch.lock { animation: lock .9s ease-out; }
+@keyframes lock { from { opacity: .62; } to { opacity: 1; } }
+.tveil .title h1 { opacity: 0; }
 .doorhit { position: fixed; z-index: 3; left: 0; top: 0; width: 0; height: 0; padding: 0; border: 0; background: transparent; cursor: pointer; display: none; -webkit-tap-highlight-color: transparent; }
 .doorhit.on { display: block; }
 body.still .doorhit, body.playing .doorhit { display: none !important; }
@@ -86,7 +95,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
    마지막 장면이 다 그려진 뒤 본문 흐름으로 올라온다(그림도 함께 올라간다 — journey.js). On 2026-11-13 15:08 「세번째 전시부터는 … 하단 영역에 메뉴가 보이게」 */
 .endfoot { position: relative; z-index: 2; box-sizing: border-box; padding: 24px max(var(--gutter), calc((100% - var(--col)) / 2)) max(56px, env(safe-area-inset-bottom, 0px)); font-size: 12px; color: var(--ink-faint, #868a86); }
 .endfoot p { margin: 0; }
-.endfoot .endline { margin: 0 0 18px; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; font-size: max(14px, calc(0.5 * min(32px, max(21px, 3.6vw), 5.2vh))); line-height: 1.85; color: var(--ink-strong, #dbd7cc); }      /* 맨 끝의 한 줄 — 장면의 말과 같은 글꼴 · 크기 */
+.endfoot .endline { margin: 0 0 18px; font-family: "Gowun Batang", "Noto Serif", "Hiragino Mincho ProN", "Songti SC", "Geeza Pro", "Times New Roman", serif; font-weight: 400; font-size: clamp(12px, calc(9px + 0.7vmin), 18px); line-height: 1.85; color: var(--ink-strong, #dbd7cc); }      /* 맨 끝의 한 줄 — 장면의 말과 같은 글꼴 · 크기 */
 .endfoot > p, .endfoot > .colophon { max-width: var(--measure); }
 .endfoot .totop { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--ink-dim, #a3a69f); text-decoration: none; }
 .endfoot .totop:hover { color: var(--ink-strong, #dbd7cc); }
@@ -113,7 +122,8 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
 <button class="doorhit ctl" type="button" data-act="play" tabindex="-1" aria-hidden="true"></button>
 <div class="veil" aria-hidden="true"></div>
 <main id="main">
-  <header class="shot first" data-shot="0" style="height:150vh">
+  <!-- 장면마다 재생 시간 2초씩 줄임(On 2026-11-13 19:05) — 높이 150·170·240·330·210·65·73·170·340 → 106·126·196·286·166·21·29·126·296(화면높이 %, 한 화면 4.54초) -->
+  <header class="shot first" data-shot="0" style="height:106vh">
     <div class="title">
       <div class="brand"><button class="enso" type="button"><span class="sr L-ko" lang="ko">원을 다시 그리기</span><span class="sr L-en" lang="en">Redraw the circle</span><span class="sr L-es" lang="es">Volver a trazar el círculo</span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button><a href="/about/">ONDURU</a></div>
       <h1 class="L-ko" lang="ko">당신이 상상할 수 있는 모든 것</h1>
@@ -129,7 +139,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">문이 조금 열려 있다. 틈으로 빛이 샌다.</span><span class="L-en" lang="en">A door stands slightly open. Light leaks through the gap.</span><span class="L-es" lang="es">Una puerta entreabierta. La luz se escapa por la rendija.</span></p>
   </header>
 
-  <section class="shot" data-shot="1" style="height:170vh">
+  <section class="shot" data-shot="1" style="height:126vh">
     <div class="cap" data-cut="1" data-morse="TO MEET YOU, I OPEN THE FIRST DOOR,">
       <p class="L-ko" lang="ko">너를 만나기 위해 첫 문을 연다.<br><span class="soft">골리앗 앞의 다윗처럼.</span></p>
       <p class="L-en" lang="en">To meet you, I open the first door,<br><span class="soft">like David before Goliath.</span></p>
@@ -138,7 +148,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">책상 위에 모니터 넷, 노트북 셋, 작은 컴퓨터 둘과 하나. 화면마다 줄과 점이 움직인다.</span><span class="L-en" lang="en">On a desk: four monitors, three laptops, two mini PCs and one more small computer. Lines and dots move on every screen.</span><span class="L-es" lang="es">Sobre un escritorio: cuatro monitores, tres portátiles, dos mini PC y otro ordenador pequeño. En cada pantalla se mueven líneas y puntos.</span></p>
   </section>
 
-  <section class="shot" data-shot="2" style="height:240vh">
+  <section class="shot" data-shot="2" style="height:196vh">
     <div class="cap" data-cut="2" data-morse="THE WORDS WE SHARE, I WRITE DOWN, SO THE WIND WILL NOT CARRY THEM AWAY.">
       <p class="L-ko" lang="ko">너와 나눈 말을<br>바람에 날아가지 않게 적어 둔다.<br><span class="soft">누가, 무엇을, 왜 말했는지.</span></p>
       <p class="L-en" lang="en">The words we share, I write down,<br>so the wind will not carry them away.<br><span class="soft">Who spoke, what was said, and why.</span></p>
@@ -147,7 +157,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">큰 화면에 구성도가 떠 있다. 신호 하나가 사람의 자리에서 Agent의 자리로 내려간다.</span><span class="L-en" lang="en">The architecture map fills the large screen. One signal travels from the person’s seat down to the agents’ seat.</span><span class="L-es" lang="es">El mapa de la arquitectura llena la pantalla grande. Una señal baja del lugar de la persona al de los agentes.</span></p>
   </section>
 
-  <section class="shot" data-shot="3" style="height:330vh">
+  <section class="shot" data-shot="3" style="height:286vh">
     <div class="cap" data-cut="3" data-u="0.1,0.4" data-morse="WHAT IS WRITTEN PASSES FROM LIGHT TO LIGHT, AND REACHES, UNCHANGED, EVEN THE ONE I HAVE ONLY JUST MET.">
       <p class="L-ko" lang="ko">적어 둔 것은 빛에서 빛으로 건너가<br>처음 만난 너에게도 그대로 닿는다.</p>
       <p class="L-en" lang="en">What is written passes from light to light,<br>and reaches, unchanged, even the one I have only just met.</p>
@@ -161,7 +171,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">안쪽. 입구와 출구 사이에서 Agent들이 일을 나눠 맡고, 건네고, 적는다.</span><span class="L-en" lang="en">Inside. Between an entrance and an exit, agents split the work, hand it over, and write it down.</span><span class="L-es" lang="es">Dentro. Entre una entrada y una salida, los agentes se reparten el trabajo, lo entregan y lo anotan.</span></p>
   </section>
 
-  <section class="shot" data-shot="4" style="height:210vh">
+  <section class="shot" data-shot="4" style="height:166vh">
     <div class="cap" data-cut="5" data-morse="YOU STEP OUT THROUGH THE EXIT, CARRYING THE PATH BEHIND YOU AND WHO YOU ARE,">
       <p class="L-ko" lang="ko">출구를 나서는 너는<br>지나온 길과 네가 누구인지를 새기고 간다.<br><span class="soft">DNA처럼, 몸 깊이.</span></p>
       <p class="L-en" lang="en">You step out through the exit,<br>carrying the path behind you and who you are,<br><span class="soft">deep inside, like DNA.</span></p>
@@ -170,15 +180,15 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">Agent 하나가 출구로 나간다. 문이 닫히고, 도시가 보인다.</span><span class="L-en" lang="en">One agent leaves through the exit. The door closes, and the city comes into view.</span><span class="L-es" lang="es">Un agente sale. La puerta se cierra y aparece la ciudad.</span></p>
   </section>
 
-  <section class="shot" data-shot="5" style="height:170vh">
+  <section class="shot" data-shot="5" style="height:21vh">      <!-- 출구 → 지구 사이를 반으로(On 18:56: 170 → 65), 장면마다 2초 더 줄임(On 19:05: → 21) -->
     <p class="sr"><span class="L-ko" lang="ko">하늘에서 본 도시. 길과 강, 불빛.</span><span class="L-en" lang="en">The city from above: streets, a river, lights.</span><span class="L-es" lang="es">La ciudad desde el cielo: calles, un río, luces.</span></p>
   </section>
 
-  <section class="shot" data-shot="6" style="height:190vh" data-on="0.3,0.86">
+  <section class="shot" data-shot="6" style="height:29vh" data-on="0.3,0.86">      <!-- 190 → 73 → 29 -->
     <p class="sr"><span class="L-ko" lang="ko">대기권 밖에서 본 지구. 불빛들 사이로 신호가 오간다.</span><span class="L-en" lang="en">The Earth from the edge of the atmosphere. Signals cross between the lights.</span><span class="L-es" lang="es">La Tierra desde el borde de la atmósfera. Las señales cruzan entre las luces.</span></p>
   </section>
 
-  <section class="shot" data-shot="7" style="height:170vh" data-on="0.3,0.86">
+  <section class="shot" data-shot="7" style="height:126vh" data-on="0.3,0.86">
     <div class="cap" data-cut="6" data-morse="EVEN WHEN EARTH IS A SMALL POINT OF LIGHT, YOUR NAME AND THE PATH WE CAME BY">
       <p class="L-ko" lang="ko">지구가 작은 빛 한 점이 되어도<br>너의 이름과 우리가 온 길은<br><span class="soft">별 사이를 건너간다.</span></p>
       <p class="L-en" lang="en">Even when Earth is a small point of light,<br>your name and the path we came by<br><span class="soft">cross between the stars.</span></p>
@@ -187,7 +197,7 @@ body.still .doorhit, body.playing .doorhit { display: none !important; }
     <p class="sr"><span class="L-ko" lang="ko">지구는 한 점이 되고, 별들이 남는다.</span><span class="L-en" lang="en">The Earth becomes a single point. The stars remain.</span><span class="L-es" lang="es">La Tierra se vuelve un punto. Quedan las estrellas.</span></p>
   </section>
 
-  <section class="shot end" data-shot="8" style="height:340vh" data-on="0.74,2">
+  <section class="shot end" data-shot="8" style="height:296vh" data-on="0.74,2">
     <p class="sr"><span class="L-ko" lang="ko">별들이 모여 글자를 이룬다: 상상할 수 있는 그 모든 것은 현실이 된다.</span><span class="L-en" lang="en">The stars gather into letters: Everything you can imagine is real.</span><span class="L-es" lang="es">Las estrellas se reúnen en letras: Todo lo que puedes imaginar es real.</span></p>
   </section>
 </main>
