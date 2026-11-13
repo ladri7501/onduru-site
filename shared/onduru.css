@@ -1,0 +1,134 @@
+/* ONDURU — 함께 쓰는 스타일 (CI 디자인 가이드 v0.1 초안의 기계가 읽는 판)
+ * 만든 때 2026-11-11 · 상태: 초안 — On이 시안에서 바탕 · 글꼴 · 구성을 고르면 v1.0 으로 굳힌다
+ * 이 파일의 값은 「ONDURU_CI_디자인_가이드」의 규칙 번호를 따른다(주석의 〔C-n〕 · 〔T-n〕 …).
+ * 다루지 않는 곳: 작품(/ · /same-wind/)과 음성 — On 2026-11-11 13:28 · 13:31
+ * 짓는 단계가 없어도 쓸 수 있게, 순수 CSS 한 파일로 둔다(예약 · 서버 · 도구에 기대지 않는다 — 〔P-4〕). */
+
+/* ───────── 1. 토큰 ───────── */
+:root {
+  /* 바탕: 밤 (기본) 〔C-1〕 — 순검정 · 순백을 쓰지 않는다. 본문 대비 11.5:1 */
+  color-scheme: dark;
+  --bg: #0f1318;            /* 바탕 */
+  --bg-raised: #161b22;     /* 떠 있는 면(목록 · 띠) */
+  --ink: #cfcbc2;           /* 본문 글자 — 대비 11.52 */
+  --ink-strong: #dbd7cc;    /* 제목 · 따옴 — 12.96 (On 2026-11-12 08:52 · A-2: 가이드가 고치자는 값) */
+  --ink-dim: #a3a69f;       /* 곁 글 — 7.56 */
+  --ink-faint: #868a86;     /* 표지 · 날짜 — 5.32 (4.5 아래로 내리지 않는다) */
+  --line: #262b33;          /* 가는 줄 */
+  --line-strong: #3a414b;   /* 눌러지는 것의 테 (3:1 이상이 필요한 자리는 --ink-faint 를 쓴다) */
+  --signal: #8fd4c1;        /* 신호색 하나 — 「잡음 속에서, 신호 하나를 고른다.」 10.97 */
+  --on-signal: #0f1318;
+  --mark: #dbd7cc;          /* 열린 원 */
+
+  /* 글자 〔T-1〕 */
+  --font-voice: "Gowun Batang", "Noto Serif KR", "AppleMyungjo", "Batang", serif;      /* 목소리: 제목 · 따옴 · 시 */
+  --font-read: "IBM Plex Sans", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; /* 읽는 글: 본문 (data-type 으로 바뀐다) */
+  --font-label: "IBM Plex Sans", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; /* 표지: 길잡이 · 날짜 · 단추 */
+  --font-code: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;  /* 글 속의 코드 낱말 — 기기의 글꼴만 쓴다(내려받지 않음) */
+
+  /* 크기 — 화면을 따르는 값. rem 을 섞어 확대(zoom)가 듣게 한다 〔T-3〕 */
+  --fs-label: clamp(0.8125rem, 0.7875rem + 0.11vw, 0.9375rem);  /* 13 → 15px */
+  --fs-small: clamp(0.9375rem, 0.9rem + 0.16vw, 1.125rem);      /* 15 → 18px */
+  --fs-body:  clamp(1.0625rem, 1.0125rem + 0.23vw, 1.375rem);   /* 17(360) · 18(768) · 19(1280) · 20.6(1920) · 22(2560) */
+  --fs-lead:  clamp(1.3125rem, 1.2rem + 0.5vw, 1.875rem);       /* 21 → 30px */
+  --fs-h2:    clamp(1.375rem, 1.25rem + 0.55vw, 2rem);          /* 22 → 32px */
+  --fs-h1:    clamp(2rem, 1.62rem + 1.7vw, 3.75rem);            /* 32 → 60px */
+  --lh-body: 1.8;      /* 한글 본문 〔T-4〕 */
+  --lh-latin: 1.65;    /* 영어 · 스페인어 본문 */
+  --lh-tight: 1.3;     /* 제목 */
+  --measure: 34em;     /* 글 기둥: 한글 34자 안팎 · 라틴 66~72자 〔T-5〕 */
+
+  /* 간격 — 4px 눈금 〔L-2〕 */
+  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem; --sp-5: 1.5rem;
+  --sp-6: 2rem; --sp-7: 3rem; --sp-8: 4rem; --sp-9: 6rem;
+  --gutter: clamp(1.25rem, 0.6rem + 3vw, 4rem);   /* 화면 가장자리 여백 20 → 64px */
+  --tap: 2.75rem;                                 /* 손가락으로 누를 것의 가장 작은 크기 44px 〔K-1 · 상호작용 기준〕 */
+  --radius: 4px;
+  --dur: 180ms;                                   /* 반응의 시간 〔상호작용 기준〕 */
+}
+
+/* 바탕: 새벽 — 덜 짙은 어둠. 본문 대비 10.3:1 */
+html[data-theme="dawn"] {
+  color-scheme: dark;
+  --bg: #1b1f25; --bg-raised: #22272e; --ink: #d0ccc3; --ink-strong: #e6e3db; --ink-dim: #a9aca5; --ink-faint: #8e928d;
+  --line: #31363e; --line-strong: #454c56; --signal: #93d6c4; --on-signal: #1b1f25; --mark: #e6e3db;
+}
+/* 바탕: 종이 — 흰색이 아닌 밝은 바탕. 본문 대비 11.3:1 */
+html[data-theme="paper"] {
+  color-scheme: light;
+  --bg: #e9e4d8; --bg-raised: #e0dacc; --ink: #2b2a26; --ink-strong: #201f1c; --ink-dim: #4f4c45; --ink-faint: #5f5c53;
+  --line: #cfc8b8; --line-strong: #b3ab99; --signal: #1e5f4e; --on-signal: #e9e4d8; --mark: #201f1c;
+}
+/* 글꼴 벌 — On이 시안에서 고른다 〔T-1〕 */
+html[data-type="batang"] { --font-read: "Gowun Batang", "Noto Serif KR", "AppleMyungjo", "Batang", serif; --lh-body: 1.85; --lh-latin: 1.7; }
+html[data-type="myeongjo"] { --font-read: "Noto Serif KR", "AppleMyungjo", "Batang", serif; --font-voice: "Noto Serif KR", "AppleMyungjo", "Batang", serif; --lh-body: 1.85; --lh-latin: 1.7; }
+html[data-type="gothic"] { /* 기본값과 같다 */ }
+
+/* ───────── 2. 바탕 규칙 ───────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); scroll-padding-top: 5rem; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-read); font-size: var(--fs-body); line-height: var(--lh-body); font-weight: 400;
+  font-kerning: normal; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+  word-break: keep-all;        /* 한글은 낱말에서 끊는다 〔T-6〕 */
+  overflow-wrap: break-word; line-break: strict; text-wrap: pretty;
+}
+:where(:lang(en), :lang(es)) { word-break: normal; line-height: var(--lh-latin); }  /* :where — 제목 · 따옴의 줄 높이를 덮지 않게(다른 눈 ① 걸-14) */
+p { margin: 0 0 1.1em; max-width: var(--measure); }
+h1, h2, h3 { font-family: var(--font-voice); font-weight: 400; color: var(--ink-strong); line-height: var(--lh-tight); margin: 0; text-wrap: balance; }
+h1 { font-size: var(--fs-h1); letter-spacing: -0.015em; }
+h2 { font-size: var(--fs-h2); letter-spacing: -0.01em; }
+:lang(en) :is(h1, h2), :lang(es) :is(h1, h2) { letter-spacing: -0.005em; }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+a:hover { text-decoration-color: var(--signal); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--signal); color: var(--on-signal); }
+img, svg { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* 표지(작은 글): 길잡이 · 날짜 · 쓴 이 줄 */
+.label { font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.5; letter-spacing: 0.02em; color: var(--ink-faint); }
+/* 목소리(따옴 · On의 문장 · 시) 〔K-4〕 */
+.voice { font-family: var(--font-voice); font-size: var(--fs-lead); line-height: 1.55; color: var(--ink-strong); text-wrap: balance; max-width: 26em; }
+:lang(en).voice, :lang(es).voice, :lang(en) .voice, :lang(es) .voice { line-height: 1.4; }
+/* 상태 표시: 초안 · 돌려 본 것 · 설계 · 아직 〔K-5〕 */
+.state { display: inline-block; font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.6; color: var(--ink-dim); border: 1px solid var(--ink-faint); border-radius: 2px; padding: 0 0.45em; vertical-align: 0.1em; }
+/* 열린 원 — 마크 〔M-1 · M-2〕 */
+.mark { display: inline-flex; align-items: center; gap: 0.6em; color: var(--mark); text-decoration: none; font-family: var(--font-label); font-size: var(--fs-label); letter-spacing: 0.26em; min-height: var(--tap); }
+.mark svg { width: 1.5rem; height: 1.5rem; flex: none; }
+.mark circle { fill: none; stroke: currentColor; stroke-width: 7; stroke-dasharray: 226 28; }
+/* 언어 고르는 자리 〔G-4〕 */
+.langs { display: inline-flex; gap: 0; font-family: var(--font-label); font-size: var(--fs-label); }
+.langs a { display: inline-flex; align-items: center; justify-content: center; min-width: var(--tap); min-height: var(--tap); padding: 0 0.7em; color: var(--ink-faint); text-decoration: none; }
+.langs a[aria-current="true"] { color: var(--ink-strong); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 0.5em; text-decoration-thickness: 2px; }
+/* 화면 낭독기에게만 */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* 본문으로 건너뛰기 */
+.skip { position: absolute; left: -999px; top: 0; z-index: 99; background: var(--signal); color: var(--on-signal); padding: 0.6em 1em; font-family: var(--font-label); }
+.skip:focus { left: var(--gutter); top: 0.5rem; }
+
+/* ───────── 3. 움직임 · 인쇄 ───────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+@media print {
+  :root, html[data-theme] { --bg: #fff; --bg-raised: #fff; --ink: #111; --ink-strong: #000; --ink-dim: #333; --ink-faint: #555; --line: #bbb; --line-strong: #888; --signal: #000; --mark: #000; }
+  body { font-size: 11pt; }
+  nav, .langs, .skip { display: none !important; }
+}
+
+/* 화면을 늘리면 글자와 배치가 함께 자란다(On 16:18) — 뿌리 글자 크기가 화면 너비를 따른다.
+   1280px까지 16px, 1920px에서 18px, 2560px에서 20px(더 커지지 않는다). rem 으로 적은 글자 · 간격 · 글 기둥이 모두 따라 자란다.
+   브라우저에서 글자를 키운 사람의 설정(%)을 바닥으로 둔다. */
+html { font-size: clamp(100%, 0.75rem + 0.3125vw, 125%); }
+
+/* ═════════ 바탕 · 글꼴 고르는 단추(A-8) — 바닥 줄 끝. 스크립트가 꺼지면 보이지 않는다 ═════════ */
+.pick { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-4); margin-left: auto; }
+.pick[hidden] { display: none; }
+.pick-g { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 2px; }
+.pick-h { margin-right: var(--sp-1); color: var(--ink-faint); }
+.pick button { font: inherit; color: var(--ink-dim); background: none; border: 1px solid transparent; border-radius: var(--radius, 3px); min-width: var(--tap, 2.75rem); min-height: var(--tap, 2.75rem); padding: 0 var(--sp-2); cursor: pointer; }
+.pick button:hover { color: var(--ink-strong); }
+.pick button[aria-pressed="true"] { border-color: var(--line-strong); color: var(--ink-strong); }
+@media print { .pick { display: none !important; } }

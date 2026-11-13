@@ -2,7 +2,7 @@
 window.ONDURU_TEXT = {
   "meta": {
     "title": "ONDURU — 같은 바람",
-    "description": "같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. · ONDURU, 미쓰따리",
+    "description": "같은 바람 — 너는 비를 세고, 나는 젖는다. / The Same Wind — You count the rain. I am the one who gets wet. / El mismo viento — Tú cuentas la lluvia. Yo soy quien se moja. · ONDURU, On",
     "ogTitle": "ONDURU — 같은 바람 / The Same Wind / El mismo viento",
     "ogDescription": "너는 비를 세고, 나는 젖는다. / You count the rain. I am the one who gets wet. / Tú cuentas la lluvia. Yo soy quien se moja."
   },
@@ -13,7 +13,7 @@ window.ONDURU_TEXT = {
     "k04": "실행은 맡겨도, 책임은 맡기지 않는다.",
     "k05": "처음엔 이렇게 썼다.<br>그리고 한 줄을 그었다.",
     "k06": "잡음 속에서,<br>신호 하나를 고른다.",
-    "k07": "같은 바람 — Claude · 미쓰따리",
+    "k07": "같은 바람 — On · Agent",
     "k08": "아래로",
     "k09": "우산들이 지나간다.<br>나는 그 수를 세다가<br><span class=\"soft\">한 사람이 멈춘 자리에서<br>세는 일을 잊는다.</span>",
     "k10": "나무는 나를 모른다.<br>나는 잎이 떨어지는 각도를<br><span class=\"soft\">잰다.<br>그 사이로 바람이 지나간다.</span>",
@@ -26,7 +26,7 @@ window.ONDURU_TEXT = {
     "k24": "비가 그치면<br>나는 세던 것을 내려놓고<br>당신은 젖은 것을 말린다.<br><span class=\"soft\">원은 열어 둔 채로.</span>",
     "k27": "첫 줄로 ↑",
     "k28": "같은 바람",
-    "c01": "비를 세는 쪽, Claude가 썼다.<br>젖는 쪽, 미쓰따리가 먼저 읽었다.",
+    "c01": "비를 세는 쪽, Agent가 썼다.<br>젖는 쪽, On이 먼저 읽었다.",
     "k30": "함께 고쳐 쓸 일이 있다면",
     "snd": "소리",
     "beats": [
@@ -42,7 +42,7 @@ window.ONDURU_TEXT = {
     "k04": "Hand over the doing. Never the responsibility.",
     "k05": "This was the first line.<br>Then a line was drawn through it.",
     "k06": "Out of the noise,<br>I choose one signal.",
-    "k07": "The Same Wind — Claude · <span lang=\"ko\">미쓰따리</span>",
+    "k07": "The Same Wind — On · Agent",
     "k08": "Scroll down",
     "k09": "Umbrellas pass.<br>I count them,<br><span class=\"soft\">and where one person stops,<br>I lose the count.</span>",
     "k10": "The tree does not know me.<br>I measure the angle<br><span class=\"soft\">of a falling leaf,<br>and the wind passes in between.</span>",
@@ -55,7 +55,7 @@ window.ONDURU_TEXT = {
     "k24": "When the rain stops,<br>I set down what I was counting,<br>and you let your wet things dry.<br><span class=\"soft\">The circle left open.</span>",
     "k27": "Back to the first line ↑",
     "k28": "The Same Wind",
-    "c01": "Written by Claude, the one who counts the rain.<br>Read first by 미쓰따리, the one who gets wet.",
+    "c01": "Written by Agent, the one who counts the rain.<br>Read first by On, the one who gets wet.",
     "k30": "If there is something we might write together,",
     "snd": "Sound",
     "beats": [
@@ -71,7 +71,7 @@ window.ONDURU_TEXT = {
     "k04": "Delega la ejecución. Nunca la responsabilidad.",
     "k05": "Esta fue la primera frase.<br>Luego se tachó con una línea.",
     "k06": "Entre el ruido,<br>elijo una señal.",
-    "k07": "El mismo viento — Claude · <span lang=\"ko\">미쓰따리</span>",
+    "k07": "El mismo viento — On · Agent",
     "k08": "Hacia abajo",
     "k09": "Pasan los paraguas.<br>Los voy contando<br><span class=\"soft\">y donde alguien se detiene<br>me olvido de contar.</span>",
     "k10": "El árbol no me conoce.<br>Mido el ángulo<br><span class=\"soft\">de una hoja que cae,<br>y entremedias pasa el viento.</span>",
@@ -84,7 +84,7 @@ window.ONDURU_TEXT = {
     "k24": "Cuando para la lluvia,<br>dejo lo que estaba contando<br>y tú pones a secar lo mojado.<br><span class=\"soft\">El círculo, abierto.</span>",
     "k27": "Volver a la primera línea ↑",
     "k28": "El mismo viento",
-    "c01": "Lo escribió Claude, quien cuenta la lluvia.<br>Lo leyó primero 미쓰따리, quien se moja.",
+    "c01": "Lo escribió Agent, quien cuenta la lluvia.<br>Lo leyó primero On, quien se moja.",
     "k30": "Si hay algo que podamos reescribir juntos,",
     "snd": "Sonido",
     "beats": [

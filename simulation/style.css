@@ -1,0 +1,432 @@
+/* ONDURU 바탕 시안(base) — 네 페이지의 가장 단순한 짜임. 시안 A · B가 여기서 갈라진다.
+ * 색 · 글꼴 · 크기는 shared/onduru.css 의 토큰(var(--…))으로만 쓴다. 값을 직접 적지 않는다.
+ * 차례: 1 머리 · 바닥  2 틀(곁 | 글)  3 목록(짚은 자리)  4 칸과 글  5 발자취  6 소개  7 없는 주소  8 편지  9 넓은 화면 */
+
+/* shared 의 「:lang(en), :lang(es) { line-height: var(--lh-latin) }」 는 en · es 판의 모든 요소에 하나하나 걸려서
+ * 제목(h1~h3)의 --lh-tight 와 따옴 · 라벨 안쪽의 줄 높이를 덮는다. shared 는 고치지 않고 여기서 되돌린다(토큰으로). */
+:root :is(h1, h2, h3) { line-height: var(--lh-tight); }
+.voice p, .voice span, .label span, .label time, .label a { line-height: inherit; }
+/* ko 판의 영어 라벨(span lang="en")도 놓인 줄의 줄 높이를 따른다 */
+span[lang][translate="no"] { line-height: inherit; }
+
+/* ───────── 1. 머리 · 바닥 ───────── */
+.site-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--sp-5); padding: var(--sp-2) var(--gutter); border-bottom: 1px solid var(--line); }
+.site-nav { display: flex; flex-wrap: wrap; gap: 0 var(--sp-2); margin-right: auto; font-family: var(--font-label); font-size: var(--fs-label); }
+.site-nav a { display: inline-flex; align-items: center; justify-content: center; min-width: var(--tap); min-height: var(--tap); padding: 0 var(--sp-2); color: var(--ink-dim); text-decoration: none; }
+.site-nav a:hover { color: var(--ink-strong); }
+.site-nav a[aria-current="page"] { color: var(--ink-strong); text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 0.5em; }
+.langs { margin-left: calc(-1 * var(--sp-2)); }
+
+.site-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--sp-5); margin-top: var(--sp-9); padding: var(--sp-4) var(--gutter) var(--sp-7); border-top: 1px solid var(--line); }
+.site-foot a { display: inline-flex; align-items: center; justify-content: center; min-width: var(--tap); min-height: var(--tap); padding: 0 var(--sp-1); color: var(--ink-dim); text-decoration: none; }
+.site-foot a:hover { color: var(--ink-strong); }
+
+/* ───────── 2. 틀 ───────── */
+.shell { padding: 0 var(--gutter); }
+main { min-width: 0; padding-top: var(--sp-7); }
+main:focus { outline: none; }
+
+/* ───────── 3. 목록 — 휴대폰: 위에 붙는 띠 ───────── */
+.index { position: sticky; top: 0; z-index: 10; margin: 0 calc(-1 * var(--gutter)); padding: 0 calc(var(--gutter) - var(--sp-2)); background: var(--bg-raised); border-bottom: 1px solid var(--line); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; font-family: var(--font-label); font-size: var(--fs-label); }
+.index::-webkit-scrollbar { display: none; }
+.index-h { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.index ol { display: flex; gap: 0 var(--sp-2); margin: 0; padding: 0; list-style: none; white-space: nowrap; }
+.index a { display: inline-flex; align-items: center; gap: 0.45em; min-height: var(--tap); min-width: var(--tap); padding: 0 var(--sp-2); color: var(--ink-dim); text-decoration: none; }
+.index a:hover { color: var(--ink-strong); }
+.index .ring { display: inline-flex; flex: none; width: 0.8em; height: 0.8em; color: var(--signal); opacity: 0; transition: opacity var(--dur); }
+.index .ring svg { width: 100%; height: 100%; display: block; }
+.index .ring circle { fill: none; stroke: currentColor; stroke-width: 13; stroke-dasharray: 226 28; }
+.index a[aria-current] { color: var(--ink-strong); }
+.index a[aria-current] .ring { opacity: 1; }
+
+.side { padding-top: var(--sp-3); }
+
+/* ───────── 4. 칸과 글 ───────── */
+.page-head { margin-bottom: var(--sp-8); }
+.page-head h1 { max-width: 18em; margin-bottom: var(--sp-3); }
+.page-head .label { margin-bottom: var(--sp-6); }
+.sub, .lead { color: var(--ink-dim); }
+.sub { font-size: var(--fs-lead); line-height: 1.6; color: var(--ink); max-width: 26em; }
+
+.sec { margin-top: var(--sp-8); padding-top: var(--sp-5); border-top: 1px solid var(--line); }   /* 닻으로 왔을 때의 위 여백은 shared 의 html{scroll-padding-top} 이 준다 */
+.sec-label { font-family: var(--font-label); font-size: var(--fs-small); font-weight: 500; line-height: 1.5; letter-spacing: 0.06em; color: var(--ink-dim); margin-bottom: var(--sp-5); }
+h3 { font-size: var(--fs-lead); margin-bottom: var(--sp-2); max-width: 24em; }
+
+blockquote { margin: 0 0 var(--sp-4); }
+blockquote > p:last-child { margin-bottom: 0; }
+figure { margin: 0; }
+
+.go { display: inline-flex; align-items: center; min-height: var(--tap); min-width: var(--tap); font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-strong); }
+.more, .mail, .back-end { margin-bottom: 0; }
+.note { font-size: var(--fs-small); color: var(--ink-dim); }
+
+.numbered { list-style: none; margin: 0; padding: 0; counter-reset: n; max-width: var(--measure); }
+.numbered > li { counter-increment: n; display: grid; grid-template-columns: 2.2em minmax(0, 1fr); margin-bottom: var(--sp-4); }
+.numbered > li::before { content: counter(n); font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-faint); padding-top: 0.12em; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); padding: var(--sp-2) var(--sp-4); border: 1px solid var(--ink-faint); border-radius: var(--radius); background: transparent; color: var(--ink-strong); font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.4; text-decoration: none; cursor: pointer; transition: border-color var(--dur); }
+.btn:hover { border-color: var(--ink-strong); }
+
+/* ───────── 5. 발자취 ───────── */
+.one { margin: 0 0 var(--sp-6); }
+.one figcaption { margin-top: var(--sp-3); }
+.writing { margin-bottom: var(--sp-6); }
+.writing .by { margin-bottom: var(--sp-3); }
+.writing .desc { margin-bottom: var(--sp-1); }
+.writings { margin-top: var(--sp-6); }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.step { padding: var(--sp-5) 0 var(--sp-3); border-top: 1px solid var(--line); }
+.step:first-child { border-top: 0; padding-top: 0; }
+.step .when { margin-bottom: var(--sp-2); }
+.step h3 { margin-bottom: var(--sp-4); }
+.step blockquote { margin-bottom: var(--sp-4); }
+
+/* ───────── 6. 소개 ───────── */
+.work { margin-bottom: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.work:first-child { border-top: 0; padding-top: 0; }
+.work .when { margin-bottom: var(--sp-2); }
+.work.is-current .state { color: var(--ink-strong); border-color: var(--ink-strong); }
+.work .line { margin-bottom: var(--sp-3); }
+.work .credit { margin-bottom: var(--sp-1); }
+
+/* ───────── 7. 없는 주소 ───────── */
+.nf { padding-bottom: var(--sp-7); }
+.nf h1 { margin-bottom: var(--sp-3); }
+.nf .what { color: var(--ink-dim); margin-bottom: var(--sp-7); }
+.verse { margin: 0 0 var(--sp-6); }
+.stanza { margin: 0 0 var(--sp-3); min-height: 7.8em; }
+.stanza .soft { color: var(--ink-dim); }
+.greeting { margin-bottom: var(--sp-3); }
+.count, .nf-state { margin-bottom: var(--sp-3); color: var(--ink-dim); font-size: var(--fs-small); }
+.nf-state:empty { margin: 0; }
+.nf-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin: var(--sp-5) 0 0; max-width: none; }
+
+/* ───────── 8. 편지 ───────── */
+.letter .page-head { margin-bottom: var(--sp-7); }
+.sign { margin-top: var(--sp-7); font-family: var(--font-voice); color: var(--ink-strong); }
+.related { list-style: none; margin: 0; padding: 0; max-width: var(--measure); }
+.related li { border-bottom: 1px solid var(--line); }
+.related .go { display: flex; padding: var(--sp-2) 0; font-family: var(--font-read); font-size: var(--fs-body); text-decoration: none; }
+.related .go:hover { text-decoration: underline; text-decoration-color: var(--signal); }
+.back-end { margin-top: var(--sp-6); }
+
+/* ───────── 9. 넓은 화면 ───────── */
+@media (min-width: 840px) {
+  .shell { display: grid; grid-template-columns: clamp(9.5rem, 16vw, 22rem) minmax(0, 1fr); column-gap: var(--sp-7); align-items: baseline; }  /* 곁의 첫 줄과 큰 제목을 한 밑줄에 맞춘다(On 16:08 「큰 타이틀 수평이 안맞음」) */
+  .shell.is-single { display: block; padding-left: calc(var(--gutter) + clamp(9.5rem, 16vw, 22rem) + var(--sp-7)); }
+  /* 목록: 왼쪽에 붙어 따라온다 */
+  .index { position: sticky; top: var(--sp-5); margin: var(--sp-7) 0 0; padding: 0; background: none; border: 0; overflow: visible; }
+  .index-h { position: static; display: block; width: auto; height: auto; clip: auto; overflow: visible; padding: 0 var(--sp-2) var(--sp-2); color: var(--ink-faint); letter-spacing: 0.06em; }
+  .index ol { display: block; white-space: normal; }
+  .index a { display: flex; }
+  .side { position: sticky; top: var(--sp-5); margin-top: var(--sp-7); padding-top: 0; }
+}
+@media (min-width: 1280px) {
+  /* 나란히 놓인 카드는 같은 줄끼리 수평이 맞는다(On 16:09) — 카드의 네 줄(제목 · 쓴 이 · 소개 · Read)이 옆 카드와 같은 가로줄을 쓴다(subgrid) */
+  .writings { display: grid; grid-template-columns: repeat(2, minmax(0, 30em)); column-gap: var(--sp-8); row-gap: 0; }
+  .writing { display: grid; grid-template-rows: subgrid; grid-row: span 4; margin-bottom: var(--sp-7); }
+  .writing > * { min-width: 0; }
+  .works { display: grid; grid-template-columns: repeat(2, minmax(0, 30em)); column-gap: var(--sp-8); row-gap: 0; }
+  .work { display: grid; grid-template-rows: subgrid; grid-row: span 6; }
+  .work > * { min-width: 0; }
+  .work, .work:first-child { border-top: 0; padding-top: 0; }
+  /* 걸음: 날짜가 왼쪽, 글이 오른쪽 */
+  .step { display: grid; grid-template-columns: 11em minmax(0, 1fr); column-gap: var(--sp-6); }
+  .step > * { grid-column: 2; }
+  .step > .when { grid-column: 1; grid-row: 1 / span 12; padding-top: 0.45em; }
+}
+
+@media print {
+  .index, .side, .nf-actions, .count { display: none !important; }
+  .shell { display: block; }
+}
+
+/* ── 글 페이지의 본문: 글 파일의 요소를 그대로 받아 CI로 입힌다(On 16:03) ── */
+.prose > * { max-width: var(--measure); }
+.prose section + section { margin-top: var(--sp-7); }
+.prose h2 { font-family: var(--font-voice); font-size: var(--fs-h2); line-height: var(--lh-tight); color: var(--ink-strong); margin: var(--sp-7) 0 var(--sp-4); }
+.prose h3 { font-family: var(--font-voice); font-size: var(--fs-lead); line-height: var(--lh-tight); color: var(--ink-strong); margin: var(--sp-6) 0 var(--sp-3); }
+.prose blockquote { margin: var(--sp-5) 0; font-family: var(--font-voice); font-size: var(--fs-lead); line-height: 1.55; color: var(--ink-strong); }
+.prose table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-collapse: collapse; margin: var(--sp-5) 0; font-size: var(--fs-small); line-height: 1.6; }
+.prose caption { text-align: left; font-family: var(--font-label); font-size: var(--fs-label); color: var(--ink-faint); padding-bottom: var(--sp-2); }
+.prose th, .prose td { text-align: left; vertical-align: top; padding: var(--sp-3) var(--sp-4) var(--sp-3) 0; border-top: 1px solid var(--line); }
+.prose th { font-family: var(--font-label); font-weight: 600; color: var(--ink-dim); }
+.prose dt { font-family: var(--font-label); font-size: var(--fs-small); font-weight: 600; color: var(--ink-dim); margin-top: var(--sp-4); }
+.prose dd { margin: var(--sp-1) 0 0; }
+.prose code { font-family: var(--font-code); font-size: 0.92em; color: var(--ink-strong); overflow-wrap: anywhere; }
+.prose strong { color: var(--ink-strong); }
+.prose .signature, .prose .sign { margin-top: var(--sp-6); font-family: var(--font-voice); color: var(--ink-strong); }
+/* 글 목록의 제목 — 누르면 그 글이 열린다(On 16:03) */
+.writing h3 a.title-link { color: inherit; text-decoration: none; display: inline-block; padding: var(--sp-2) 0; }
+.writing h3 a.title-link:hover, .writing h3 a.title-link:focus-visible { text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 0.2em; }
+
+/* 넓은 화면 — R48 */
+/* 화면을 늘리면 옆 여백이 너비를 따라 흐르고, 본문 기둥(--measure)이 화면 한가운데에 선다(On 16:18 「레이아웃도 고정이잖아」).
+ * 짜임(왼쪽 목록 · 본문)과 글줄 길이는 그대로다. 머리 · 바닥 · 틀이 같은 옆 여백을 쓰므로 마크와 목록의 왼쪽 줄이 그대로 맞는다.
+ * 본문 오른쪽에는 왼쪽 목록만큼의 자리가 남고, 카드의 둘째 기둥과 걸음의 글이 거기까지 쓴다(카드 기둥 수는 둘 그대로).
+ * 1600px 에서는 그 아래와 똑같다(뚝 끊기지 않는다). 거기서부터 늘어난 너비가 양옆 여백으로 반씩 가다가 1872px 쯤에서 본문 기둥이 가운데에 닿고, 그 뒤로는 가운데에 선 채로 자란다.
+ * --wide-side 는 9장 「.shell」 의 곁 너비와 같은 값, 34 는 --measure(34em)를 본문 글자 크기(--fs-body)로 푼 것이다 — 그 둘을 바꾸면 여기도 함께 바꾼다. */
+@media (min-width: 1600px) {
+  :root {
+    --wide-side: clamp(9.5rem, 16vw, 22rem);
+    --wide-edge: clamp(var(--gutter), calc(var(--gutter) + (100vw - 1600px) / 2), calc((100% - 34 * var(--fs-body)) / 2 - var(--wide-side) - var(--sp-7)));
+  }
+  .site-head, .site-foot, .shell { padding-left: var(--wide-edge); padding-right: var(--wide-edge); }
+  .shell.is-single { padding-left: calc(var(--wide-edge) + var(--wide-side) + var(--sp-7)); }
+}
+
+
+/* ═════════ 따옴 · 낱말과 풀이 — 방법론 시안(method/method.css)에서 옮김(On 2026-11-12 08:52 · A-1) ═════════
+ * 방법론 · 시뮬레이션 · 프로필 · 구성도의 style.css 는 이 파일을 앞에 싣는다. */
+
+/* ───────── 가. 따옴 — 세로선에 기대지 않는다 〔K-4〕 ─────────
+ * 목소리 글꼴 · 본문보다 한 단계 큰 크기(.voice) · 들여쓰기 · 넉넉한 위아래 숨 · 출처 줄(라벨 글꼴).
+ * 표시는 열린 원 하나 — 글자색으로(M-3). 신호색은 쓰지 않는다(C-4: 신호색은 초점 · 지금 짚은 자리 · 고른 언어에만). */
+.quote { --q-in: var(--sp-6); position: relative; margin: var(--sp-7) 0; padding-left: var(--q-in); }
+.sec-label + .quote { margin-top: 0; }
+.quote:last-child { margin-bottom: 0; }
+.quote blockquote { margin: 0; padding: 0; }   /* 글 페이지의 .prose blockquote 가 주는 왼쪽 여백을 지운다 — 들여쓰기는 .quote 가 맡는다 */
+.quote blockquote p { margin: 0; max-width: none; }
+.quote figcaption { margin-top: var(--sp-3); color: var(--ink-dim); max-width: var(--measure); }
+/* ㉯ 열린 원 — 첫 줄의 가운데 높이에 건다 */
+.quote > .ring { position: absolute; left: 0; top: calc(var(--fs-lead) * 0.46); width: calc(var(--fs-lead) * 0.64); height: calc(var(--fs-lead) * 0.64); color: var(--mark); }
+.quote > .ring svg { display: block; width: 100%; height: 100%; }
+.quote > .ring circle { fill: none; stroke: currentColor; stroke-width: 10; stroke-dasharray: 226 28; }
+/* ㉰ 떠 있는 면 */
+.quote.is-raised { padding: var(--sp-5); background: var(--bg-raised); border-radius: var(--radius); }
+@media (max-width: 599px) { .quote { --q-in: var(--sp-5); margin: var(--sp-6) 0; } }
+
+/* ───────── 나. 낱말과 풀이 — 줄표를 표시로 쓰지 않는다 ─────────
+ * <dl class="pairs is-ledger"><div class="pair"><dt><span>낱말</span></dt><dd>풀이</dd></div>…</dl>
+ * 낱말 칸은 라벨 글꼴 · 좁게 · 굵게, 풀이 칸은 본문. 휴대폰에서는 낱말이 위, 풀이가 아래. */
+.pairs { margin: 0 0 var(--sp-5); padding: 0; max-width: var(--measure); }
+.pairs dd { margin: 0; }
+.pair { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); column-gap: var(--sp-5); align-items: baseline; }
+.pair dt { font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.5; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-strong); }
+/* ㉮ 장부의 줄 */
+.pairs.is-ledger { border-bottom: 1px solid var(--line-strong); }
+.pairs.is-ledger .pair { padding: var(--sp-4) 0; border-top: 1px solid var(--line-strong); }
+/* ㉯ 테 글자 — 상태 표시 〔K-5〕 */
+.pairs.is-chip .pair { padding: var(--sp-3) 0; }
+.pairs.is-chip dt { font-weight: 400; }
+.pairs.is-chip dt span { display: inline-block; line-height: 1.6; padding: 0 0.45em; border: 1px solid var(--ink-faint); border-radius: 2px; color: var(--ink-dim); }
+/* ㉰ 위아래 */
+.pairs.is-stack .pair { display: block; padding: var(--sp-3) 0; }
+.pairs.is-stack dt { margin-bottom: var(--sp-1); }
+@media (max-width: 599px) {
+  .pair { display: block; }
+  .pair dt { margin-bottom: var(--sp-1); }
+  .pairs.is-ledger .pair { padding: var(--sp-3) 0 var(--sp-4); }
+}
+/* 줄 안의 한 줄짜리(일곱 물음의 「지금」) — 같은 말씨, 한 단계 작게 */
+.pairs.pairs-now { margin: var(--sp-4) 0 0; border-bottom: 0; }
+.pairs.pairs-now .pair { grid-template-columns: 3.4em minmax(0, 1fr); column-gap: var(--sp-4); padding: var(--sp-3) 0 0; }
+.pairs.pairs-now dd { font-size: var(--fs-small); line-height: 1.75; color: var(--ink-dim); }
+
+/* ───────── 따옴 — 마크업을 바꾸지 않고 같은 표시를 입힌다(On 2026-11-12 08:52 · A-1 「모든 페이지에」) ─────────
+ * 머리의 한 문장(.one) · 발자취의 걸음(.step) · 글(.prose) · 시뮬레이션(blockquote.q) · 프로필(.sec-ko).
+ * 원은 svg 가 아니라 색띠로 그린다 — 꼴은 마크와 같다(반지름 40 · 굵기 10 · 틈이 위쪽 36도). 색은 --mark, 신호색은 쓰지 않는다. */
+.one, .step > blockquote, .prose blockquote, blockquote.q, .sec-ko blockquote.voice, .sec-ko .quote-src { --q-in: var(--sp-6); padding-left: var(--q-in); }
+.one, .step > blockquote, .prose blockquote, blockquote.q, .sec-ko blockquote.voice { position: relative; --q-fs: var(--fs-lead); --q-lh: 1.55; }
+blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
+.one::before, .step > blockquote::before, .prose blockquote::before, blockquote.q::before, .sec-ko blockquote.voice::before {
+  content: ""; position: absolute; left: 0; top: calc(var(--q-fs) * var(--q-lh) / 2 - var(--q-fs) * 0.32);
+  width: calc(var(--q-fs) * 0.64); height: calc(var(--q-fs) * 0.64); border-radius: 50%;
+  background: conic-gradient(from 20deg, var(--mark) 0deg 323.8deg, transparent 323.8deg 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 69%, #000 71%, #000 89%, transparent 91%);
+  mask: radial-gradient(closest-side, transparent 69%, #000 71%, #000 89%, transparent 91%);
+}
+/* 원은 하나만 — .quote 와 .one 은 바깥 틀이 원과 들여쓰기를 든다 */
+.quote blockquote, .one blockquote { padding-left: 0; }
+.quote blockquote::before, .one blockquote::before { content: none; }
+@media (max-width: 599px) { .one, .step > blockquote, .prose blockquote, blockquote.q, .sec-ko blockquote.voice, .sec-ko .quote-src { --q-in: var(--sp-5); } }
+@media (forced-colors: active) { .one::before, .step > blockquote::before, .prose blockquote::before, blockquote.q::before, .sec-ko blockquote.voice::before { background: CanvasText; } }
+/* 낱말 칸이 넓어야 하는 목록(발자취의 「넘겨받은 것」) — 라틴 글자의 라벨은 길다 */
+:lang(en) .pairs.pairs-wide .pair, :lang(es) .pairs.pairs-wide .pair { grid-template-columns: 10.5em minmax(0, 1fr); }
+
+
+/* ═════════ 시뮬레이션 페이지 — 지금 페이지 안의 꾸밈을 CI의 토큰으로 옮긴 것 ═════════
+ * 색 · 글꼴 · 크기는 shared/onduru.css 의 토큰만 쓴다. 지금 페이지의 호박색(--acc) · 붉은색(--halt) · 풀색(--ok)은 쓰지 않는다 —
+ * CI의 신호색은 하나다. 뜻은 색이 아니라 꼴(선의 굵기 · 점선 · 이름표 · 표시의 모양)이 함께 나른다.
+ * 그림 속 글자 크기(10 · 10.5 · 12)는 화면의 px 가 아니라 그림 좌표(viewBox 360)의 눈금이다.
+ * 차례: 1 머리  2 표시(상태)  3 글 조각  4 따옴  5 그림  6 단추 · 지금 걸음  7 걸음 목록  8 장부  9 추적표  10 묶음들  11 넓은 화면 · 인쇄 */
+
+/* ───────── 1. 머리 ───────── */
+.sim-page .page-head { margin-bottom: var(--sp-7); }
+.sim-page .intro p:last-child { margin-bottom: 0; }
+.legend { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--sp-2) var(--sp-4); align-items: baseline; margin: var(--sp-6) 0 0; max-width: var(--measure); font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.7; color: var(--ink-dim); }
+.legend dt, .legend dd { margin: 0; }
+
+/* ───────── 2. 표시(상태) — CI의 .state 꼴. 넷은 색이 아니라 앞의 동그라미로 가른다: 찬 것 · 반 · 빈 것 · 점선 ───────── */
+.sb2 { display: inline-block; font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.02em; color: var(--ink-dim); border: 1px solid var(--ink-faint); border-radius: 2px; padding: 0 0.5em; white-space: nowrap; vertical-align: 0.1em; }
+.sb2::before { content: ""; display: inline-block; width: 0.62em; height: 0.62em; margin-right: 0.45em; border: 1px solid currentColor; border-radius: 50%; }
+.sb2.run { color: var(--ink-strong); }
+.sb2.run::before { background: currentColor; }
+.sb2.rep::before { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.sb2.yet::before { border-style: dotted; }
+.d .sb2 { margin-left: 0.6em; }
+
+/* ───────── 3. 글 조각 ───────── */
+.sim-page .sec > p, .sim-page .sec > blockquote, .sim-page .sec > ul, .sim-page .sec > ol.items, .sim-page .sec > ol.refs { max-width: var(--measure); }
+.items { list-style: none; margin: 0; padding: 0; }
+.items > li { padding: var(--sp-5) 0; border-top: 1px solid var(--line); }
+.items > li:last-child { border-bottom: 1px solid var(--line); }
+.items p:last-child { margin-bottom: 0; }
+.d { font-family: var(--font-voice); font-size: var(--fs-lead); line-height: var(--lh-tight); color: var(--ink-strong); margin-bottom: var(--sp-3); }
+.w { margin-bottom: var(--sp-3); }
+.ev, .now { font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.7; color: var(--ink-dim); margin-bottom: var(--sp-3); }
+.ev .sb2 { margin-right: 0.6em; }
+.now b { font-weight: 500; letter-spacing: 0.06em; color: var(--ink-faint); margin-right: 0.5em; }
+.sim-page .note { margin-top: var(--sp-4); }
+.names, .soccap { font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.04em; color: var(--ink-faint); }
+.names { margin-top: var(--sp-4); }
+.soccap { margin: var(--sp-6) 0 0; }
+.sim-page .more { display: flex; flex-wrap: wrap; gap: 0 var(--sp-5); margin-top: var(--sp-4); }
+.sim-page .more a, .contact a { display: inline-flex; align-items: center; min-height: var(--tap); min-width: var(--tap); font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-strong); }
+.contact { font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-dim); }
+
+/* 줄표 없는 목록 — 【임시】 디자인 팀의 조각이 오면 ul.plain 두 줄을 지운다(받을 요소는 NOTES) */
+ul.plain { list-style: none; margin: 0 0 var(--sp-5); padding: 0; }
+ul.plain li { padding: var(--sp-2) 0; border-top: 1px solid var(--line); }
+ul.plain li:last-child { border-bottom: 1px solid var(--line); }
+.stl { list-style: none; margin: 0 0 var(--sp-5); padding: 0; max-width: var(--measure); }
+.stl li { margin: 0 0 var(--sp-4); }
+.stl .sb2 { margin-right: 0.6em; }
+.refs { list-style: none; margin: 0; padding: 0; }
+.refs li { margin: 0 0 var(--sp-4); font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.7; color: var(--ink-dim); }
+.refs a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--ink-strong); overflow-wrap: anywhere; }   /* 누를 것 44px */
+
+/* ───────── 4. 따옴 — (2026-11-12: 열린 원과 들여쓰기는 바탕 판이 입힌다 — A-1. 아래는 글꼴과 크기만) 【임시】 디자인 팀의 조각(방법론 자리가 냄 → 총괄이 확정안에 넣음)이 오면 이 대목(blockquote.q · cite)을 지운다.
+ * 이 자리는 따옴을 따로 꾸미지 않는다. 아래는 조각이 오기 전까지 페이지가 무너지지 않게 둔 것이다(세로선 없음). 받을 요소는 NOTES 의 「조각을 받을 요소」 */
+blockquote.q { margin: var(--sp-5) 0; font-family: var(--font-voice); font-size: var(--fs-lead); line-height: 1.55; color: var(--ink-strong); text-wrap: balance; }
+blockquote.q p { margin: 0; max-width: 26em; }
+blockquote.q.sm { font-size: var(--fs-body); line-height: var(--lh-body); margin: var(--sp-3) 0 0; }
+cite { display: block; margin-top: var(--sp-3); font-family: var(--font-label); font-style: normal; font-size: var(--fs-label); line-height: 1.5; letter-spacing: 0.02em; color: var(--ink-faint); }
+.items blockquote.q { margin: var(--sp-3) 0 var(--sp-4); }
+
+/* ───────── 5. 그림 ───────── */
+figure.sim { margin: var(--sp-5) 0 0; max-width: var(--measure); }
+.sim svg { display: block; width: 100%; max-width: 28em; height: auto; }   /* 본문 글자를 따라 커진다: 1280 에서 536px(그림 눈금 10 → 화면 14.9px) */
+.sim text { font-family: var(--font-label); fill: var(--ink-dim); }
+.sim .nm { font-size: 12px; fill: var(--ink-strong); }
+.sim .sb { font-size: 10px; fill: var(--ink-dim); }
+.sim .cap { font-size: 10px; letter-spacing: 0.08em; fill: var(--ink-dim); }
+.sim .ml { font-size: 10.5px; fill: var(--ink); }
+.sim .frame { fill: none; stroke: var(--line-strong); stroke-width: 1; }
+.sim .rule { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 5 4; fill: none; }
+.sim .life { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+.sim .n rect { fill: var(--bg-raised); stroke: var(--ink-faint); stroke-width: 1; transition: stroke var(--dur), fill var(--dur), stroke-width var(--dur); }
+.sim .n.dash rect { stroke-dasharray: 4 3; }
+.sim .n, .sim .e, .sim .lb, .sim .bar, .sim .dot { transition: opacity var(--dur); }
+.sim .e path { fill: none; stroke: var(--ink-faint); stroke-width: 1.1; marker-end: url(#ah); transition: stroke var(--dur); }
+.sim .e.flow path { stroke-dasharray: 3 5; animation: march 1.8s linear infinite; }
+.sim .e.ctlline path { stroke-dasharray: 1 4; stroke-linecap: round; }
+.sim .e.nohead path { marker-end: none; }
+.sim .e.wait path { stroke-dasharray: 5 4; }
+.sim .bar { fill: var(--ink-faint); }
+.sim .bar.miss { fill: none; stroke: var(--ink-faint); stroke-dasharray: 3 3; }
+.sim .dot { fill: var(--ink-faint); }
+.sim .tag { font-size: 10.5px; fill: var(--ink-strong); font-weight: 600; opacity: 0; transition: opacity var(--dur); }
+@keyframes march { to { stroke-dashoffset: -16; } }
+/* 화살촉 — 지금 페이지는 색을 글자로 박아 두었다. 토큰으로 덮는다 */
+#ah path { fill: var(--ink-faint); }
+#ah-on path { fill: var(--signal); }
+#ah-halt path { fill: var(--ink-strong); }
+
+/* 지금 걸음이 아닌 것은 흐리게 — 흐려도 읽히는 만큼만.
+ * 둘째 묶음(11-11 16:59)에 잰 값: 0.42 에서는 그림의 작은 글자(.sb)가 밤 2.31 · 새벽 2.32 · 종이 1.85 대 1 이었다 → 밤 · 새벽 0.6(3.37 · 3.30), 종이 0.7(3.04) */
+figure.sim { --sim-dim: 0.6; --sim-unwritten: 0.5; }
+html[data-theme="paper"] figure.sim { --sim-dim: 0.7; --sim-unwritten: 0.6; }
+.sim svg.dim .n:not(.on), .sim svg.dim .e:not(.on), .sim svg.dim .lb:not(.on), .sim svg.dim .bar:not(.on), .sim svg.dim .dot:not(.on) { opacity: var(--sim-dim); }
+.sim .n.on rect { stroke: var(--signal); stroke-width: 1.5; }
+.sim .e.on path { stroke: var(--signal); stroke-width: 1.5; marker-end: url(#ah-on); }
+.sim .e.on.nohead path { marker-end: none; }
+.sim .bar.on { fill: var(--signal); }
+.sim .dot.on { fill: var(--signal); }
+/* 멈춤이 닿은 자리(동결) — 색을 하나 더 쓰지 않는다: 굵은 테 + 이름표 「동결」 */
+.sim .n.s-fz rect { stroke: var(--ink-strong); stroke-width: 2.2; fill: var(--bg); }
+.sim .n.s-fz .tag { opacity: 1; }
+.sim .e.s-sig path { stroke: var(--ink-strong); stroke-width: 2; stroke-dasharray: none; animation: none; marker-end: url(#ah-halt); }
+.sim .n.s-unk rect { stroke: var(--ink-strong); stroke-dasharray: 4 3; }
+.sim svg.dim .n.s-fz:not(.on) { opacity: calc(var(--sim-dim) + 0.15); }
+.sim svg.dim .e.s-sig:not(.on) { opacity: calc(var(--sim-dim) + 0.2); }
+.sim .bar.miss.s-deny { stroke: var(--ink-strong); stroke-width: 1.5; }
+.sim .lb.tagline { font-size: 10.5px; fill: var(--ink-strong); opacity: 0; transition: opacity var(--dur); }
+.sim svg.dim .lb.tagline:not(.s-unk):not(.s-deny) { opacity: 0; }
+.sim .lb.tagline.s-unk, .sim .lb.tagline.s-deny { opacity: 1; }
+.sim svg.dim .lb.tagline.s-unk:not(.on), .sim svg.dim .lb.tagline.s-deny:not(.on) { opacity: var(--sim-dim); }
+
+/* ───────── 6. 단추 · 지금 걸음 ───────── */
+.ctl { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-4) 0 var(--sp-1); font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-dim); }
+.ctl button, .vt button { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); padding: var(--sp-2) var(--sp-4); border: 1px solid var(--ink-faint); border-radius: var(--radius); background: transparent; color: var(--ink-strong); font: inherit; font-family: var(--font-label); font-size: var(--fs-small); line-height: 1.4; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: border-color var(--dur), background-color var(--dur); }
+.ctl button:hover, .vt button:hover { border-color: var(--ink-strong); }
+.ctl button:active, .vt button:active { background: var(--bg-raised); }
+.ctl button[disabled] { opacity: 0.5; cursor: default; }
+.ctl .play[aria-pressed="true"] { border-color: var(--signal); }
+.ctl .cnt { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--ink-dim); }
+.capnow { margin: var(--sp-2) 0 0; padding: var(--sp-3) var(--sp-4); border-radius: var(--radius); background: var(--bg-raised); font-size: var(--fs-small); line-height: 1.7; color: var(--ink); min-height: 5.6em; max-width: none; }
+.capnow b { font-weight: 600; color: var(--ink-strong); margin-right: 0.5em; }
+
+/* ───────── 7. 걸음 목록 ───────── */
+ol.steps { list-style: none; padding: 0; margin: var(--sp-3) 0 0; counter-reset: s; }
+ol.steps > li { counter-increment: s; padding: var(--sp-4) var(--sp-3); border-top: 1px solid var(--line); border-radius: 0; transition: background-color var(--dur), opacity var(--dur); }
+ol.steps > li:last-child { border-bottom: 1px solid var(--line); }
+ol.steps p:last-child { margin-bottom: 0; }
+ol.steps .d { font-size: var(--fs-body); line-height: 1.5; margin-bottom: var(--sp-2); }
+ol.steps .d::before { content: counter(s) ". "; font-family: var(--font-label); font-size: var(--fs-small); color: var(--ink-faint); }   /* 지금 페이지와 같은 꼴 — 「지금 걸음」 줄(스크립트)의 「1. 」과 맞는다 */
+.sim.run ol.steps > li { cursor: pointer; }
+.sim.run ol.steps > li:not(.cur) { opacity: var(--sim-dim); }
+.sim.run ol.steps > li.cur { background: var(--bg-raised); }
+.sim.run ol.steps > li.cur .d::before { color: var(--signal); }
+
+/* ───────── 8. 장부 ───────── */
+.ledger { margin: var(--sp-4) 0 0; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raised); }
+.ledger h3 { font-family: var(--font-label); font-weight: 500; font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.06em; color: var(--ink-dim); margin: 0; max-width: none; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line-strong); }
+.ledger ol { list-style: none; margin: 0; padding: 0; counter-reset: r; }
+.ledger li { counter-increment: r; display: grid; grid-template-columns: 1.6em minmax(0, 1fr); gap: 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); border-top: 1px solid var(--line-strong); font-family: var(--font-label); line-height: 1.6; transition: opacity var(--dur), background-color var(--dur); }
+.ledger li:first-child { border-top: 0; }
+.ledger li::before { content: counter(r); color: var(--ink-faint); font-size: var(--fs-label); font-variant-numeric: tabular-nums; grid-row: 1 / span 2; }
+.ledger .h { color: var(--ink-dim); font-size: var(--fs-label); grid-column: 2; }
+.ledger .c { color: var(--ink); font-size: var(--fs-small); grid-column: 2; }
+.sim.run .ledger li:not(.s-w) { opacity: var(--sim-unwritten); }   /* 아직 적히지 않은 줄 */
+.sim.run .ledger li.on { background: var(--bg); }
+.sim.run .ledger li.s-tr { background: var(--bg); box-shadow: inset 0 0 0 1px var(--signal); }
+
+/* ───────── 9. 추적표 ───────── */
+.vt { width: 100%; border-collapse: collapse; margin: var(--sp-5) 0 0; font-size: var(--fs-small); line-height: 1.6; }
+.vt caption { caption-side: top; text-align: left; font-family: var(--font-label); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-dim); padding-bottom: var(--sp-2); }
+.vt th, .vt td { text-align: left; vertical-align: top; padding: var(--sp-3) var(--sp-3) var(--sp-3) 0; border-top: 1px solid var(--line); width: 50%; }
+.vt th { font-family: var(--font-label); font-weight: 500; font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-dim); }
+.vt td button { display: flex; margin-top: var(--sp-2); }
+
+/* ───────── 10. 묶음들: 두 칸 · 세 사회 · 샌드박스 여섯 · 보기 화면 ───────── */
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--sp-5) var(--sp-6); margin: var(--sp-4) 0 var(--sp-5); max-width: 60em; }
+.two h3, .soc dt, .mock dt, .cards .o { font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.04em; color: var(--ink-dim); }
+.two h3 { font-weight: 500; margin: 0 0 var(--sp-2); max-width: none; }
+.two ul.plain { margin-bottom: 0; }
+.soc { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--sp-4); margin: var(--sp-3) 0 var(--sp-6); max-width: 60em; }
+.soc > div { border-top: 1px solid var(--ink-faint); padding-top: var(--sp-3); min-width: 0; }
+.soc > div.me { border-top: 2px solid var(--signal); }
+.soc h3, .cards h3 { font-size: var(--fs-body); line-height: 1.5; margin: 0 0 var(--sp-2); max-width: none; }
+.soc dl, .mock dl { margin: 0; }
+.soc dt, .mock dt { margin-top: var(--sp-3); }
+.soc dd, .mock dd { margin: 0; font-size: var(--fs-small); line-height: 1.65; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--sp-4); margin: var(--sp-4) 0 var(--sp-5); padding: 0; list-style: none; counter-reset: c; max-width: 60em; }
+.cards > li { counter-increment: c; border: 1px solid var(--line-strong); border-radius: var(--radius); padding: var(--sp-4); min-width: 0; background: var(--bg-raised); }
+.cards h3::before { content: counter(c) ". "; font-family: var(--font-label); font-size: var(--fs-label); color: var(--ink-faint); }
+.cards p { margin: 0; font-size: var(--fs-small); line-height: 1.7; }
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: var(--sp-3) 0 var(--sp-2); padding: 0; list-style: none; }
+/* 「낱말 — 풀이」 줄 — 【임시】 디자인 팀의 조각이 오면 .cards .o .k · .v 세 줄을 지운다(받을 요소는 NOTES). 짓는 글은 낱말(.k)과 풀이(.v)를 갈라 싣기만 한다 */
+.cards .o { margin-top: var(--sp-3); }
+.cards .o .k { display: block; }
+.cards .o .v { display: block; font-family: var(--font-read); font-size: var(--fs-small); line-height: 1.7; letter-spacing: 0; color: var(--ink); }
+.chips li { font-family: var(--font-label); font-size: var(--fs-label); line-height: 1.7; letter-spacing: 0.02em; color: var(--ink-dim); border: 1px solid var(--ink-faint); border-radius: 1em; padding: 0 0.7em; }
+.mock { margin: var(--sp-4) 0 0; border: 1px solid var(--ink-faint); border-radius: var(--radius); background: var(--bg-raised); max-width: 30rem; }
+.mock .rib { font-family: var(--font-label); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-dim); margin: 0; max-width: none; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line-strong); }
+.mock h3 { font-size: var(--fs-lead); margin: 0; padding: var(--sp-3) var(--sp-3) var(--sp-1); }
+.mock dl { padding: 0 var(--sp-3) var(--sp-3); }
+
+/* ───────── 11. 인쇄 · 움직임 줄이기 ───────── */
+@media (prefers-reduced-motion: reduce) { .sim .e.flow path { animation: none; } }
+@media print { .ctl, .vt button, .capnow { display: none !important; } .sim svg.dim * { opacity: 1 !important; } }

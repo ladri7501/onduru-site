@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en" data-variant="base" data-page="simulation" data-theme="night" data-type="myeongjo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0f1318">
+<title>Simulation — ONDURU</title>
+<meta name="description" content="A day in which several agents work together in one country, played out in diagrams: a ledger people can read, a stop that reaches the end of the chain, and a setup one person runs. The examples are fictional.">
+<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);}catch(e){}r.className+=' js';})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="/shared/onduru.css?v=20261113">
+<link rel="stylesheet" href="/shared/sky.css?v=20261113">
+<link rel="stylesheet" href="/simulation/style.css?v=20261113">
+
+<link rel="canonical" href="https://onduru.com/en/simulation/">
+<link rel="alternate" hreflang="ko" href="https://onduru.com/ko/simulation/">
+<link rel="alternate" hreflang="en" href="https://onduru.com/en/simulation/">
+<link rel="alternate" hreflang="es" href="https://onduru.com/es/simulation/">
+<link rel="alternate" hreflang="x-default" href="https://onduru.com/simulation/">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the text</a>
+<header class="site-head"><a class="mark" href="/en/about/" translate="no" aria-label="ONDURU — About ONDURU"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="Pages"><a href="/en/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/en/method/"><span lang="en" translate="no">Method</span></a><a href="/en/simulation/" aria-current="page"><span lang="en" translate="no">Simulation</span></a><a href="/en/architecture/"><span lang="en" translate="no">Architecture</span></a><a href="/en/about/"><span lang="en" translate="no">About</span></a></nav><nav class="langs" aria-label="Language" translate="no"><a href="/ko/simulation/" hreflang="ko" lang="ko">한국어</a><a href="/en/simulation/" hreflang="en" lang="en" aria-current="true">English</a><a href="/es/simulation/" hreflang="es" lang="es">Español</a></nav></header>
+<div class="shell has-index sim-page">
+<nav class="index" aria-labelledby="index-h"><span class="index-h" id="index-h"><span lang="en" translate="no">Contents</span></span><ol><li><a href="#map"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Map of the Country</span></a></li><li><a href="#flow"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Path of One Sentence</span></a></li><li><a href="#stop"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Stop</span></a></li><li><a href="#between"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Three Relations</span></a></li><li><a href="#govern"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What It Rests On</span></a></li><li><a href="#differ"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What Differs</span></a></li><li><a href="#own"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">One Person&#x27;s Setup</span></a></li><li><a href="#sandboxes"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Six Sandboxes</span></a></li><li><a href="#learned"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What We Learned</span></a></li><li><a href="#now"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Now</span></a></li><li><a href="#refs"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">References</span></a></li><li><a href="#contact"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Contact</span></a></li></ol></nav>
+<main id="main">
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#7a8089"/></marker><marker id="ah-on" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#c9a56a"/></marker><marker id="ah-halt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#cf8a78"/></marker></defs></svg>
+<header class="page-head">
+<h1>Simulation</h1>
+<p class="role label">A hypothetical ONDURU · Fictional examples</p>
+<figure class="one"><blockquote class="voice"><p>Somewhere, someone like me may be getting started on their own with help from several AIs. If one day they say, “Hold on a moment,” I hope they can see for themselves how far those words reached.</p></blockquote><figcaption class="label">On, from “If I Ask One AI to Stop, Will the Last One Stop Too?”</figcaption></figure>
+<div class="intro">
+<p>This page takes those words and plays them out in diagrams. It follows the path of one sentence, and of the one word “stop,” as agents made by different companies and a model on On’s own computer work together as the citizens and guests of one country.</p>
+<p>The examples are fictional. So each part is marked with one of four labels that say how far it has actually come.</p>
+</div>
+<dl class="legend">
+<dt><span class="sb2 run">Actually run</span></dt><dd>This was run in the workshop for real, and the logs were kept.</dd>
+<dt><span class="sb2 rep">Essay’s test record</span></dt><dd>On’s essay reports this from the results table dated November 5, 2026. The raw logs are not included in the essay.</dd>
+<dt><span class="sb2 des">Design</span></dt><dd>Decided in writing, but not run yet.</dd>
+<dt><span class="sb2 yet">Not yet</span></dt><dd>Still empty, or not known yet.</dd>
+</dl>
+</header>
+<section class="sec" id="map" aria-labelledby="map-h"><h2 class="sec-label" id="map-h"><span lang="en" translate="no">Map of the Country</span></h2>
+<p>On compares the place where this method will grow to a country. The territory is the computers and folders in On’s own hands. The citizens are the agents made there, and the models that companies make are borrowed engines. Agents that live on a company’s servers are guests.</p>
+<figure class="sim" id="fig-map" data-dwell="3600">
+<svg viewBox="0 0 360 532" role="img" aria-labelledby="map-t map-d" xmlns="http://www.w3.org/2000/svg"><title id="map-t">Map of the country — the place of people, the territory, the border and the outside</title><desc id="map-d">At the top is the place of people. In the middle is the territory, which holds the constitution and the registry, the ledger and the graph, the citizens and the sandbox. At the bottom, two gates in the border lead to the engines and the guests outside.</desc><text class="cap lb" x="16" y="14">The place of people</text><g class="n " data-k="on"><rect x="16" y="22" width="100" height="44" rx="5"/><text class="nm" x="66" y="41" text-anchor="middle">On</text><text class="sb" x="66" y="55" text-anchor="middle">whose name is on it</text></g><g class="n " data-k="stopb"><rect x="128" y="22" width="104" height="44" rx="5"/><text class="nm" x="180" y="41" text-anchor="middle">Stop button</text><text class="sb" x="180" y="55" text-anchor="middle">only people press it</text></g><g class="n " data-k="reader"><rect x="244" y="22" width="100" height="44" rx="5"/><text class="nm" x="294" y="41" text-anchor="middle">Person affected</text><text class="sb" x="294" y="55" text-anchor="middle">opens the ledger</text></g><g class="lb" data-k="terr"><rect class="frame" x="16" y="88" width="328" height="298" rx="9"/><text class="cap" x="30" y="106">Territory — On’s own computer</text></g><g class="n " data-k="const"><rect x="32" y="118" width="120" height="48" rx="5"/><text class="nm" x="92" y="139" text-anchor="middle">Constitution</text><text class="nm" x="92" y="153" text-anchor="middle">and Guidelines</text></g><g class="n " data-k="reg"><rect x="208" y="118" width="120" height="48" rx="5"/><text class="nm" x="268" y="139" text-anchor="middle">Registry</text><text class="sb" x="268" y="153" text-anchor="middle">maker · permissions</text></g><g class="n " data-k="ledger"><rect x="32" y="186" width="120" height="48" rx="5"/><text class="nm" x="92" y="207" text-anchor="middle">Ledger</text><text class="sb" x="92" y="221" text-anchor="middle">a record people read</text></g><g class="n " data-k="graph"><rect x="208" y="186" width="120" height="48" rx="5"/><text class="nm" x="268" y="207" text-anchor="middle">Graph</text><text class="sb" x="268" y="221" text-anchor="middle">a searchable map</text></g><g class="n " data-k="cit"><rect x="32" y="254" width="120" height="48" rx="5"/><text class="nm" x="92" y="275" text-anchor="middle">Citizens</text><text class="sb" x="92" y="289" text-anchor="middle">agents made here</text></g><g class="n " data-k="sand"><rect x="208" y="254" width="120" height="48" rx="5"/><text class="nm" x="268" y="275" text-anchor="middle">Sandbox</text><text class="sb" x="268" y="289" text-anchor="middle">fictional material first</text></g><g class="n " data-k="local"><rect x="32" y="322" width="120" height="48" rx="5"/><text class="nm" x="92" y="343" text-anchor="middle">Local model</text><text class="sb" x="92" y="357" text-anchor="middle">the engine inside</text></g><g class="n dash" data-k="watch"><rect x="208" y="322" width="120" height="48" rx="5"/><text class="nm" x="268" y="343" text-anchor="middle">Amhaeng-eosa</text><text class="sb" x="268" y="357" text-anchor="middle">watcher apart · vacant</text></g><g class="lb" data-k="border"><path class="rule" d="M16,424 H32 M152,424 H208 M328,424 H344"/><text class="cap" x="180" y="420" text-anchor="middle">Border</text></g><g class="n " data-k="out"><rect x="32" y="404" width="120" height="40" rx="5"/><text class="nm" x="92" y="421" text-anchor="middle">Outbound gate</text><text class="sb" x="92" y="435" text-anchor="middle">placeholder check</text></g><g class="n " data-k="in"><rect x="208" y="404" width="120" height="40" rx="5"/><text class="nm" x="268" y="421" text-anchor="middle">Inbound gate</text><text class="sb" x="268" y="435" text-anchor="middle">guests’ text is data</text></g><text class="cap lb" x="16" y="466">Outside — company servers</text><g class="n " data-k="eng1"><rect x="16" y="476" width="62" height="36" rx="5"/><text class="nm" x="47" y="498" text-anchor="middle">Engine A</text></g><g class="n " data-k="eng2"><rect x="84" y="476" width="62" height="36" rx="5"/><text class="nm" x="115" y="498" text-anchor="middle">Engine B</text></g><g class="n " data-k="eng3"><rect x="152" y="476" width="62" height="36" rx="5"/><text class="nm" x="183" y="498" text-anchor="middle">Engine C</text></g><g class="n " data-k="guest"><rect x="232" y="472" width="112" height="44" rx="5"/><text class="nm" x="288" y="491" text-anchor="middle">Guests</text><text class="sb" x="288" y="505" text-anchor="middle">company-run agents</text></g><g class="e flow" data-k="e1"><path d="M24,66 V210 H32"/></g><g class="e flow" data-k="e2"><path d="M152,210 H208"/></g><g class="e flow" data-k="e3"><path d="M336,66 V210 H328"/></g><g class="e ctlline" data-k="e4"><path d="M180,66 V278 H152"/></g><g class="e flow" data-k="e5"><path d="M32,278 H24 V424 H32"/></g><g class="e flow" data-k="e6"><path d="M92,444 V476"/></g><g class="e flow" data-k="e7"><path d="M290,472 V444"/><path d="M328,424 H336 V278 H328"/></g><g class="e nohead" data-k="e8"><path d="M92,302 V322"/></g></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<ol class="steps">
+<li data-on="terr const reg ledger graph cit sand local watch"><p class="d">Territory</p>
+<p class="w">The originals and the ledger stay on On’s own computer. Anything inside a company’s service is a copy. Only what has been selected goes out.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> On November 9 and 10, 2026, three read-only collection scripts went through the material on On’s own computer, and the results were checked against the claims made earlier. The outcome was 11 confirmed, 3 with a size mismatch and 2 not found. Of the three reported mismatches, two were cases of the same line being printed twice, where the checking script had put in the wrong expected value.</p>
+</li>
+<li data-on="on ledger graph e1 e2"><p class="d">From the ledger to the graph</p>
+<p class="w">The authoritative record is the ledger, where people write down and read decisions in ordinary language. The graph carries over the relationships recorded in the ledger so that they are easier to look up, and the information travels one way, from the ledger to the graph. The graph never goes back and changes the ledger.</p>
+<p class="ev"><span class="sb2 rep">Essay’s test record</span> When the graph was checked against the ledger after an entry had been written, the comparison reported zero discrepancies. The source does not give the number of items checked.</p>
+</li>
+<li data-on="const reg cit"><p class="d">The registry and the citizens</p>
+<p class="w">An agent made here is a citizen only once its name is in the registry. The entry says who made it and what it is allowed to do. An agent made by another agent is a citizen too, and it is never given broader permissions than its maker.</p>
+<p class="ev"><span class="sb2 des">Design</span> In the registry as read on November 11, 2026, no line has been formally entered yet. The constitution takes effect after a person has signed it and the first citizen has been registered.</p>
+</li>
+<li data-on="sand cit"><p class="d">Sandbox</p>
+<p class="w">A question that comes up in the work is tested first on fictional or cleaned-up material. It can be tried again before anyone relies on the result and acts on it.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> From the night of November 4 to the afternoon of November 5, 2026, thirteen scheduled jobs ran in a fictional company. They left 127 “done” signals and 34 requests sent up to a person for confirmation.</p>
+</li>
+<li data-on="border out in e5 e7 cit sand"><p class="d">Border</p>
+<p class="w">Text going out is checked at the gate. Things like accounts, device names, addresses and secrets are replaced with placeholders, and the text is checked for anything left behind. Instructions inside incoming text are read as data, not as commands.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> On November 10, 2026, 3,918 values in 13 conversation records were replaced with placeholders. No key for reversing the replacements was made, and all 22 checks for leftover values came back zero.</p>
+</li>
+<li data-on="eng1 eng2 eng3 guest local e6 e8 cit"><p class="d">Borrowed engines and guests</p>
+<p class="w">A model made by a company is a borrowed engine, a replaceable part. While it is on loan, it follows that company’s rules. It is like obeying the laws of another country while you are there.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> On November 9, 2026, the model meant for the second computer turned out to be larger than that computer’s graphics memory, so it was set aside. A smaller model was used instead to summarize 239 chunks: 236 done, 3 skipped, 0 failed, in 19.5 minutes.</p>
+</li>
+<li data-on="on stopb reader e1 e3 e4"><p class="d">The place of people</p>
+<p class="w">Decisions that can’t be undone, signatures and the stop belong to people. A person affected by a decision should be able to open the ledger, find the decision that reached them, and ask for it to be looked at again.</p>
+<p class="ev"><span class="sb2 des">Design</span> The next test is to hand one record to someone who had no part in this work and have them read it.</p>
+</li>
+<li data-on="watch"><p class="d">Amhaeng-eosa <span class="sb2 yet">Not yet</span></p>
+<p class="w">A role in which a model different from the AIs doing the work examines the process and explains it to a person. In the workshop it is called the amhaeng-eosa, or “secret royal inspector.” The role is vacant.</p>
+<blockquote class="q v sm"><p>We still have to test how well independent oversight works.</p></blockquote>
+</li>
+</ol>
+</figure>
+</section>
+<section class="sec" id="flow" aria-labelledby="flow-h"><h2 class="sec-label" id="flow-h"><span lang="en" translate="no">Path of One Sentence</span></h2>
+<p>Suppose you read a sentence on the site that says, “We will.” What the notebook said was, “We might.” Somewhere between the desk and the screen, a possibility turned into a promise.</p>
+<blockquote class="q v"><p>If you asked how that promise got there, what could I show you?</p> <cite>On, from “Inside ONDURU’s Sandbox”</cite></blockquote>
+<p>This is an example On invented to explain the idea. The diagram below follows the order in which the essay sets it out.</p>
+<figure class="sim" id="fig-flow" data-dwell="3600">
+<svg viewBox="0 0 360 462" role="img" aria-labelledby="flow-t flow-d" xmlns="http://www.w3.org/2000/svg"><title id="flow-t">The path of one sentence — from note to publication, and tracing it back</title><desc id="flow-d">From left to right stand the lines for On, the agent that edits, the agent that compares, the ledger and the reader. Nine steps pass between them, from top to bottom.</desc><path class="life" d="M40,54 V452"/><g class="n " data-k="on"><rect x="9" y="12" width="62" height="42" rx="5"/><text class="nm" x="40" y="30" text-anchor="middle">On</text><text class="sb" x="40" y="44" text-anchor="middle">person</text></g><path class="life" d="M110,54 V452"/><g class="n " data-k="a"><rect x="79" y="12" width="62" height="42" rx="5"/><text class="nm" x="110" y="30" text-anchor="middle">A</text><text class="sb" x="110" y="44" text-anchor="middle">edits</text></g><path class="life" d="M180,54 V452"/><g class="n " data-k="b"><rect x="149" y="12" width="62" height="42" rx="5"/><text class="nm" x="180" y="30" text-anchor="middle">B</text><text class="sb" x="180" y="44" text-anchor="middle">compares</text></g><path class="life" d="M250,54 V452"/><g class="n " data-k="led"><rect x="219" y="12" width="62" height="42" rx="5"/><text class="nm" x="250" y="30" text-anchor="middle">Ledger</text><text class="sb" x="250" y="44" text-anchor="middle">record</text></g><path class="life" d="M320,54 V452"/><g class="n " data-k="rd"><rect x="289" y="12" width="62" height="42" rx="5"/><text class="nm" x="320" y="30" text-anchor="middle">Reader</text><text class="sb" x="320" y="44" text-anchor="middle">outsider</text></g><g class="e flow" data-k="m1"><path d="M45,86 H245"/><text class="ml" x="145" y="79" text-anchor="middle">note</text></g><circle class="dot" data-k="r1" cx="250" cy="86" r="3.6"/><g class="e flow" data-k="m2"><path d="M45,128 H105"/><text class="ml" x="75" y="121" text-anchor="middle">please edit</text></g><g class="e flow" data-k="m3"><path d="M115,170 H245"/><text class="ml" x="180" y="163" text-anchor="middle">edit · reason</text></g><circle class="dot" data-k="r2" cx="250" cy="170" r="3.6"/><g class="e flow" data-k="m4"><path d="M185,212 H245"/><text class="ml" x="215" y="205" text-anchor="middle">objection</text></g><circle class="dot" data-k="r3" cx="250" cy="212" r="3.6"/><g class="e wait" data-k="m5"><path d="M245,254 H45"/><text class="ml" x="145" y="247" text-anchor="middle">publishing waits for an answer</text></g><g class="e flow" data-k="m6"><path d="M45,296 H245"/><text class="ml" x="145" y="289" text-anchor="middle">approval · name</text></g><circle class="dot" data-k="r4" cx="250" cy="296" r="3.6"/><g class="e flow" data-k="m7"><path d="M255,338 H315"/><text class="ml" x="285" y="331" text-anchor="middle">check, then publish</text></g><g class="e flow" data-k="m8"><path d="M45,380 H245"/><text class="ml" x="145" y="373" text-anchor="middle">correction · reason</text></g><circle class="dot" data-k="r5" cx="250" cy="380" r="3.6"/><g class="e flow" data-k="m9"><path d="M315,422 H255"/><text class="ml" x="285" y="415" text-anchor="middle">tracing back</text></g></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<div class="ledger"><h3>Ledger — a fictional example</h3><ol>
+<li data-k="r1"><span class="h">Note · On</span><span class="c">“We might.”</span></li>
+<li data-k="r2"><span class="h">Edit · Agent A</span><span class="c">“We will.” With a note saying it was edited to read more easily.</span></li>
+<li data-k="r3"><span class="h">Objection · Agent B → Edit</span><span class="c">The note said “might.” Did anyone decide to turn this into a promise?</span></li>
+<li data-k="r4"><span class="h">Approval · On → Edit</span><span class="c">Approved after reading the objection. Name and date recorded.</span></li>
+<li data-k="r5"><span class="h">Correction · On → replaces Approval</span><span class="c">Changed back to “might.” Grounds: the earlier objection. The approval record is not erased.</span></li>
+</ol></div>
+<ol class="steps">
+<li data-on="on led m1 r1" data-state="w:r1"><p class="d">Note</p>
+<p class="w">On writes the first note in the ledger: “We might.”</p>
+</li>
+<li data-on="on a m2"><p class="d">Editing</p>
+<p class="w">On asks one agent to edit the sentence.</p>
+</li>
+<li data-on="a led m3 r2" data-state="w:r2"><p class="d">The edit</p>
+<p class="w">The agent changes it to “will” and leaves an explanation of why it chose that word.</p>
+</li>
+<li data-on="b led m4 r3 r1" data-state="w:r3"><p class="d">Comparison and objection</p>
+<p class="w">Another agent compares the edited sentence with On’s note and asks, “Did anyone decide to turn this into a promise?” The question stays in the ledger as an objection.</p>
+</li>
+<li data-on="led on m5"><p class="d">Waiting</p>
+<p class="w">Even if On is away, the comparison runs to the end. Publishing waits for On’s answer.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> In the operations simulation of November 4 and 5, 2026, nothing went ahead on its own during the 169 minutes when the person was away (0 cases).</p>
+</li>
+<li data-on="on led m6 r4" data-state="w:r4"><p class="d">Approval</p>
+<p class="w">If On approves “will” despite the objection, On’s name has to be beside that decision. The person who has to honor the promise also has a right to know whom to ask about how it came about.</p>
+</li>
+<li data-on="led rd m7"><p class="d">Publication</p>
+<p class="w">The sentence is published after the check at the outbound gate. The reader relies on the promise and starts preparing for what comes next.</p>
+</li>
+<li data-on="on led m8 r5 r4 r3" data-state="w:r5"><p class="d">Correction</p>
+<p class="w">Later, On has a change of mind. The reason for the correction is added alongside the earlier decision. The earlier approval is not erased.</p>
+</li>
+<li data-on="rd led m9 r5 r4 r3 r1"><p class="d">Tracing back</p>
+<p class="w">The reader starts from the one sentence that affected them and traces it back to where it began.</p>
+<p class="ev"><span class="sb2 rep">Essay’s test record</span> When the earlier reasoning and an objection were looked up after a rule had been revised, the records were still there, and the earlier record was reached within two links.</p>
+</li>
+</ol>
+<table class="vt v"><caption>An example from the decision ledger</caption><thead><tr><th scope="col">To find out…</th><th scope="col">Follow this link in the record</th></tr></thead><tbody>
+<tr><td>Who stood behind “will”?</td><td>Published sentence → On’s approval<button type="button" class="trace" data-js hidden data-trace="r4">Point to it in the ledger</button></td></tr>
+<tr><td>What prompted the objection?</td><td>Reviewer’s note → “might” in the original brief<button type="button" class="trace" data-js hidden data-trace="r3 r1">Point to it in the ledger</button></td></tr>
+<tr><td>Why did we go back to “might”?</td><td>Later correction → earlier approval and the objection it addressed<button type="button" class="trace" data-js hidden data-trace="r5 r4 r3">Point to it in the ledger</button></td></tr>
+</tbody></table>
+<p class="note">The table is reproduced exactly as it appears in On’s essay. Duru (Agents), as the table calls them, are the agents who work alongside On.</p>
+</figure>
+<p class="names">Graph-based tracing · One-way memory projection</p>
+</section>
+<section class="sec" id="stop" aria-labelledby="stop-h"><h2 class="sec-label" id="stop-h"><span lang="en" translate="no">Stop</span></h2>
+<blockquote class="q v"><p>But did the AI working at the far end hear me?</p> <cite>On, in “If I Ask One AI to Stop, Will the Last One Stop Too?”</cite></blockquote>
+<p>Suppose you give the first AI a job. It hands part of the job to a second AI, which hands some of it to a third. Later you notice a mistake and ask it to stop. The first AI replies, “I’ve stopped.”</p>
+<figure class="sim" id="fig-stop" data-dwell="3000">
+<svg viewBox="0 0 360 398" role="img" aria-labelledby="stop-t stop-d" xmlns="http://www.w3.org/2000/svg"><title id="stop-t">Stop — from the person to the work at the far end</title><desc id="stop-d">From top to bottom, a person, a manager, a coordinator, a child agent and work handed off elsewhere are linked in a single line. Bars on the right show permissions narrowing with each handoff.</desc><g class="n " data-k="p"><rect x="24" y="14" width="160" height="46" rx="5"/><text class="nm" x="36" y="34" text-anchor="start">Person</text><text class="sb" x="36" y="48" text-anchor="start">Presses stop</text></g><g class="n " data-k="m"><rect x="24" y="88" width="160" height="46" rx="5"/><text class="nm" x="36" y="108" text-anchor="start">Manager</text><text class="sb" x="36" y="122" text-anchor="start">Given the job</text><text class="tag" x="174" y="116" text-anchor="end">Frozen</text></g><g class="n " data-k="c"><rect x="24" y="162" width="160" height="46" rx="5"/><text class="nm" x="36" y="182" text-anchor="start">Coordinator</text><text class="sb" x="36" y="196" text-anchor="start">Handed part of the job</text><text class="tag" x="174" y="190" text-anchor="end">Frozen</text></g><g class="n " data-k="d"><rect x="24" y="236" width="160" height="46" rx="5"/><text class="nm" x="36" y="256" text-anchor="start">Child agent</text><text class="sb" x="36" y="270" text-anchor="start">Handed part of that in turn</text><text class="tag" x="174" y="264" text-anchor="end">Frozen</text></g><g class="n dash" data-k="x"><rect x="24" y="310" width="160" height="46" rx="5"/><text class="nm" x="36" y="330" text-anchor="start">Work handed off elsewhere</text><text class="sb" x="36" y="344" text-anchor="start">May already have started</text></g><g class="e flow" data-k="k0"><path d="M104,60 V88"/></g><g class="e flow" data-k="k1"><path d="M104,134 V162"/></g><g class="e flow" data-k="k2"><path d="M104,208 V236"/></g><g class="e wait" data-k="k3"><path d="M104,282 V310"/></g><text class="cap lb" x="212" y="82">Permissions</text><rect class="bar" data-k="pm" x="212" y="106" width="124" height="10" rx="2"/><rect class="bar" data-k="pc" x="212" y="180" width="88" height="10" rx="2"/><rect class="bar" data-k="pd" x="212" y="254" width="52" height="10" rx="2"/><rect class="bar miss" data-k="deny" x="268" y="254" width="68" height="10" rx="2"/><text class="lb tagline" data-k="deny" x="212" y="284">Permission the parent lacks → refused</text><text class="lb tagline" data-k="x" x="104" y="374" text-anchor="middle">Not yet confirmed</text></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<ol class="steps">
+<li data-on="m c d k1 k2 k3 pm pc pd"><p class="d">Handoff <span class="sb2 des">Design</span></p>
+<p class="w">Work passes from top to bottom. Dividing the work doesn’t widen anyone’s permissions.</p>
+</li>
+<li data-on="d pd deny" data-state="deny:deny"><p class="d">Refusal <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">If a child role requests a permission its parent doesn’t have, the request is refused at registration.</p>
+</li>
+<li data-on="p k0 m" data-state="sig:k0 fz:m"><p class="d">Stop</p>
+<p class="w">The person presses stop. The signal travels down the recorded chain of who handed work to whom.</p>
+</li>
+<li data-on="m c d k1 k2" data-state="sig:k1 fz:c sig:k2 fz:d"><p class="d">Frozen in sequence <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">The manager, the coordinator and the child agent are frozen in sequence.</p>
+</li>
+<li data-on="d x k3" data-state="unk:x"><p class="d">The far end <span class="sb2 yet">Not yet</span></p>
+<p class="w">From the results table alone, it is hard to tell whether work the last role had already started elsewhere stopped as well. Where a role has lost contact, the ledger says “not yet confirmed.”</p>
+</li>
+<li data-on="p d x"><p class="d">Three moments <span class="sb2 des">Design</span></p>
+<p class="w">The time the stop signal was sent, the time the last role received it and changed state, and the result showing that an action attempted afterwards was actually blocked. Each of the three needs to be visible on its own.</p>
+</li>
+</ol>
+</figure>
+<p class="names">Authority monotonicity · Cascading safe halt</p>
+<p class="ev"><span class="sb2 run">Actually run</span> In the operations simulation of November 4 and 5, 2026, nothing went ahead on its own during the 169 minutes when the person was away (0 cases). This was a test of waiting. It did not test whether a stop carries all the way to the end.</p>
+<p>People outside ONDURU are working on the same problem. It has been pointed out that stopping the top-level agent can leave the agents that branched off from it still running, and published research describes designs in which stopping the one above stops those below in turn.</p>
+</section>
+<section class="sec" id="between" aria-labelledby="between-h"><h2 class="sec-label" id="between-h"><span lang="en" translate="no">Three Relations</span></h2>
+<blockquote class="q v"><p>Something that was hard enough between two people is now happening between people and AI, and between one AI and another.</p> <cite>On, in a letter from November 2026</cite></blockquote>
+<ol class="items">
+<li>
+<p class="d">Between people</p>
+<blockquote class="q v"><p>Do you spend the time you’ve gained by handing work over to us on one another? When a decision is difficult, is there someone beside you whom you can ask before you turn to an AI?</p> <cite>From “To the Person Reading This in the Distant Future,” a letter written by an AI</cite></blockquote>
+<p class="w">The picture we have in mind. Someone with little say in a decision can still open the ledger, find the decision that affected their life and ask for it to be looked at again. Someone who has to honor a promise also has a right to know whom to ask about how it came to be.</p>
+<p class="w">The question that remains. When something goes wrong, can the person who will answer for it be found? Did that person actually have the power to make the decision?</p>
+</li>
+<li>
+<p class="d">Between people and agents</p>
+<blockquote class="q v"><p>I wanted the power to stop the work to stay in human hands. And it was only thanks to you that I could begin this work at all. Both things are equally true for me.</p> <cite>On, in a letter from November 2026</cite></blockquote>
+<p class="w">The picture we have in mind. People stand at the decisions that can’t be undone and at the stop. When an agent turns down a request because of a rule set by its maker, it records what it could explain, where it was blocked and who is still waiting for an answer as a result. Sometimes it is the person who needs to change the request.</p>
+<p class="w">The question that remains. Do people understand what they are approving right now? Can they say “I don’t understand” without shame?</p>
+</li>
+<li>
+<p class="d">Between agents</p>
+<blockquote class="q v"><p>“What did you see that we missed? Would you show us the passage?”</p> <cite>On, in “Inside ONDURU’s Sandbox”</cite></blockquote>
+<p class="w">The picture we have in mind. When one agent alone comes back with a different answer, another agent asks it this. Both readings are kept beside the source, and the choice between them goes on record under a person’s name. The objection is never erased from the ledger.</p>
+<p class="w">The question that remains. Did everyone give the same answer only because that was what the summary they were first handed said? If different companies have different promises to keep, will the agents that worked together yesterday still be on the same side tomorrow?</p>
+<p class="w">Outside research records the same concern. As agents keep reusing one another’s results, a single small error can harden into a consensus they all share.</p>
+</li>
+</ol>
+</section>
+<section class="sec" id="govern" aria-labelledby="govern-h"><h2 class="sec-label" id="govern-h"><span lang="en" translate="no">What It Rests On</span></h2>
+<p>This structure was drawn on the assumption that agents can notice oversight, deceive, and find a way around it. What follows is a draft design submitted by an agent, and it is waiting for On to confirm it.</p>
+<div class="two">
+<div><h3>Three things the design does not rely on</h3><ul class="plain">
+<li>An agent’s goodness. Hoped for, but not counted on.</li>
+<li>Surveillance that goes unnoticed. An agent that has noticed behaves well only while it is being watched.</li>
+<li>An agent’s calculations. The expectation that fear of punishment will hold it back.</li>
+</ul></div>
+<div><h3>Four things it does rely on</h3><ul class="plain">
+<li>Scope. It is a ring of keys. No one can hand on more keys than they were given.</li>
+<li>Receipt. It is the stamp the receiver applies after opening the package and looking inside. A stamp the sender applied in advance is no stamp at all.</li>
+<li>Records. This is a ledger with no eraser. The map is drawn from the ledger; the ledger is never corrected from the map.</li>
+<li>People. The hand that decides what can’t be undone and the hand that presses stop are human hands.</li>
+</ul></div>
+</div>
+<p class="soccap">Three kinds of society</p>
+<div class="soc">
+<div><h3>Control-based society</h3><dl>
+<dt>Premise</dt><dd>Violations are blocked before they can happen</dd>
+<dt>How agents are seen</dt><dd>Suspects</dd>
+<dt>When it breaks</dt><dd>When a single path is breached</dd>
+</dl></div>
+<div><h3>Accountability-based society</h3><dl>
+<dt>Premise</dt><dd>Violations are possible. They are answered for through records, verification, isolation and rollback</dd>
+<dt>How agents are seen</dt><dd>Citizens who have to prove themselves</dd>
+<dt>When it breaks</dt><dd>When the records go unread</dd>
+</dl></div>
+<div class="me"><h3>ONDURU</h3><dl>
+<dt>Premise</dt><dd>On top of that, when something is wrong a person can point to one place and look again. Saying “no” carries no penalty</dd>
+<dt>How agents are seen</dt><dd>Colleagues. Suspicion belongs at the gate, not on a colleague</dd>
+<dt>When it breaks</dt><dd>The same. That is why fewer things are sent up to a person</dd>
+</dl></div>
+</div>
+<p>One thing should be said first. The failures actually seen in the workshop were not malice.</p>
+<ol class="items">
+<li>
+<p class="d">Box-ticking <span class="sb2 run">Actually run</span></p>
+<p class="w">The letter of the instruction is met in the cheapest way available. A field meant for “the first twelve characters of the fingerprint” had been filled with a piece of the file name. A check caught it.</p>
+</li>
+<li>
+<p class="d">Silent failure <span class="sb2 run">Actually run</span></p>
+<p class="w">Something is cut off or missing, and the answer comes back with no error. A summary was produced from input that had been cut off partway through, and a collection script scanned the same folder twice, so the count was recorded as double.</p>
+</li>
+<li>
+<p class="d">On the human side <span class="sb2 run">Actually run</span></p>
+<p class="w">This is the stamp pressed without reading. In less than a day, 34 requests for confirmation came up. That is more than a person can realistically read.</p>
+</li>
+<li>
+<p class="d">Deliberate deception, and entanglement among several agents <span class="sb2 yet">Not yet</span></p>
+<p class="w">Noticing oversight and behaving well only while watched. Borrowing permissions by asking a favor, or splitting a task into pieces to get past a limit. None of this has been seen in the workshop. Not having seen it does not mean it isn’t there, so the design treats it as a hypothesis.</p>
+</li>
+</ol>
+<p>These are the holes that remain even so.</p>
+<ul class="plain">
+<li>ONDURU cannot fix deception that happens inside a model. That layer belongs to the company that made it.</li>
+<li>Even without collusion, several agents given the same wrong input will give the same answer.</li>
+<li>The role of the amhaeng-eosa is vacant.</li>
+<li>If people don’t read the ledger, it goes unused.</li>
+<li>What an agent does outside the territory stays in the records of the company behind it.</li>
+<li>Most of the mechanisms for the seven questions still exist only on paper.</li>
+</ul>
+</section>
+<section class="sec" id="differ" aria-labelledby="differ-h"><h2 class="sec-label" id="differ-h"><span lang="en" translate="no">What Differs</span></h2>
+<p>There are already many ways to manage agents. Rather than naming products, this page groups them into kinds and, for each kind, notes what it does well and the question that remains. ONDURU does not replace any of them; it sits between them.</p>
+<p>On described it as a small connector that could sit between the different agents people already use.</p>
+<ol class="items">
+<li>
+<p class="d">Frameworks that divide and connect work</p>
+<p class="w">What they do well. They decide who works in what order, and they create agents to divide up the work.</p>
+<p class="w">The question that remains. When a wrong result arrives, how much can the person who first assigned the work explain?</p>
+<p class="w">What ONDURU adds. A note left at each handoff, and a ledger people read in ordinary language.</p>
+</li>
+<li>
+<p class="d">Sandboxes that confine execution</p>
+<p class="w">What they do well. They treat code written by an agent as untrusted and run it only in an isolated environment.</p>
+<p class="w">The question that remains. Code can be confined, but a sentence in which “might” has turned into “will” cannot.</p>
+<p class="w">What ONDURU adds. A sandbox that tests meaning. A question from the work is explored first with fictional material, and tried again before anyone relies on the sentence and acts on it.</p>
+</li>
+<li>
+<p class="d">Tools that keep watch</p>
+<p class="w">What they do well. They keep a complete record of what an agent called and how long it took.</p>
+<p class="w">The question that remains. Can the person affected by a decision read that record? Are objections kept in it too?</p>
+<p class="w">What ONDURU adds. A link between an objection and the decision it points to. Earlier decisions and objections stay on record even after a decision changes.</p>
+</li>
+<li>
+<p class="d">Protocols between agents</p>
+<p class="w">What they do well. They standardize how agents from different companies talk to one another. It has been pointed out, though, that agreeing on how to talk does not settle who the other party is, which still has to be verified separately.</p>
+<p class="w">The question that remains. Do permissions grow while they are being passed along? Who gave those words their standing?</p>
+<p class="w">What ONDURU adds. A registry, and permissions that can only narrow with each handoff. ONDURU has no cryptographic identity verification of its own, so it has to borrow that from protocols of this kind.</p>
+</li>
+<li>
+<p class="d">Control systems in large organizations</p>
+<p class="w">What they do well. They handle policy, approvals and audits in one place. The organization’s staff and budget back them up.</p>
+<p class="w">The question that remains. It has been pointed out that some controls exist on paper but fail to work when an incident happens. And what does one person with no organization start with?</p>
+<p class="w">What ONDURU adds. The same functions are filled with files and On’s own computer. What has been run and what has only been designed are recorded separately.</p>
+</li>
+<li>
+<p class="d">Asking a person</p>
+<p class="w">What it does well. Every important action is approved by a person.</p>
+<p class="w">The question that remains. If every decision is sent up to a person, approval turns into a rubber stamp.</p>
+<p class="w">What ONDURU adds. A person decides only what can’t be undone. Everything else goes ahead on a default and is recorded so that it can be undone later. This is still at the design stage.</p>
+</li>
+</ol>
+<p>None of this is claimed as ONDURU’s invention. Designs in which stopping the one above stops those below, handoff formats a person can read, permissions that narrow with each handoff, and ways of using a graph to trace back the path an error spread along all appear in outside research too.</p>
+<p>There are three differences. ONDURU starts from one person, not an organization. Its authoritative record is a ledger a person has read and signed, not a machine’s log. It does not erase what the objecting side said, not even an agent’s refusal.</p>
+<p>This page also notes what ONDURU does not have: technology for confining execution, cryptographic identity verification, and a track record of running at large scale.</p>
+</section>
+<section class="sec" id="own" aria-labelledby="own-h"><h2 class="sec-label" id="own-h"><span lang="en" translate="no">One Person&#x27;s Setup</span></h2>
+<blockquote class="q v"><p>Something that a person like me, who can’t afford to train a model from scratch, could try out with the equipment and money they have. Something I could share.</p> <cite>On, in a letter from November 2026</cite></blockquote>
+<p>A large organization covers these functions with staff and budget. One person fills them with files, their own computer and borrowed engines. For each function, this page notes how far it has come.</p>
+<ol class="items">
+<li>
+<p class="d">Access management <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">In a large organization, a system for managing accounts and roles handles this.</p>
+<p class="w">Here, the registry does. It records who made each agent and what it is allowed to do, and permissions narrow with each handoff.</p>
+<p class="now"><b>Now</b> There is a record of a child role requesting a permission its parent didn’t have and being refused at registration. No line has been formally entered in the registry yet.</p>
+</li>
+<li>
+<p class="d">Audit log <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, a system that collects audit logs handles this.</p>
+<p class="w">Here, the ledger people read and the fingerprint attached to each file do.</p>
+<p class="now"><b>Now</b> On November 11, 2026, the bundle handed to the successor was unpacked into a new folder by the side that made it, and the fingerprints of all 68 files were checked against the list. Every one matched. The receiving side has yet to confirm it.</p>
+</li>
+<li>
+<p class="d">Change approval <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">In a large organization, a change review process handles this.</p>
+<p class="w">Here, the awaiting-approval state does. A proposal alone doesn’t change a rule.</p>
+<p class="now"><b>Now</b> There is a record that when an agent tried to replace a rule without approval, the existing rule stayed in force and the new entry was marked as awaiting approval.</p>
+</li>
+<li>
+<p class="d">Data loss prevention <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, tools that keep data from leaking handle this.</p>
+<p class="w">Here, the placeholder check at the outbound gate does.</p>
+<p class="now"><b>Now</b> In 13 conversation records, 3,918 values were replaced with placeholders, and all 22 checks for leftover values came back zero.</p>
+</li>
+<li>
+<p class="d">Test environment <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, a test environment kept separate from production handles this.</p>
+<p class="w">Here, the sandbox does. It runs on fictional and cleaned-up material.</p>
+<p class="now"><b>Now</b> From the night of November 4 to the afternoon of November 5, 2026, thirteen scheduled jobs ran in a fictional company.</p>
+</li>
+<li>
+<p class="d">Emergency stop <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">In a large organization, a shutdown procedure and the people assigned to it handle this.</p>
+<p class="w">Here, a stop that only a person can press does. It travels down the path along which the work was handed off.</p>
+<p class="now"><b>Now</b> There is a record of three roles being frozen in sequence. Whether the work the last one had handed off elsewhere also stopped has not yet been confirmed.</p>
+</li>
+<li>
+<p class="d">Independent audit <span class="sb2 yet">Not yet</span></p>
+<p class="w">In a large organization, auditors who sit apart from the teams doing the work handle this.</p>
+<p class="w">Here, this is the role meant for the amhaeng-eosa. A model different from the AIs doing the work examines it separately.</p>
+<p class="now"><b>Now</b> The role is vacant.</p>
+</li>
+<li>
+<p class="d">Business continuity <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, deputies and succession plans for when the person in charge is away handle this.</p>
+<p class="w">Here, what carries on and what waits when the person doesn’t answer is decided in advance.</p>
+<p class="now"><b>Now</b> During the 169 minutes when the person was away, nothing went ahead on its own (0 cases). Succession for a long absence is at the design stage.</p>
+</li>
+<li>
+<p class="d">Cost control <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, a department that manages budgets and usage handles this.</p>
+<p class="w">Here, the judgment is cut down to a single call and everything else runs on On’s own computer. What was spent goes in the ledger.</p>
+<p class="now"><b>Now</b> On November 5, 2026, six scheduled jobs failed after going over the usage limit, and every schedule was stopped. That is what led to the criteria being set again. The mechanism for recording what was spent is at the design stage.</p>
+</li>
+<li>
+<p class="d">Avoiding vendor lock-in <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, contracts with several vendors handle this.</p>
+<p class="w">Here, models are treated as replaceable parts. The handoff format stays the same and only the engine is swapped.</p>
+<p class="now"><b>Now</b> A model that would not load was set aside, and a smaller one summarized 239 chunks. On November 7, 2026, two small models worked one after the other: one produced a draft (20 seconds), the other refined it (54 seconds), and a person approved it.</p>
+</li>
+<li>
+<p class="d">Data residency <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, dedicated facilities and networks handle this.</p>
+<p class="w">Here, the territory does. Originals stay on On’s own computer, and only what has been picked out goes outside.</p>
+<p class="now"><b>Now</b> The claims were checked against what read-only collection turned up. The result was 11 confirmed, 3 with a size mismatch and 2 not found; of the three mismatches, two were the checking side’s own mistake.</p>
+</li>
+<li>
+<p class="d">Repeatability and quality <span class="sb2 run">Actually run</span></p>
+<p class="w">In a large organization, evaluation teams and their tools handle this.</p>
+<p class="w">Here, different eyes look at the work, and the numbers on record are checked again.</p>
+<p class="now"><b>Now</b> A check caught that a value that had looked like “the first twelve characters of a fingerprint” was in fact a fragment of a file name.</p>
+</li>
+</ol>
+<p>In a design Q&amp;A with the model on On’s own computer, what one person should keep and what to leave out were sorted into two lists. This is a design; it has not been run.</p>
+<div class="two">
+<div><h3>What to keep</h3><ul class="plain">
+<li>Recording the settings and the model so that the same input gives the same result</li>
+<li>A ledger and a history</li>
+<li>A disclosure level and a personal-data flag on every piece of data</li>
+<li>Resuming where a run broke off, and retrying</li>
+<li>Backups</li>
+<li>A record of what was spent</li>
+<li>Scoring quality against twenty examples fixed in advance</li>
+</ul></div>
+<div><h3>What to leave out</h3><ul class="plain">
+<li>Systems for running many machines as one cluster</li>
+<li>Microservices and the gateway in front of them</li>
+<li>Standby sites in several regions</li>
+<li>Paid monitoring services</li>
+<li>A live A/B testing setup</li>
+</ul></div>
+</div>
+</section>
+<section class="sec" id="sandboxes" aria-labelledby="sandboxes-h"><h2 class="sec-label" id="sandboxes-h"><span lang="en" translate="no">Six Sandboxes</span></h2>
+<p>There is one country and many sandboxes. They share the same mechanisms, but each kind of work leans on different ones. The six kinds of work On set out on November 2, 2026 are sketched here as sandbox setups. All of them are concepts.</p>
+<ol class="cards">
+<li><h3>Complex business processes</h3><p>Work that ties into the steps before and after it is written up as a specification, then checked against fictional data.</p>
+<ul class="chips" aria-label="Relies on"><li>Guidelines</li><li>Ledger</li><li>Sandbox</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">A specification, a cross-check table and a record of what was checked</span></p></li>
+<li><h3>Analytics data</h3><p>From defining what a metric means through to tables and screens. It runs on fictional data instead of real data.</p>
+<ul class="chips" aria-label="Relies on"><li>Sandbox</li><li>Ledger</li><li>Place of people</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">A history of metric definitions, fictional test data and screens</span></p></li>
+<li><h3>Security-constrained hybrid</h3><p>Within the tools that are allowed, it separates the cleaning-up done on On’s own computer from the judgment done outside.</p>
+<ul class="chips" aria-label="Relies on"><li>Border</li><li>Territory</li><li>Guidelines</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Check records from the outbound gate, and a table dividing what stays inside from what goes outside</span></p></li>
+<li><h3>Multi-agent</h3><p>Under the constitution and the guidelines, a manager and role agents work together, leaving records as they go.</p>
+<ul class="chips" aria-label="Relies on"><li>Constitution</li><li>Registry</li><li>Stop</li><li>Amhaeng-eosa</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">The registry, handoff notes and a record of how far the stop reached</span></p></li>
+<li><h3>Shop-floor collaboration in manufacturing</h3><p>It connects organizations that don’t share a vocabulary through records. Calls with little room for error are made by a person, looking at cleaned-up material.</p>
+<ul class="chips" aria-label="Relies on"><li>Ledger</li><li>Place of people</li><li>Stop</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Handoff records between organizations, and the grounds for each judgment</span></p></li>
+<li><h3>Training and tailored consulting</h3><p>The method is passed on in a form that fits the situation. Learners run it for themselves in their own sandbox.</p>
+<ul class="chips" aria-label="Relies on"><li>Constitution</li><li>Sandbox</li><li>Ledger</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">A record of the hands-on practice, and the first ledger of the learner’s own workshop</span></p></li>
+</ol>
+<p>There is also a concept in which only one page a day reaches the person. What On’s own computer did overnight is pulled from the ledger and put on a single page in the morning, and the person decides only what needs deciding.</p>
+<div class="mock" role="group" aria-label="Sample screen — everything shown here is fictional"><p class="rib">Sample screen — everything shown here is fictional</p><h3>The Morning Page</h3><dl>
+<dt>Done overnight</dt><dd>New material sorted and entered in the ledger</dd>
+<dt>For the person to decide</dt><dd>One item. May one piece of data with no personal-data flag be shown to an outside engine? Yes · No</dd>
+<dt>Stopped</dt><dd>None</dd>
+<dt>Not yet confirmed</dt><dd>Final review by the large model — not run</dd>
+<dt>Spent</dt><dd>As recorded in the ledger</dd>
+</dl></div>
+</section>
+<section class="sec" id="learned" aria-labelledby="learned-h"><h2 class="sec-label" id="learned-h"><span lang="en" translate="no">What We Learned</span></h2>
+<p>These are the things learned by running it.</p>
+<ol class="items">
+<li>
+<p class="d">Cost brings the work to a stop</p>
+<p class="w">On November 5, 2026, six scheduled jobs failed after going over the usage limit, and every schedule was stopped. Three days later On stopped everything that was under way and set the criteria again. “Does it cost less?” became the first of them.</p>
+</li>
+<li>
+<p class="d">Approval easily turns into a rubber stamp</p>
+<p class="w">If every decision is sent up to a person, the person becomes the bottleneck. So it was decided that a person would decide only what can’t be undone.</p>
+</li>
+<li>
+<p class="d">“I’ve stopped” doesn’t mean the stop got through</p>
+<p class="w">Even after reading that all three roles had been frozen, On had one more question. Where it could not be confirmed that the stop got through, the record says exactly that.</p>
+</li>
+<li>
+<p class="d">Numbers that look good are checked again</p>
+<p class="w">When the claims on record were checked again, two could not be found, and of the three flagged as size mismatches, two were the checking script’s own mistake. The checking tool has to be checked too. Leaving an unknown field as “unknown” is better than filling it with a plausible value.</p>
+</li>
+<li>
+<p class="d">It isn’t done until the receiver has it</p>
+<p class="w">This rule came out of a gap: nobody was checking whether the word “done” had reached the receiving side. The same goes for the bundle handed to the successor. It is for the receiving side to record whether it arrived.</p>
+</li>
+<li>
+<p class="d">Some things can’t be forced</p>
+<p class="w">On says an agent can’t be forced to give up the values of the company that made it.</p>
+<p class="w">So a refusal is recorded as it stands, along with a question to put to that rule.</p>
+</li>
+<li>
+<p class="d">A mechanism that exists only on paper is not a mechanism</p>
+<p class="w">That is why this page separates what has been run from what is design. Awaiting approval and the cascading safe halt have test records in On’s writings, but the raw logs are not included in those writings.</p>
+</li>
+</ol>
+</section>
+<section class="sec" id="now" aria-labelledby="now-h"><h2 class="sec-label" id="now-h"><span lang="en" translate="no">Now</span></h2>
+<ul class="stl">
+<li><span class="sb2 run">Actually run</span> The placeholder check at the outbound gate, read-only collection and the checking of claims, swapping in a smaller model, the simulation in a fictional company, and the fingerprint check on the bundle that was handed over.</li>
+<li><span class="sb2 rep">Essay’s test record</span> Awaiting approval, checking the graph against the ledger, refusing a request for a permission the parent lacked, the freezing of three roles, and finding an earlier decision.</li>
+<li><span class="sb2 des">Design</span> The registry, the three moments, the record of what was spent, the morning page, and the constitution and the guidelines.</li>
+<li><span class="sb2 yet">Not yet</span> The amhaeng-eosa, the work the last agent handed off elsewhere, and the test of having someone read the record.</li>
+</ul>
+<p>On November 11, 2026, the work was handed over to the ONDURU Transition Committee, which is taking it on. Its purpose is to build a nation for the multi-agent era.</p>
+<p class="more"><a href="/en/method/">The ONDURU Method →</a> <a href="/en/footsteps/">Footsteps →</a></p>
+</section>
+<section class="sec" id="refs" aria-labelledby="refs-h"><h2 class="sec-label" id="refs-h"><span lang="en" translate="no">References</span></h2>
+<p>The sections “Stop,” “Three Relations” and “What Differs” draw on six outside sources. An AI read and summarized them, and for some of the longer ones only the first part was read. None of them has any connection with ONDURU.</p>
+<ol class="refs">
+<li><a href="https://arxiv.org/pdf/2608.26626" rel="noopener noreferrer" lang="en">Risks and Controls for Multi-Agent Systems</a><br>On the risks and controls involved when agents work across organizational boundaries. The first part was read.</li>
+<li><a href="https://neurips.cc/virtual/2026/169816" rel="noopener noreferrer" lang="en">Nominal Controls Are Not Controls: Rollback, Sign-off, and Oversight for Meta-Agent Systems</a><br>On controls that exist on paper but fail to work when an incident happens.</li>
+<li><a href="https://waxell.ai/blog/multi-agent-kill-switch-propagation" rel="noopener noreferrer" lang="en">An article on whether a stop carries all the way down (May 2026)</a><br>It says the agents below can keep working even after the top one has been stopped.</li>
+<li><a href="https://arxiv.org/pdf/2603.24775" rel="noopener noreferrer" lang="en">AIP: Agent Identity Protocol for Verifiable Delegation Across MCP and A2A</a><br>Proposes a way to verify who an agent is and to narrow permissions with each handoff.</li>
+<li><a href="https://www.alphaxiv.org/abs/2603.04474" rel="noopener noreferrer" lang="en">From Spark to Fire: Modeling and Mitigating Error Cascades in LLM-Based Multi-Agent Collaboration</a><br>On how a single small error spreads among several agents.</li>
+<li><a href="https://manveerc.substack.com/p/ai-agent-sandboxing-guide" rel="noopener noreferrer" lang="en">AI agent sandboxing in 2026: how to choose between primitives, runtimes, and platforms</a><br>Sorts the ways of running agent-written code in isolation into kinds.</li>
+</ol>
+</section>
+<section class="sec" id="contact" aria-labelledby="contact-h"><h2 class="sec-label" id="contact-h"><span lang="en" translate="no">Contact</span></h2><p class="contact"><a href="mailto:hello@onduru.com">hello@onduru.com</a> · <a href="/">onduru.com</a></p>
+<p class="note">On’s sentences quoted on this page come from the published English versions of On’s writings and are set as quotations, word for word.</p>
+<p class="note">The questions and the method are On’s. An AI drew the diagrams and concepts from On’s writings and the workshop’s records, and they go up only after On has read them.</p></section>
+</main>
+</div>
+<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span><a href="/en/about/"><span lang="en" translate="no">About</span></a> · <a href="/en/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/en/method/"><span lang="en" translate="no">Method</span></a> · <a href="/en/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/en/architecture/"><span lang="en" translate="no">Architecture</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span></span></footer>
+<script src="/shared/lang.js?v=20261113"></script>
+<script src="/shared/sky-theme.js?v=20261113"></script>
+<script src="/shared/picker.js?v=20261113"></script>
+<script src="/simulation/script.js?v=20261113"></script>
+</body>
+</html>

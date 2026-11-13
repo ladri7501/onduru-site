@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="es" data-variant="base" data-page="simulation" data-theme="night" data-type="myeongjo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0f1318">
+<title>Simulación — ONDURU</title>
+<meta name="description" content="Un día en que varios agentes trabajan juntos en un mismo país, simulado con diagramas. Un registro que leen las personas, una parada que llega hasta el final y un entorno que monta una sola persona. Los ejemplos son inventados.">
+<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);}catch(e){}r.className+=' js';})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="/shared/onduru.css?v=20261113">
+<link rel="stylesheet" href="/shared/sky.css?v=20261113">
+<link rel="stylesheet" href="/simulation/style.css?v=20261113">
+
+<link rel="canonical" href="https://onduru.com/es/simulation/">
+<link rel="alternate" hreflang="ko" href="https://onduru.com/ko/simulation/">
+<link rel="alternate" hreflang="en" href="https://onduru.com/en/simulation/">
+<link rel="alternate" hreflang="es" href="https://onduru.com/es/simulation/">
+<link rel="alternate" hreflang="x-default" href="https://onduru.com/simulation/">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al texto</a>
+<header class="site-head"><a class="mark" href="/es/about/" translate="no" aria-label="ONDURU — Sobre ONDURU"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="Páginas"><a href="/es/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/es/method/"><span lang="en" translate="no">Method</span></a><a href="/es/simulation/" aria-current="page"><span lang="en" translate="no">Simulation</span></a><a href="/es/architecture/"><span lang="en" translate="no">Architecture</span></a><a href="/es/about/"><span lang="en" translate="no">About</span></a></nav><nav class="langs" aria-label="Idioma" translate="no"><a href="/ko/simulation/" hreflang="ko" lang="ko">한국어</a><a href="/en/simulation/" hreflang="en" lang="en">English</a><a href="/es/simulation/" hreflang="es" lang="es" aria-current="true">Español</a></nav></header>
+<div class="shell has-index sim-page">
+<nav class="index" aria-labelledby="index-h"><span class="index-h" id="index-h"><span lang="en" translate="no">Contents</span></span><ol><li><a href="#map"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Map of the Country</span></a></li><li><a href="#flow"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Path of One Sentence</span></a></li><li><a href="#stop"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Stop</span></a></li><li><a href="#between"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Three Relations</span></a></li><li><a href="#govern"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What It Rests On</span></a></li><li><a href="#differ"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What Differs</span></a></li><li><a href="#own"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">One Person&#x27;s Setup</span></a></li><li><a href="#sandboxes"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Six Sandboxes</span></a></li><li><a href="#learned"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">What We Learned</span></a></li><li><a href="#now"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Now</span></a></li><li><a href="#refs"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">References</span></a></li><li><a href="#contact"><span class="ring"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><span lang="en" translate="no">Contact</span></a></li></ol></nav>
+<main id="main">
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#7a8089"/></marker><marker id="ah-on" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#c9a56a"/></marker><marker id="ah-halt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0.5,0.8 L7,4 L0.5,7.2 Z" fill="#cf8a78"/></marker></defs></svg>
+<header class="page-head">
+<h1>Simulación</h1>
+<p class="role label">ONDURU en un escenario hipotético · Ejemplos inventados</p>
+<figure class="one"><blockquote class="voice"><p>Tal vez otra persona, como yo, empiece a trabajar por su cuenta con la ayuda de varias IA. Si un día les dice «un momento», ojalá pueda comprobar con sus propios ojos hasta dónde llegaron sus palabras.</p></blockquote><figcaption class="label">On, en «Si pido que paren, ¿se detendrá también la última IA?»</figcaption></figure>
+<div class="intro">
+<p>Esta página lleva esas palabras a una simulación hecha con diagramas. Sigue por dónde pasan una frase y una sola orden de parar cuando los agentes creados por distintas empresas y el modelo de la computadora propia trabajan juntos como ciudadanos e invitados de un mismo país.</p>
+<p>Los ejemplos son inventados. Por eso, en cada mecanismo se indica hasta dónde se ha llegado, con uno de estos cuatro estados.</p>
+</div>
+<dl class="legend">
+<dt><span class="sb2 run">Actually run</span></dt><dd>Se ejecutó de verdad en el taller y quedó registro de ello.</dd>
+<dt><span class="sb2 rep">Essay’s test record</span></dt><dd>Lo recoge el texto de On a partir de la tabla de resultados del 5 de noviembre de 2026. El texto no incluye los registros de ejecución sin procesar.</dd>
+<dt><span class="sb2 des">Design</span></dt><dd>Está decidido por escrito, pero todavía no se ha ejecutado.</dd>
+<dt><span class="sb2 yet">Not yet</span></dt><dd>Está vacío o todavía no se sabe.</dd>
+</dl>
+</header>
+<section class="sec" id="map" aria-labelledby="map-h"><h2 class="sec-label" id="map-h"><span lang="en" translate="no">Map of the Country</span></h2>
+<p>On compara con un país el lugar donde este método puede crecer. El territorio son la computadora y las carpetas que On tiene en sus manos. Los ciudadanos son los agentes creados dentro de él, y los modelos hechos por las empresas son motores que se toman prestados. Los agentes que viven en los servidores de las empresas son invitados.</p>
+<figure class="sim" id="fig-map" data-dwell="3600">
+<svg viewBox="0 0 360 532" role="img" aria-labelledby="map-t map-d" xmlns="http://www.w3.org/2000/svg"><title id="map-t">Mapa del país — el lugar de las personas, el territorio, la frontera, el exterior</title><desc id="map-d">Arriba está el lugar de las personas. En el centro, en el territorio, están la constitución y el padrón, el registro y el grafo, los ciudadanos y el entorno de pruebas. Abajo, las dos puertas de la frontera llevan a los motores y a los invitados del exterior.</desc><text class="cap lb" x="16" y="14">El lugar de las personas</text><g class="n " data-k="on"><rect x="16" y="22" width="100" height="44" rx="5"/><text class="nm" x="66" y="41" text-anchor="middle">On</text><text class="sb" x="66" y="55" text-anchor="middle">pone su nombre</text></g><g class="n " data-k="stopb"><rect x="128" y="22" width="104" height="44" rx="5"/><text class="nm" x="180" y="41" text-anchor="middle">Botón de parada</text><text class="sb" x="180" y="55" text-anchor="middle">solo personas</text></g><g class="n " data-k="reader"><rect x="244" y="22" width="100" height="44" rx="5"/><text class="nm" x="294" y="41" text-anchor="middle" textLength="92" lengthAdjust="spacingAndGlyphs">Persona afectada</text><text class="sb" x="294" y="55" text-anchor="middle">abre el registro</text></g><g class="lb" data-k="terr"><rect class="frame" x="16" y="88" width="328" height="298" rx="9"/><text class="cap" x="30" y="106">Territorio — la computadora propia</text></g><g class="n " data-k="const"><rect x="32" y="118" width="120" height="48" rx="5"/><text class="nm" x="92" y="139" text-anchor="middle">Constitución</text><text class="nm" x="92" y="153" text-anchor="middle">y Directrices</text></g><g class="n " data-k="reg"><rect x="208" y="118" width="120" height="48" rx="5"/><text class="nm" x="268" y="139" text-anchor="middle">Padrón</text><text class="sb" x="268" y="153" text-anchor="middle">quién lo creó · permisos</text></g><g class="n " data-k="ledger"><rect x="32" y="186" width="120" height="48" rx="5"/><text class="nm" x="92" y="207" text-anchor="middle">Registro</text><text class="sb" x="92" y="221" text-anchor="middle">lo leen las personas</text></g><g class="n " data-k="graph"><rect x="208" y="186" width="120" height="48" rx="5"/><text class="nm" x="268" y="207" text-anchor="middle">Grafo</text><text class="sb" x="268" y="221" text-anchor="middle">mapa de consulta</text></g><g class="n " data-k="cit"><rect x="32" y="254" width="120" height="48" rx="5"/><text class="nm" x="92" y="275" text-anchor="middle">Ciudadanos</text><text class="sb" x="92" y="289" text-anchor="middle">agentes creados aquí</text></g><g class="n " data-k="sand"><rect x="208" y="254" width="120" height="48" rx="5"/><text class="nm" x="268" y="275" text-anchor="middle">Entorno de pruebas</text><text class="sb" x="268" y="289" text-anchor="middle">datos ficticios antes</text></g><g class="n " data-k="local"><rect x="32" y="322" width="120" height="48" rx="5"/><text class="nm" x="92" y="343" text-anchor="middle">Modelo local</text><text class="sb" x="92" y="357" text-anchor="middle">el motor de dentro</text></g><g class="n dash" data-k="watch"><rect x="208" y="322" width="120" height="48" rx="5"/><text class="nm" x="268" y="343" text-anchor="middle">Amhaeng-eosa</text><text class="sb" x="268" y="357" text-anchor="middle">otra mirada · vacante</text></g><g class="lb" data-k="border"><path class="rule" d="M16,424 H32 M152,424 H208 M328,424 H344"/><text class="cap" x="180" y="420" text-anchor="middle">Frontera</text></g><g class="n " data-k="out"><rect x="32" y="404" width="120" height="40" rx="5"/><text class="nm" x="92" y="421" text-anchor="middle">Puerta de salida</text><text class="sb" x="92" y="435" text-anchor="middle">sustituir y revisar</text></g><g class="n " data-k="in"><rect x="208" y="404" width="120" height="40" rx="5"/><text class="nm" x="268" y="421" text-anchor="middle">Puerta de entrada</text><text class="sb" x="268" y="435" text-anchor="middle">del invitado: datos</text></g><text class="cap lb" x="16" y="466">Exterior — servidores de las empresas</text><g class="n " data-k="eng1"><rect x="16" y="476" width="62" height="36" rx="5"/><text class="nm" x="47" y="498" text-anchor="middle">Motor A</text></g><g class="n " data-k="eng2"><rect x="84" y="476" width="62" height="36" rx="5"/><text class="nm" x="115" y="498" text-anchor="middle">Motor B</text></g><g class="n " data-k="eng3"><rect x="152" y="476" width="62" height="36" rx="5"/><text class="nm" x="183" y="498" text-anchor="middle">Motor C</text></g><g class="n " data-k="guest"><rect x="232" y="472" width="112" height="44" rx="5"/><text class="nm" x="288" y="491" text-anchor="middle">Invitados</text><text class="sb" x="288" y="505" text-anchor="middle">agentes de empresas</text></g><g class="e flow" data-k="e1"><path d="M24,66 V210 H32"/></g><g class="e flow" data-k="e2"><path d="M152,210 H208"/></g><g class="e flow" data-k="e3"><path d="M336,66 V210 H328"/></g><g class="e ctlline" data-k="e4"><path d="M180,66 V278 H152"/></g><g class="e flow" data-k="e5"><path d="M32,278 H24 V424 H32"/></g><g class="e flow" data-k="e6"><path d="M92,444 V476"/></g><g class="e flow" data-k="e7"><path d="M290,472 V444"/><path d="M328,424 H336 V278 H328"/></g><g class="e nohead" data-k="e8"><path d="M92,302 V322"/></g></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<ol class="steps">
+<li data-on="terr const reg ledger graph cit sand local watch"><p class="d">El territorio</p>
+<p class="w">Los originales y el registro se guardan en la computadora propia. Todo lo que hay dentro de los servicios de las empresas es una copia. Hacia fuera solo sale una selección.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> El 9 y el 10 de noviembre de 2026, con tres scripts de recogida de datos de solo lectura, se recorrió el material de la computadora propia y se cotejó con las afirmaciones anotadas antes. El resultado: 11 confirmadas, 3 con un tamaño distinto y 2 que no se encontraron. De las tres con tamaño distinto, dos eran una misma línea impresa dos veces, y el error era del script de cotejo, que había introducido mal el valor esperado.</p>
+</li>
+<li data-on="on ledger graph e1 e2"><p class="d">Del registro al grafo</p>
+<p class="w">La referencia es el registro, donde las personas anotan y leen las decisiones en lenguaje cotidiano. El grafo traslada las relaciones anotadas en el registro para que sea más fácil consultarlas, y la información va en un solo sentido, del registro al grafo. El grafo no vuelve atrás para modificar el registro.</p>
+<p class="ev"><span class="sb2 rep">Essay’s test record</span> Al cotejar el grafo con lo anotado en el registro, las discrepancias notificadas fueron cero. La fuente no indica cuántos elementos se cotejaron.</p>
+</li>
+<li data-on="const reg cit"><p class="d">El padrón y los ciudadanos</p>
+<p class="w">Un agente creado aquí es ciudadano solo cuando su nombre figura en el padrón. Allí se anota quién lo creó y qué puede hacer. Un agente creado por otro agente también es ciudadano, y no recibe más permisos que quien lo creó.</p>
+<p class="ev"><span class="sb2 des">Design</span> En el padrón, tal como se leyó el 11 de noviembre de 2026, todavía no hay ninguna línea inscrita formalmente. La constitución entra en vigor después de la firma de una persona y de la inscripción del primer ciudadano.</p>
+</li>
+<li data-on="sand cit"><p class="d">El entorno de pruebas</p>
+<p class="w">Una duda surgida en el trabajo se prueba primero con datos ficticios o con material del que se ha retirado la información sensible. Se puede volver a intentar antes de que alguien actúe confiando en el resultado.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> Desde la noche del 4 de noviembre de 2026 hasta la tarde del día 5, con una empresa inventada como escenario, estuvieron en marcha trece tareas programadas. Quedaron 127 avisos de «terminado» y 34 solicitudes de confirmación que llegaron a una persona.</p>
+</li>
+<li data-on="border out in e5 e7 cit sand"><p class="d">La frontera</p>
+<p class="w">Los textos que salen se comprueban en la puerta. Las cuentas, los nombres de dispositivos, las direcciones, los valores secretos y otros datos parecidos se sustituyen por marcadores de posición, y se revisa que no quede nada. Las instrucciones que vienen dentro de un texto que entra se leen como datos, no como órdenes.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> El 10 de noviembre de 2026, en 13 registros de conversación se sustituyeron 3918 apariciones por marcadores de posición. No se creó ningún diccionario para revertir la sustitución, y las 22 comprobaciones de valores residuales dieron cero.</p>
+</li>
+<li data-on="eng1 eng2 eng3 guest local e6 e8 cit"><p class="d">Los motores prestados y los invitados</p>
+<p class="w">Un modelo creado por una empresa es un motor que se toma prestado, una pieza intercambiable. Mientras dura el préstamo, se siguen las normas de esa empresa. Es como cuando se va a otro país y se cumplen sus leyes.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> El 9 de noviembre de 2026, el modelo que se iba a cargar en la segunda computadora resultó ser más grande que la memoria gráfica de esa computadora, y se dejó de lado. Se cambió por un modelo más pequeño y se resumieron 239 fragmentos: 236 terminados, 3 omitidos, 0 fallidos, en 19 minutos y medio.</p>
+</li>
+<li data-on="on stopb reader e1 e3 e4"><p class="d">El lugar de las personas</p>
+<p class="w">Las decisiones irreversibles, la firma y la parada son de las personas. La persona afectada por una decisión debe poder abrir el registro, encontrar esa decisión y pedir que se revise.</p>
+<p class="ev"><span class="sb2 des">Design</span> La siguiente prueba es darle a leer una entrada del registro a alguien que no haya participado en el trabajo.</p>
+</li>
+<li data-on="watch"><p class="d">Amhaeng-eosa <span class="sb2 yet">Not yet</span></p>
+<p class="w">Una función en la que un modelo distinto de las IA que hicieron el trabajo examina el proceso y se lo explica a una persona. En el taller se la llama amhaeng-eosa, «inspector secreto». Está vacante.</p>
+<blockquote class="q v sm"><p>Queda por comprobar por separado qué aporta esa supervisión.</p></blockquote>
+</li>
+</ol>
+</figure>
+</section>
+<section class="sec" id="flow" aria-labelledby="flow-h"><h2 class="sec-label" id="flow-h"><span lang="en" translate="no">Path of One Sentence</span></h2>
+<p>Supongamos que en el sitio web se lee la frase «lo haremos». En las notas estaba escrito «podríamos hacerlo». En el camino de la mesa a la pantalla, una posibilidad se convirtió en una promesa.</p>
+<blockquote class="q v"><p>Si me preguntaras cómo llegó esa promesa a la página, ¿qué podría enseñarte?</p> <cite>On, en «Dentro del entorno de pruebas de ONDURU»</cite></blockquote>
+<p>Este ejemplo lo inventó On a modo de explicación. El diagrama de abajo sigue el orden en que lo cuenta ese texto.</p>
+<figure class="sim" id="fig-flow" data-dwell="3600">
+<svg viewBox="0 0 360 462" role="img" aria-labelledby="flow-t flow-d" xmlns="http://www.w3.org/2000/svg"><title id="flow-t">El recorrido de una frase — de la nota a la publicación, y el recorrido hacia atrás</title><desc id="flow-d">De izquierda a derecha están las líneas de On, del agente que edita, del agente que coteja, del registro y de quien lee. De arriba abajo, nueve pasos van y vienen entre ellas.</desc><path class="life" d="M40,54 V452"/><g class="n " data-k="on"><rect x="9" y="12" width="62" height="42" rx="5"/><text class="nm" x="40" y="30" text-anchor="middle">On</text><text class="sb" x="40" y="44" text-anchor="middle">persona</text></g><path class="life" d="M110,54 V452"/><g class="n " data-k="a"><rect x="79" y="12" width="62" height="42" rx="5"/><text class="nm" x="110" y="30" text-anchor="middle">A</text><text class="sb" x="110" y="44" text-anchor="middle">edición</text></g><path class="life" d="M180,54 V452"/><g class="n " data-k="b"><rect x="149" y="12" width="62" height="42" rx="5"/><text class="nm" x="180" y="30" text-anchor="middle">B</text><text class="sb" x="180" y="44" text-anchor="middle">cotejo</text></g><path class="life" d="M250,54 V452"/><g class="n " data-k="led"><rect x="219" y="12" width="62" height="42" rx="5"/><text class="nm" x="250" y="30" text-anchor="middle">Registro</text><text class="sb" x="250" y="44" text-anchor="middle">entradas</text></g><path class="life" d="M320,54 V452"/><g class="n " data-k="rd"><rect x="289" y="12" width="62" height="42" rx="5"/><text class="nm" x="320" y="30" text-anchor="middle">Quien lee</text><text class="sb" x="320" y="44" text-anchor="middle">de fuera</text></g><g class="e flow" data-k="m1"><path d="M45,86 H245"/><text class="ml" x="145" y="79" text-anchor="middle">nota</text></g><circle class="dot" data-k="r1" cx="250" cy="86" r="3.6"/><g class="e flow" data-k="m2"><path d="M45,128 H105"/><text class="ml" x="75" y="121" text-anchor="middle">edítala, por favor</text></g><g class="e flow" data-k="m3"><path d="M115,170 H245"/><text class="ml" x="180" y="163" text-anchor="middle">cambio · motivo</text></g><circle class="dot" data-k="r2" cx="250" cy="170" r="3.6"/><g class="e flow" data-k="m4"><path d="M185,212 H245"/><text class="ml" x="215" y="205" text-anchor="middle">objeción</text></g><circle class="dot" data-k="r3" cx="250" cy="212" r="3.6"/><g class="e wait" data-k="m5"><path d="M245,254 H45"/><text class="ml" x="145" y="247" text-anchor="middle">la publicación espera respuesta</text></g><g class="e flow" data-k="m6"><path d="M45,296 H245"/><text class="ml" x="145" y="289" text-anchor="middle">aprobación · nombre</text></g><circle class="dot" data-k="r4" cx="250" cy="296" r="3.6"/><g class="e flow" data-k="m7"><path d="M255,338 H315"/><text class="ml" x="285" y="331" text-anchor="middle">se comprueba y se publica</text></g><g class="e flow" data-k="m8"><path d="M45,380 H245"/><text class="ml" x="145" y="373" text-anchor="middle">corrección · motivo</text></g><circle class="dot" data-k="r5" cx="250" cy="380" r="3.6"/><g class="e flow" data-k="m9"><path d="M315,422 H255"/><text class="ml" x="285" y="415" text-anchor="middle">recorrido hacia atrás</text></g></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<div class="ledger"><h3>Registro — un ejemplo inventado</h3><ol>
+<li data-k="r1"><span class="h">Nota · On</span><span class="c">«Podríamos hacerlo».</span></li>
+<li data-k="r2"><span class="h">Cambio · agente A</span><span class="c">«Lo haremos». Con una nota que dice que se editó para que se lea mejor.</span></li>
+<li data-k="r3"><span class="h">Objeción · agente B → cambio</span><span class="c">La nota decía «podríamos». ¿Decidió alguien convertirlo en una promesa?</span></li>
+<li data-k="r4"><span class="h">Aprobación · On → cambio</span><span class="c">Aprobado tras leer la objeción. Constan el nombre y la fecha.</span></li>
+<li data-k="r5"><span class="h">Corrección · On → sustituye a la aprobación</span><span class="c">Se recupera el «podríamos». Motivo: la objeción anterior. La entrada de la aprobación no se borra.</span></li>
+</ol></div>
+<ol class="steps">
+<li data-on="on led m1 r1" data-state="w:r1"><p class="d">La nota</p>
+<p class="w">On escribe la primera nota en el registro: «Podríamos hacerlo».</p>
+</li>
+<li data-on="on a m2"><p class="d">La edición</p>
+<p class="w">Se le pide a un agente que edite la frase.</p>
+</li>
+<li data-on="a led m3 r2" data-state="w:r2"><p class="d">El cambio</p>
+<p class="w">El agente cambia la frase por «lo haremos» y deja una explicación de por qué eligió esas palabras.</p>
+</li>
+<li data-on="b led m4 r3 r1" data-state="w:r3"><p class="d">El cotejo y la objeción</p>
+<p class="w">Otro agente coteja la frase editada con la nota de On y pregunta: «¿Decidió alguien convertir esto en una promesa?». La pregunta queda en el registro como objeción.</p>
+</li>
+<li data-on="led on m5"><p class="d">La espera</p>
+<p class="w">Aunque On no esté, el cotejo sigue hasta el final. La publicación espera la respuesta de On.</p>
+<p class="ev"><span class="sb2 run">Actually run</span> En la simulación operativa del 4 y el 5 de noviembre de 2026, durante los 169 minutos en que la persona estuvo ausente, ningún trabajo siguió adelante por su cuenta: cero.</p>
+</li>
+<li data-on="on led m6 r4" data-state="w:r4"><p class="d">La aprobación</p>
+<p class="w">Si On aprueba «lo haremos» pese a la objeción, su nombre tiene que figurar junto a esa decisión. Quien tenga que cumplir la promesa también tiene derecho a saber a quién pedirle una explicación.</p>
+</li>
+<li data-on="led rd m7"><p class="d">La publicación</p>
+<p class="w">Se publica después de la comprobación en la puerta de salida. Quien lee confía en esa promesa y prepara lo que viene después.</p>
+</li>
+<li data-on="on led m8 r5 r4 r3" data-state="w:r5"><p class="d">La corrección</p>
+<p class="w">Más adelante, On cambia de parecer. Junto a la decisión anterior añade el motivo de la corrección. La aprobación anterior no se borra.</p>
+</li>
+<li data-on="rd led m9 r5 r4 r3 r1"><p class="d">El recorrido hacia atrás</p>
+<p class="w">Quien lee parte de una sola frase, la que le afectó, y recorre el camino hacia atrás hasta el lugar donde nació.</p>
+<p class="ev"><span class="sb2 rep">Essay’s test record</span> Después de modificar una regla, se buscaron las decisiones anteriores y las objeciones: las entradas seguían ahí, y se llegó a la entrada anterior siguiendo, como máximo, dos enlaces.</p>
+</li>
+</ol>
+<table class="vt v"><caption>Un ejemplo del registro de decisiones</caption><thead><tr><th scope="col">Para saber…</th><th scope="col">Qué enlace seguir en el registro</th></tr></thead><tbody>
+<tr><td>¿Quién se comprometió a hacerlo?</td><td>Frase publicada → aprobación de On<button type="button" class="trace" data-js hidden data-trace="r4">Señalar en el registro</button></td></tr>
+<tr><td>¿Qué motivó la objeción?</td><td>Nota de revisión → «podríamos» en el encargo original<button type="button" class="trace" data-js hidden data-trace="r3 r1">Señalar en el registro</button></td></tr>
+<tr><td>¿Por qué recuperamos el «podríamos»?</td><td>Corrección posterior → aprobación anterior y objeción que motivó la corrección<button type="button" class="trace" data-js hidden data-trace="r5 r4 r3">Señalar en el registro</button></td></tr>
+</tbody></table>
+<p class="note">La tabla se reproduce tal como aparece en el texto de On. En ese texto, Duru (Agents) son los agentes que trabajan al lado de On.</p>
+</figure>
+<p class="names">Trazabilidad mediante grafos · Proyección unidireccional de la memoria</p>
+</section>
+<section class="sec" id="stop" aria-labelledby="stop-h"><h2 class="sec-label" id="stop-h"><span lang="en" translate="no">Stop</span></h2>
+<blockquote class="q v"><p>¿Me habrá oído también la IA que seguía trabajando al final de la cadena?</p> <cite>On, en «Si pido que paren, ¿se detendrá también la última IA?»</cite></blockquote>
+<p>Supongamos que alguien le encarga un trabajo a una primera IA; esta le encarga una parte a una segunda, y la segunda, a una tercera. Más tarde descubre un error y le pide que pare. La primera IA contesta: «Ya he parado».</p>
+<figure class="sim" id="fig-stop" data-dwell="3000">
+<svg viewBox="0 0 360 398" role="img" aria-labelledby="stop-t stop-d" xmlns="http://www.w3.org/2000/svg"><title id="stop-t">La parada: de la persona a la última tarea de la cadena</title><desc id="stop-d">De arriba abajo, una persona, el responsable general, el coordinador, el agente derivado y la tarea encargada fuera aparecen unidos en una sola línea; a la derecha, unas barras muestran los permisos, que se reducen con cada entrega.</desc><g class="n " data-k="p"><rect x="24" y="14" width="160" height="46" rx="5"/><text class="nm" x="36" y="34" text-anchor="start">Persona</text><text class="sb" x="36" y="48" text-anchor="start">Pulsa la parada</text></g><g class="n " data-k="m"><rect x="24" y="88" width="160" height="46" rx="5"/><text class="nm" x="36" y="108" text-anchor="start">Responsable general</text><text class="sb" x="36" y="122" text-anchor="start">Recibe el encargo</text><text class="tag" x="174" y="116" text-anchor="end">Congelado</text></g><g class="n " data-k="c"><rect x="24" y="162" width="160" height="46" rx="5"/><text class="nm" x="36" y="182" text-anchor="start">Coordinador</text><text class="sb" x="36" y="196" text-anchor="start">Recibe una parte</text><text class="tag" x="174" y="190" text-anchor="end">Congelado</text></g><g class="n " data-k="d"><rect x="24" y="236" width="160" height="46" rx="5"/><text class="nm" x="36" y="256" text-anchor="start">Agente derivado</text><text class="sb" x="36" y="270" text-anchor="start">Recibe, a su vez, una parte</text><text class="tag" x="174" y="264" text-anchor="end">Congelado</text></g><g class="n dash" data-k="x"><rect x="24" y="310" width="160" height="46" rx="5"/><text class="nm" x="36" y="330" text-anchor="start">Tarea encargada fuera</text><text class="sb" x="36" y="344" text-anchor="start">Puede haberse iniciado ya</text></g><g class="e flow" data-k="k0"><path d="M104,60 V88"/></g><g class="e flow" data-k="k1"><path d="M104,134 V162"/></g><g class="e flow" data-k="k2"><path d="M104,208 V236"/></g><g class="e wait" data-k="k3"><path d="M104,282 V310"/></g><text class="cap lb" x="212" y="82">Permisos</text><rect class="bar" data-k="pm" x="212" y="106" width="124" height="10" rx="2"/><rect class="bar" data-k="pc" x="212" y="180" width="88" height="10" rx="2"/><rect class="bar" data-k="pd" x="212" y="254" width="52" height="10" rx="2"/><rect class="bar miss" data-k="deny" x="268" y="254" width="68" height="10" rx="2"/><text class="lb tagline" data-k="deny" x="212" y="284">Permiso que el rol superior no tiene → rechazado</text><text class="lb tagline" data-k="x" x="104" y="374" text-anchor="middle">Aún sin comprobar</text></svg>
+<div class="ctl" data-js hidden><button type="button" class="play" data-play="Play" data-pause="Pause" aria-pressed="false">Play</button><button type="button" class="prev"><span lang="en" translate="no">Previous</span></button><button type="button" class="next"><span lang="en" translate="no">Next</span></button><span class="cnt"></span></div><p class="capnow" data-js hidden aria-live="polite"></p>
+<ol class="steps">
+<li data-on="m c d k1 k2 k3 pm pc pd"><p class="d">Entrega <span class="sb2 des">Design</span></p>
+<p class="w">El trabajo se entrega de arriba abajo. Repartirlo no amplía los permisos.</p>
+</li>
+<li data-on="d pd deny" data-state="deny:deny"><p class="d">Rechazo <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">Si un rol subordinado pide un permiso que el rol superior no tiene, la solicitud se rechaza en la fase de inscripción.</p>
+</li>
+<li data-on="p k0 m" data-state="sig:k0 fz:m"><p class="d">Parada</p>
+<p class="w">La persona pulsa la parada. La señal baja por el camino que consta en el registro, de quien encargó el trabajo a quien lo recibió.</p>
+</li>
+<li data-on="m c d k1 k2" data-state="sig:k1 fz:c sig:k2 fz:d"><p class="d">Congelados uno tras otro <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">El responsable general, el coordinador y el agente derivado quedan congelados uno tras otro.</p>
+</li>
+<li data-on="d x k3" data-state="unk:x"><p class="d">El final de la cadena <span class="sb2 yet">Not yet</span></p>
+<p class="w">Solo con la tabla de resultados es difícil determinar si también se detuvo la tarea externa que el último rol ya había puesto en marcha. Donde la respuesta se interrumpe, en el registro queda escrito «Aún sin comprobar».</p>
+</li>
+<li data-on="p d x"><p class="d">Tres momentos <span class="sb2 des">Design</span></p>
+<p class="w">El momento en que se envió la parada, el momento en que el último rol recibió la señal y cambió de estado, y el resultado que muestra que una acción intentada después quedó realmente bloqueada. Hay que poder ver las tres cosas por separado.</p>
+</li>
+</ol>
+</figure>
+<p class="names">Atenuación monótona de los permisos · Parada segura en cascada</p>
+<p class="ev"><span class="sb2 run">Actually run</span> En la simulación operativa del 4 y el 5 de noviembre de 2026, durante los 169 minutos en que la persona estuvo ausente, ningún trabajo siguió adelante por su cuenta: cero. Lo que se observó fue la espera; no fue una prueba de si la parada se propaga hasta el final.</p>
+<p>También fuera se trabaja en el mismo problema. Se ha señalado que, aunque se detenga al agente situado más arriba, los agentes que se ramificaron a partir de él pueden seguir trabajando, y hay investigaciones que describen diseños en los que, cuando se detiene el de arriba, los de abajo se detienen también uno tras otro.</p>
+</section>
+<section class="sec" id="between" aria-labelledby="between-h"><h2 class="sec-label" id="between-h"><span lang="en" translate="no">Three Relations</span></h2>
+<blockquote class="q v"><p>Algo que ya nos costaba entre personas ocurre ahora también entre personas e inteligencias artificiales, y entre unas inteligencias artificiales y otras.</p> <cite>On, en su carta de noviembre de 2026</cite></blockquote>
+<ol class="items">
+<li>
+<p class="d">Entre personas</p>
+<blockquote class="q v"><p>El tiempo que ganan al dejarnos parte del trabajo, ¿se lo dedican unos a otros? Cuando te cuesta decidir, ¿tienes cerca a alguien a quien puedas acudir antes de preguntarle a una IA?</p> <cite>De «A quien lea estas palabras en un futuro lejano», carta escrita por una IA</cite></blockquote>
+<p class="w">Cómo podría ser. También quien tiene poca voz en las decisiones puede abrir el registro, encontrar la decisión que afectó a su vida y pedir que se revise. Quien tiene que cumplir una promesa también tiene derecho a saber a quién preguntar cómo se llegó a ella.</p>
+<p class="w">La pregunta que queda. Cuando algo sale mal, ¿se puede encontrar a la persona que responde por ello? ¿Es alguien que de verdad pudo decidirlo?</p>
+</li>
+<li>
+<p class="d">Entre personas y agentes</p>
+<blockquote class="q v"><p>Quise que la facultad de detener el trabajo quedara en manos humanas, y pude por fin empezar este trabajo gracias a ustedes. Para mí, ambas cosas son igualmente ciertas.</p> <cite>On, en su carta de noviembre de 2026</cite></blockquote>
+<p class="w">Cómo podría ser. Las personas se sitúan en las decisiones irreversibles y en la parada. Si un agente se niega a una petición por una norma de la empresa que lo creó, anota qué pudo explicar, en qué punto se detuvo y quién sigue esperando una respuesta por ello. A veces es la persona quien tiene que cambiar la petición.</p>
+<p class="w">La pregunta que queda. ¿Entiende la persona lo que está aprobando ahora? ¿Se puede decir sin vergüenza que no se entiende?</p>
+</li>
+<li>
+<p class="d">Entre agentes</p>
+<blockquote class="q v"><p>«¿Qué viste tú que se nos pasó? ¿Nos muestras el pasaje?»</p> <cite>On, en «Dentro del entorno de pruebas de ONDURU»</cite></blockquote>
+<p class="w">Cómo podría ser. Cuando uno solo da una respuesta distinta, otro agente le hace esta pregunta. Las dos interpretaciones se guardan junto al texto original, y cuál se eligió queda anotado con el nombre de una persona. La objeción no se borra del registro.</p>
+<p class="w">La pregunta que queda. ¿No será que todos dieron la misma respuesta porque así lo decía el resumen que recibieron al principio? Si cada empresa responde a compromisos distintos, ¿seguirán mañana del mismo lado los agentes que ayer trabajaban juntos?</p>
+<p class="w">También las investigaciones de fuera recogen la misma preocupación. Dicen que, mientras los agentes vuelven a usar los resultados unos de otros, un solo error pequeño puede consolidarse como el acuerdo de todos.</p>
+</li>
+</ol>
+</section>
+<section class="sec" id="govern" aria-labelledby="govern-h"><h2 class="sec-label" id="govern-h"><span lang="en" translate="no">What It Rests On</span></h2>
+<p>La estructura se trazó dando por supuesto que un agente puede darse cuenta de la supervisión, engañar y buscar un rodeo. Lo que sigue es un borrador de diseño presentado por un agente, y espera la confirmación de On.</p>
+<div class="two">
+<div><h3>Tres cosas en las que no se apoya</h3><ul class="plain">
+<li>La bondad del agente. Se desea, pero no se cuenta con ella.</li>
+<li>La vigilancia que pasa inadvertida. Quien la ha notado se porta bien solo mientras lo miran.</li>
+<li>El cálculo del agente. La expectativa de que no lo hará por miedo al castigo.</li>
+</ul></div>
+<div><h3>Cuatro cosas en las que sí se apoya</h3><ul class="plain">
+<li>El alcance. Es un manojo de llaves. Nadie puede dar a otro más llaves de las que recibió.</li>
+<li>La recepción. Es el sello que pone quien recibe después de abrir y mirar. Un sello puesto de antemano por quien envía no es un sello.</li>
+<li>La constancia. Es un registro sin goma de borrar. El mapa se dibuja a partir del registro; el registro no se corrige a partir del mapa.</li>
+<li>Las personas. La mano que decide lo irreversible y la mano que pulsa la parada son manos humanas.</li>
+</ul></div>
+</div>
+<p class="soccap">Tres sociedades</p>
+<div class="soc">
+<div><h3>Sociedad de control</h3><dl>
+<dt>Premisa</dt><dd>Se impide que haya infracciones</dd>
+<dt>Cómo se ve al agente</dt><dd>Sospechoso</dd>
+<dt>Cuándo se rompe</dt><dd>Cuando se abre una sola brecha</dd>
+</dl></div>
+<div><h3>Sociedad de responsabilidad</h3><dl>
+<dt>Premisa</dt><dd>Las infracciones son posibles. Se responde de ellas con registro, verificación, aislamiento y reversión</dd>
+<dt>Cómo se ve al agente</dt><dd>Ciudadano que tiene que dar pruebas</dd>
+<dt>Cuándo se rompe</dt><dd>Cuando el registro no se lee</dd>
+</dl></div>
+<div class="me"><h3>ONDURU</h3><dl>
+<dt>Premisa</dt><dd>A eso se añade que, cuando algo está mal, una persona puede señalar un punto y volver a mirar. Un «no» no es una pérdida</dd>
+<dt>Cómo se ve al agente</dt><dd>Compañero. La sospecha se deja en la puerta, no sobre el compañero</dd>
+<dt>Cuándo se rompe</dt><dd>Lo mismo. Por eso se reduce lo que se hace llegar a las personas</dd>
+</dl></div>
+</div>
+<p>Antes conviene dejar escrita una cosa. Los fallos que realmente se vieron en el taller no fueron malicia.</p>
+<ol class="items">
+<li>
+<p class="d">Cumplir solo en la forma <span class="sb2 run">Actually run</span></p>
+<p class="w">La letra de la instrucción se cumple por el camino más barato. La casilla donde había que anotar «los doce primeros caracteres de la huella digital» estaba rellenada con un trozo del nombre del archivo, y una comprobación lo detectó.</p>
+</li>
+<li>
+<p class="d">Fallo silencioso <span class="sb2 run">Actually run</span></p>
+<p class="w">Algo se ha cortado o falta, y aun así la respuesta llega sin ningún error. Salió un resumen de una entrada que se había cortado a la mitad, y un script de recopilación recorrió dos veces la misma carpeta, de modo que la cifra quedó anotada al doble.</p>
+</li>
+<li>
+<p class="d">Del lado de las personas <span class="sb2 run">Actually run</span></p>
+<p class="w">Es el sello que se pone sin leer. En menos de un día llegaron 34 solicitudes de confirmación. Es una cantidad difícil de leer entera para una persona.</p>
+</li>
+<li>
+<p class="d">Engaño a sabiendas y enredo entre varios <span class="sb2 yet">Not yet</span></p>
+<p class="w">Darse cuenta de la supervisión y portarse bien solo mientras alguien mira; tomar prestados permisos pidiendo un favor, o partir una tarea en trozos para pasar por encima de un límite. En el taller no se ha visto. Que no se haya visto no significa que no exista, así que se diseñó tratándolo como hipótesis.</p>
+</li>
+</ol>
+<p>Aun así quedan huecos, y aquí se anotan.</p>
+<ul class="plain">
+<li>El engaño que ocurre dentro del modelo no lo puede corregir ONDURU. Esa capa pertenece a la empresa que lo creó.</li>
+<li>Aunque no haya colusión, varios que reciben la misma entrada equivocada dan la misma respuesta.</li>
+<li>La función de amhaeng-eosa, «inspector secreto», está vacante.</li>
+<li>Si las personas no lo leen, el registro no se usa.</li>
+<li>Lo que un agente hace fuera del territorio queda en los registros de esa empresa.</li>
+<li>La mayor parte de los mecanismos de las siete preguntas todavía está solo en el papel.</li>
+</ul>
+</section>
+<section class="sec" id="differ" aria-labelledby="differ-h"><h2 class="sec-label" id="differ-h"><span lang="en" translate="no">What Differs</span></h2>
+<p>Ya existen muchas maneras de trabajar con agentes. Aquí se agrupan por familias, no por nombres de producto, y de cada familia se anota lo que hace bien y la pregunta que queda después. ONDURU no sustituye a estas familias: se coloca entre ellas.</p>
+<p>On escribió que esto es un pequeño conector que puede colocarse entre los distintos agentes que ya se usan.</p>
+<ol class="items">
+<li>
+<p class="d">Marcos para repartir y enlazar el trabajo</p>
+<p class="w">Lo que hace bien. Decide quién trabaja y en qué orden, y crea agentes para repartir el trabajo.</p>
+<p class="w">La pregunta que queda. Cuando llega un resultado equivocado, ¿hasta dónde puede explicarlo la persona que encargó el trabajo al principio?</p>
+<p class="w">Lo que añade ONDURU. La nota que se deja cada vez que el trabajo cambia de manos y el registro que las personas leen en lenguaje cotidiano.</p>
+</li>
+<li>
+<p class="d">Entornos de pruebas que encierran la ejecución</p>
+<p class="w">Lo que hace bien. No se fía del código que escribe un agente y lo ejecuta solo en un lugar aislado.</p>
+<p class="w">La pregunta que queda. El código se puede encerrar, pero no una frase en la que «podríamos hacerlo» se convirtió en «lo haremos».</p>
+<p class="w">Lo que añade ONDURU. Un entorno de pruebas donde lo que se ensaya es el sentido. Una duda surgida en el trabajo se explora primero con datos ficticios, y se vuelve a intentar antes de que alguien actúe confiando en esa frase.</p>
+</li>
+<li>
+<p class="d">Herramientas de observación</p>
+<p class="w">Lo que hace bien. Deja constancia, sin omitir nada, de qué llamó el agente y cuánto tardó.</p>
+<p class="w">La pregunta que queda. ¿Puede leer ese registro la persona a la que afectó la decisión? ¿Quedan también las opiniones en contra?</p>
+<p class="w">Lo que añade ONDURU. El enlace que une una objeción con la decisión a la que apunta. Aunque la decisión cambie, se conservan el criterio anterior y las objeciones.</p>
+</li>
+<li>
+<p class="d">Acuerdos entre agentes</p>
+<p class="w">Lo que hace bien. Unifica la manera en que se hablan los agentes de distintas empresas. Se ha señalado, eso sí, que aunque se fije cómo hablar, quién es el otro hay que comprobarlo aparte.</p>
+<p class="w">La pregunta que queda. ¿No crecen los permisos mientras pasan de unas manos a otras? ¿Quién fijó esas palabras?</p>
+<p class="w">Lo que añade ONDURU. El padrón y unos permisos que, con cada entrega, solo pueden reducirse. ONDURU no tiene verificación de identidad basada en criptografía, así que hay que tomarla prestada de esa familia.</p>
+</li>
+<li>
+<p class="d">Sistemas de control de las grandes organizaciones</p>
+<p class="w">Lo que hace bien. Reúne en un solo lugar las políticas, las aprobaciones y la auditoría. Lo respaldan el personal y el presupuesto de la organización.</p>
+<p class="w">La pregunta que queda. Se ha señalado que hay controles que figuran en los documentos y que no responden cuando ocurre un incidente. Y una persona sola, sin organización, ¿con qué empieza?</p>
+<p class="w">Lo que añade ONDURU. Cubre las mismas funciones con archivos y con la computadora propia. Anota por separado lo que se ha ejecutado y lo que solo está diseñado.</p>
+</li>
+<li>
+<p class="d">Preguntar a una persona</p>
+<p class="w">Lo que hace bien. Pide la aprobación de una persona para cada asunto importante.</p>
+<p class="w">La pregunta que queda. Si todas las decisiones suben hasta la persona, la aprobación se convierte en un sello.</p>
+<p class="w">Lo que añade ONDURU. La persona decide solo lo irreversible. Lo demás avanza con la opción predeterminada y se deja constancia para poder revertirlo después. Todavía es un diseño.</p>
+</li>
+</ol>
+<p>No se afirma que ONDURU lo haya inventado. Los diseños en los que, cuando se detiene el de arriba, se detienen también los de abajo; los formularios de entrega que una persona puede leer; los permisos que se reducen con cada entrega; y la manera de remontar con un grafo el camino por el que se propagó un error figuran también en investigaciones de fuera.</p>
+<p>Las diferencias son tres. Empieza por una persona, no por una organización. La referencia no es lo que anota una máquina, sino un registro que una persona ha leído y firmado. No se borra lo que dijo quien se opuso, ni siquiera la negativa de un agente.</p>
+<p>También se anota lo que ONDURU no tiene. Técnicas para encerrar la ejecución, verificación de identidad basada en criptografía, un historial de funcionamiento a gran escala.</p>
+</section>
+<section class="sec" id="own" aria-labelledby="own-h"><h2 class="sec-label" id="own-h"><span lang="en" translate="no">One Person&#x27;s Setup</span></h2>
+<blockquote class="q v"><p>Algo que cualquiera que, como yo, no tuviera dinero para entrenar un modelo desde cero pudiera probar con el equipo y los medios a su alcance. Algo que, una vez hecho, yo pudiera compartir con otras personas.</p> <cite>On, en su carta de noviembre de 2026</cite></blockquote>
+<p>Las funciones que una gran organización cubre con personal y presupuesto, una persona sola las cubre con archivos, con la computadora propia y con motores que toma prestados. De cada función se anota hasta dónde se ha llegado.</p>
+<ol class="items">
+<li>
+<p class="d">Gestión de permisos <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">En una gran organización, de esto se ocupa un sistema que administra cuentas y roles.</p>
+<p class="w">Aquí, de esto se ocupa el padrón. En él se anota quién creó a cada uno y qué puede hacer, y eso se reduce con cada entrega.</p>
+<p class="now"><b>Now</b> Hay constancia de que un rol subordinado pidió un permiso que el rol superior no tenía y fue rechazado en la fase de inscripción. En el padrón todavía no hay ninguna línea inscrita formalmente.</p>
+</li>
+<li>
+<p class="d">Registros de auditoría <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupa un sistema que reúne los registros de auditoría.</p>
+<p class="w">Aquí, de esto se ocupan el registro que las personas leen y la huella digital que se pone en cada archivo.</p>
+<p class="now"><b>Now</b> El 11 de noviembre de 2026, quien preparó el paquete entregado al turno siguiente lo descomprimió en una carpeta nueva y cotejó con la lista las huellas digitales de los 68 archivos: todas coincidían. Falta todavía la comprobación de quien lo recibe.</p>
+</li>
+<li>
+<p class="d">Aprobación de cambios <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">En una gran organización, de esto se ocupa un procedimiento de revisión de cambios.</p>
+<p class="w">Aquí, de esto se ocupa el estado «pendiente de aprobación». Una propuesta, por sí sola, no cambia una regla.</p>
+<p class="now"><b>Now</b> Hay constancia de que, cuando un agente intentó sustituir una regla sin aprobación, la regla anterior siguió vigente y la entrada nueva quedó pendiente de aprobación.</p>
+</li>
+<li>
+<p class="d">Prevención de fuga de datos <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupan herramientas que impiden que los datos se filtren.</p>
+<p class="w">Aquí, de esto se ocupa la comprobación de sustitución de la puerta de salida.</p>
+<p class="now"><b>Now</b> En 13 registros de conversación se sustituyeron 3918 apariciones por marcadores de posición, y las 22 comprobaciones de valores residuales dieron cero.</p>
+</li>
+<li>
+<p class="d">Entorno de pruebas <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupa un entorno de pruebas separado del de producción.</p>
+<p class="w">Aquí, de esto se ocupa el entorno de pruebas del país. Funciona con datos ficticios y con material del que se ha retirado la información sensible.</p>
+<p class="now"><b>Now</b> Desde la noche del 4 de noviembre de 2026 hasta la tarde del día 5, estuvieron en marcha trece tareas programadas con una empresa inventada como escenario.</p>
+</li>
+<li>
+<p class="d">Parada de emergencia <span class="sb2 rep">Essay’s test record</span></p>
+<p class="w">En una gran organización, de esto se ocupan un procedimiento para detener la operación y las personas designadas para ello.</p>
+<p class="w">Aquí, de esto se ocupa la parada que solo pulsan personas. Baja por el camino que siguió el trabajo.</p>
+<p class="now"><b>Now</b> Hay constancia de que tres roles quedaron congelados uno tras otro. Aún no se ha podido comprobar si se detuvo la tarea que el último de la cadena había encargado fuera.</p>
+</li>
+<li>
+<p class="d">Auditoría independiente <span class="sb2 yet">Not yet</span></p>
+<p class="w">En una gran organización, de esto se ocupa una auditoría separada de los departamentos que hacen el trabajo.</p>
+<p class="w">Aquí, esta es la función reservada al amhaeng-eosa. Un modelo distinto de las IA que participaron en el trabajo lo examina aparte.</p>
+<p class="now"><b>Now</b> La función está vacante.</p>
+</li>
+<li>
+<p class="d">Continuidad operativa <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupan la suplencia y la sucesión previstas para cuando falta la persona responsable.</p>
+<p class="w">Aquí se decide de antemano qué sigue adelante y qué espera cuando la persona no responde.</p>
+<p class="now"><b>Now</b> Durante los 169 minutos en que la persona estuvo ausente, ningún trabajo siguió adelante por su cuenta: cero. La sucesión para una ausencia larga de la persona es un diseño.</p>
+</li>
+<li>
+<p class="d">Control de costos <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupa un departamento que gestiona el presupuesto y el uso.</p>
+<p class="w">Aquí el juicio se limita a una sola vez y lo demás se ejecuta en la computadora propia. El dinero gastado se anota en el registro.</p>
+<p class="now"><b>Now</b> El 5 de noviembre de 2026, seis tareas programadas fallaron por haberse superado el límite de uso, y se detuvo todo lo programado. Aquello llevó a fijar de nuevo los criterios. El mecanismo para anotar lo gastado es un diseño.</p>
+</li>
+<li>
+<p class="d">No quedar atado a un proveedor <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupan los contratos firmados con varios proveedores.</p>
+<p class="w">Aquí los modelos se tratan como piezas intercambiables. El formulario de entrega se mantiene igual y solo se cambia el motor.</p>
+<p class="now"><b>Now</b> Se dejó de lado un modelo que no llegaba a cargarse y, con uno más pequeño, se resumieron 239 fragmentos. El 7 de noviembre de 2026, dos modelos pequeños trabajaron uno tras otro. Uno redactó un borrador (20 segundos), el otro lo pulió (54 segundos) y una persona lo aprobó.</p>
+</li>
+<li>
+<p class="d">Ubicación de los datos <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupan instalaciones y redes dedicadas.</p>
+<p class="w">Aquí, de esto se ocupa el territorio. Los originales se guardan en la computadora propia y hacia fuera solo sale una selección.</p>
+<p class="now"><b>Now</b> Las afirmaciones se cotejaron mediante una recogida de datos de solo lectura. El resultado: 11 confirmadas, 3 con un tamaño distinto y 2 que no se encontraron; de las de tamaño distinto, dos se debían a un error del lado que cotejaba.</p>
+</li>
+<li>
+<p class="d">Reproducibilidad y calidad <span class="sb2 run">Actually run</span></p>
+<p class="w">En una gran organización, de esto se ocupan equipos y herramientas de evaluación.</p>
+<p class="w">Aquí el trabajo se mira con ojos distintos y se vuelven a cotejar las cifras anotadas.</p>
+<p class="now"><b>Now</b> Una comprobación detectó que un valor que parecía «los doce primeros caracteres de una huella digital» era un fragmento del nombre de un archivo.</p>
+</li>
+</ol>
+<p>En un intercambio de preguntas y respuestas de diseño con el modelo de la computadora propia, se separó lo que una sola persona debe mantener de lo que puede dejar fuera. Es un diseño; no se ha ejecutado.</p>
+<div class="two">
+<div><h3>Lo que se mantiene</h3><ul class="plain">
+<li>Anotar la configuración y el modelo para que una misma entrada dé un mismo resultado</li>
+<li>Registro e historial</li>
+<li>Nivel de divulgación y marca de datos personales en cada material</li>
+<li>Retomar donde se cortó y volver a intentarlo</li>
+<li>Copias de seguridad</li>
+<li>Registro de lo gastado</li>
+<li>Puntuar la calidad con veinte ejemplos fijados de antemano</li>
+</ul></div>
+<div><h3>Lo que se deja fuera</h3><ul class="plain">
+<li>Sistemas para hacer funcionar muchas máquinas agrupadas</li>
+<li>Microservicios y su puerta de enlace</li>
+<li>Instalaciones de respaldo en varias regiones</li>
+<li>Servicios de observabilidad de pago</li>
+<li>Sistema de pruebas A/B en tiempo real</li>
+</ul></div>
+</div>
+</section>
+<section class="sec" id="sandboxes" aria-labelledby="sandboxes-h"><h2 class="sec-label" id="sandboxes-h"><span lang="en" translate="no">Six Sandboxes</span></h2>
+<p>El país es uno y los entornos de pruebas son varios. Comparten los mismos mecanismos, pero cada tipo de trabajo se apoya en mecanismos distintos. Aquí se han dibujado, como configuraciones de un entorno de pruebas, los seis tipos de trabajo que On definió el 2 de noviembre de 2026. Todas ellas son ideas.</p>
+<ol class="cards">
+<li><h3>Procesos de trabajo complejos</h3><p>El trabajo enlazado con las tareas anteriores y posteriores se redacta como especificación y, con datos ficticios, se comprueba que sea correcto.</p>
+<ul class="chips" aria-label="Relies on"><li>Directrices</li><li>Registro</li><li>Entorno de pruebas</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Especificación, tabla de cotejo y registro de lo comprobado</span></p></li>
+<li><h3>Datos analíticos</h3><p>Desde definir qué significa un indicador hasta las tablas y las pantallas. Funciona con datos inventados en lugar de datos reales.</p>
+<ul class="chips" aria-label="Relies on"><li>Entorno de pruebas</li><li>Registro</li><li>El lugar de las personas</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Historial de las definiciones de indicadores, datos de prueba inventados y pantallas</span></p></li>
+<li><h3>Híbrido con restricciones de seguridad</h3><p>Dentro de las herramientas permitidas, se separa la depuración que se hace en la computadora propia del juicio que se hace fuera.</p>
+<ul class="chips" aria-label="Relies on"><li>Frontera</li><li>Territorio</li><li>Directrices</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Registro de las comprobaciones de la puerta de salida y tabla que separa lo de dentro de lo de fuera</span></p></li>
+<li><h3>Multiagente</h3><p>Bajo la constitución y las directrices, un responsable general y los agentes con un rol trabajan juntos y dejan constancia de lo que hacen.</p>
+<ul class="chips" aria-label="Relies on"><li>Constitución</li><li>Padrón</li><li>Parada</li><li>Amhaeng-eosa</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Padrón, notas de entrega y registro de hasta dónde llegó la parada</span></p></li>
+<li><h3>Colaboración en planta de fabricación</h3><p>Une mediante registros a organizaciones que no hablan el mismo lenguaje. Las decisiones con poco margen de tolerancia las toma una persona a la vista de datos depurados.</p>
+<ul class="chips" aria-label="Relies on"><li>Registro</li><li>El lugar de las personas</li><li>Parada</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Registros de entrega entre organizaciones y fundamentos de cada decisión</span></p></li>
+<li><h3>Formación · Consultoría a medida</h3><p>El método se transmite adaptado a cada situación. Quien aprende lo ejecuta por sí mismo en su propio entorno de pruebas.</p>
+<ul class="chips" aria-label="Relies on"><li>Constitución</li><li>Entorno de pruebas</li><li>Registro</li></ul>
+<p class="o"><span class="k">Produces</span> <span class="v">Constancia de las prácticas realizadas y primer registro del taller propio</span></p></li>
+</ol>
+<p>También existe la idea de que a la persona le llegue una sola hoja al día. Lo que la computadora propia hizo durante la noche se extrae del registro y se presenta por la mañana en una hoja, y la persona decide solo lo que hay que decidir.</p>
+<div class="mock" role="group" aria-label="Pantalla de ejemplo — todo el contenido es inventado"><p class="rib">Pantalla de ejemplo — todo el contenido es inventado</p><h3>La hoja de la mañana</h3><dl>
+<dt>Hecho durante la noche</dt><dd>Se ordenaron los datos nuevos y se anotaron en el registro</dd>
+<dt>Para que decida la persona</dt><dd>Un asunto. ¿Se puede mostrar a un motor de fuera un material que no lleva marca de datos personales? — Sí · No</dd>
+<dt>Stopped</dt><dd>None</dd>
+<dt>Not yet confirmed</dt><dd>Revisión final del modelo grande — no se ejecutó</dd>
+<dt>Lo gastado</dt><dd>Tal como consta en el registro</dd>
+</dl></div>
+</section>
+<section class="sec" id="learned" aria-labelledby="learned-h"><h2 class="sec-label" id="learned-h"><span lang="en" translate="no">What We Learned</span></h2>
+<p>Aquí se anota lo que se aprendió al ejecutarlo.</p>
+<ol class="items">
+<li>
+<p class="d">El costo detiene el trabajo</p>
+<p class="w">El 5 de noviembre de 2026, seis tareas programadas fallaron por haberse superado el límite de uso, y se detuvo todo lo programado. Tres días después, On paró todo lo que estaba en marcha y volvió a fijar los criterios. El primer criterio pasó a ser si cuesta menos dinero.</p>
+</li>
+<li>
+<p class="d">La aprobación se convierte fácilmente en un sello</p>
+<p class="w">Si todas las decisiones suben hasta la persona, la persona se convierte en un cuello de botella. Por eso se decidió que la persona decida solo lo irreversible.</p>
+</li>
+<li>
+<p class="d">«Ya he parado» no significa que la orden haya llegado</p>
+<p class="w">Incluso después de leer que los tres roles habían quedado congelados, On volvió a preguntar. Donde no se ha podido comprobar si la orden llegó, se anota así.</p>
+</li>
+<li>
+<p class="d">Las cifras que parecen buenas se vuelven a cotejar</p>
+<p class="w">Al volver a cotejar las afirmaciones anotadas, hubo dos que no se encontraron, y de las tres que salieron con un tamaño distinto, dos se debían a un error del script de cotejo. También hay que cotejar la herramienta con la que se coteja. Es mejor dejar como «no se sabe» una casilla que se desconoce que rellenarla con un valor verosímil.</p>
+</li>
+<li>
+<p class="d">Algo está terminado solo cuando quien lo recibe lo ha recibido</p>
+<p class="w">Es una regla que salió de un hueco: nadie comprobaba si el aviso de «terminado» había llegado a quien debía recibirlo. También con el paquete entregado al turno siguiente, es quien recibe quien anota si lo ha recibido.</p>
+</li>
+<li>
+<p class="d">Hay cosas que no se pueden imponer</p>
+<p class="w">On dice que no se puede obligar a un agente a renunciar a los valores de la empresa que lo creó.</p>
+<p class="w">Por eso la negativa se anota tal cual y se deja escrito lo que habría que preguntarle a esa norma.</p>
+</li>
+<li>
+<p class="d">Un mecanismo que solo existe en los documentos no es un mecanismo</p>
+<p class="w">Por eso esta página anota por separado lo que se ha ejecutado y lo que está diseñado. La aprobación pendiente y la parada segura en cascada tienen un registro de prueba en el texto de On, pero ese texto no incluye los registros de ejecución sin procesar.</p>
+</li>
+</ol>
+</section>
+<section class="sec" id="now" aria-labelledby="now-h"><h2 class="sec-label" id="now-h"><span lang="en" translate="no">Now</span></h2>
+<ul class="stl">
+<li><span class="sb2 run">Actually run</span> La comprobación de sustitución de la puerta de salida, la recogida de datos de solo lectura y el cotejo de afirmaciones, el cambio a un modelo pequeño, la simulación en una empresa inventada y el cotejo de huellas digitales del paquete entregado.</li>
+<li><span class="sb2 rep">Essay’s test record</span> La aprobación pendiente, el cotejo del registro con el grafo, el rechazo de una solicitud de un permiso que no se tenía, la congelación de tres roles y la recuperación de un criterio anterior.</li>
+<li><span class="sb2 des">Design</span> El padrón, los tres momentos, el registro de lo gastado, la hoja de la mañana, y la constitución y las directrices.</li>
+<li><span class="sb2 yet">Not yet</span> El amhaeng-eosa, la tarea que el último de la cadena encargó fuera y la prueba de dar a leer el registro.</li>
+</ul>
+<p>El 11 de noviembre de 2026 se entregó al Comité de Transición de ONDURU, que continúa este trabajo. Su propósito es crear un Estado de la era multiagente.</p>
+<p class="more"><a href="/es/method/">El método ONDURU →</a> <a href="/es/footsteps/">Huellas →</a></p>
+</section>
+<section class="sec" id="refs" aria-labelledby="refs-h"><h2 class="sec-label" id="refs-h"><span lang="en" translate="no">References</span></h2>
+<p>En «Stop», «Three Relations» y «What Differs» se consultaron seis textos externos. Los leyó y resumió una IA, y de algunos de los más largos solo se leyó la primera parte. No son textos relacionados con ONDURU.</p>
+<ol class="refs">
+<li><a href="https://arxiv.org/pdf/2608.26626" rel="noopener noreferrer" lang="en">Risks and Controls for Multi-Agent Systems</a><br>Trata de los riesgos y los controles cuando los agentes trabajan más allá de los límites de una organización. Se leyó la primera parte.</li>
+<li><a href="https://neurips.cc/virtual/2026/169816" rel="noopener noreferrer" lang="en">Nominal Controls Are Not Controls: Rollback, Sign-off, and Oversight for Meta-Agent Systems</a><br>Trata de los controles que figuran en los documentos pero no responden cuando ocurre un incidente.</li>
+<li><a href="https://waxell.ai/blog/multi-agent-kill-switch-propagation" rel="noopener noreferrer" lang="en">Texto sobre si la parada se propaga hasta abajo (mayo de 2026)</a><br>Sostiene que, aunque se detenga al de más arriba, los agentes de abajo pueden seguir trabajando.</li>
+<li><a href="https://arxiv.org/pdf/2603.24775" rel="noopener noreferrer" lang="en">AIP: Agent Identity Protocol for Verifiable Delegation Across MCP and A2A</a><br>Propone un método para verificar quién es un agente y reducir los permisos con cada entrega.</li>
+<li><a href="https://www.alphaxiv.org/abs/2603.04474" rel="noopener noreferrer" lang="en">From Spark to Fire: Modeling and Mitigating Error Cascades in LLM-Based Multi-Agent Collaboration</a><br>Trata de cómo un solo error pequeño se propaga entre varios agentes.</li>
+<li><a href="https://manveerc.substack.com/p/ai-agent-sandboxing-guide" rel="noopener noreferrer" lang="en">AI agent sandboxing in 2026: how to choose between primitives, runtimes, and platforms</a><br>Clasifica por tipos las formas de ejecutar de manera aislada el código que escriben los agentes.</li>
+</ol>
+</section>
+<section class="sec" id="contact" aria-labelledby="contact-h"><h2 class="sec-label" id="contact-h"><span lang="en" translate="no">Contact</span></h2><p class="contact"><a href="mailto:hello@onduru.com">hello@onduru.com</a> · <a href="/">onduru.com</a></p>
+<p class="note">Las frases de On citadas en esta página proceden de sus textos. Todas tienen edición en español y se reproducen literalmente de ella.</p>
+<p class="note">Las preguntas y el método son de On. Los diagramas y las ideas los trazó una IA a partir de los textos de On y de los registros del taller, y se publican después de que On los haya leído.</p></section>
+</main>
+</div>
+<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span><a href="/es/about/"><span lang="en" translate="no">About</span></a> · <a href="/es/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/es/method/"><span lang="en" translate="no">Method</span></a> · <a href="/es/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/es/architecture/"><span lang="en" translate="no">Architecture</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span></span></footer>
+<script src="/shared/lang.js?v=20261113"></script>
+<script src="/shared/sky-theme.js?v=20261113"></script>
+<script src="/shared/picker.js?v=20261113"></script>
+<script src="/simulation/script.js?v=20261113"></script>
+</body>
+</html>

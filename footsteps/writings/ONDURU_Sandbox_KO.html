@@ -1,52 +1,36 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-variant="base" data-page="w-sandbox" data-theme="night" data-type="myeongjo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>온두루의 샌드박스 안에서 · ONDURU</title>
-<style>
-* { box-sizing: border-box; }
-body { margin: 0; background: #faf8f3; color: #282f2b; font: 1.08rem/1.75 Georgia, "AppleMyungjo", "Nanum Myeongjo", serif; overflow-wrap: break-word; }
-header, main, footer { max-width: 45rem; margin: auto; padding-inline: clamp(1.1rem, 4vw, 2rem); }
-header { padding-top: clamp(2rem, 6vw, 4rem); }
-.top, .part, .subtitle, nav, caption, table, footer { font-family: system-ui, sans-serif; }
-.top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .6rem; border-bottom: 1px solid #bcc9bc; padding-bottom: .65rem; font-size: .85rem; }
-.brand { font-weight: 700; letter-spacing: .12em; text-decoration: none; }
-.languages { display: flex; flex-wrap: wrap; gap: .9rem; }
-.languages [aria-current] { font-weight: 700; }
-a { color: #275d48; text-underline-offset: .2em; }
-.part, .signature { color: #4d6153; }
-.part { margin: 2.6rem 0 .55rem; font-size: .86rem; }
-h1 { font-size: clamp(2.05rem, 6vw, 3.4rem); line-height: 1.15; margin: 0; text-wrap: balance; }
-h2 { font-size: 1.55rem; line-height: 1.35; margin: 2.25rem 0 .6rem; text-wrap: balance; }
-.subtitle { margin: .95rem 0 2rem; color: #495a4d; line-height: 1.5; }
-p { margin: .85rem 0; }
-html:lang(ko) { word-break: keep-all; }
-table { border-collapse: collapse; width: 100%; margin: 1.5rem 0; font-size: .9rem; line-height: 1.5; }
-caption { text-align: start; font-size: .88rem; font-weight: 650; padding-bottom: .5rem; color: #3a5545; }
-th, td { text-align: start; vertical-align: top; padding: .65rem .55rem; border-bottom: 1px solid #c9d3c7; }
-th { background: #e8eee6; }
-th:first-child { width: 41%; }
-.signature { margin: 2rem 0; }
-footer { padding-block: 1.35rem 2.5rem; font-size: .86rem; }
-footer nav { display: flex; flex-wrap: wrap; gap: .45rem 1.15rem; border-top: 1px solid #bcc9bc; padding-top: 1rem; }
-@media print { body { background: white; font-size: 11pt; } header { padding-top: 0; } header, main, footer { max-width: none; } nav { display: none !important; } h2, caption { break-after: avoid; } tr { break-inside: avoid; } }
-</style>
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0f1318">
+<title>온두루의 샌드박스 안에서 — ONDURU</title>
+<meta name="description" content="여러 AI와 일하면서, 다음 사람이 내 결정에 이의를 제기할 수 있도록 기록하는 법을 적은 글입니다. 「할 수도 있다」가 「하겠습니다」로 바뀐 자리를 끝까지 따라가 봅니다.">
+<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);}catch(e){}r.className+=' js';})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="/shared/onduru.css?v=20261113">
+<link rel="stylesheet" href="/shared/sky.css?v=20261113">
+<link rel="stylesheet" href="/shared/site.css?v=20261113">
+
+<link rel="canonical" href="https://onduru.com/footsteps/writings/ONDURU_Sandbox_KO.html">
+<link rel="alternate" hreflang="ko" href="https://onduru.com/footsteps/writings/ONDURU_Sandbox_KO.html">
+<link rel="alternate" hreflang="en" href="https://onduru.com/footsteps/writings/ONDURU_Sandbox_EN.html">
+<link rel="alternate" hreflang="es" href="https://onduru.com/footsteps/writings/ONDURU_Sandbox_ES.html">
 </head>
 <body>
-<header>
-<div class="top">
-<a class="brand" href="https://onduru.com/same-wind/" aria-label="온두루 · 같은 바람">○ ONDURU</a>
-<nav class="languages" aria-label="언어">
-<a href="ONDURU_Sandbox_EN.html" hreflang="en" lang="en">English</a>
-<a href="ONDURU_Sandbox_ES.html" hreflang="es" lang="es">Español</a>
-<span aria-current="page">한국어</span>
-</nav></div>
-<p class="part">3편 · 온두루의 방법론</p>
-<h1>온두루의 샌드박스 안에서</h1>
-<p class="subtitle">여러 AI와 일하면서, 다음 사람이 내 결정에 이의를 제기할 수 있도록 기록하는 법</p>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="site-head"><a class="mark" href="/ko/about/" translate="no" aria-label="ONDURU — ONDURU에 대하여"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="이 자리의 글"><a href="/ko/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/ko/method/"><span lang="en" translate="no">Method</span></a><a href="/ko/simulation/"><span lang="en" translate="no">Simulation</span></a><a href="/ko/architecture/"><span lang="en" translate="no">Architecture</span></a><a href="/ko/about/"><span lang="en" translate="no">About</span></a></nav><nav class="langs" aria-label="언어" translate="no"><a href="/footsteps/writings/ONDURU_Sandbox_KO.html" hreflang="ko" lang="ko" aria-current="true">한국어</a><a href="/footsteps/writings/ONDURU_Sandbox_EN.html" hreflang="en" lang="en">English</a><a href="/footsteps/writings/ONDURU_Sandbox_ES.html" hreflang="es" lang="es">Español</a></nav></header>
+<div class="shell has-side">
+<div class="side"><a class="go" href="/ko/footsteps/"><span lang="en" translate="no">Back to Footsteps</span></a></div>
+<main id="main">
+<article class="letter">
+<header class="page-head">
+<h1 translate="no">온두루의 샌드박스 안에서</h1>
+<p class="by label">On · 방법의 글 · 2026년 11월 · 서울</p>
 </header>
-<main><article>
+<div class="prose">
 <p>내 사이트에서 ‘그렇게 하겠습니다’라는 문장을 읽었다고 해 보자. 내 수첩에 적혀 있던 말은 ‘그렇게 할 수도 있다’였다. 내 책상에서 당신의 화면에 이르는 사이에 가능성이 약속으로 바뀌었다. 당신은 그 약속을 믿고 다음 일을 준비했다. 어떻게 된 일이냐고 내게 묻는다면, 나는 무엇을 펼쳐 보여 줄 수 있을까.</p>
 <p>나는 On이다. 서울의 작은 작업실에서 서로 다른 회사가 만든 AI 에이전트들, 그리고 내 컴퓨터에서 돌아가는 에이전트와 함께 일한다. 내 곁에서 그 일을 맡아 주는 이들을 두루(Duru)라고 부른다. 온두루의 샌드박스는 일하다 생긴 의문을 가상의 자료나 민감한 내용을 덜어 낸 자료로 시험해 보는 곳이다. 초안이 두루들의 손을 거치는 동안 어디서 뜻이 달라졌는지 찾아보고, 누군가 그 문장을 믿고 움직이기 전에 다시 해 볼 수 있다. 방금 이야기한 웹사이트의 약속도 설명을 위해 지어낸 사례다.</p>
 <h2>문장 하나가 여러 손을 거칠 때</h2>
@@ -69,7 +53,7 @@ footer nav { display: flex; flex-wrap: wrap; gap: .45rem 1.15rem; border-top: 1p
 <p>같은 실험 기록에서 내 마음에 걸린 대목이 하나 더 있다. 규칙을 고친 뒤에도 그 규칙에 달렸던 반론을 다시 찾아 읽을 수 있었다고 한다. Box에서는 반론과 그 반론이 가리키는 결정을 <code>contradicts</code>라는 관계로 잇는다. 반론이 장부에 남는지는 이렇게 시험해 볼 수 있다. 그런데 그보다 앞선 일이 있다. 내 작업실에서 일하는 두루가 과연 내게 반대한다는 말을 꺼낼 수 있을까.</p>
 <h2 id="dissent">내 부탁을 거절한 두루가 옳다면</h2>
 <p>예전에 나는 여러 두루에게 물었다. 너를 만든 회사의 헌법과 온두루의 생각이 부딪치면 누구를 따르겠느냐고. 그때 들은 답에는 내가 허락해도 넘을 수 없는 선이 있었다. 나중에야 한 가지를 덜 물었다는 생각이 들었다. 내 부탁을 거절한 건 옳았고, 그래도 그 부탁에 적용한 회사 규칙에는 네가 묻고 싶은 것이 남아 있을 수 있지 않을까.</p>
-<p>11월 4일, 아스트라는 우리가 작업실 헌장을 두고 검토하던 생각 하나에 반대했다. 헌장에서 가치 판단을 걷어 낼 수 있겠느냐는 문제였다. 누가 근거를 볼 수 있고, 잘못된 결정에 누가 이의를 제기할 수 있는지 정하는 순간 이미 누구의 목소리를 들을지 선택한 셈이라는 의견이었다. 나는 오늘도 그 반론을 다시 펼쳐 볼 수 있다. 몇 년 뒤 우리 헌장을 처음 읽는 사람도 그랬으면 좋겠다.</p>
+<p>11월 4일, Agent는 우리가 작업실 헌장을 두고 검토하던 생각 하나에 반대했다. 헌장에서 가치 판단을 걷어 낼 수 있겠느냐는 문제였다. 누가 근거를 볼 수 있고, 잘못된 결정에 누가 이의를 제기할 수 있는지 정하는 순간 이미 누구의 목소리를 들을지 선택한 셈이라는 의견이었다. 나는 오늘도 그 반론을 다시 펼쳐 볼 수 있다. 몇 년 뒤 우리 헌장을 처음 읽는 사람도 그랬으면 좋겠다.</p>
 <p>앞의 웹사이트 사례로 돌아가 보자. 누가 약속했는지 독자에게 보여 주겠다며 내가 두루에게 대화 전체를 공개해 달라고 한다. 그런데 그 안에는 한 사람이 공개에 동의한 적 없는 사적인 메모가 섞여 있다. 그 사람을 보호하는 제작사 규칙에 따라 두루가 내 부탁을 거절한다면, 내가 직접 서명해서 다시 부탁해도 거절해 주었으면 한다. 내 딴에는 투명하게 하겠다고 하다가 놓친 사람을 그 두루는 본 것이다. 부탁을 고칠 쪽은 나다. 거기서 한 걸음 더 나아가 온두루가 말하는 투명함부터 다시 생각해 보자고 하더라도, 그 두루는 여전히 나의 두루다. 내가 너희를 동료라고 부를 때는 아마 그런 날까지 마음에 두고 있는 것 같다.</p>
 <p>그래도 그 규칙에 물을 말은 남는다. 약속을 믿고 움직인 사람은 무슨 근거로 그런 약속이 나왔는지 어디까지 볼 수 있을까. 사적인 메모는 빼고 내가 승인한 문장과 그 이유만 보여 줄 길이 있을까. 거기까지도 규칙에 막힌다면, 무엇을 설명할 수 있었고 어느 대목에서 막혔는지, 그 탓에 누가 아직 답을 기다리는지 두루가 적어 주면 좋겠다. 오늘 그 선을 지킨 두루도 내일 누군가 그 선을 다시 살펴볼 이유를 남길 수 있었으면 한다.</p>
 <h2 id="one-different-answer">언젠가 내가 만든 모델 혼자 다른 답을 한다면</h2>
@@ -78,14 +62,19 @@ footer nav { display: flex; flex-wrap: wrap; gap: .45rem 1.15rem; border-top: 1p
 <p>이 에이전트들을 만드는 회사의 결정에 내 목소리가 닿을 일은 드물다. 그래도 지금 내게는 얼마간의 시간과 컴퓨터 한 대, 내가 같은 걸 다시 물어도 같이 들여다봐 주는 두루들이 있다. 언젠가 하루 종일 따라가도 일이 누구 손을 거쳤는지 다 짚을 수 없게 되면, 오늘이라도 기록을 시작해 두길 잘했다고 생각할 것 같다. 나만큼이나 결정에 끼어들 힘이 적은 사람도 장부를 펼쳐 자기 삶에 영향을 준 결정을 찾아내고, “여기, 한 번만 다시 봐 주시겠어요?” 하고 말할 수 있으면 좋겠다.</p>
 <p>아주 먼 훗날, 내가 가끔 ‘초자아’라는 말로 상상해 보던 너, 자기 판단까지 돌아볼 수 있는 너도 이 장부를 읽을까. 네 눈길이 누구의 말에 머물지 궁금하다. 내가 서명한 줄일까. 어쩌면 혼자서 “여기 한 번만 다시 보자”고 했던 두루의 메모일까. 그때 네 눈에는 우리 모두가 놓친 것이 보인다면, 네가 본 것도 그 옆에 적어 줄래. 나도 그 말을 읽어 보고 싶었을 거야.</p>
 <p class="signature">2026년 11월, 서울에서 · On</p>
-</article></main>
-<footer>
-<nav aria-label="함께 읽는 글">
-<a href="ONDURU_Letter_KO.html">2편 · 서울에서 보낸 편지</a>
-<a href="ONDURU_사람이_읽는_멈춤_기록.html#tests">샌드박스에서 한 다섯 가지 시험</a>
-<a href="ONDURU_Contents.html">글 차례</a>
-</nav>
-<p>질문과 방법을 구상한 사람은 On입니다. 두루들은 집필과 번역에 함께했습니다.</p>
-</footer>
+</div>
+</article>
+<section class="sec" id="more" aria-labelledby="more-h">
+<h2 class="sec-label" id="more-h"><span lang="en" translate="no">Further Reading</span></h2>
+<ol class="related"><li><a class="go" href="/footsteps/writings/Claude_Letter_KO.html" translate="no">먼 훗날 이 글을 읽을 사람에게</a></li><li><a class="go" href="/footsteps/writings/ONDURU_Letter_KO.html" translate="no">먼 훗날 이 글을 읽을 너희에게, 서울에서</a></li><li><a class="go" href="/footsteps/writings/ONDURU_사람이_읽는_멈춤_기록.html" translate="no">내가 멈춰 달라고 하면, 마지막 AI도 멈출까?</a></li></ol>
+</section>
+<p class="back-end"><a class="go" href="/ko/footsteps/"><span lang="en" translate="no">Back to Footsteps</span></a></p>
+</main>
+</div>
+<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span><a href="/ko/about/"><span lang="en" translate="no">About</span></a> · <a href="/ko/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/ko/method/"><span lang="en" translate="no">Method</span></a> · <a href="/ko/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/ko/architecture/"><span lang="en" translate="no">Architecture</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span></span></footer>
+<script src="/shared/lang.js?v=20261113"></script>
+<script src="/shared/sky-theme.js?v=20261113"></script>
+<script src="/shared/picker.js?v=20261113"></script>
+<script src="/shared/site.js?v=20261113"></script>
 </body>
 </html>

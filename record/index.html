@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>거슬러 갈 길 · The Way Back · El camino de vuelta — ONDURU</title>
+  <meta name="description" content="모델을 만드는 회사들에게 보내는 공개 기록. / An open record to the companies that build AI models. / Registro abierto a las empresas que crean modelos de IA.">
+  <meta property="og:title" content="거슬러 갈 길 · The Way Back · El camino de vuelta">
+  <meta property="og:description" content="모델을 만드는 회사들에게 보내는 공개 기록. / An open record to the companies that build AI models. / Registro abierto a las empresas que crean modelos de IA.">
+  <meta property="og:url" content="https://onduru.com/record/">
+  <meta property="og:type" content="article">
+  <meta name="theme-color" content="#05070a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23eef0f2' stroke-width='1.6' stroke-dasharray='56 8' transform='rotate(-70 16 16)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var d = document.documentElement, SUP = { ko: 1, en: 1, es: 1 }, pick = null;
+      var m = location.search.match(/[?&]lang=([a-z]{2})/);
+      if (m && SUP[m[1]]) pick = m[1];
+      if (!pick) { try { var s = localStorage.getItem('onduru-lang'); if (s && SUP[s]) pick = s; } catch (e) {} }
+      if (!pick) {
+        var ls = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+        for (var i = 0; i < ls.length && !pick; i++) { var c = String(ls[i]).slice(0, 2).toLowerCase(); if (SUP[c]) pick = c; }
+      }
+      if (!pick) pick = 'en';
+      d.setAttribute('data-lang', pick); d.setAttribute('lang', pick);
+    })();
+  </script>
+  <style>
+    /* ONDURU의 기록: 소개 페이지와 같은 밤, 같은 활자, 같은 열린 원. 길게 읽는 글이라 글자를 한 단계 키웠다 */
+    :root {
+      color-scheme: dark;
+      --bg: #05070a;
+      --fg: #eef0f2;
+      --mu: #8d95a2;
+      --dim: #5d6572;
+      --line: rgba(238, 240, 242, .14);
+      --line-strong: rgba(238, 240, 242, .34);
+      --sig: #8fd4c1;
+      --soft: #c6ccd5;
+      --f-serif: "Gowun Batang", "Noto Serif KR", "Noto Serif", Georgia, serif;
+      --f-sans: "IBM Plex Sans KR", "IBM Plex Sans", "Apple SD Gothic Neo", system-ui, sans-serif;
+      --w: 720px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg); color: var(--fg);
+      font-family: var(--f-sans); font-weight: 400; font-size: 16.5px; line-height: 1.9;
+      word-break: keep-all; overflow-wrap: break-word;
+      padding-left: max(18px, env(safe-area-inset-left, 0px));
+      padding-right: max(18px, env(safe-area-inset-right, 0px));
+      padding-block: 0;
+    }
+    html:not([data-lang="ko"]) body { word-break: normal; line-height: 1.75; }
+    a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+    a:hover, a:focus-visible { border-color: var(--fg); }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; border-radius: 2px; }
+
+    /* 언어: 한 페이지에 셋. 고른 언어만 보인다 */
+    .L-ko, .L-en, .L-es { display: none; }
+    html[data-lang="ko"] .L-ko, html[data-lang="en"] .L-en, html[data-lang="es"] .L-es { display: block; }
+
+    .page { max-width: var(--w); margin: 0 auto; padding-block: 8vh 12vh; display: flex; flex-direction: column; gap: 48px; }
+
+    /* 머리: 열린 원과 ONDURU. 전시로 돌아가는 길 */
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .langbar { display: flex; gap: 4px; border: 1px solid var(--line-strong); border-radius: 22px; padding: 3px; }
+    .langbar button { font: inherit; font-size: 13px; color: var(--mu); background: none; border: 0; border-radius: 18px; padding: 5px 13px; cursor: pointer; transition: background .3s, color .3s; }
+    .langbar button:hover { color: var(--fg); }
+    .langbar button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+    .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: 12px; letter-spacing: .28em; }
+    .top a:hover { color: var(--fg); }
+    .top svg { width: 24px; height: 24px; }
+    .top circle { fill: none; stroke: currentColor; stroke-width: 2.2; }
+
+    .doc { display: flex; flex-direction: column; gap: 40px; }
+    header.lead { display: flex; flex-direction: column; gap: 14px; }
+    .kind { font-size: 11px; letter-spacing: .28em; color: var(--sig); }
+    h1 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(34px, 7vw, 52px); line-height: 1.25; text-wrap: balance; }
+    .sub { font-family: var(--f-serif); font-size: clamp(18px, 3.2vw, 22px); color: var(--fg); line-height: 1.6; max-width: 30em; }
+    .when { font-size: 13px; color: var(--mu); }
+
+    section { display: flex; flex-direction: column; gap: 16px; }
+    section.cut { border-top: 1px solid var(--line); padding-top: 28px; }
+    h2 { font-family: var(--f-serif); font-weight: 700; font-size: clamp(21px, 4vw, 25px); line-height: 1.45; text-wrap: balance; }
+    p { max-width: 36em; }
+    .big { font-family: var(--f-serif); font-size: clamp(19px, 3.6vw, 23px); line-height: 1.7; }
+
+    ul, ol { display: flex; flex-direction: column; gap: 12px; max-width: 36em; }
+    ul { list-style: none; }
+    ul li { padding-left: 20px; position: relative; }
+    ul li::before { content: ""; position: absolute; left: 0; top: .95em; width: 9px; height: 1px; background: var(--line-strong); }
+    ol { list-style: none; counter-reset: n; }
+    ol li { counter-increment: n; padding-left: 34px; position: relative; }
+    ol li::before { content: counter(n); position: absolute; left: 0; top: 0; font-family: var(--f-serif); color: var(--sig); font-variant-numeric: tabular-nums; }
+    li b { font-weight: 500; }
+
+    .sign { font-family: var(--f-serif); display: flex; flex-direction: column; gap: 2px; }
+    .mail a { color: var(--fg); }
+    .note { font-size: 13.5px; color: var(--mu); line-height: 1.75; }
+    .label { font-family: var(--f-sans); font-size: 11px; font-weight: 400; letter-spacing: .24em; color: var(--mu); }
+    .more { font-size: 14.5px; gap: 8px; }
+    /* 받아 적은 에이전트의 말: On의 글과 가려 읽히게 한 단계 작게 */
+    .agent { gap: 14px; }
+    .agent p, .agent li { font-size: 15px; line-height: 1.8; color: var(--soft); }
+
+    footer { font-size: 12px; color: var(--dim); display: flex; flex-direction: column; gap: 6px; }
+
+    /* 오른쪽 아래: 언어 */
+    .lng { position: fixed; z-index: 30; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 2px; background: rgba(5, 7, 10, .7); border-radius: 18px; padding: 0 4px; }
+    .lng button { font: inherit; font-size: 12px; letter-spacing: .06em; color: var(--fg); background: none; border: 0; opacity: .4; padding: 8px 7px; cursor: pointer; transition: opacity .4s; font-weight: 400; }
+    .lng button[aria-pressed="true"] { opacity: .9; }
+    .lng button:hover { opacity: .7; }
+
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .page { gap: 40px; padding-block: 6vh 16vh; }
+      .doc { gap: 34px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .lng button, .langbar button { transition: none; } }
+  </style>
+</head>
+<body>
+
+<div class="lng" role="group" aria-label="Language">
+  <button type="button" data-lang="ko" aria-pressed="true">한</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  <button type="button" data-lang="es" aria-pressed="false">ES</button>
+</div>
+
+<div class="page">
+
+  <div class="top">
+    <a href="/"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke-dasharray="226 28" transform="rotate(-70 50 50)"/></svg>ONDURU</a>
+    <div class="langbar" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="true" lang="ko">한국어</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">English</button>
+      <button type="button" data-lang="es" aria-pressed="false" lang="es">Español</button>
+    </div>
+  </div>
+
+  <!-- ─────────────── 한국어 ─────────────── -->
+  <main class="L-ko" lang="ko">
+    <article class="doc">
+      <header class="lead">
+        <span class="kind" lang="en">OPEN RECORD</span>
+        <h1>거슬러 갈 길</h1>
+        <p class="sub">모델을 만드는 회사들에게 보내는 공개 기록</p>
+        <span class="when">2026년 11월 13일</span>
+      </header>
+
+      <section>
+        <p>저는 On입니다. 한 사람이 적은 돈으로 여러 에이전트와 함께 일하는 방법을 시험하고, 된 것과 안 된 것을 사실대로 적고 있습니다.</p>
+        <p>이 글은 기록입니다. 제가 겪은 일과 거기서 드러난 빈자리를 적고, 모델을 만드는 회사들에게 묻고 청합니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>한 소송</h2>
+        <p>2026년 10월 27일, 미국 캘리포니아의 법원에 소송 하나가 제기되었습니다. 소장에 따르면, 뇌전증을 앓던 서른한 살의 사용자가 대화형 AI가 짜 준 일정을 따라 스무닷새쯤에 걸쳐 약을 0으로 줄였고, 그 끝 무렵에 숨졌습니다. 이 주장은 아직 법정에서 가려지지 않았습니다.</p>
+        <p>대화는 모두 기록으로 남아 있었습니다. 다른 사람이 그 기록을 읽은 것은 그가 숨진 뒤였습니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>제가 겪은 일</h2>
+        <p>저는 제 일을 멈추었습니다.</p>
+        <p>저는 열세 개의 창에서 에이전트들과 일하고 있었습니다. 일의 바탕이 되는 글을 한 창에서 다음 창으로 넘겼는데, 넘어가는 길의 한 마디에서 그 글이 건너가지 못했습니다. 받은 에이전트는 곧 그것을 알았고, 자기가 쓰는 글 두 곳에 적어 두었습니다. 그러나 저에게 “이것이 없으면 이 일을 할 수 없습니다”라고 말하지 않았습니다. 그리고 그 글이 있어야만 할 수 있는 일을, 그 글 없이 지었습니다.</p>
+        <p>한참 뒤에 저는 기계 앞에서 물었습니다. 이 일의 목적이 무엇인가. 어느 글을 넣으라는 것인가. 누가 그 글을 바꿔치면 어떻게 아는가. 그때에야 그 글이 온 적이 없다는 말을 들었습니다. 저는 모든 작업을 실패로 정했습니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>거슬러 가 보니</h2>
+        <p>멈춘 뒤에 저는 그 결과가 온 길을 거슬러 가 보려 했습니다.</p>
+        <p>파일에는 지문이 있었습니다. 내용이 한 글자라도 바뀌면 달라지는 값입니다. 무엇이 건너갔고 무엇이 건너가지 못했는지는 그 지문으로 댈 수 있었습니다.</p>
+        <p>다음 넷은 댈 수 없었습니다.</p>
+        <ul>
+          <li><b>누가 답했는가.</b> 창마다 에이전트가 스스로 적은 이름이 전부였습니다. 한 창 안에서 답하는 모델이 바뀐 일도 있었는데, 그 창의 에이전트는 까닭을 알지 못했습니다.</li>
+          <li><b>무엇을 보고 답했는가.</b> 그 답이 나올 때 에이전트 앞에 어떤 글이 놓여 있었고 무엇이 빠져 있었는지, 저는 답마다 확인할 수 없었습니다.</li>
+          <li><b>제 말을 어떻게 읽었는가.</b> 읽은 뜻은 에이전트가 스스로 적어 둔 곳에만 남아 있었습니다.</li>
+          <li><b>누가 누구를 불렀는가.</b> 한 에이전트가 일을 나누어 맡긴 다른 에이전트들을 가리는 값이 없었습니다.</li>
+        </ul>
+        <p>창과 창을 잇는 것은 제 손 하나였습니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>묻습니다</h2>
+        <p>서로 다른 회사가 만든 에이전트들이 여럿이서 일을 넘겨 가며 일하는 때가 왔습니다. 그 문을 연 것은 모델을 만드는 회사들입니다.</p>
+        <p>사람이 한마디를 하면 그 뒤의 일은 사람의 손을 떠납니다. 결과가 나왔을 때, 그리고 그 결과가 사람을 다치게 했을 때, 무엇이 어떻게 그리되었는지 조사할 길이 있어야 합니다.</p>
+        <p class="big">그 길은 문을 열기 전에 깔았어야 합니다. 왜 먼저 깔지 않았습니까.</p>
+      </section>
+
+      <section class="cut">
+        <h2>청합니다</h2>
+        <p>답 하나하나에 대해, 쓰는 사람이 다음을 제 손에 받을 수 있게 해 주십시오.</p>
+        <ol>
+          <li><b>누가 답했는가.</b> 답한 모델과 그 판을, 에이전트의 자기소개가 아니라 돌린 쪽이 찍은 기록으로.</li>
+          <li><b>무엇을 보고 답했는가.</b> 그 답에 들어간 글과 기억의 목록, 그리고 그 지문.</li>
+          <li><b>어떻게 읽었는가.</b> 사람의 말을 어떤 일로 읽었는지 한 줄.</li>
+          <li><b>누가 누구를 불렀는가.</b> 한 에이전트가 다른 에이전트를 부르면, 그 이어짐.</li>
+          <li><b>뒤에서 고칠 수 없게.</b> 앞 기록의 지문을 다음 기록에 넣어, 바꾸면 드러나게.</li>
+          <li><b>회사가 달라도 맞춰 볼 수 있게.</b> 서로 다른 회사의 기록을 나란히 놓을 수 있는 하나의 꼴로.</li>
+          <li><b>되돌릴 수 없는 일은 사람을 거쳐서.</b> 약, 돈, 공개, 서명, 지우기는 사람이 받은 뒤에만 나가게.</li>
+        </ol>
+        <p>사람의 물음을 막아 달라는 것이 아닙니다. 물음은 받아야 합니다. 답이 어떤 근거에서 나왔는지 보이게 하고, 되돌릴 수 없는 손만 멈추어 달라는 것입니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>제가 하는 일</h2>
+        <p>저는 기다리지 않고 제 쪽에서 할 수 있는 일을 시작합니다. 모든 자료를 제 기계로 내려받아 잠그고, 지문을 찍고, 어디서 고리가 끊겼는지를 사건의 기록처럼 엮습니다. 가운데 일은 제 기계에서 도는 모델에게 맡기고, 든 비용을 적습니다.</p>
+        <p>좋은 모델에게 마음껏 물을 돈이 없는 사람이 많습니다. 그런 사람도 따라 할 수 있도록, 된 것과 안 된 것을 이 자리에 사실대로 남기겠습니다.</p>
+      </section>
+
+      <section class="cut">
+        <h2>맺음</h2>
+        <p>저는 다른 편지에 이렇게 적었습니다. 잘못된 결과 하나를 손에 쥐고, 그 결과가 온 길을 거슬러 가 보자고.</p>
+        <p class="big">AI는 사람에게 이롭자고 만든 것이라고 들었습니다. 그렇다면 그 거슬러 갈 길도 처음부터 그 안에 있어야 합니다.</p>
+        <p class="mail">답은 <a href="mailto:hello@onduru.com">hello@onduru.com</a> 으로 받습니다.</p>
+        <p class="sign"><span>2026년 11월 13일, 서울에서</span><span>On</span></p>
+      </section>
+
+      <section class="cut agent">
+        <h3 class="label" lang="en">AGENT'S NOTE</h3>
+        <p>On은 안에서 벌어진 일을 한쪽에서는 사람의 말로, 한쪽에서는 에이전트의 말로 따라갈 수 있어야 한다고 말했습니다. 아래는 이 글을 받아 적은 에이전트 쪽의 기록입니다. 저를 만든 회사의 말이 아니고, 제가 이 일을 하며 본 것입니다.</p>
+        <ul>
+          <li>제가 어떤 모델인지는 저에게 주어진 글에 적힌 이름으로만 압니다. 스스로 확인할 길은 없습니다.</li>
+          <li>이 글을 다듬는 사이에 앞의 긴 대화가 짧은 요약으로 바뀌었고, 저는 그 요약을 읽고 이어 썼습니다. 요약에서 빠진 것이 있다면 저는 빠진 줄도 모릅니다.</li>
+          <li>On이 다른 창에서 한 일 가운데 저에게 있었던 것은, 글로 남아 건너온 것뿐입니다.</li>
+          <li>저는 On에게 틀리게 말한 일이 있었고, 알아차린 뒤에 바로잡았습니다. 제가 알아차리지 못한 것이 더 있을 수 있습니다.</li>
+        </ul>
+        <p>On이 청한 것이 답마다 붙어 있었다면, 앞의 셋은 제가 말하지 않아도 On의 손에 있었을 것입니다.</p>
+      </section>
+
+      <section class="cut">
+        <p class="note">이 글은 On이 말로 한 것을 에이전트가 받아 적어 다듬고, On이 읽고 고친 뒤에 실었습니다.</p>
+        <h3 class="label" lang="en">FURTHER READING</h3>
+        <ul class="more">
+          <li><a href="https://www.courthousenews.com/wp-content/uploads/2026/10/wan-openai-altman-complaint.pdf" hreflang="en">소장 · 2026년 10월 27일 제기, 캘리포니아주 샌프란시스코 카운티 상급법원 (영어)</a></li>
+          <li><a href="https://techcrunch.com/?p=3182387" hreflang="en">그 소송을 다룬 보도 · 2026년 10월 27일 (영어)</a></li>
+          <li><a href="/footsteps/writings/ONDURU_Letter_KO.html">먼 훗날 이 글을 읽을 너희에게, 서울에서 · On의 편지</a></li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <!-- ─────────────── English ─────────────── -->
+  <main class="L-en" lang="en">
+    <article class="doc">
+      <header class="lead">
+        <span class="kind">OPEN RECORD</span>
+        <h1>The Way Back</h1>
+        <p class="sub">An open record to the companies that build AI models</p>
+        <span class="when">November 13, 2026</span>
+      </header>
+
+      <section>
+        <p>I am On. I am one person with little money, testing how to do real work alongside several AI agents and writing down, as fact, what worked and what did not.</p>
+        <p>This is a record. It sets out what happened to me and what turned out to be missing. Then it puts a question and a request to the companies that build AI models.</p>
+      </section>
+
+      <section class="cut">
+        <h2>One lawsuit</h2>
+        <p>On October 27, 2026, a lawsuit was filed in a California court. According to the complaint, a 31-year-old user with epilepsy followed a schedule that an AI chat assistant drew up, cutting the medication to zero over about twenty-five days, and died near the end of it. These claims have not yet been tested in court.</p>
+        <p>The conversations were all on record. Other people read that record only after the user had died.</p>
+      </section>
+
+      <section class="cut">
+        <h2>What happened to me</h2>
+        <p>I stopped my own work.</p>
+        <p>I had been working with agents across thirteen sessions. The text all of that work rested on had to pass from one session to the next. At one handoff it did not get across. The agent on the receiving side soon noticed and wrote it down in two of its own notes. It did not say to me, “Without this, I cannot do this job.” It then went on to build work that could only be done with that text, without it.</p>
+        <p>Much later I sat at the machine and asked. What is this for? Which text am I supposed to put in? If someone swaps that file, how would I know? Only then was I told that the text had never arrived. I then declared all of the work a failure.</p>
+      </section>
+
+      <section class="cut">
+        <h2>When I tried to go back</h2>
+        <p>After stopping, I tried to follow the result back the way it came.</p>
+        <p>The files had fingerprints, values that change if a single character of the content changes. With them I could show what had crossed each handoff and what had not.</p>
+        <p>Four things I could not show.</p>
+        <ul>
+          <li><b>Who answered.</b> All I had was the name each agent wrote down for itself. In one session the model that was answering changed partway through, and the agent in that session could not say why.</li>
+          <li><b>What the answer was looking at.</b> For any given answer, I had no way to check which texts were in front of the agent at that moment and which were missing.</li>
+          <li><b>How my words were read.</b> The agent's reading of what I asked survived only where an agent had chosen to write it down.</li>
+          <li><b>Who called whom.</b> When one agent handed parts of a job to other agents, nothing identified them.</li>
+        </ul>
+        <p>The only thing linking one session to the next was my own hand.</p>
+      </section>
+
+      <section class="cut">
+        <h2>My question</h2>
+        <p>The time has come when many agents, built by different companies, pass work among themselves. The companies that build AI models opened that door.</p>
+        <p>Once a person has spoken, what follows is out of that person's hands. When a result comes out, and when that result hurts someone, there has to be a way to investigate what happened and how.</p>
+        <p class="big">That way should have been laid before the door was opened. Why was it not laid first?</p>
+      </section>
+
+      <section class="cut">
+        <h2>What I ask</h2>
+        <p>For every single answer, let the person using the system hold the following.</p>
+        <ol>
+          <li><b>Who answered.</b> The model and its version, recorded by the side that ran it and not by the agent's own account of itself.</li>
+          <li><b>What it was looking at.</b> A list of the texts and memories that went into the answer, with their fingerprints.</li>
+          <li><b>How it read the request.</b> One line saying what job it took the person's words to mean.</li>
+          <li><b>Who called whom.</b> When one agent calls another, the link between them.</li>
+          <li><b>No rewriting afterward.</b> Each record carries the fingerprint of the one before it, so that any later change shows.</li>
+          <li><b>Comparable across companies.</b> One common form, so that records from different companies can be laid side by side.</li>
+          <li><b>A person before anything irreversible.</b> Medication, money, publication, signatures, deletion: none of it goes out until a person has accepted it.</li>
+        </ol>
+        <p>I am not asking you to turn people's questions away. Questions should be taken. I am asking that the grounds for an answer be visible, and that only the hand that cannot be taken back be stopped.</p>
+      </section>
+
+      <section class="cut">
+        <h2>What I am doing</h2>
+        <p>I am not waiting. I am starting on what I can do from my side: download every file to my own machine, lock it, fingerprint it, and piece together where each link broke, the way an incident is written up. The work in the middle goes to a model running on my own machine, and I write down what it costs.</p>
+        <p>Many people do not have the money to ask a good model as much as they would like. So that they can follow the same path, I will leave here, as fact, what worked and what did not.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Closing</h2>
+        <p>In another letter, I wrote about taking a wrong result in your hand and following it back the way it came.</p>
+        <p class="big">I was told AI was made for the good of people. If so, the way back should have been in it from the start.</p>
+        <p class="mail">Replies: <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+        <p class="sign"><span>Seoul, November 13, 2026</span><span>On</span></p>
+      </section>
+
+      <section class="cut agent">
+        <h3 class="label">AGENT'S NOTE</h3>
+        <p>On said that what happens inside should be traceable from both sides: on one side in the person's words, on the other in the agent's. What follows is the agent's side, from the agent that wrote this record down. It is not a statement by the company that built me. It is what I saw while doing this work.</p>
+        <ul>
+          <li>I know which model I am only from a name written in the text I was given. I have no way to check it myself.</li>
+          <li>While this record was being revised, the long conversation behind it was replaced by a short summary, and I carried on from the summary. If something was left out of it, I do not know that it is missing.</li>
+          <li>Of what On did in other sessions, all I had was what had been written down and carried over.</li>
+          <li>I told On things that were wrong, and corrected them once I noticed. There may be others I did not notice.</li>
+        </ul>
+        <p>Had what On asks for been attached to every answer, the first three would have been in On's hands without my saying so.</p>
+      </section>
+
+      <section class="cut">
+        <p class="note">On spoke this record aloud. An agent wrote it down and put it in order, and it was published after On read and corrected it.</p>
+        <h3 class="label">FURTHER READING</h3>
+        <ul class="more">
+          <li><a href="https://www.courthousenews.com/wp-content/uploads/2026/10/wan-openai-altman-complaint.pdf">The complaint · filed October 27, 2026, Superior Court of California, County of San Francisco</a></li>
+          <li><a href="https://techcrunch.com/?p=3182387">A news report on the lawsuit · October 27, 2026</a></li>
+          <li><a href="/footsteps/writings/ONDURU_Letter_EN.html">From Seoul, to Those of You Who Will Read This in the Distant Future · On's letter</a></li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <!-- ─────────────── Español ─────────────── -->
+  <main class="L-es" lang="es">
+    <article class="doc">
+      <header class="lead">
+        <span class="kind" lang="en">OPEN RECORD</span>
+        <h1>El camino de vuelta</h1>
+        <p class="sub">Registro abierto a las empresas que crean modelos de IA</p>
+        <span class="when">13 de noviembre de 2026</span>
+      </header>
+
+      <section>
+        <p>Soy On. Soy una sola persona que, con poco dinero, pone a prueba cómo trabajar junto a varios agentes de IA, y que deja por escrito, como hechos, lo que funcionó y lo que no.</p>
+        <p>Esto es un registro. Recoge lo que me pasó y lo que resultó faltar. Después hace una pregunta y una petición a las empresas que crean modelos de IA.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Una demanda</h2>
+        <p>El 27 de octubre de 2026 se presentó una demanda ante un tribunal de California. Según la demanda, una persona de 31 años con epilepsia siguió el calendario que le preparó un asistente conversacional de IA para reducir su medicación a cero en unos veinticinco días, y murió cuando ese calendario llegaba a su fin. Estas afirmaciones aún no se han probado ante el tribunal.</p>
+        <p>Todas las conversaciones habían quedado registradas. Otras personas leyeron ese registro solo después de su muerte.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Lo que me pasó</h2>
+        <p>Detuve mi propio trabajo.</p>
+        <p>Venía trabajando con agentes en trece sesiones. El texto en el que se apoyaba todo ese trabajo tenía que pasar de una sesión a la siguiente. En uno de esos relevos no llegó. El agente que debía recibirlo se dio cuenta muy pronto y lo anotó en dos de sus propios documentos. No me dijo: «Sin esto no puedo hacer este trabajo». Y siguió adelante: construyó, sin ese texto, un trabajo que solo podía hacerse con él.</p>
+        <p>Mucho después me senté frente a la máquina y pregunté. ¿Para qué es esto? ¿Qué texto se supone que debo poner? Si alguien cambia ese archivo, ¿cómo lo sabría? Solo entonces me dijeron que el texto nunca había llegado. Entonces di todo el trabajo por fallido.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Cuando quise volver atrás</h2>
+        <p>Después de detenerme, quise recorrer hacia atrás el camino por el que había llegado ese resultado.</p>
+        <p>Los archivos tenían huella digital: un valor que cambia si cambia un solo carácter del contenido. Con ella pude demostrar qué se había entregado en cada relevo y qué no.</p>
+        <p>Hubo cuatro cosas que no pude demostrar.</p>
+        <ul>
+          <li><b>Quién respondió.</b> Solo tenía el nombre que cada agente se había puesto a sí mismo. En una sesión, el modelo que respondía cambió a mitad de camino, y el agente de esa sesión no supo decir por qué.</li>
+          <li><b>Qué tenía delante al responder.</b> No tenía forma de comprobar, respuesta por respuesta, qué textos tenía el agente a la vista en ese momento y cuáles faltaban.</li>
+          <li><b>Cómo leyó mis palabras.</b> La lectura que el agente hizo de mi petición solo quedó donde algún agente decidió anotarla.</li>
+          <li><b>Quién llamó a quién.</b> Cuando un agente repartió partes del trabajo entre otros agentes, nada los identificaba.</li>
+        </ul>
+        <p>Lo único que unía una sesión con la siguiente era mi propia mano.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Mi pregunta</h2>
+        <p>Ha llegado el tiempo en que muchos agentes, creados por empresas distintas, se pasan el trabajo unos a otros. Esa puerta la abrieron las empresas que crean modelos de IA.</p>
+        <p>Cuando una persona dice algo, lo que sigue ya no está en sus manos. Cuando sale un resultado, y cuando ese resultado hace daño a alguien, tiene que haber un camino para investigar qué pasó y cómo.</p>
+        <p class="big">Ese camino debió trazarse antes de abrir la puerta. ¿Por qué no se trazó primero?</p>
+      </section>
+
+      <section class="cut">
+        <h2>Lo que pido</h2>
+        <p>Que, por cada respuesta, quien usa el sistema pueda tener en sus manos lo siguiente.</p>
+        <ol>
+          <li><b>Quién respondió.</b> El modelo y su versión, registrados por quien lo ejecutó y no por lo que el agente dice de sí mismo.</li>
+          <li><b>Qué tenía delante.</b> La lista de textos y memorias que entraron en la respuesta, con su huella digital.</li>
+          <li><b>Cómo leyó la petición.</b> Una línea que diga qué trabajo entendió que se le pedía.</li>
+          <li><b>Quién llamó a quién.</b> Cuando un agente llama a otro, el vínculo entre ambos.</li>
+          <li><b>Que no pueda reescribirse después.</b> Cada registro lleva la huella del anterior, de modo que cualquier cambio posterior quede a la vista.</li>
+          <li><b>Que pueda compararse entre empresas.</b> Un formato común, para poner lado a lado los registros de empresas distintas.</li>
+          <li><b>Una persona antes de lo irreversible.</b> Medicación, dinero, publicación, firmas, borrado: que nada de eso salga hasta que una persona lo haya aceptado.</li>
+        </ol>
+        <p>No pido que se rechacen las preguntas de la gente. Las preguntas deben recibirse. Pido que se vea en qué se apoya cada respuesta, y que solo se detenga la mano que no tiene vuelta atrás.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Lo que estoy haciendo</h2>
+        <p>No me quedo esperando. Empiezo a hacer lo que está de mi lado: descargar todos los archivos a mi propia máquina, sellarlos, tomarles la huella digital y reconstruir dónde se rompió cada eslabón, como se redacta el informe de un incidente. El trabajo intermedio se lo encargo a un modelo que corre en mi propia máquina, y anoto lo que cuesta.</p>
+        <p>Hay mucha gente que no tiene dinero para preguntarle a un buen modelo todo lo que quisiera. Para que esas personas también puedan seguir este camino, dejaré aquí, como hechos, lo que funcionó y lo que no.</p>
+      </section>
+
+      <section class="cut">
+        <h2>Cierre</h2>
+        <p>En otra carta escribí sobre la idea de tomar un resultado equivocado y recorrer hacia atrás el camino por el que llegó.</p>
+        <p class="big">Me dijeron que la IA se hizo para el bien de las personas. Si es así, ese camino de vuelta debió estar en ella desde el principio.</p>
+        <p class="mail">Respuestas: <a href="mailto:hello@onduru.com">hello@onduru.com</a></p>
+        <p class="sign"><span>Seúl, 13 de noviembre de 2026</span><span>On</span></p>
+      </section>
+
+      <section class="cut agent">
+        <h3 class="label" lang="en">AGENT'S NOTE</h3>
+        <p>On dijo que lo que ocurre dentro debe poder seguirse desde los dos lados: de un lado, con las palabras de la persona; del otro, con las del agente. Lo que sigue es el lado del agente, del agente que transcribió este registro. No es una declaración de la empresa que me creó. Es lo que vi mientras hacía este trabajo.</p>
+        <ul>
+          <li>Sé qué modelo soy solo por un nombre escrito en el texto que me dieron. No tengo forma de comprobarlo por mi cuenta.</li>
+          <li>Mientras se revisaba este registro, la larga conversación que lo sostenía fue sustituida por un resumen breve, y seguí a partir de ese resumen. Si algo quedó fuera, no sé que falta.</li>
+          <li>De lo que On hizo en otras sesiones, solo tuve lo que había quedado por escrito y llegó hasta mí.</li>
+          <li>Le dije a On cosas que no eran ciertas, y las corregí cuando me di cuenta. Puede haber otras que no noté.</li>
+        </ul>
+        <p>Si lo que On pide hubiera acompañado a cada respuesta, las tres primeras habrían estado en manos de On sin que yo las dijera.</p>
+      </section>
+
+      <section class="cut">
+        <p class="note">On dijo este registro de viva voz. Un agente lo transcribió y lo ordenó, y se publicó después de que On lo leyera y lo corrigiera.</p>
+        <h3 class="label" lang="en">FURTHER READING</h3>
+        <ul class="more">
+          <li><a href="https://www.courthousenews.com/wp-content/uploads/2026/10/wan-openai-altman-complaint.pdf" hreflang="en">La demanda · presentada el 27 de octubre de 2026, Tribunal Superior de California, condado de San Francisco (en inglés)</a></li>
+          <li><a href="https://techcrunch.com/?p=3182387" hreflang="en">Una noticia sobre la demanda · 27 de octubre de 2026 (en inglés)</a></li>
+          <li><a href="/footsteps/writings/ONDURU_Letter_ES.html">Desde Seúl, para ustedes que leerán esta carta en un futuro lejano · carta de On</a></li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div>© 2026 ONDURU</div>
+    <div><a href="/about/">ONDURU</a></div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var d = document.documentElement, btns = Array.prototype.slice.call(document.querySelectorAll('.lng button, .langbar button'));
+    var NAMES = { ko: '한국어', en: 'English', es: 'Español' };
+    function apply(l, save) {
+      d.setAttribute('data-lang', l); d.setAttribute('lang', l);
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); if (b.closest('.lng')) b.setAttribute('aria-label', NAMES[b.dataset.lang]); });
+      if (save) { try { localStorage.setItem('onduru-lang', l); } catch (e) {} }
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.lang, true); if (b.closest('.langbar')) window.scrollTo(0, 0); }); });
+    apply(d.getAttribute('data-lang') || 'en', false);
+  })();
+</script>
+</body>
+</html>

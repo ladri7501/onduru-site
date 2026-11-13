@@ -1,0 +1,92 @@
+/* ONDURU — 하늘 따라 바뀌는 바탕 (sky.css) · 2026-11-11 · 「하늘」 자리
+ * sky-theme.js 가 <html data-theme · data-sky · data-weather> 를 바꾸면, 여기서 ① 색이 건너가는 움직임 ② 비 오는 날의 결을 입힌다.
+ * 스크립트가 꺼지면 이 파일의 어느 규칙도 듣지 않는다(밤 바탕 그대로). 바깥 파일을 부르지 않는다.
+ * 색값은 이 파일의 토큰 덮어쓰기에만 있다. 잰 대비는 WCAG 2.x 상대 휘도의 셈으로 2026-11-11 17:01 에 쟀다.
+ * 까닭과 옮기는 법: SKY_NOTES.md · 따르는 규칙: 가이드 C-8 · 상호작용 기준 SC-5(움직임 줄이기) · SC-6(5초 넘게 움직이지 않는다) */
+
+/* ───────── 1. 색이 천천히 건너간다 ─────────
+   토큰을 「색」으로 알려 두면(@property) 토큰 값이 바뀔 때 그 사이를 건너갈 수 있다 — 토큰을 쓰는 모든 것이 함께 건너간다.
+   이것을 모르는 브라우저(크롬 85 · 사파리 16.4 · 파이어폭스 128 앞의 것)에서는 바로 바뀐다. 처음 값은 밤 바탕(onduru.css 의 :root)과 같다. */
+@property --bg          { syntax: "<color>"; inherits: true; initial-value: #0f1318; }
+@property --bg-raised   { syntax: "<color>"; inherits: true; initial-value: #161b22; }
+@property --ink         { syntax: "<color>"; inherits: true; initial-value: #cfcbc2; }
+@property --ink-strong  { syntax: "<color>"; inherits: true; initial-value: #dbd7cc; }
+@property --ink-dim     { syntax: "<color>"; inherits: true; initial-value: #a3a69f; }
+@property --ink-faint   { syntax: "<color>"; inherits: true; initial-value: #868a86; }
+@property --line        { syntax: "<color>"; inherits: true; initial-value: #262b33; }
+@property --line-strong { syntax: "<color>"; inherits: true; initial-value: #3a414b; }
+@property --signal      { syntax: "<color>"; inherits: true; initial-value: #8fd4c1; }
+@property --on-signal   { syntax: "<color>"; inherits: true; initial-value: #0f1318; }
+@property --mark        { syntax: "<color>"; inherits: true; initial-value: #dbd7cc; }
+@property --rain        { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+/* sky-live 는 sky-theme.js 가 첫 그림 뒤에 붙인다 — 페이지를 열 때는 건너가는 움직임이 없다.
+   하늘이 바꿀 때는 1.6초(글이 읽히지 않는 사이가 짧게), 사람이 눌러 고른 때(data-sky="off")는 --dur 와 같은 180ms. */
+@media (prefers-reduced-motion: no-preference) {
+  html.sky-live {
+    transition: --bg 1.6s ease, --bg-raised 1.6s ease, --ink 1.6s ease, --ink-strong 1.6s ease, --ink-dim 1.6s ease, --ink-faint 1.6s ease,
+                --line 1.6s ease, --line-strong 1.6s ease, --signal 1.6s ease, --on-signal 1.6s ease, --mark 1.6s ease, --rain 1.6s ease;
+  }
+  html.sky-live[data-sky="off"] { transition-duration: 180ms; }
+}
+
+/* ───────── 2. 비 오는 날 — 바탕을 조금 가라앉힌다 ─────────
+   어두운 두 벌은 바탕을 한 걸음 더 어둡고 푸르게(대비는 오른다). 종이는 한 걸음 어둡고 잿빛으로 — 대비가 내려가므로 글자색을 함께 내려 지킨다.
+   지킬 금: 본문 10:1 · 옅은 글 4.5:1 아래로 내려가지 않는다(바탕 위와 떠 있는 면 위, 빗줄기 위에서도 옅은 글 4.5:1).
+   인쇄에서는 듣지 않는다(@media screen — onduru.css 의 인쇄 토큰을 덮지 않는다). */
+@media screen {
+  /* 밤 + 비 — 본문 11.71 · 센 글 12.92 · 곁 글 7.68 · 옅은 글 5.41 · 신호 11.15 | 떠 있는 면 위: 본문 10.92 · 옅은 글 5.05
+     (맑은 밤: 본문 11.52 · 옅은 글 5.32) */
+  html[data-weather="rain"]:not([data-theme="dawn"]):not([data-theme="paper"]) {
+    --bg: #0c1117; --bg-raised: #131920; --line: #232931; --line-strong: #373f49; --on-signal: #0c1117;
+    --ink-strong: #d9d5ca; --mark: #d9d5ca;   /* 2026-11-12 A-10: 센 글이 13:1을 넘지 않게 */
+    --rain: rgb(180 198 216 / 0.08);   /* 빗줄기 꼭대기 #191f26 — 바탕과 1.14:1 · 그 위에서 본문 10.25 · 곁 글 6.73 · 옅은 글 4.74 */
+  }
+  /* 새벽 + 비 — 본문 11.56 · 센 글 12.98 · 곁 글 7.44 · 옅은 글 5.42 · 신호 10.32 | 떠 있는 면 위: 본문 10.55 · 옅은 글 4.95
+     (맑은 새벽: 본문 10.33 · 옅은 글 5.24 · 떠 있는 면 위 본문 9.38) */
+  html[data-weather="rain"][data-theme="dawn"] {
+    --bg: #171c23; --bg-raised: #1e242c; --line: #2d333c; --line-strong: #414954; --on-signal: #171c23;
+    --ink: #d7d4cc; --ink-strong: #e3e0d8; --mark: #e3e0d8;   /* 2026-11-12 A-10: 본문은 떠 있는 면 · 빗줄기 위에서 10:1 위로, 센 글은 13:1 아래로 */
+    --rain: rgb(185 201 217 / 0.07);   /* 빗줄기 꼭대기 #222830 — 바탕과 1.15:1 · 그 위에서 본문 10.03 · 곁 글 6.46 · 옅은 글 4.70 */
+  }
+  /* 종이 + 비 — 본문 11.44 · 센 글 12.14 · 곁 글 6.85 · 옅은 글 5.24 · 신호 6.19 | 떠 있는 면 위: 본문 10.49 · 옅은 글 4.80
+     (맑은 종이: 본문 11.32 · 옅은 글 4.88 · 떠 있는 면 위 옅은 글 4.45) */
+  html[data-weather="rain"][data-theme="paper"] {
+    --bg: #e0ddd5; --bg-raised: #d8d4ca; --ink: #252421; --ink-dim: #494740; --ink-faint: #5b584f;
+    --line: #c8c3b7; --line-strong: #aaa497; --signal: #1b5747; --on-signal: #e0ddd5;
+    --rain: rgb(61 74 88 / 0.09);      /* 빗줄기 꼭대기 #d1d0ca — 바탕과 1.14:1 · 그 위에서 본문 10.04 · 곁 글 6.02 · 옅은 글 4.60 */
+  }
+
+  /* ───────── 3. 빗줄기 같은 결 — 머리 아래, 글 뒤 ─────────
+     머리(.site-head) 바로 다음 덩이의 바탕 그림으로 그린다 — 바탕 그림이라서 언제나 글과 면의 뒤에 있고, 자리를 차지하지 않고, 눌러지지 않는다.
+     굵기 1px · 길이 30~60px 의 곧은 줄 다섯 겹(칸의 크기와 놓인 자리가 서로 달라 줄이 가지런해 보이지 않는다 — 칸의 너비는 홀수라서 줄이 화소 한 칸에 맞는다).
+     맨 위 겹이 아래로 갈수록 바탕색으로 덮어, 머리 아래 26rem 안에서 사라진다. */
+  html[data-weather="rain"] .site-head + * {
+    background-image:
+      linear-gradient(to bottom, transparent, var(--bg) min(26rem, 70vh)),
+      radial-gradient(ellipse 0.75px 22px at 50% 50%, var(--rain) 0 55%, transparent),
+      radial-gradient(ellipse 0.75px 30px at 50% 50%, var(--rain) 0 55%, transparent),
+      radial-gradient(ellipse 0.75px 15px at 50% 50%, var(--rain) 0 55%, transparent),
+      radial-gradient(ellipse 0.75px 26px at 50% 50%, var(--rain) 0 55%, transparent),
+      radial-gradient(ellipse 0.75px 18px at 50% 50%, var(--rain) 0 55%, transparent);
+    background-size: 100% 100%, 211px 173px, 257px 211px, 307px 257px, 353px 149px, 397px 193px;
+    background-position: 0 0, 0 0, 83px 60px, 149px 140px, 31px 97px, 229px 23px;
+    background-repeat: no-repeat, repeat, repeat, repeat, repeat, repeat;
+  }
+}
+
+/* 움직임: 비가 켜질 때(페이지를 열 때 · 비가 오기 시작할 때) 4.8초 동안 내리다가 잦아들어 멈춘 결로 남는다.
+   5초 넘게 저절로 움직이는 것에는 멈춤 단추가 있어야 하므로(SC-6) 5초 안에 스스로 멈춘다. 끝 자리는 칸의 정수 배라서 멈춘 그림이 처음과 같다.
+   움직임 줄이기를 켠 사람에게는 처음부터 멈춘 결이다(SC-5 — 움직임은 no-preference 안에만 건다). */
+@keyframes sky-rain {
+  from { background-position: 0 0, 0 0, 83px 60px, 149px 140px, 31px 97px, 229px 23px; }
+  to   { background-position: 0 0, 0 519px, 83px 693px, 149px 911px, 31px 544px, 229px 602px; }   /* 칸 높이의 3배씩 내려간다: 173·3 · 60+211·3 · 140+257·3 · 97+149·3 · 23+193·3 */
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  html[data-weather="rain"] .site-head + * { animation: sky-rain 4.8s cubic-bezier(0.3, 0.5, 0.4, 1) 1; }
+}
+
+/* 색을 기기가 정하는 때(강제 색)와 대비를 높여 달라는 때에는 결을 그리지 않는다 */
+@media (forced-colors: active), (prefers-contrast: more) {
+  html[data-weather="rain"] .site-head + * { background-image: none; animation: none; }
+}
