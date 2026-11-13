@@ -17,6 +17,19 @@ html body .site-head .site-nav { margin: 0; }
 .ico3:hover, .ico3:focus-visible { color: var(--ink-strong); }
 .ico3 svg { width: 16px; height: 16px; display: block; }
 html body .site-foot .pick { display: none !important; }
+/* 글자 크기(On 23:27 1안) — 뿌리 글자를 키운다. 머리 · 단추 글자는 그대로(px) 둬서 머리가 덜 밀린다 */
+html[data-size="l"] { --ts: 1.25; font-size: calc(clamp(100%, 0.75rem + 0.3125vw, 125%) * 1.25); }
+html[data-size="xl"] { --ts: 1.5; font-size: calc(clamp(100%, 0.75rem + 0.3125vw, 125%) * 1.5); }
+.sz3 span { letter-spacing: -.02em; }
+/* 바깥 여백 · 머리 · 바닥은 글자 크기를 따르지 않는다 — 키운 배율로 나눠 원래 값으로(좁은 휴대폰에서 글 기둥이 줄지 않게) */
+html[data-size] { --gutter: calc(clamp(1.25rem, 0.6rem + 3vw, 4rem) / var(--ts, 1)); }
+html[data-size] .site-head, html[data-size] .site-foot {
+  --fs-label: calc(clamp(0.8125rem, 0.7875rem + 0.11vw, 0.9375rem) / var(--ts, 1));
+  --sp-1: calc(0.25rem / var(--ts, 1)); --sp-2: calc(0.5rem / var(--ts, 1)); --sp-3: calc(0.75rem / var(--ts, 1));
+  --sp-4: calc(1rem / var(--ts, 1)); --sp-5: calc(1.5rem / var(--ts, 1)); --tap: calc(2.75rem / var(--ts, 1));
+}
+html[data-size] .tier-block.is-k { margin-left: calc(-1 * min(var(--sp-4), var(--gutter))); margin-right: calc(-1 * min(var(--sp-4), var(--gutter))); }
+html[data-size="l"] .sz3, html[data-size="xl"] .sz3 { color: var(--ink-strong); }
 html body .site-foot { row-gap: 0; }
 /* 머리 · 바닥은 들어가는 만큼 저절로(On 2026-11-13 22:02 「권함대로」 — 2안): 한 줄에 들어가면 한 줄, 아니면 두 줄.
    스크립트(head3.js)가 실제로 재서 html 에 h3-two(머리) · h3-ftwo(바닥)를 단다. 스크립트가 없으면 예전처럼 1023px 아래에서 두 줄 */

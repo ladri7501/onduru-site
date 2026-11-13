@@ -29,10 +29,10 @@
       d.setAttribute('data-lang', pick); d.setAttribute('lang', pick);
     })();
   </script>
-  <script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);}catch(e){}r.className+=' js';})();</script>
-<link rel="stylesheet" href="/shared/onduru.css?v=2026111320">
-<link rel="stylesheet" href="/shared/sky.css?v=2026111320">
-<link rel="stylesheet" href="/shared/site.css?v=2026111320">
+  <script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);var z=localStorage.getItem('onduru-size');if(z==='l'||z==='xl')r.setAttribute('data-size',z);}catch(e){}r.className+=' js';})();</script>
+<link rel="stylesheet" href="/shared/onduru.css?v=2026111323">
+<link rel="stylesheet" href="/shared/sky.css?v=2026111323">
+<link rel="stylesheet" href="/shared/site.css?v=2026111323">
 <style>
     /* ONDURU의 기록: 소개 페이지와 같은 밤, 같은 활자, 같은 열린 원. 길게 읽는 글이라 글자를 한 단계 키웠다 */
     :root {
@@ -67,26 +67,26 @@
     /* 머리: 열린 원과 ONDURU. 전시로 돌아가는 길 */
     .top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
     .langbar { display: flex; gap: 4px; border: 1px solid var(--line-strong); border-radius: 22px; padding: 3px; }
-    .langbar button { font: inherit; font-size: 13px; color: var(--mu); background: none; border: 0; border-radius: 18px; padding: 5px 13px; cursor: pointer; transition: background .3s, color .3s; }
+    .langbar button { font: inherit; font-size: calc(13px * var(--ts, 1)); color: var(--mu); background: none; border: 0; border-radius: 18px; padding: 5px 13px; cursor: pointer; transition: background .3s, color .3s; }
     .langbar button:hover { color: var(--fg); }
     .langbar button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
-    .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: 12px; letter-spacing: .28em; }
+    .top a { display: inline-flex; align-items: center; gap: 12px; border: 0; color: var(--mu); font-size: calc(12px * var(--ts, 1)); letter-spacing: .28em; }
     .top a:hover { color: var(--fg); }
     .top svg { width: 24px; height: 24px; }
     .top circle { fill: none; stroke: currentColor; stroke-width: 2.2; }
 
     .doc { display: flex; flex-direction: column; gap: 40px; }
     header.lead { display: flex; flex-direction: column; gap: 14px; }
-    .kind { font-size: 11px; letter-spacing: .28em; color: var(--sig); }
-    h1 { font-family: var(--f-serif); font-weight: 400; font-size: clamp(34px, 7vw, 52px); line-height: 1.25; text-wrap: balance; }
-    .sub { font-family: var(--f-serif); font-size: clamp(18px, 3.2vw, 22px); color: var(--fg); line-height: 1.6; max-width: 30em; }
-    .when { font-size: 13px; color: var(--mu); }
+    .kind { font-size: calc(11px * var(--ts, 1)); letter-spacing: .28em; color: var(--sig); }
+    h1 { font-family: var(--f-serif); font-weight: 400; font-size: calc(clamp(34px, 7vw, 52px) * var(--ts, 1)); line-height: 1.25; text-wrap: balance; }
+    .sub { font-family: var(--f-serif); font-size: calc(clamp(18px, 3.2vw, 22px) * var(--ts, 1)); color: var(--fg); line-height: 1.6; max-width: 30em; }
+    .when { font-size: calc(13px * var(--ts, 1)); color: var(--mu); }
 
     section { display: flex; flex-direction: column; gap: 16px; }
     section.cut { border-top: 1px solid var(--line); padding-top: 28px; }
-    h2 { font-family: var(--f-serif); font-weight: 700; font-size: clamp(21px, 4vw, 25px); line-height: 1.45; text-wrap: balance; }
+    h2 { font-family: var(--f-serif); font-weight: 700; font-size: calc(clamp(21px, 4vw, 25px) * var(--ts, 1)); line-height: 1.45; text-wrap: balance; }
     p { max-width: 36em; }
-    .big { font-family: var(--f-serif); font-size: clamp(19px, 3.6vw, 23px); line-height: 1.7; }
+    .big { font-family: var(--f-serif); font-size: calc(clamp(19px, 3.6vw, 23px) * var(--ts, 1)); line-height: 1.7; }
 
     ul, ol { display: flex; flex-direction: column; gap: 12px; max-width: 36em; }
     ul { list-style: none; }
@@ -99,18 +99,18 @@
 
     .sign { font-family: var(--f-serif); display: flex; flex-direction: column; gap: 2px; }
     .mail a { color: var(--fg); }
-    .note { font-size: 13.5px; color: var(--mu); line-height: 1.75; }
-    .label { font-family: var(--f-sans); font-size: 11px; font-weight: 400; letter-spacing: .24em; color: var(--mu); }
-    .more { font-size: 14.5px; gap: 8px; }
+    .note { font-size: calc(13.5px * var(--ts, 1)); color: var(--mu); line-height: 1.75; }
+    .label { font-family: var(--f-sans); font-size: calc(11px * var(--ts, 1)); font-weight: 400; letter-spacing: .24em; color: var(--mu); }
+    .more { font-size: calc(14.5px * var(--ts, 1)); gap: 8px; }
     /* 받아 적은 에이전트의 말: On의 글과 가려 읽히게 한 단계 작게 */
     .agent { gap: 14px; }
-    .agent p, .agent li { font-size: 15px; line-height: 1.8; color: var(--soft); }
+    .agent p, .agent li { font-size: calc(15px * var(--ts, 1)); line-height: 1.8; color: var(--soft); }
 
     .doc p { margin: 0; }
 
     /* 오른쪽 아래: 언어 */
     .lng { position: fixed; z-index: 30; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 2px; background: rgba(5, 7, 10, .7); border-radius: 18px; padding: 0 4px; }
-    .lng button { font: inherit; font-size: 12px; letter-spacing: .06em; color: var(--fg); background: none; border: 0; opacity: .4; padding: 8px 7px; cursor: pointer; transition: opacity .4s; font-weight: 400; }
+    .lng button { font: inherit; font-size: calc(12px * var(--ts, 1)); letter-spacing: .06em; color: var(--fg); background: none; border: 0; opacity: .4; padding: 8px 7px; cursor: pointer; transition: opacity .4s; font-weight: 400; }
     .lng button[aria-pressed="true"] { opacity: .9; }
     .lng button:hover { opacity: .7; }
 
@@ -126,11 +126,11 @@
 .more a { display: inline-flex; align-items: center; min-height: 44px; }
 .menu a { min-width: 44px; justify-content: center; padding: 0 2px; }
 </style>
-<link rel="stylesheet" href="/shared/head3.css?v=2026111320">
+<link rel="stylesheet" href="/shared/head3.css?v=2026111323">
 </head>
 <body>
 
-<header class="site-head"><a class="mark" href="/about/" translate="no" aria-label="ONDURU"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="Site"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/method/"><span lang="en" translate="no">Method</span></a><a href="/simulation/"><span lang="en" translate="no">Simulation</span></a><a href="/about/"><span lang="en" translate="no">About</span></a></nav><div class="ctl3" translate="no" lang="en"><nav class="lng3" aria-label="Language"><button type="button" data-lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav><button type="button" class="ico3" data-cyc="theme" data-name="Theme" aria-label="Theme"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg></button><button type="button" class="ico3" data-cyc="type" data-name="Type" aria-label="Type"><span aria-hidden="true">Aa</span></button></div></header>
+<header class="site-head"><a class="mark" href="/about/" translate="no" aria-label="ONDURU"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="Site"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a><a href="/method/"><span lang="en" translate="no">Method</span></a><a href="/simulation/"><span lang="en" translate="no">Simulation</span></a><a href="/about/"><span lang="en" translate="no">About</span></a></nav><div class="ctl3" translate="no" lang="en"><nav class="lng3" aria-label="Language"><button type="button" data-lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav><button type="button" class="ico3" data-cyc="theme" data-name="Theme" aria-label="Theme"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg></button><button type="button" class="ico3" data-cyc="type" data-name="Type" aria-label="Type"><span aria-hidden="true">Aa</span></button><button type="button" class="ico3 sz3" data-cyc="size" data-name="Text size" aria-label="Text size"><span aria-hidden="true">A+</span></button></div></header>
 <div class="page">
 
 <!-- ─────────────── 한국어 ─────────────── -->
@@ -442,7 +442,7 @@
     </article>
   </main>
 </div>
-<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span class="foot-menu"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/method/"><span lang="en" translate="no">Method</span></a> · <a href="/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/about/"><span lang="en" translate="no">About</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span></span></footer>
+<footer class="site-foot label"><span translate="no">© 2026 ONDURU</span><span class="foot-menu"><a href="/footsteps/"><span lang="en" translate="no">Footsteps</span></a> · <a href="/method/"><span lang="en" translate="no">Method</span></a> · <a href="/simulation/"><span lang="en" translate="no">Simulation</span></a> · <a href="/about/"><span lang="en" translate="no">About</span></a></span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span><span class="pick-g" role="group" aria-label="Text size" data-pick="size"><span class="pick-h">Size</span><button type="button" data-v="m">Default</button><button type="button" data-v="l">Large</button><button type="button" data-v="xl">Larger</button></span></span></footer>
 
 <script>
   (function () {
@@ -457,8 +457,8 @@
     apply(d.getAttribute('data-lang') || 'en', false);
   })();
 </script>
-<script src="/shared/sky-theme.js?v=2026111320"></script>
-<script src="/shared/picker.js?v=2026111320"></script>
-<script src="/shared/head3.js?v=2026111320"></script>
+<script src="/shared/sky-theme.js?v=2026111323"></script>
+<script src="/shared/picker.js?v=2026111323"></script>
+<script src="/shared/head3.js?v=2026111323"></script>
 </body>
 </html>
