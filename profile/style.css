@@ -299,3 +299,15 @@ blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
 .sec-new ul { margin: 0 0 var(--sp-4); padding-left: 1.2em; }
 .sec-new li { margin-bottom: var(--sp-1); }
 .sec-new .quote-src { margin-bottom: var(--sp-5); }
+/* A-1(On 2026-11-12 08:52 「모든 페이지에」) — 바탕 판은 .sec-ko 만 고른다. 영어 · 스페인어 판(.sec-new)에도 같은 열린 원과 들여쓰기를 입힌다(2026-11-13) */
+.sec-new blockquote.voice, .sec-new .quote-src { --q-in: var(--sp-6); padding-left: var(--q-in); }
+.sec-new blockquote.voice { position: relative; --q-fs: var(--fs-lead); --q-lh: 1.55; }
+.sec-new blockquote.voice::before {
+  content: ""; position: absolute; left: 0; top: calc(var(--q-fs) * var(--q-lh) / 2 - var(--q-fs) * 0.32);
+  width: calc(var(--q-fs) * 0.64); height: calc(var(--q-fs) * 0.64); border-radius: 50%;
+  background: conic-gradient(from 20deg, var(--mark) 0deg 323.8deg, transparent 323.8deg 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 69%, #000 71%, #000 89%, transparent 91%);
+  mask: radial-gradient(closest-side, transparent 69%, #000 71%, #000 89%, transparent 91%);
+}
+@media (max-width: 599px) { .sec-new blockquote.voice, .sec-new .quote-src { --q-in: var(--sp-5); } }
+@media (forced-colors: active) { .sec-new blockquote.voice::before { background: CanvasText; } }
