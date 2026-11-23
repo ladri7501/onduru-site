@@ -97,3 +97,8 @@ html.fit-steps[data-mode="film"]:not([data-entering]) #transport { display: none
   #film-steps .et-beat { flex: 1 1 0; width: auto; min-width: 10px; }
 }
 
+/* 바닥 메뉴가 다섯(Profile을 더함 — On 2026-11-23 16:04): 아주 좁은 화면에서도 한 줄 */
+@media (max-width: 359.98px) {
+  #site-foot .menu { letter-spacing: -0.01em; }
+  #site-foot .menu a { min-width: 0; padding: 0 1px; }
+}

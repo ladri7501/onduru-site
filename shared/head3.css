@@ -74,3 +74,31 @@ html:root body .ax-wrap .tier-block:last-of-type { margin-bottom: 0; }
 @media (min-width: 48.75em) and (max-height: 54em) { html:root body .index { max-height: calc(100svh - var(--head-h, 0px) - var(--sp-5) - 8.5rem); overflow-y: auto; scrollbar-width: thin; } }
 @media (min-width: 900px) { html.js:root body .ax-right { top: calc(var(--head-h, 0px) + var(--sp-3)); max-height: calc(100vh - var(--head-h, 0px) - 2 * var(--sp-3) - 5.5rem); } }
 @media (min-width: 1240px) { html.js:root body .ax-left { top: calc(var(--head-h, 0px) + var(--sp-3)); max-height: calc(100vh - var(--head-h, 0px) - 2 * var(--sp-3) - 5.5rem); } }
+
+/* 메뉴가 다섯(Profile을 더함 — On 2026-11-23 16:04): 좁은 화면에서도 위 메뉴는 한 줄, 바닥 메뉴도 한 줄로 선다.
+   글자는 그대로 두고 항목 사이의 틈만 줄인다. 아주 좁은 화면(360px 아래)에서만 바닥 메뉴의 글자를 조금 줄인다 */
+@media (max-width: 899.98px) {
+  html:root body .site-head .site-nav { gap: 0 2px; }
+  html:root body .site-head .site-nav a { padding-left: 4px; padding-right: 4px; }
+  html.h3-two:root body .site-head .site-nav { margin-left: -4px; }
+}
+@media (max-width: 411.98px) {
+  html:root body .site-head .site-nav { gap: 0 2px; flex-wrap: nowrap; }
+  html:root body .site-head .site-nav a { padding-left: 3px; padding-right: 3px; min-width: 0; }
+  html.h3-two:root body .site-head .site-nav { margin-left: -3px; }
+  html:root body .site-foot .foot-menu { margin-left: -1px; }
+  html:root body .site-foot .foot-menu a { padding-left: 1px; padding-right: 1px; min-width: 0; }
+}
+@media (max-width: 359.98px) {
+  html:root body .site-head .site-nav { gap: 0; letter-spacing: -0.01em; }
+  html:root body .site-head .site-nav a { padding-left: 2px; padding-right: 2px; }
+  html.h3-two:root body .site-head .site-nav { margin-left: -2px; }
+  html:root body .site-foot .foot-menu { font-size: 0.92em; letter-spacing: -0.02em; word-spacing: -1px; }
+}
+/* 공개 기록 쪽(/record/)은 제 글자 사이(.24em)를 바닥 줄에도 쓰고 있어 다섯 항목이 한 줄에 서지 않는다 — 좁은 화면에서는 바닥 메뉴만 다른 쪽과 같은 글자 사이로 */
+@media (max-width: 599.98px) {
+  html:root body .site-foot.label .foot-menu { letter-spacing: 0.02em; }
+}
+@media (max-width: 359.98px) {
+  html:root body .site-foot.label .foot-menu { letter-spacing: -0.02em; }
+}

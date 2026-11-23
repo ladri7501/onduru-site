@@ -327,3 +327,26 @@ blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
 }
 @media (max-width: 599px) { .sec-new blockquote.voice, .sec-new .quote-src { --q-in: var(--sp-5); } }
 @media (forced-colors: active) { .sec-new blockquote.voice::before { background: CanvasText; } }
+
+/* 관찰한 사실과 남은 확인 — 세 칸 표(On 2026-11-23 17:48 · 17:51의 바깥 평가 뒤). 좁은 화면에서는 줄마다 한 덩이로 세우고 칸 이름을 붙인다. 토큰만 쓴다 */
+.obs { width: 100%; max-width: 46em; border-collapse: collapse; margin: var(--sp-5) 0 var(--sp-3); font-size: var(--fs-small); line-height: 1.7; }
+.obs caption { caption-side: top; text-align: left; font-family: var(--font-label); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-dim); padding-bottom: var(--sp-2); }
+.obs th, .obs td { text-align: left; vertical-align: top; padding: var(--sp-3) var(--sp-4) var(--sp-3) 0; border-top: 1px solid var(--line); }
+.obs thead th { font-family: var(--font-label); font-weight: 500; font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-dim); }
+.obs tbody th { font-family: var(--font-label); font-weight: 600; color: var(--ink-strong); width: 27%; }
+.obs td { width: 36.5%; }
+.obs td:last-child { color: var(--ink-dim); padding-right: 0; }
+.obs + .note { max-width: 46em; }
+@media (max-width: 599px) {
+  .obs thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .obs tbody, .obs tr, .obs tbody th, .obs td { display: block; width: auto; }
+  .obs tr { padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+  .obs tbody th, .obs td { border-top: 0; padding: 0 0 var(--sp-2); }
+  .obs td:last-child { padding-bottom: 0; }
+  .obs td::before { content: attr(data-l); display: block; font-family: var(--font-label); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--ink-faint); }
+}
+
+/* 프로필 — 이름을 앞세운 항목(굵은 이름 — 풀이)과 프로젝트 이름 아래의 작은 줄 (On 2026-11-23 「이걸로 profile을 전면 수정」) */
+.sec-new ul.named li { margin-bottom: var(--sp-3); }
+.sec-new ul.named strong { font-weight: 600; color: var(--ink-strong); }
+.sec-new h3 + .note { margin-bottom: var(--sp-4); }
