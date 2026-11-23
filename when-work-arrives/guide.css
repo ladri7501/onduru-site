@@ -1,0 +1,113 @@
+#guide {
+  --page-gutter: clamp(1rem, 3vw, 2.25rem);
+  width: min(67rem, calc(100% - 2rem)); max-width: none;
+  max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem);
+  height: min(35rem, calc(100vh - 2rem)); height: min(35rem, calc(100dvh - 2rem));
+  margin: auto; overflow: auto; scrollbar-color: var(--line) var(--bg); scroll-padding-block: 3.6rem 1rem;
+}
+#guide .guide-bar {
+  z-index: 2; min-height: 3rem; padding-inline: var(--page-gutter);
+}
+#guide .guide-pages {
+  display: grid; align-items: start; gap: 1.25rem;
+  padding: clamp(1rem, 2.5vw, 1.8rem) var(--page-gutter) clamp(1.25rem, 3vw, 2rem);
+  overflow-wrap: anywhere;
+}
+#guide .guide-pages h2 {
+  margin: 0 0 .7rem; font: 400 clamp(1.5rem, 2.7vw, 2.1rem)/1.27 var(--voice);
+}
+#guide .guide-intent {margin: 0; padding: 0; border: 0; font-size: 1rem; line-height: 1.6}
+#guide .catalogue-legend {margin: .5rem 0; color: var(--dim); font: 400 .82rem/1.5 var(--label)}
+#guide .catalogue-index {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 1rem;
+  margin-top: .8rem; border-block: 1px solid var(--line);
+}
+#guide .catalogue-index button {
+  min-height: 44px; max-width: 100%; border: 0; background: transparent; padding: .4rem 0;
+  font: 400 .9rem/1.45 var(--label); color: var(--dim); text-align: start; cursor: pointer;
+}
+#guide .catalogue-index button[aria-pressed=true] {
+  color: var(--strong); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: .38em;
+}
+#guide [hidden] {display: none}
+#guide .catalogue-reading {min-width: 0}
+#guide .catalogue-reading h3 {margin: 0 0 .75rem; font: 400 clamp(1.2rem, 2vw, 1.5rem)/1.4 var(--voice)}
+#guide .catalogue-philosophy p {max-width: 65ch; font-size: .97rem; line-height: 1.72}
+#guide .catalogue-philosophy p + p {margin-top: .85rem}
+#guide #guide-case-example {padding-inline-start: .85rem; border-inline-start: 1px solid var(--signal)}
+#guide #guide-related:not([hidden]) {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem 1.25rem; margin-top: 1.1rem; border-top: 1px solid var(--line)
+}
+#guide #guide-related button {margin: .2rem 0 0; text-align: start}
+@media (min-width: 58em), (min-width: 44em) and (max-height: 32em) {
+  #guide .guide-pages {grid-template-columns: minmax(12rem,.8fr) minmax(0,1.75fr); gap: clamp(1.5rem,4vw,3.7rem)}
+  #guide .catalogue-index {display: grid; gap: 0; margin-top: 1rem; border-bottom: 0}
+  #guide .catalogue-index button {width: 100%; border-bottom: 1px solid var(--line)}
+}
+@media (max-width: 40em), (max-height: 32em) {
+  #guide {width: calc(100% - .75rem); height: min(40rem, calc(100dvh - .75rem)); max-height: calc(100vh - .75rem); max-height: calc(100dvh - .75rem)}
+}
+#guide .catalogue-entry {border-top: 1px solid var(--line)}
+#guide .catalogue-entry:last-child {border-bottom: 1px solid var(--line)}
+#guide .catalogue-entry h4 {margin: 0}
+#guide .catalogue-choice {
+  display: grid; grid-template-columns: minmax(9rem, .8fr) minmax(0, 1.65fr) auto;
+  align-items: baseline; width: 100%; gap: .3rem .75rem; padding: .83rem .1rem;
+  min-height: 48px; border: 0; background: transparent; text-align: start; color: var(--ink);
+  cursor: pointer;
+}
+#guide .catalogue-term {font: 500 .97rem/1.45 var(--label)}
+#guide .catalogue-function {font: 400 .88rem/1.6 var(--label); color: var(--dim)}
+#guide .catalogue-mark {align-self: center; text-align: center; min-width: .9rem; color: var(--dim)}
+#guide .catalogue-mark::after {content: '+'; font: 400 1.15rem/1 var(--label)}
+#guide .catalogue-choice[aria-expanded=true] .catalogue-mark::after {content: '−'}
+#guide .catalogue-choice[aria-expanded=true] .catalogue-term,
+#guide .catalogue-choice:hover .catalogue-term {
+  color: var(--strong); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: .34em;
+}
+#guide .catalogue-choice:focus-visible, #guide .catalogue-source a:focus-visible, #guide .catalogue-index button:focus-visible {
+  outline: 2px solid var(--signal); outline-offset: 2px;
+}
+#guide .catalogue-leaf {
+  margin: 0 0 1.05rem .12rem; padding: .22rem 0 .2rem .9rem;
+  border-inline-start: 1px solid var(--line);
+}
+#guide .catalogue-leaf[hidden] {display: none}
+#guide .catalogue-question {
+  margin-bottom: .4rem; color: var(--strong); font: 400 1.13rem/1.55 var(--voice);
+}
+#guide .catalogue-beats {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  list-style: none; margin: .85rem 0 1.1rem; padding: 0;
+}
+#guide .catalogue-beats li {
+  position: relative; min-width: 0; text-align: center; padding: .9rem .12rem 0;
+  font: 400 .83rem/1.45 var(--label); color: var(--ink); overflow-wrap: anywhere;
+}
+#guide .catalogue-beats li::before {
+  content: ''; position: absolute; left: 0; right: 0; top: .35rem; border-top: 1px solid var(--line);
+}
+#guide .catalogue-beats li:first-child::before {left: 50%}
+#guide .catalogue-beats li:last-child::before {right: 50%}
+#guide .catalogue-beats li::after {
+  content: ''; position: absolute; left: 50%; top: .35rem; width: 5px; height: 5px; border-radius: 50%;
+  border: 1px solid var(--faint); background: var(--bg); transform: translate(-50%,-50%);
+}
+#guide .catalogue-beats li:first-child::after, #guide .catalogue-beats li:last-child::after {background: var(--faint)}
+#guide .catalogue-steps {margin: .7rem 0 0; padding-inline-start: 1.3rem}
+#guide .catalogue-steps li {margin-block: .55rem}
+#guide .catalogue-steps li::marker {font: 400 .84rem var(--label); color: var(--dim)}
+#guide .catalogue-steps strong, #guide .catalogue-steps small {display: block}
+#guide .catalogue-steps strong {font: 500 .96rem/1.6 var(--label); color: var(--ink)}
+#guide .catalogue-steps small {font: 400 .88rem/1.65 var(--label); color: var(--dim)}
+#guide .catalogue-source {margin: 0; font: 400 .84rem/1.65 var(--label); color: var(--dim)}
+#guide .catalogue-source a {display: inline-block; margin-inline-start: .38rem; color: var(--ink); text-underline-offset: .18em}
+@media (max-width: 520px) {
+  #guide .catalogue-choice {grid-template-columns: minmax(0,1fr) auto; gap: .12rem .7rem}
+  #guide .catalogue-function {grid-row: 2}
+  #guide .catalogue-mark {grid-column: 2; grid-row: 1 / 3}
+  #guide .catalogue-beats {display: block; border-inline-start: 1px solid var(--line); margin-inline-start: .45rem}
+  #guide .catalogue-beats li {text-align: start; padding: .2rem 0 .2rem .8rem; font-size: .84rem}
+  #guide .catalogue-beats li::before {display: none}
+  #guide .catalogue-beats li::after {left: -.5px; top: .78rem}
+}

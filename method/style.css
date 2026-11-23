@@ -264,7 +264,7 @@ blockquote.q.sm { --q-fs: var(--fs-body); --q-lh: 1.75; }
 
 /* ONDURU 방법론 시안 — 바탕 판(src/base/style.css) 뒤에 덧붙는 것. 색 · 글꼴 · 크기는 토큰(var(--…))으로만.
  * 차례: 가 따옴  나 낱말과 풀이  다 화살표 링크  라 줄 목록(일하는 법 · 일곱 물음 · 글)  마 견주어 보는 판
- * 「가 · 나 · 다」는 다른 페이지에 그대로 옮겨 쓸 수 있다(NOTES.md 의 CSS 조각). */
+ * 「가 · 나 · 다」는 다른 페이지에 그대로 옮겨 쓸 수 있다. */
 
 .page-head .one { margin: 0 0 var(--sp-6); }
 .intro p:last-child { margin-bottom: 0; }

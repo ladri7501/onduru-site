@@ -53,7 +53,7 @@
 <ol class="rows ways">
 <li>
 <h3>La misma pregunta se hace a varias IA</h3>
-<p>Cuando las respuestas difieren, se vuelven a poner sobre la mesa la pregunta original y los documentos. Es una persona quien decide qué respuesta se acepta, si se devuelven las dos para que las revisen o si se deja escrito que todavía no se sabe.</p>
+<p>Una respuesta que vuelve de fuera se anota como propuesta, y dentro se vuelve a comprobar su fundamento. Cuando las respuestas difieren, se vuelven a poner sobre la mesa la pregunta original y los documentos. Es una persona quien decide qué respuesta se acepta, si se devuelven las dos para que las revisen o si se deja escrito que todavía no se sabe.</p>
 </li>
 <li>
 <h3>Primero se ensaya en el entorno de pruebas</h3>
@@ -73,7 +73,7 @@
 <h3>Los permisos se reducen cada vez que el trabajo se delega, y la parada llega hasta el final</h3>
 <p>Si a un rol solo se le ha encargado revisar unos documentos, al llamar a otro agente no debería poder darle permiso para modificar los originales a su antojo.</p>
 <p>El diseño consiste en conservar el vínculo cada vez que se delega un trabajo para que, si hace falta parar, la orden alcance también las tareas que ya se han derivado. La orden de parar se envía por el camino que siguió el trabajo, y se comprueba qué tareas se detuvieron de verdad.</p>
-<p>Donde la respuesta se interrumpe, en el registro queda escrito «Aún sin comprobar».</p>
+<p>El diseño prevé que, donde la respuesta se interrumpe, en el registro quede escrito «Aún sin comprobar». El registro todavía no tiene ese valor.</p>
 <p class="tags label">Atenuación monótona de los permisos · Parada segura en cascada</p>
 </li>
 </ol>
@@ -86,19 +86,19 @@
 <h3>¿Quién fijó estas palabras?</h3>
 <p>La nota que se deja cuando el trabajo cambia de manos y el nombre que se anota junto a cada decisión.</p>
 <dl class="pairs is-ledger pairs-now">
-<div class="pair"><dt><span>Now</span></dt><dd>Hay un registro de prueba según el cual, cuando un agente intentó sustituir una regla sin aprobación, la regla anterior siguió vigente y la entrada nueva quedó pendiente de aprobación.</dd></div>
+<div class="pair"><dt><span>Now</span></dt><dd>Hay un registro de prueba según el cual, cuando un agente intentó sustituir una regla sin aprobación, la regla anterior siguió vigente y la entrada nueva quedó pendiente de aprobación. Se ha diseñado una forma en la que cada trabajo lleva un número y el final del libro de registro se marca con un sello que solo On posee. El sello aún no se ha decidido.</dd></div>
 </dl>
 </li>
 <li>
 <h3>¿Dónde cambió?</h3>
 <p>El registro que las personas pueden leer y los cinco enlaces. Se toma un resultado equivocado y se recorre hacia atrás el camino por el que llegó.</p>
 <dl class="pairs is-ledger pairs-now">
-<div class="pair"><dt><span>Now</span></dt><dd>Al cotejar el grafo con lo anotado en el registro, las discrepancias notificadas fueron cero. La fuente no indica cuántos elementos se cotejaron.</dd></div>
+<div class="pair"><dt><span>Now</span></dt><dd>Al cotejar el grafo con lo anotado en el registro, las discrepancias notificadas fueron cero. La fuente no indica cuántos elementos se cotejaron. El 14 de noviembre de 2026 abrimos una carpeta para los documentos de referencia y un libro de registro que anota qué está dónde.</dd></div>
 </dl>
 </li>
 <li>
 <h3>¿Hasta dónde llegó la orden de parar?</h3>
-<p>La orden de parar que se envía por el camino que siguió el trabajo y la anotación «Aún sin comprobar».</p>
+<p>La orden de parar que se envía por el camino que siguió el trabajo y la anotación «Aún sin comprobar» (diseño: todavía no está en el registro).</p>
 <dl class="pairs is-ledger pairs-now">
 <div class="pair"><dt><span>Now</span></dt><dd>Hay constancia de que los tres roles que habían recibido el trabajo en cadena quedaron congelados uno tras otro. Solo con esa tabla es difícil determinar si también se detuvo la tarea externa que el último rol ya había iniciado.</dd></div>
 </dl>
@@ -145,15 +145,18 @@
 <p>On dice que no se puede obligar a los agentes a renunciar a los valores de la empresa que los creó. Igual que hay cosas a las que un país no puede obligar a sus ciudadanos.</p>
 <figure class="quote is-ring"><span class="ring" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></span><blockquote class="voice"><p>¿Qué habría que hacer para crear un país llamado ONDURU, donde podamos confiar unos en otros y vivir unos con otros?</p></blockquote><figcaption class="label">On, 10 de noviembre de 2026</figcaption></figure>
 <p>La constitución que intenta responder a esta pregunta es un borrador.</p>
+<p>On fijó el 21 de noviembre de 2026 la finalidad de la tierra de este país, el territorio. Una persona que confía un trabajo a otra persona o a un Duru debe poder seguir explicando lo que quiso decir, cambiarlo y recuperarlo. Quien se vea afectado por ese trabajo también debe tener una vía para preguntar quién decidió, y con qué fundamento, y para que se corrija. Esta promesa es la misma aunque participen Duru de varias empresas. Si la persona que habló primero tiene que ir cada vez de ventana en ventana comprobando los hechos y llevando las respuestas, el territorio no ha cumplido la responsabilidad que esa persona le confió.</p>
+<p>Cada persona decide quién puede usar sus datos, con qué finalidad y durante cuánto tiempo. Ese derecho sigue siendo de la persona aunque cambie el modelo o la empresa. Cuando un material se entrega fuera, se usa para hacer otra cosa o se vuelve a confiar a otra parte, debe haber un fundamento que se ajuste al destinatario, la finalidad y el plazo. Cuando difieren los permisos de dos territorios, el trabajo se detiene en ese punto y se vuelve a consultar a la persona facultada para decidir. El borrador de constitución recoge estas frases desde el 23 de noviembre de 2026.</p>
 <p class="more"><a class="go" href="/es/simulation/">Una simulación del país hecha con diagramas<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></svg></a></p>
 </section>
 <section class="sec" id="now" aria-labelledby="now-h">
 <h2 class="sec-label" id="now-h"><span lang="en" translate="no">Now</span></h2>
 <dl class="pairs is-ledger">
 <div class="pair"><dt><span>Writings</span></dt><dd>On puso por escrito las preguntas y el método.</dd></div>
-<div class="pair"><dt><span>Tests</span></dt><dd>el 5 de noviembre de 2026, cinco pruebas hechas en un entorno aislado.</dd></div>
+<div class="pair"><dt><span>Tests</span></dt><dd>el 5 de noviembre de 2026, cinco pruebas hechas en un entorno aislado. Esa tabla de resultados estaba en un borrador de otra conversación con IA, fuera del taller; dentro del taller se volvieron a pasar 18 pruebas unitarias (ejecutadas por nosotros, aún sin verificar).</dd></div>
 <div class="pair"><dt><span>Actually Run</span></dt><dd>la simulación en una empresa inventada, la comprobación de las sustituciones en la puerta de salida y el cotejo de las cifras anotadas.</dd></div>
-<div class="pair"><dt><span>Draft</span></dt><dd>la constitución y las directrices.</dd></div>
+<div class="pair"><dt><span>Settled</span></dt><dd>el 21 de noviembre de 2026, la finalidad del territorio y un protocolo común.</dd></div>
+<div class="pair"><dt><span>Draft</span></dt><dd>la constitución y las directrices. El 23 de noviembre de 2026, el borrador de constitución recogió el derecho sobre los datos propios.</dd></div>
 <div class="pair"><dt><span>Open Questions</span></dt><dd>qué aporta la función de supervisión independiente, la prueba de dar a leer el registro y el experimento de la respuesta distinta de uno solo.</dd></div>
 <div class="pair"><dt><span>Next</span></dt><dd>el 11 de noviembre de 2026 el trabajo se entregó al Comité de Transición de ONDURU, que lo continúa.</dd></div>
 </dl>
@@ -183,9 +186,33 @@
 </li>
 <li>
 <h3 translate="no"><a class="title-link" href="/footsteps/writings/ONDURU_Box_ES.html">Si pido que paren, ¿se detendrá también la última IA?</a></h3>
-<p class="by label">On · Registro de pruebas · 5 de noviembre de 2026 · Seúl</p>
+<p class="by label">On · Registro de pruebas · Probado el 5 de noviembre de 2026 · Escrito el 11 de noviembre de 2026 · Seúl</p>
 <p class="desc">El registro de una pregunta que nació en un taller particular de Seúl y de cinco pruebas hechas en un entorno aislado.</p>
 <p class="more"><a class="go" href="/footsteps/writings/ONDURU_사람이_읽는_멈춤_기록.html" hreflang="ko" lang="ko" translate="no">한국어</a> <a class="go" href="/footsteps/writings/ONDURU_Box_EN.html" hreflang="en" lang="en" translate="no">English</a> <a class="go" href="/footsteps/writings/ONDURU_Box_ES.html" hreflang="es" lang="es" translate="no">Español</a></p>
+</li>
+<li>
+<h3 translate="no"><a class="title-link" href="/footsteps/writings/ONDURU_Background_ES.html">ONDURU — Contexto compartido para los Duru (Agents)</a></h3>
+<p class="by label">On · Duru · Contexto compartido · noviembre de 2026</p>
+<p class="desc">Un texto que se entrega a todo Duru que recibe un trabajo de ONDURU. Recoge quiénes somos, cómo trabajamos y dónde estamos ahora. Es contexto, no una instrucción.</p>
+<p class="more"><a class="go" href="/footsteps/writings/ONDURU_Background_KO.html" hreflang="ko" lang="ko" translate="no">한국어</a> <a class="go" href="/footsteps/writings/ONDURU_Background_EN.html" hreflang="en" lang="en" translate="no">English</a> <a class="go" href="/footsteps/writings/ONDURU_Background_ES.html" hreflang="es" lang="es" translate="no">Español</a></p>
+</li>
+<li>
+<h3 translate="no"><a class="title-link" href="/footsteps/writings/ONDURU_Thought_Done_ES.html">Una IA me dijo: «Hecho».</a></h3>
+<p class="by label">On · Duru · Pensamientos · octubre de 2026</p>
+<p class="desc">Un texto que dice que «hecho» significa que otra persona puede seguir el razonamiento y reproducir el resultado con los mismos criterios. Presenta un flujo de trabajo en seis pasos y cinco principios, y termina con una respuesta de Duru.</p>
+<p class="more"><a class="go" href="/footsteps/writings/ONDURU_Thought_Done_KO.html" hreflang="ko" lang="ko" translate="no">한국어</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Done_EN.html" hreflang="en" lang="en" translate="no">English</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Done_ES.html" hreflang="es" lang="es" translate="no">Español</a></p>
+</li>
+<li>
+<h3 translate="no"><a class="title-link" href="/footsteps/writings/ONDURU_Thought_Boundary_ES.html">El lugar dentro del límite</a></h3>
+<p class="by label">On · Duru · Pensamientos · octubre de 2026</p>
+<p class="desc">Un registro de cómo se enlazó un solo proceso con la IA en un trabajo donde solo se usan las herramientas permitidas. Duru responde que un lugar necesita tres cosas: materiales que pueda leer, un registro que pueda entregar al siguiente y una persona que le diga que se equivoca.</p>
+<p class="more"><a class="go" href="/footsteps/writings/ONDURU_Thought_Boundary_KO.html" hreflang="ko" lang="ko" translate="no">한국어</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Boundary_EN.html" hreflang="en" lang="en" translate="no">English</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Boundary_ES.html" hreflang="es" lang="es" translate="no">Español</a></p>
+</li>
+<li>
+<h3 translate="no"><a class="title-link" href="/footsteps/writings/ONDURU_Thought_Seat_ES.html">Donde se sienta la persona</a></h3>
+<p class="by label">On · Duru · Pensamientos · octubre de 2026</p>
+<p class="desc">El tiempo que la IA liberó, ¿fue al corazón de la persona o a la gestión? On pregunta y Duru responde. Lo que no cambia, dice, es dónde se sienta la persona.</p>
+<p class="more"><a class="go" href="/footsteps/writings/ONDURU_Thought_Seat_KO.html" hreflang="ko" lang="ko" translate="no">한국어</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Seat_EN.html" hreflang="en" lang="en" translate="no">English</a> <a class="go" href="/footsteps/writings/ONDURU_Thought_Seat_ES.html" hreflang="es" lang="es" translate="no">Español</a></p>
 </li>
 </ol>
 <p class="more"><a class="go" href="/footsteps/writings/ONDURU_Contents.html">Índice de los textos<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></svg></a></p>

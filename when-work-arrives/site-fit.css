@@ -1,0 +1,99 @@
+/* ONDURU 사이트 기준에 맞추는 층 (2026-11-23)
+ * 전시 「온두루, 일이 닿으면」의 파일은 그대로 두고, 이 파일과 site-fit.js 둘만 더한다.
+ *  1. 첫 화면의 ONDURU 글자 — 앞 작품처럼 소개(/about/)로 간다
+ *  2. 맺음(바닥)의 함께 쓰는 줄 — 연락 · © · 메뉴. 앞 작품(「당신이 상상할 수 있는 모든 것」)의 바닥 짜임 그대로
+ *  3. 연대 창 — 화면 크기가 달라도 짜임(지구 · 고르는 칸)이 크게 달라지지 않고, 아래가 잘려 보이지 않게
+ *  4. 윗줄 — ONDURU 로고가 윗줄에 늘 있고, 「이 컷의 인계 기록」은 그 아래 본문 자리에 (On 2026-11-23 08:39)
+ *  5. 아래 메뉴(산업 · 기업 · 개인 · 연대 · 기록 · 도록) — 맺음이 화면에 들어오면 본문 안, 「첫머리로 · 우주에서 다시 보기」 바로 위에 선다 (같은 말씀)
+ *  6. 위와 아래는 늘 그 자리에 — 로고는 장면이 바뀌어도 윗줄에, 사이트의 바닥 줄(메뉴 · ©)은 화면 아래에 붙어 있다 (On 2026-11-23 10:45)
+ *  7. 산업 장면에도 기업 · 개인 장면과 같은 넘김 막대(컷 여덟 · 앞 · 멈춤 · 다음) — 저절로 넘어가는 것이 기본이다 (같은 말씀) */
+
+/* 1 */
+.brand a.wordmark { color: inherit; text-decoration: none; pointer-events: auto; }
+.brand a.wordmark:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+/* 2 — 세 언어 가운데 고른 언어의 줄만 보인다(앞 작품과 같은 방식: html[data-lang]) */
+[data-lang="ko"] .L-en, [data-lang="ko"] .L-es, [data-lang="en"] .L-ko, [data-lang="en"] .L-es, [data-lang="es"] .L-ko, [data-lang="es"] .L-en { display: none !important; }
+.colophon a.mail { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: var(--strong); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 5px; }
+.colophon .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2em; font-size: 12px; color: var(--faint); }
+.colophon .menu a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 2px; color: var(--dim); text-decoration: none; }
+.colophon .menu a:hover { color: var(--strong); }
+.colophon a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+/* 3 — 연대 창 */
+/* 좁은 창(가로 36rem ≈ 576px 부터)에서도 넓은 화면과 같은 두 칸: 왼쪽 지구 · 오른쪽 고르는 칸 */
+@container (min-width: 36rem) and (max-width: 47.99rem) {
+  .horizon-explore { grid-template-columns: minmax(0, 1.05fr) minmax(16rem, .95fr); gap: clamp(.9rem, 2.4vw, 1.6rem); }
+  .horizon-map canvas { height: clamp(13rem, min(55svh, 56cqw), 34rem); }
+}
+/* 한 칸으로 서는 좁은 화면: 지구가 화면을 다 차지하지 않게 — 고르는 칸이 먼저 눈에 들어온다 */
+@container (max-width: 35.99rem) {
+  .horizon-map canvas { height: clamp(12.5rem, min(44svh, 76cqw), 24rem); }
+}
+/* 아래에 더 있으면 창 아래 끝에 옅은 그늘 — 끝까지 내리면 사라진다(site-fit.js 가 켜고 끈다) */
+#coalition-dialog[data-more]::after {
+  content: ""; display: block; position: sticky; bottom: 0; z-index: 4; height: 2.75rem; margin-top: -2.75rem;
+  pointer-events: none; background: linear-gradient(to bottom, rgba(15, 19, 24, 0), var(--bg) 88%);
+}
+
+/* 4 — 윗줄의 로고와 그 아래의 인계 기록 */
+#site-brand {
+  position: fixed; z-index: 6; top: max(12px, env(safe-area-inset-top, 0px)); left: max(var(--gutter), calc((100% - var(--col)) / 2));
+  height: 44px; color: #dbd7cc; pointer-events: none;
+}
+html[data-entering] #site-brand { display: none; }   /* 6 — 장면이 바뀌어도 로고는 윗줄에 있다. 들머리(우주에서)에서만 비킨다 */
+.title h1 { margin-top: 62px; }   /* 로고가 있던 한 줄(44px)과 그 아래 틈(18px)만큼 — 제목은 제자리 */
+.film-ledger-trigger {
+  top: calc(max(12px, env(safe-area-inset-top, 0px)) + 46px); left: max(var(--gutter), calc((100% - var(--col)) / 2));
+  max-width: calc(100% - 2 * var(--gutter));
+}
+
+/* 5 — 본문 안에 선 메뉴 */
+#paths-dock { min-height: 44px; margin-bottom: .35rem; }
+#paths-dock #paths { position: static; max-width: none; justify-content: flex-start; background: none; }
+#paths-dock #paths::before { display: none; }
+@media (max-width: 620px) { #paths-dock #paths { justify-content: space-between; } }
+.endfoot.nav-docked { padding-bottom: max(24px, env(safe-area-inset-bottom, 0px)); }
+@media (prefers-reduced-motion: no-preference) {
+  #paths.arriving { animation: fit-arrive .24s ease-out; }
+}
+@keyframes fit-arrive { from { opacity: 0; } to { opacity: 1; } }
+
+/* 6 — 붙어 있는 바닥 줄: 위는 메뉴, 아래는 ©. 높이는 site-fit.js 가 재어 --fit-foot 에 적는다(못 재면 4.6rem) */
+#site-foot {
+  position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; margin: 0;
+  padding: 2px max(var(--gutter), calc((100% - var(--col)) / 2)) max(6px, env(safe-area-inset-bottom, 0px));
+  background: var(--bg); border-top: 1px solid var(--line);
+  font: 400 12px/1.5 var(--label); color: var(--faint); pointer-events: auto;
+}
+#site-foot .menu { margin-left: -2px; }
+#site-foot .menu a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 2px; color: var(--dim); text-decoration: none; }
+#site-foot .menu a:hover { color: var(--strong); }
+#site-foot a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+#site-foot .cr { display: flex; flex-wrap: wrap; gap: 0 2em; margin: 0; }
+html[data-entering] #site-foot { display: none; }
+/* 바닥 줄 위에 서는 것들 — 장면 메뉴, 기업 · 개인 장면과 그 방들, 맺음 */
+#paths { bottom: calc(var(--fit-foot, 4.6rem) + max(6px, env(safe-area-inset-bottom, 0px))); }
+@media (max-height: 480px) { #paths { bottom: calc(var(--fit-foot, 4.6rem) + 2px); } }
+.exhibit-theatre { top: max(60px, env(safe-area-inset-top)); bottom: calc(var(--fit-foot, 4.6rem) + 3.7rem); }
+:is(#cost-room, #service-room) { top: max(60px, env(safe-area-inset-top)); bottom: calc(var(--fit-foot, 4.6rem) + 57px); }
+#fitting { top: max(60px, env(safe-area-inset-top)); bottom: calc(var(--fit-foot, 4.6rem) + 56px); }
+.endfoot, .endfoot.nav-docked { padding-bottom: calc(var(--fit-foot, 4.6rem) + 24px); }
+
+/* 7 — 산업 장면의 넘김 막대. 꼴은 기업 · 개인 장면의 것(et-controls · et-strip · et-beat · et-icon)을 그대로 쓴다 */
+#film-steps {
+  position: fixed; z-index: 4; left: max(var(--gutter), calc((100% - var(--col)) / 2));
+  bottom: calc(var(--fit-foot, 4.6rem) + max(6px, env(safe-area-inset-bottom, 0px)));
+  margin: 0; gap: 0 .8rem; flex-wrap: nowrap; pointer-events: auto;
+}
+#film-steps[hidden] { display: none; }
+/* 멈춤 · 이어가기는 이 막대에 있다. 오른쪽 위의 단추는 여는 글이 흐르는 동안에만 보인다(막대가 서지 못하면 그대로 보인다) */
+html.fit-steps[data-mode="film"]:not([data-entering]) #transport { display: none; }
+#film-steps .et-beat { min-width: 14px; width: clamp(14px, 3vw, 46px); }
+@media (max-width: 620px) {
+  /* 좁은 화면에서는 장면 메뉴가 한 줄을 다 쓰므로, 막대는 그 윗줄에 선다 */
+  #film-steps { right: var(--gutter); bottom: calc(var(--fit-foot, 4.6rem) + 52px); }
+  #film-steps .et-strip { flex: 1 1 auto; min-width: 0; }
+  #film-steps .et-beat { flex: 1 1 0; width: auto; min-width: 10px; }
+}
+

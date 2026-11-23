@@ -1,6 +1,8 @@
 /* ONDURU — 목록의 줄 맞춤(index-align.js) · 2026-11-13
    data-tabs 가 달린 목록(발자취)은 누른 칸 하나만 보인다 — 다른 칸은 hidden(On 2026-11-13 20:15 「각 영역만 보여줘」).
-   스크립트가 꺼지면 모든 칸이 그대로 보인다 */
+   스크립트가 꺼지면 모든 칸이 그대로 보인다
+   칸을 다 보여 주는 페이지(방법론 · 소개 · 프로필 · 시뮬레이션)는 끝에 빈자리를 두지 않는다 — 글의 끝과 붙은 바닥 줄 사이는 두 줄쯤만(On 2026-11-23 10:45).
+   마지막 칸의 제목은 올라갈 수 있는 데까지만 올라가고, 누른 칸의 표시는 site.js 가 붙들어 둔다 */
 (function () {
   var nav = document.querySelector('nav.index'); if (!nav || !window.getComputedStyle) return;
   var root = document.documentElement, tail = null, t = 0, tabs = nav.hasAttribute('data-tabs'), on = null;
@@ -26,8 +28,8 @@
     var sy = window.pageYOffset || 0, S = last.getBoundingClientRect().top + sy - (parseFloat(last.style.scrollMarginTop) || 0), want = S + window.innerHeight, have = root.scrollHeight;
     /* 목록이 긴 페이지(시뮬레이션 열둘)는 끝에서 목록이 밀려 올라가지 않을 만큼도 — 목록을 품은 칸의 바닥이 목록 아래에 있게(고정된 머리 아래로 목록이 내려온 뒤 2026-11-13) */
     var box = nav.parentNode, keep = (parseFloat(getComputedStyle(nav).top) || 0) + nav.offsetHeight - (box.getBoundingClientRect().bottom + sy - S);
-    var th = Math.max(0, Math.ceil(want - have), Math.ceil(keep)); tail.style.height = th + 'px';
-    var lack = Math.ceil(want - root.scrollHeight); if (lack > 0) tail.style.height = (th + lack) + 'px';      /* 페이지의 최소 높이가 모자람을 가린 때(짧은 칸) — 한 번 더 채운다 */
+    var th = tabs ? Math.max(0, Math.ceil(want - have), Math.ceil(keep)) : 0; tail.style.height = th + 'px';
+    var lack = tabs ? Math.ceil(want - root.scrollHeight) : 0; if (lack > 0) tail.style.height = (th + lack) + 'px';      /* 페이지의 최소 높이가 모자람을 가린 때(짧은 칸) — 한 번 더 채운다 */
     if (Math.abs((window.pageYOffset || 0) - sy0) > 1) window.scrollTo(0, sy0);
   }
   function soon() { clearTimeout(t); t = setTimeout(place, 120); }

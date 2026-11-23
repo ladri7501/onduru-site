@@ -4,14 +4,14 @@
  *   비(날씨 부호 51~67 · 80~82 · 95 이상) → <html data-weather="rain"> — 결은 sky.css 가 입힌다.
  * 자리는 기기의 시간대에서 어림한다(위치 허락을 묻지 않는다). 바깥 요청은 작품과 같은 날씨 한 건뿐이다.
  * 사람이 바탕을 고르면(onduru-sky = off) 그것이 먼저다 — 저절로 바꾸지 않고, 날씨도 묻지 않는다.
- * 색값은 여기에 없다(sky.css 와 onduru.css 에만 있다). 까닭과 옮기는 법: SKY_NOTES.md */
+ * 색값은 여기에 없다(sky.css 와 onduru.css 에만 있다). */
 (function () {
   'use strict';
   var root = document.documentElement;
   if (!root || !root.setAttribute) return;
 
   /* skycalc-copy:begin — 작품의 /sky.js 3~193줄을 글자 그대로 옮긴 것(자리 · 해). 시안이 /sky.js 를 부르지 않아 여기에 둔다.
-   실제 사이트에서는 이 덩이를 지우고 /sky.js 를 이 파일보다 먼저 부른다(SKY_NOTES.md). */
+   실제 사이트에서는 이 덩이를 지우고 /sky.js 를 이 파일보다 먼저 부른다. */
   var SC = window.SkyCalc || (function () {
   /* tzmap:begin — onduru_tzmap.py, tzdata 2026d zone.tab 418곳 · 별칭 131개 */
   var Z = {

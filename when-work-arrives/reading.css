@@ -1,0 +1,24 @@
+.cap.reading:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure));
+  align-items: start;
+}
+
+/* Each phrase uses the same baseline. The longest phrase reserves its height. */
+.cap .reading-layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+}
+
+.cap .reading-poem {color: #b7b8b0}
+.cap .reading-meaning {margin-top: 0}
+.cap .scene-note {color: #a3a69e}
+.cap .reading-principle::after {
+  content: '·';
+  padding-inline: .45em;
+  color: var(--faint);
+}
+
+.cap.film-reading .reading-layer {grid-area:auto;color:var(--ink)}
+.cap.film-reading .reading-layer + .reading-layer {color:var(--strong)}

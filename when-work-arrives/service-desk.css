@@ -1,0 +1,139 @@
+.desk-room {width:min(100%,65rem);margin-inline:auto;padding:0 0 2rem;color:var(--ink);overflow-wrap:break-word}
+.desk-room :is(h2,h3,h4,p,figure,fieldset,ol,dl,dd) {margin:0}
+.desk-room :is(h2,h3,h4) {font-family:var(--voice);font-weight:400;color:var(--strong);line-height:1.4;text-wrap:balance}
+.desk-room h2 {font-size:clamp(1.55rem,3vw,2.15rem)}
+.desk-room h3 {font-size:clamp(1.13rem,2.2vw,1.52rem)}
+.desk-room h4 {font-size:1.04rem}
+.desk-heading>small,.desk-room :is(legend,dt,small) {font:400 .81rem/1.5 var(--label);color:var(--dim)}
+.desk-heading>small {display:block;margin-bottom:.3rem}
+.desk-heading p,.desk-note,.desk-service p {max-width:65ch;font:400 .91rem/1.62 var(--label);color:var(--dim)}
+.desk-heading p {margin-top:.4rem}
+.desk-flow {margin:.6rem 0 .85rem!important;padding:0 0 .55rem;border-bottom:1px solid var(--line)}
+.desk-field {display:block;width:100%;height:clamp(7.5rem,19svh,12rem)}
+.desk-territories {display:grid;grid-template-columns:repeat(3,1fr);text-align:center;font:400 .8rem/1.45 var(--label);color:var(--ink)}
+.desk-room .desk-process {padding:0;margin-top:.8rem;display:flex;gap:.5rem 1.6rem;flex-wrap:wrap;list-style:none;align-items:center;color:var(--faint);font:400 .83rem/1.5 var(--label)}
+.desk-process li {position:relative;padding-inline-start:.8rem}
+.desk-process li::before {content:'';position:absolute;inset-inline-start:0;top:.53em;width:5px;height:5px;border:1px solid currentColor;border-radius:50%}
+.desk-process .travelled {color:var(--signal)}
+.desk-process [aria-current=step]::before {background:var(--signal)}
+.desk-room .desk-phase {font:400 .85rem/1.5 var(--voice);color:var(--ink);margin-top:.3rem}
+.desk-phase:empty {display:none}
+.desk-body,.desk-receipt,.desk-resources {display:grid;gap:.7rem;align-content:start}
+.desk-room fieldset {padding:0;min-inline-size:0;border:0}
+.desk-room :is(button,a) {background:none;color:var(--ink);border:0;min-height:42px;text-align:start;font:400 .94rem/1.4 var(--voice);cursor:pointer}
+.desk-room :is(button,a):focus-visible {outline:1px solid var(--signal);outline-offset:3px}
+.desk-room :is(button,a):hover {color:var(--signal)}
+.desk-room button[aria-pressed=true] {color:var(--strong);text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:.3em}
+.desk-doc-options button {display:inline-grid;vertical-align:top;min-height:55px;align-content:start;text-decoration:none!important;margin:.15rem 1.5rem .15rem 0;padding:.3rem 0 .4rem}
+.desk-doc-options strong {font-weight:400}
+.desk-doc-options [aria-pressed=true] strong::before {content:'✓';color:var(--signal);margin-inline-end:.4rem;font-family:var(--label)}
+.desk-doc-options small {padding-top:.25rem}
+.desk-options button {padding:.3rem 0;margin-inline-end:1.2rem}
+.desk-room .desk-scope {display:flex;flex-wrap:wrap;gap:.35rem 1.2rem;padding:.45rem 0;border-block:1px solid var(--line)}
+.desk-scope>div {display:flex;gap:.45rem;align-items:baseline}
+.desk-room dd {font:400 .9rem/1.5 var(--voice);color:var(--ink)}
+.desk-room .desk-submit {width:fit-content;border:1px solid var(--signal);padding:.45rem .85rem}
+.desk-room button:disabled {opacity:.4;cursor:default}
+.desk-room .desk-paper {display:grid;grid-template-columns:minmax(8rem,.55fr) 1fr auto;align-items:center;gap:.1rem 1.2rem;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.desk-paper>small {grid-column:1}
+.desk-paper>h4 {grid-column:1}
+.desk-fields {grid-column:2;grid-row:1/span 2}
+.desk-fields>div {display:flex;align-items:baseline;gap:1rem;justify-content:space-between;max-width:27rem}
+.desk-paper button {grid-column:3;grid-row:1/span 2}
+.desk-receipt>button,.desk-body>button,.desk-room a,.desk-paper button {width:fit-content;padding:.3rem 0;text-decoration:underline;text-underline-offset:.32em;text-decoration-color:var(--signal)}
+.desk-room a {display:inline-flex;align-items:center}
+.desk-room .desk-service {display:grid;grid-template-columns:1fr auto;gap:0 1.25rem;align-items:center;border-bottom:1px solid var(--line);padding:.4rem 0}
+.desk-service>p {grid-column:1;grid-row:2}
+.desk-service>a {grid-column:2;grid-row:1/span 2}
+.desk-consult {display:grid;gap:.6rem;margin-top:.45rem}
+.desk-packet {border-inline-start:1px solid var(--signal);padding:.2rem .8rem}
+.desk-packet p {font:400 .98rem/1.55 var(--voice);color:var(--strong)}
+.desk-room :is(h2,h3)[tabindex]:focus {outline:0}
+@media(max-width:620px) {
+  .desk-room .desk-process {display:grid;grid-template-columns:1fr 1fr;gap:.25rem .6rem}
+  .desk-room .desk-service,.desk-room .desk-paper {display:block}
+  .desk-paper .desk-fields {margin:.3rem 0}
+  .desk-doc-options button {display:grid;grid-template-columns:1fr 1fr;align-items:baseline;gap:.5rem;width:100%;margin:0;min-height:44px}
+  .desk-doc-options button small {text-align:end}
+  .desk-room .desk-submit {max-width:100%}
+  .desk-room .desk-field {height:clamp(7.3rem,19svh,9rem)}
+}
+@media(max-height:530px) and (orientation:landscape) {.desk-field {height:7rem}}
+
+.counsel-room {max-width:58rem}
+.counsel-input,.counsel-block {display:grid;align-content:start;gap:.75rem}
+.counsel-input {max-width:47rem;margin-top:1rem}
+.counsel-label {font:400 1.08rem/1.5 var(--voice);color:var(--strong)}
+.counsel-room .counsel-message {box-sizing:border-box;width:100%;min-height:5.8rem;resize:vertical;max-height:15rem;border:1px solid var(--line);border-inline-start:2px solid var(--signal);border-radius:0;background:transparent;color:var(--strong);font:400 1.04rem/1.65 var(--voice);padding:.65rem .85rem}
+.counsel-message::placeholder {color:var(--dim);opacity:.88}
+.counsel-message:focus-visible {outline:1px solid var(--signal);outline-offset:2px}
+.counsel-input>.counsel-country {margin-bottom:.15rem}
+.counsel-room .counsel-details {border-block-start:1px solid var(--line);padding:.18rem 0}
+.counsel-details summary {width:fit-content;min-height:42px;align-content:center;cursor:pointer;color:var(--dim);font:400 .9rem/1.5 var(--label)}
+.counsel-details :is(button,a) {display:block;width:fit-content;max-width:100%;padding:.4rem 0 .4rem .8rem;margin:.12rem 0;border-inline-start:1px solid var(--line)}
+.counsel-details summary:focus-visible {outline:1px solid var(--signal);outline-offset:2px}
+.counsel-room .counsel-flow {position:relative;width:min(100%,45rem);margin:1rem auto .85rem}
+.counsel-flow svg {display:block;width:100%;overflow:visible}
+.counsel-thread {stroke:var(--line);stroke-width:1.1;fill:none}
+.counsel-thread.is-granted {stroke:var(--signal);opacity:.65}
+.counsel-pulse {fill:var(--signal)}
+.counsel-surface {fill:none;stroke:var(--dim);stroke-width:.83}
+.counsel-surface circle {fill:currentColor;stroke:none}
+.counsel-surface-1 {stroke:#87b7a9;color:#87b7a9}
+.counsel-surface-2 {stroke:#90a9bf;color:#90a9bf}
+.counsel-surface-3 {stroke:#b99eb2;color:#b99eb2}
+.counsel-flow .counsel-roles {position:absolute;inset:0;pointer-events:none;font:400 .77rem/1.15 var(--label);color:var(--ink)}
+.counsel-roles span {position:absolute;transform:translateX(-50%);text-align:center}
+.counsel-roles span:nth-child(1) {left:11.5%;top:69%}
+.counsel-roles span:nth-child(2) {left:43%;top:73%}
+.counsel-roles span:nth-child(3) {left:84.6%;top:38%}
+.counsel-roles span:nth-child(4) {left:84.6%;top:87%}
+.counsel-block {border-block-start:1px solid var(--line);padding-top:.8rem}
+.counsel-reading {font:400 clamp(1.15rem,2.4vw,1.5rem)/1.55 var(--voice);color:var(--strong)}
+.counsel-packet {border-inline-start:1px solid var(--signal);padding:.25rem .9rem}
+.counsel-scope>div {display:flex;align-items:baseline;gap:.8rem;margin-block:.28rem}
+.counsel-scope dt {min-width:5rem}
+.counsel-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.3rem 1.25rem}
+.counsel-block>button,.counsel-actions button:not(.desk-submit),.counsel-response button {width:fit-content;padding:.35rem 0;text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:.29em}
+.counsel-response {position:relative;display:grid;gap:.22rem;align-content:start;border-block-start:1px solid var(--line);padding:.65rem 0 .35rem}
+.counsel-response p {max-width:66ch}
+.counsel-validation {color:var(--strong);font:400 .85rem/1.5 var(--label)}
+.counsel-disclosure {margin:1rem 0 0!important}
+@media(max-width:580px){
+  .counsel-input {margin-top:.6rem}
+  .counsel-room .counsel-flow {padding-block:.15rem .65rem}
+  .counsel-flow .counsel-roles {font-size:.7rem}
+  .counsel-roles span:nth-child(1) {top:61%}
+  .counsel-roles span:nth-child(2) {top:66%}
+  .counsel-roles span:nth-child(4) {top:81%}
+  .counsel-scope>div {flex-wrap:wrap;gap:.2rem .7rem}
+  .counsel-scope dt {min-width:auto}
+}
+@media(prefers-reduced-motion:reduce){.counsel-pulse {display:none}}
+
+.counsel-room .counsel-example,.counsel-direct-options,.counsel-editor {display:grid;gap:.55rem}
+.counsel-room .counsel-example[hidden] {display:none}
+.counsel-example .counsel-actions {gap:.2rem 1rem}
+.counsel-example h3,.counsel-direct-options h4 {margin:0}
+.counsel-example small {color:var(--dim)}
+.counsel-example .counsel-dialogue,.counsel-block .counsel-dialogue {padding:0;margin:0;list-style:none}
+.counsel-turn {display:grid;align-items:baseline;grid-template-columns:minmax(7.5rem,25%) 1fr;gap:.35rem .8rem;padding:.55rem 0;border-block-start:1px solid var(--line)}
+.counsel-turn strong {font:500 .85rem/1.45 var(--label);color:var(--ink)}
+.counsel-turn p {font:400 1rem/1.55 var(--voice);color:var(--strong);margin:0}
+.counsel-turn[data-speaker=duru] strong {color:#97bdaf}
+.counsel-turn[data-speaker=work] strong {color:#a4bed3}
+.counsel-turn[data-speaker=living] strong {color:#c3a6b7}
+.counsel-example .counsel-turn {animation:counsel-arrival .35s ease-out both}
+.counsel-room .counsel-editor {display:block}
+.counsel-editor .counsel-label {display:block;margin:.5rem 0}
+.counsel-editor .counsel-message {display:block}
+.counsel-direct-options {border-block-start:1px solid var(--line);padding-top:.6rem}
+.counsel-flow[data-speaker=work] .counsel-surface-2,.counsel-flow[data-speaker=living] .counsel-surface-3,.counsel-flow[data-speaker=us] .counsel-surface-0,.counsel-flow[data-speaker=duru] .counsel-surface-1 {stroke:var(--strong);stroke-width:1.25}
+@keyframes counsel-arrival {from {opacity:0;transform:translateY(.23rem)} to {opacity:1;transform:none}}
+@media(max-width:540px){.counsel-turn {grid-template-columns:1fr;gap:.14rem}.counsel-flow .counsel-roles {font-size:.64rem}.counsel-roles span {width:29%}}
+@media(prefers-reduced-motion:reduce){.counsel-example .counsel-turn {animation:none}}
+.counsel-example .counsel-flow {margin:.2rem auto .6rem}
+@keyframes counsel-writing {from {clip-path:inset(0 100% 0 0)} to {clip-path:inset(0)}}
+@media(prefers-reduced-motion:no-preference){.counsel-example .counsel-turn p {animation:counsel-writing .45s steps(18,end) both}}
+.counsel-turn-fields {grid-column:2;color:var(--dim);font:400 .78rem/1.5 var(--label)}
+@media(max-width:540px){.counsel-turn-fields {grid-column:1}}
