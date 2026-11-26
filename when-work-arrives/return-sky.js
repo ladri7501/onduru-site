@@ -246,13 +246,15 @@
     }
     ctx.stroke();ctx.restore();
   }
-  function draw(ctx,w,h,t) {
+  // opts.globe === false: the sky alone, for when the globe is drawn turned by the visitor's hand.
+  function draw(ctx,w,h,t,opts) {
     if (!(w>0 && h>0)) return;
     ctx.save();
     ctx.globalAlpha=1;
     background(ctx,w,h,t);
     stars(ctx,w,h,t,-w*.045*(1-Math.exp(-t*.68)));
     const earth=solar(ctx,w,h,t);
+    if (opts && opts.globe === false) { ctx.restore(); return; }
     const loc=globe(ctx,w,h,t,earth);
     localStreets(ctx,w,h,t,loc.markX,loc.markY);
     const [x,y]=arrivingPoint(w,h,t,loc.markX,loc.markY);
@@ -273,7 +275,10 @@
   // The same globe for drawings laid over it: its frame at a moment, and the projection.
   function globeAt(w,h,t) {
     const f = systemFrame(w,h,t);
-    return {...globeFrame(w,h,t,[f.x,f.y]), project, korea};
+    const frame = globeFrame(w,h,t,[f.x,f.y]);
+    // How strongly the globe's surface and rim are drawn at this moment, for a globe drawn over it.
+    const surface = fade(t,5.52,6.9)*(1-fade(t,10.87,12.61)), edge = fade(t,4.8,5.55)*(1-fade(t,9.4,10.7));
+    return {...frame, project, korea, surface: surface*(.42+.58*fade(t,6.4,7.8)), edge};
   }
   window.ReturnSky = {draw, globeAt};
 })();

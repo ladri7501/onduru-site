@@ -117,10 +117,80 @@
   function toggle() { if (current === 'now' && work.isOpen()) { work.setPaused(work.isPlaying()); sync(); } }
   // A pointer press leaves no focus ring behind on the button; the keyboard keeps it.
   transport.addEventListener('click', event => { toggle(); if (event.detail) transport.blur(); });
+  // Hands on the work (On, 2026-11-27): a swipe up is the next page and a swipe down the one
+  // before; on the last page the globe turns under the finger or the mouse instead. The mouse
+  // wheel turns pages the same way. All of this works while playing or paused.
+  // Two fingers on the last page bring the globe nearer or farther (On, 2026-11-27).
+  let hold = null, swallow = 0, pinch = null;
+  const host = $('#prologue'), fingers = new Map();
+  const spread = () => { const [a, b] = [...fingers.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+  host.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'mouse') fingers.set(event.pointerId, {x: event.clientX, y: event.clientY});
+    if (fingers.size === 2 && current === 'now' && work.canTurn()) {
+      hold = null; work.stopSpin();
+      pinch = {d: Math.max(1, spread()), z: work.zoomLevel()};
+      for (const id of fingers.keys()) { try { host.setPointerCapture(id); } catch {} }
+      return;
+    }
+    if (pinch || current !== 'now' || (event.pointerType === 'mouse' && event.button !== 0) || isOpen()) return;
+    const box = host.getBoundingClientRect(), x = event.clientX - box.left, y = event.clientY - box.top;
+    hold = {id: event.pointerId, type: event.pointerType, x0: event.clientX, y0: event.clientY, x: event.clientX, y: event.clientY, t: performance.now(), v: [0, 0], moved: 0,
+      globe: work.globeHit(x, y)};
+    if (hold.globe) { work.stopSpin(); try { host.setPointerCapture(event.pointerId); } catch {} }
+  });
+  host.addEventListener('pointermove', event => {
+    if (fingers.has(event.pointerId)) fingers.set(event.pointerId, {x: event.clientX, y: event.clientY});
+    if (pinch) { if (fingers.size === 2) work.setZoom(pinch.z * spread() / pinch.d); return; }
+    if (!hold || event.pointerId !== hold.id) return;
+    const now = performance.now(), dx = event.clientX - hold.x, dy = event.clientY - hold.y, dt = Math.max(1, now - hold.t);
+    hold.moved += Math.abs(dx) + Math.abs(dy);
+    if (hold.globe) {
+      work.turnGlobe(dx, dy);
+      hold.v = [hold.v[0] * .4 + dx / dt * .6, hold.v[1] * .4 + dy / dt * .6];
+    }
+    hold.x = event.clientX; hold.y = event.clientY; hold.t = now;
+  });
+  const letGo = event => {
+    fingers.delete(event.pointerId);
+    if (pinch) { if (fingers.size < 2) { pinch = null; hold = null; swallow = performance.now() + 500; } return; }
+    if (!hold || event.pointerId !== hold.id) return;
+    const h = hold; hold = null;
+    if (h.globe) {
+      if (h.moved > 6) { swallow = performance.now() + 400; if (performance.now() - h.t < 90) work.flingGlobe(h.v[0], h.v[1]); }
+      return;
+    }
+    const dx = event.clientX - h.x0, dy = event.clientY - h.y0;
+    if (h.type !== 'mouse' && Math.abs(dy) > 36 && Math.abs(dy) > Math.abs(dx) * 1.2) {
+      swallow = performance.now() + 400;
+      if (dy < 0) work.next(); else work.prev();
+    }
+  };
+  host.addEventListener('pointerup', letGo);
+  host.addEventListener('pointercancel', event => {
+    fingers.delete(event.pointerId);
+    if (fingers.size < 2) pinch = null;
+    if (hold && event.pointerId === hold.id) hold = null;
+  });
+  let wheel = 0, wheelAt = 0, wheelLock = 0;
+  d.addEventListener('wheel', event => {
+    if (current !== 'now' || event.ctrlKey || isOpen()) return;
+    const now = performance.now();
+    if (now - wheelAt > 250) wheel = 0;
+    wheelAt = now;
+    wheel += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 400 : 1);
+    // A trackpad keeps scrolling after the hand has stopped: wait for a pause before the next page.
+    if (now < wheelLock) { wheel = 0; wheelLock = Math.max(wheelLock, now + 250); return; }
+    if (Math.abs(wheel) < 40) return;
+    wheelLock = now + 700;
+    if (wheel > 0) work.next(); else work.prev();
+    wheel = 0;
+  }, {passive: true});
+
   // Anywhere on the page but its links and buttons: the next page of the work. With the list of
   // works open, a click elsewhere only closes it.
   d.addEventListener('click', event => {
     if (event.button) return;
+    if (performance.now() < swallow) { swallow = 0; return; }
     const inside = event.target.closest && event.target.closest('.works');
     if (isOpen() && !inside) { openList(false); return; }
     if (current !== 'now') return;
@@ -131,6 +201,8 @@
     if (event.key === 'Escape' && isOpen()) { openList(false); worksBtn.focus(); return; }
     if (current !== 'now' || event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.target.closest && event.target.closest('input,select,textarea,[contenteditable]')) return;
+    if (event.key === '+' || event.key === '=' || event.key === 'Add') { if (work.zoomGlobe(1.25)) event.preventDefault(); return; }
+    if (event.key === '-' || event.key === '_' || event.key === 'Subtract') { if (work.zoomGlobe(1 / 1.25)) event.preventDefault(); return; }
     if (event.key === 'PageDown') { event.preventDefault(); work.next(); }
     else if (event.key === 'PageUp') { event.preventDefault(); work.prev(); }
     else if (event.key === ' ' && !(event.target.closest && event.target.closest('button,a,summary'))) { event.preventDefault(); toggle(); }

@@ -39,12 +39,76 @@
     return [p * a[0] + q * b[0], p * a[1] + q * b[1], p * a[2] + q * b[2]];
   };
 
+  // The visitor can turn the globe at the end by hand (On, 2026-11-27). turn = {yaw, pitch}: yaw
+  // turns it about the screen's upright, then pitch tips it toward or away from the viewer.
+  function turned(v, turn) {
+    if (!turn) return v;
+    const cy = Math.cos(turn.yaw), sy = Math.sin(turn.yaw), cp = Math.cos(turn.pitch), sp = Math.sin(turn.pitch);
+    const x = v[0] * cy + v[2] * sy, z = -v[0] * sy + v[2] * cy;
+    return [x, v[1] * cp - z * sp, v[1] * sp + z * cp];
+  }
+  // The whole world (world-110m.js, loaded at the end), projected once the way the opening's globe is.
+  let world = null;
+  function worldData(project) {
+    if (world) return world;
+    const src = window.OnduruWorld;
+    if (!src) return null;
+    const arcs = src.arcs.split(';').map(part => {
+      const n = part.split(',').map(Number), out = [];
+      let lon = 0, lat = 0;
+      for (let i = 0; i < n.length; i += 2) {
+        lon = i ? lon + n[i] : n[i]; lat = i ? lat + n[i + 1] : n[i + 1];
+        out.push(project(lon / 10, lat / 10));
+      }
+      return out;
+    });
+    const grid = [];
+    for (let lat = -75; lat <= 75; lat += 15) { const line = []; for (let lon = -180; lon <= 180; lon += 4) line.push(project(lon, lat)); grid.push(line); }
+    for (let lon = -180; lon < 180; lon += 15) { const line = []; for (let lat = -90; lat <= 90; lat += 4) line.push(project(lon, lat)); grid.push(line); }
+    world = {arcs, grid, korea: new Set(src.korea)};
+    return world;
+  }
+  // The globe drawn turned: rim, lines of latitude and longitude, coasts and borders, Korea.
+  function globe(g, w, h, scene, turn) {
+    const sky = window.ReturnSky;
+    if (!sky?.globeAt) return false;
+    const G = sky.globeAt(w, h, scene), W = worldData(G.project);
+    if (!W) return false;
+    const radius = G.radius * (turn && turn.zoom || 1);
+    const S = v => [G.cx + v[0] * radius, G.cy + v[1] * radius];
+    const stroke = (lines, colour, width, alpha) => {
+      g.strokeStyle = colour; g.lineWidth = width; g.globalAlpha = alpha; g.beginPath();
+      lines.forEach(line => {
+        let pen = false;
+        line.forEach(v0 => {
+          const v = turned(v0, turn);
+          if (v[2] <= 0) { pen = false; return; }
+          const [x, y] = S(v);
+          pen ? g.lineTo(x, y) : g.moveTo(x, y);
+          pen = true;
+        });
+      });
+      g.stroke();
+    };
+    g.save();
+    if (G.edge > 0) { g.globalAlpha = G.edge; g.strokeStyle = '#68716e'; g.lineWidth = .65; g.beginPath(); g.arc(G.cx, G.cy, radius, 0, TAU); g.stroke(); }
+    if (G.surface > 0) {
+      stroke(W.grid, '#354247', .53, G.surface);
+      stroke(W.arcs.filter((a, i) => !W.korea.has(i)), '#747675', .55, G.surface);
+      stroke(W.arcs.filter((a, i) => W.korea.has(i)), '#8b8d81', .8, G.surface);
+    }
+    g.restore();
+    return true;
+  }
+
   // t: seconds since the spreading began; scene: the globe's moment on the opening's clock.
-  function draw(g, w, h, t, scene, {alpha = 1} = {}) {
+  function draw(g, w, h, t, scene, {alpha = 1, turn = null} = {}) {
     const sky = window.ReturnSky;
     if (!sky?.globeAt || alpha <= 0) return;
-    const G = sky.globeAt(w, h, scene), K = G.korea, M = neighbours(G.project);
-    const S = (v, lift = 0) => [G.cx + v[0] * G.radius * (1 + lift), G.cy + v[1] * G.radius * (1 + lift)];
+    const G = sky.globeAt(w, h, scene), K = turned(G.korea, turn), M0 = neighbours(G.project);
+    const M = turn ? {v: M0.v.map(v => turned(v, turn)), links: M0.links} : M0;
+    const radius = G.radius * (turn && turn.zoom || 1);
+    const S = (v, lift = 0) => [G.cx + v[0] * radius * (1 + lift), G.cy + v[1] * radius * (1 + lift)];
     const small = Math.max(.7, Math.min(1.25, Math.min(w, h) / 820));
     const dot = (x, y, r, c, a) => { if (a <= .004) return; g.fillStyle = rgba(c, a); g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); };
     g.save();
@@ -52,7 +116,7 @@
 
     // Rings going out from Korea, one after another.
     const [kx, ky] = S(K);
-    for (let k = 0; k < 4; k++) {
+    for (let k = 0; k < 4 && K[2] > 0; k++) {
       const f = ((t - k * .6) % 2.4) / 2.4;
       if (t < k * .6) continue;
       g.strokeStyle = rgba(teal, .55 * (1 - f)); g.lineWidth = 1;
@@ -99,8 +163,8 @@
       }
       g.stroke();
     });
-    dot(kx, ky, 3 * small, ink, 1);
+    if (K[2] > 0) dot(kx, ky, 3 * small, ink, 1);
     g.restore();
   }
-  window.WorldShare = {draw};
+  window.WorldShare = {draw, globe};
 })();

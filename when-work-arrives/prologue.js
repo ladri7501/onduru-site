@@ -24,11 +24,11 @@
   // 2026-11-27 — a picture of the configuration, not an explanation). The circle then opens and
   // lies down as the country's line, so the story resumes past the old zoom into the monitor.
   const holdAt = 10.05;
-  const holdSec = 13.4;
+  const holdSec = window.ServerRing ? Math.ceil((window.ServerRing.length + 1.7) * 10) / 10 : 17.6;
   const resumeAt = 11.3;
   const story = c => c < holdAt ? c : c < holdAt + holdSec ? holdAt : resumeAt + c - holdAt - holdSec;
   const clockOf = s => s <= holdAt ? s : holdAt + holdSec + s - resumeAt;
-  const ringStill = 6.2, ringUnroll = [holdSec - 1.8, holdSec - .2];
+  const ringStill = window.ServerRing ? window.ServerRing.still : 10.5, ringUnroll = [holdSec - 1.8, holdSec - .2];
   // Then back out the way the journey came in, the opening run in reverse: the country shrinks
   // back into the monitor; the studio; Seoul's streets; Korea; the whole globe. From Korea, lines
   // go out to the nations and join them into one network. One line; there it stays: the last
@@ -187,6 +187,9 @@
 
   const mix = (a, b, u) => a + (b - a) * u;
 
+  // Where this file was loaded from: the world map for the turning globe sits beside it.
+  const here = document.currentScript && document.currentScript.src ? new URL('.', document.currentScript.src).href : '/when-work-arrives/';
+
   function mount(host, {onState, onEdge} = {}) {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('aria-hidden', 'true');
@@ -228,6 +231,22 @@
     let locale = 'ko', active = false, paused = false, ended = false;
     let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '', shownStage = -1, shownFinal = false, shownServers = false;
     let finalKey = '', edge = '';
+    // The globe at the end turns under the visitor's hand (On, 2026-11-27), and keeps a little
+    // of its spin when let go.
+    const tilt = {yaw: 0, pitch: 0, zoom: 1};
+    // It also comes closer: + and − on a keyboard, two fingers spread or pinched on a phone (On, 2026-11-27).
+    const ZOOM = [1, 4];
+    let zoomTo = 1, zoomFrame = 0;
+    let spin = [0, 0], spinFrame = 0, spinLast = null, worldAsked = false;
+    const turnedNow = () => (tilt.yaw !== 0 || tilt.pitch !== 0 || tilt.zoom !== 1) && Boolean(window.OnduruWorld);
+    function askWorld() {
+      if (worldAsked || window.OnduruWorld) return;
+      worldAsked = true;
+      const tag = document.createElement('script');
+      tag.src = here + 'world-110m.js?v=2026112704';
+      tag.async = true;
+      document.head.append(tag);
+    }
     const paper = '#080e14';
 
     // The closing line sits in the dark above the globe as it comes to rest, whatever the
@@ -256,7 +275,7 @@
       const outside = sec >= flowEnd;
       const back = !outside ? scene : motion.matches ? (sec < flowEnd + 3.45 ? 18 : sec < flowEnd + 6.4 ? 10.4 : w / h < .88 ? 7.75 : 7.42)
         : (w / h < .88 ? backTall : backWide)(Math.min(sec, closeEnd + 1));
-      const key = motion.matches ? [outside ? 'back' + back + Number(sec >= finalStart) : inside ? 'flow' + flowAt : scene + '/' + Math.round(Math.min(clock - holdAt, holdSec) * 4), w, h, dpr, locale].join('/') : '';
+      const key = motion.matches ? [outside ? 'back' + back + Number(sec >= finalStart) + '/' + tilt.yaw.toFixed(4) + '/' + tilt.pitch.toFixed(4) + '/' + tilt.zoom.toFixed(3) : inside ? 'flow' + flowAt : scene + '/' + Math.round(Math.min(clock - holdAt, holdSec) * 4), w, h, dpr, locale].join('/') : '';
       // The colour at the edge of the picture, for the frame around it (the sky's own ground,
       // which darkens as the journey nears Earth; everything after that lies on the same dark).
       const sky = fade(Math.min(back, 8), 4.2, 8);
@@ -279,7 +298,10 @@
         ctx.fillStyle = paper;
         ctx.fillRect(0, 0, w, h);
       }
-      if (back < 14) window.ReturnSky.draw(ctx, w, h, back);
+      const turning = outside && turnedNow();
+      if (back < 14) window.ReturnSky.draw(ctx, w, h, back, turning ? {globe: false} : undefined);
+      if (turning) window.WorldShare.globe(ctx, w, h, back, tilt);
+      if (outside && sec >= spreadStart) askWorld();
       const seen = outside ? (motion.matches ? 1 : fade(sec, flowEnd + .35, flowEnd + .9))
         : motion.matches ? Number(!inside) : 1 - fade(sec, 11.1, 11.6);
       // Lights out: from the hold until the country, the studio is all but dark.
@@ -310,7 +332,7 @@
       if (outside) placeFinal(w, h);
       // From Korea out to the world, over the globe.
       if (outside && back < 11.5) {
-        window.WorldShare.draw(ctx, w, h, motion.matches ? (back < 9 ? 20 : 0) : sec - spreadStart, back, {alpha: 1});
+        window.WorldShare.draw(ctx, w, h, motion.matches ? (back < 9 ? 20 : 0) : sec - spreadStart, back, {alpha: 1, turn: turning ? tilt : null});
       }
     }
 
@@ -420,6 +442,7 @@
       ended = false;
       elapsed = 0;
       stillKey = '';
+      tilt.yaw = 0; tilt.pitch = 0; tilt.zoom = 1; zoomTo = 1; spin = [0, 0];
       host.hidden = false;
       setLocale(next);
       schedule();
@@ -472,7 +495,74 @@
     window.addEventListener('resize', () => { if (active) { stillKey = ''; paint(); } });
     motion.addEventListener?.('change', () => { if (active) { stillKey = ''; paint(); } });
     setLocale('ko');
-    return {play, hide, setLocale, setPaused, next, prev,
+    // The globe can be turned once it has come to rest at the end.
+    function globeNow() {
+      const sec = story(elapsed / 1000);
+      if (!active || sec < finalStart || !window.ReturnSky?.globeAt) return null;
+      const w = host.clientWidth || window.innerWidth, h = host.clientHeight || window.innerHeight, tall = w / h < .88;
+      const back = motion.matches ? (tall ? 7.75 : 7.42) : (tall ? backTall : backWide)(Math.min(sec, closeEnd + 1));
+      return window.ReturnSky.globeAt(w, h, back);
+    }
+    function globeHit(x, y) {
+      const G = globeNow();
+      return Boolean(G) && Math.hypot(x - G.cx, y - G.cy) <= G.radius * tilt.zoom * 1.04;
+    }
+    function turnGlobe(dx, dy) {
+      const G = globeNow();
+      if (!G) return false;
+      askWorld();
+      if (!window.OnduruWorld) return true;
+      tilt.yaw += dx / (G.radius * tilt.zoom);
+      tilt.pitch = Math.max(-1.3, Math.min(1.3, tilt.pitch - dy / (G.radius * tilt.zoom)));
+      stillKey = '';
+      if (!frame) paint();
+      return true;
+    }
+    // Let go: the globe carries on a little with the speed of the hand (px per ms), slowing to rest.
+    function flingGlobe(vx, vy) {
+      if (motion.matches || !globeNow()) return;
+      spin = [vx, vy];
+      spinLast = null;
+      if (!spinFrame) spinFrame = requestAnimationFrame(spinOn);
+    }
+    function spinOn(now) {
+      spinFrame = 0;
+      const dt = spinLast === null ? 16 : Math.min(48, now - spinLast);
+      spinLast = now;
+      if (Math.hypot(spin[0], spin[1]) < .01 || !globeNow()) { spin = [0, 0]; return; }
+      turnGlobe(spin[0] * dt, spin[1] * dt);
+      const keep = Math.pow(.93, dt / 16);
+      spin = [spin[0] * keep, spin[1] * keep];
+      spinFrame = requestAnimationFrame(spinOn);
+    }
+    function stopSpin() { spin = [0, 0]; if (spinFrame) cancelAnimationFrame(spinFrame); spinFrame = 0; }
+    // Nearer or farther: setZoom follows the fingers at once; zoomGlobe eases a key press in.
+    function setZoom(z) {
+      if (!globeNow()) return false;
+      askWorld();
+      tilt.zoom = zoomTo = Math.max(ZOOM[0], Math.min(ZOOM[1], z));
+      stillKey = '';
+      if (!frame) paint();
+      return true;
+    }
+    function zoomGlobe(factor) {
+      if (!globeNow()) return false;
+      askWorld();
+      zoomTo = Math.max(ZOOM[0], Math.min(ZOOM[1], zoomTo * factor));
+      if (motion.matches) return setZoom(zoomTo);
+      if (!zoomFrame) zoomFrame = requestAnimationFrame(zoomOn);
+      return true;
+    }
+    function zoomOn() {
+      zoomFrame = 0;
+      const gap = zoomTo - tilt.zoom;
+      tilt.zoom = Math.abs(gap) < .004 ? zoomTo : tilt.zoom + gap * .22;
+      stillKey = '';
+      if (!frame) paint();
+      if (tilt.zoom !== zoomTo) zoomFrame = requestAnimationFrame(zoomOn);
+    }
+    return {play, hide, setLocale, setPaused, next, prev, globeHit, turnGlobe, flingGlobe, stopSpin, setZoom, zoomGlobe,
+      zoomLevel: () => tilt.zoom, canTurn: () => Boolean(globeNow()),
       isOpen: () => active, isPlaying: () => active && !paused && !ended, isLast: () => pageIndex() === pages.length - 1};
   }
   window.Prologue = {mount, sourceUrl: locale => (copy[locale] || copy.ko).url};
