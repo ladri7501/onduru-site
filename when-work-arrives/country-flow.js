@@ -149,15 +149,18 @@
   const nearest = [12, 47, 82, 117, 7, 52, 92, 142];
   const stray = {c: '150,156,164', code: 'ATATAT'};
 
-  function frameOf(w, h) {
-    const portrait = w / h < .88;
+  const isPortrait = (w, h) => w / h < .88 || w < 600;
+  function frameOf(w, h, lay) {
+    // A phone's exhibition space, between the site's header and footer, can be nearly square;
+    // anything narrower than 600px still reads the country top to bottom.
+    const portrait = isPortrait(w, h);
     const px = Math.max(.6, Math.min(1.25, Math.min(w / 1440, h / 900) * (portrait ? 1.5 : 1)));
     if (!portrait) {
       const x0 = w * .03, x1 = w * .97, y0 = h * .085, y1 = h * .93;
       return {portrait, px, P: (X, Y) => [x0 + X * (x1 - x0), y0 + Y * (y1 - y0)], font: Math.max(11, Math.min(13.5, w * .0094)),
         at: (x, y) => [(x - x0) / (x1 - x0), (y - y0) / (y1 - y0)]};
     }
-    const x0 = w * .03, x1 = w * .97, y0 = h * .18, y1 = h * .8;
+    const x0 = w * .03, x1 = w * .97, y0 = lay ? lay.top : h * .18, y1 = lay ? lay.bottom : h * .8;
     return {portrait, px, P: (X, Y) => [x0 + Y * (x1 - x0), y0 + X * (y1 - y0)], font: 10,
       at: (x, y) => [(y - y0) / (y1 - y0), (x - x0) / (x1 - x0)]};
   }
@@ -255,9 +258,59 @@
     return [X, LINE];
   }
 
+  // Upright, the country takes the height left between the DNA row and alignment note above it
+  // and the station's card below it, measured in the letters actually used, so that on a short
+  // screen nothing runs into anything else.
+  const lays = new Map();
+  function layOf(g, w, h, wd, locale) {
+    const key = [w, h, locale].join('/');
+    if (lays.has(key)) return lays.get(key);
+    const font = 10, rowH = 16, left = w * .03, right = w * .97, lead = font * 1.1 * 1.32;
+    const wrap = (text, maxW, css) => {
+      g.font = css;
+      let n = 0;
+      text.split('\n').forEach(part => {
+        let cur = '';
+        part.split(' ').forEach(word => {
+          const next = cur ? cur + ' ' + word : word;
+          if (cur && g.measureText(next).width > maxW) { n++; cur = word; } else cur = next;
+        });
+        n++;
+      });
+      return n;
+    };
+    g.save();
+    const fs = font * .9, small = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    g.font = small;
+    let rows = g.measureText(wd.dnaTitle).width > right - left ? 2 : 1, x = left;
+    dna.forEach(d => {
+      const need = 2.6 * 2 + 6 + g.measureText(d.name).width;
+      if (x + need > right) { x = left; rows++; }
+      x += need + 12;
+    });
+    rows++;
+    const legendY = h * .034 + (rows - 1) * rowH + rowH * .5 + 4;
+    const legend = wrap(wd.legend, w * .9, '500 ' + (font * 1.1).toFixed(1) + 'px "Exhibit Label", sans-serif');
+    const top = Math.max(h * .18, legendY + legend * lead + 12);
+    const size = font * .98, gap = size * 1.42;
+    let lines = 0;
+    wd.heads.forEach((head, i) => {
+      let n = wrap(head, w * .92, '500 ' + size.toFixed(1) + 'px "Exhibit Label", sans-serif');
+      wd.cards[i].forEach(([t, kind]) => { n += wrap(t, w * .92, (kind === 1 ? '500 ' : '') + size.toFixed(1) + 'px "Exhibit Label", sans-serif'); });
+      lines = Math.max(lines, n);
+    });
+    g.restore();
+    const drop = Math.max(18, h * .035);
+    const bottom = Math.min(h * .8, h * .975 - 11 - (lines - 1) * gap - drop);
+    const lay = {top, bottom, legendY, cardY: bottom + drop};
+    lays.set(key, lay);
+    return lay;
+  }
+
   function draw(g, w, h, u, {locale = 'ko', alpha = 1} = {}) {
     if (!(w > 0 && h > 0) || alpha <= 0) return;
-    const F = frameOf(w, h), P = F.P, px = F.px, wd = words[locale] || words.ko;
+    const wd = words[locale] || words.ko;
+    const F = frameOf(w, h, isPortrait(w, h) ? layOf(g, w, h, wd, locale) : null), P = F.P, px = F.px, lay = F.portrait ? layOf(g, w, h, wd, locale) : null;
     const stage = Math.max(0, Math.min(7, Math.floor(u / 2)));
     const dot = (X, Y, r, c, a) => { if (a <= .004) return; const [x, y] = P(X, Y); g.fillStyle = rgba(c, a); g.beginPath(); g.arc(x, y, r * px, 0, TAU); g.fill(); };
     const ring = (X, Y, r, c, a, from = 0, to = 1, width = .8) => {
@@ -617,7 +670,7 @@
     // Alignment: every agent, of whichever company, checks the same standard before it works;
     // the one that does not match is marked, and at the end it is found and set apart.
     const alignOn = ramp(u, 1.55, 1.8) * (1 - ramp(u, 2.7, 2.95));
-    if (F.portrait) stack([{text: wd.legend, on: alignOn, show: 'flash'}], ...F.at(w * .03, h * .125), 'left', 'top', w * .9);
+    if (F.portrait) stack([{text: wd.legend, on: alignOn, show: 'flash'}], ...F.at(w * .03, lay.legendY), 'left', 'top', w * .9);
     else stack([{text: wd.legend, on: alignOn, show: 'flash'}], .06, .012, 'left', 'middle', w * .62);
 
     // The DNA row at the top: each company's strand and name. The company whose agent is
@@ -629,8 +682,8 @@
       g.save();
       g.textBaseline = 'middle'; g.textAlign = 'left';
       g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
-      // The row keeps clear of the language and play buttons in the top right corner.
-      const left = F.portrait ? w * .03 : P(.06, 0)[0], right = w - 140, gap = F.portrait ? 12 : 18, rowH = F.portrait ? 16 : 19;
+      // The row runs the width of the space; the site's buttons are above it, outside the work.
+      const left = F.portrait ? w * .03 : P(.06, 0)[0], right = w * .97, gap = F.portrait ? 12 : 18, rowH = F.portrait ? 16 : 19;
       let x = left, y = F.portrait ? h * .034 : h * .018;
       g.fillStyle = rgba(human, .85);
       if (F.portrait && g.measureText(wd.dnaTitle).width > right - left) {
@@ -685,7 +738,7 @@
       });
       let [x, y] = P(X, Y);
       if (anchor === 'bottom') y -= (lines.length - 1) * gap;
-      if (F.portrait) { x = w * .5; y = h * .835; align = 'center'; }
+      if (F.portrait) { x = w * .5; y = lay.cardY; align = 'center'; }
       g.textAlign = align;
       const tones = [human, agent, agent, warm];
       lines.forEach(([t, kind], row) => {
@@ -700,5 +753,12 @@
     else label(wd.example, .94, .995, line, .8, .8, 'right');
     g.restore();
   }
-  window.CountryFlow = {draw};
+  // Where the country's people, stations and watcher stand on screen, so a picture drawn before
+  // the country (the eight servers) can come to rest exactly on them.
+  function anchors(g, w, h, locale = 'ko') {
+    const wd = words[locale] || words.ko;
+    const F = frameOf(w, h, isPortrait(w, h) ? layOf(g, w, h, wd, locale) : null);
+    return {inP: F.P(IN, LINE), outP: F.P(OUT, LINE), st: SX.map(X => F.P(X, LINE)), watcher: F.P(.5, .97), portrait: F.portrait};
+  }
+  window.CountryFlow = {draw, anchors};
 })();

@@ -5,7 +5,7 @@ html { scroll-padding-top: var(--head-h, 0px); touch-action: manipulation; }    
 html body .site-head { position: sticky; top: 0; z-index: 40; background: var(--bg); display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: var(--sp-5, 24px); row-gap: 0; flex-wrap: nowrap; }
 html body .site-head .site-nav { margin: 0; }
 .ctl3 { display: inline-flex; align-items: center; justify-self: end; gap: 2px; }
-.lng3 { display: inline-flex; align-items: center; margin-right: 4px; font: 500 12px/1 var(--font-label); letter-spacing: .08em; color: var(--ink-faint); white-space: nowrap; }
+.lng3 { display: inline-flex; align-items: center; margin-right: 4px; font: 500 var(--fs-label)/1 var(--font-label); letter-spacing: .08em; color: var(--ink-faint); white-space: nowrap; }
 .lng3 a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 3px; color: var(--ink-dim); opacity: .55; text-decoration: none; }
 .lng3 a[aria-current] { opacity: 1; color: var(--ink-strong); }
 .lng3 a:hover, .lng3 a:focus-visible { opacity: 1; }
@@ -13,10 +13,11 @@ html body .site-head .site-nav { margin: 0; }
 .lng3 button { font: inherit; letter-spacing: inherit; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 3px; color: var(--ink-dim); opacity: .55; }
 .lng3 button[aria-pressed="true"] { opacity: 1; color: var(--ink-strong); }
 .lng3 button:hover, .lng3 button:focus-visible { opacity: 1; }
-.ico3 { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink-dim); cursor: pointer; font: 500 13px/1 var(--font-label); letter-spacing: .02em; }
+.ico3 { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink-dim); cursor: pointer; font: 500 var(--fs-label)/1 var(--font-label); letter-spacing: .02em; }
 .ico3:hover, .ico3:focus-visible { color: var(--ink-strong); }
 .ico3 svg { width: 16px; height: 16px; display: block; }
 html body .site-foot .pick { display: none !important; }
+/* 오른쪽 단추 글자(한 / EN / ES · Aa · A+)는 메뉴 글자와 같은 크기(On 2026-11-27 「너무 작아」) — 12 · 13px 에서 --fs-label(13 → 15px)로 */
 /* 글자 크기(On 23:27 1안) — 뿌리 글자를 키운다. 머리 · 단추 글자는 그대로(px) 둬서 머리가 덜 밀린다 */
 html[data-size="l"] { --ts: 1.25; font-size: calc(clamp(100%, 0.75rem + 0.3125vw, 125%) * 1.25); }
 html[data-size="xl"] { --ts: 1.5; font-size: calc(clamp(100%, 0.75rem + 0.3125vw, 125%) * 1.5); }
