@@ -14,141 +14,26 @@
 <link rel="canonical" href="https://onduru.com/">
 <meta name="referrer" content="no-referrer">
 <title>온두루, 일이 닿으면 · ONDURU</title>
-<link rel="stylesheet" href="/when-work-arrives/fonts.css">
-<link rel="stylesheet" href="/when-work-arrives/journey.css">
-<link rel="stylesheet" href="/when-work-arrives/reading.css">
-<link rel="stylesheet" href="/when-work-arrives/guide.css">
-<link rel="stylesheet" href="/when-work-arrives/fitting.css">
-<link rel="stylesheet" href="/when-work-arrives/prologue.css">
-<link rel="stylesheet" href="/when-work-arrives/cost-study.css">
-<link rel="stylesheet" href="/when-work-arrives/service-desk.css">
-<link rel="stylesheet" href="/when-work-arrives/horizon-sky.css">
-<link rel="stylesheet" href="/when-work-arrives/federation-panel.css">
-<link rel="stylesheet" href="/when-work-arrives/story-theatre.css">
-<link rel="stylesheet" href="/when-work-arrives/exhibit-record.css">
-<link rel="stylesheet" href="/when-work-arrives/site-fit.css">
-<script src="/when-work-arrives/captions.js" defer></script>
-<script src="/when-work-arrives/guide-copy.js" defer></script>
-<script src="/when-work-arrives/guide.js" defer></script>
-<script src="/when-work-arrives/scoped-handoff.js" defer></script>
-<script src="/when-work-arrives/film-handoff.js" defer></script>
-<script src="/when-work-arrives/film-reel.js" defer></script>
-<script src="/when-work-arrives/kinetics.js" defer></script>
-<script src="/when-work-arrives/look-engine.js" defer></script>
-<script src="/when-work-arrives/look-art.js" defer></script>
-<script src="/when-work-arrives/fitting.js" defer></script>
-<script src="/when-work-arrives/return-sky.js" defer></script>
-<script src="/when-work-arrives/return-studio.js" defer></script>
-<script src="/when-work-arrives/prologue.js" defer></script>
-<script src="/when-work-arrives/territory-score.js" defer></script>
-<script src="/when-work-arrives/reading.js" defer></script>
-<script src="/when-work-arrives/counsel-engine.js" defer></script>
-<script src="/when-work-arrives/counsel-room.js" defer></script>
-<script src="/when-work-arrives/service-desk.js" defer></script>
-<script src="/when-work-arrives/cost-study.js" defer></script>
-<script src="/when-work-arrives/model-supply.js" defer></script>
-<script src="/when-work-arrives/globe-picking.js" defer></script>
-<script src="/when-work-arrives/federation-atlas.js" defer></script>
-<script src="/when-work-arrives/federation.js" defer></script>
-<script src="/when-work-arrives/federation-panel.js" defer></script>
-<script src="/when-work-arrives/horizon-sky.js" defer></script>
-<script src="/when-work-arrives/story-business.js" defer></script>
-<script src="/when-work-arrives/story-personal.js" defer></script>
-<script src="/when-work-arrives/story-theatre.js" defer></script>
-<script src="/when-work-arrives/coalition-room.js" defer></script>
-<script src="/when-work-arrives/duru-memory.js" defer></script>
-<script src="/when-work-arrives/exhibit-record.js" defer></script>
-<script src="/when-work-arrives/player.js" defer></script>
-<script src="/when-work-arrives/site-fit.js" defer></script>
+<link rel="stylesheet" href="/when-work-arrives/fonts.css?v=2026112701">
+<link rel="stylesheet" href="/when-work-arrives/work.css?v=2026112701">
+<link rel="stylesheet" href="/when-work-arrives/prologue.css?v=2026112701">
+<script src="/when-work-arrives/return-sky.js?v=2026112701" defer></script>
+<script src="/when-work-arrives/return-studio.js?v=2026112701" defer></script>
+<script src="/when-work-arrives/country-flow.js?v=2026112701" defer></script>
+<script src="/when-work-arrives/world-share.js?v=2026112701" defer></script>
+<script src="/when-work-arrives/prologue.js?v=2026112701" defer></script>
+<script src="/when-work-arrives/work.js?v=2026112701" defer></script>
 </head>
 <body>
 <nav class="ctrl" aria-label="전시 조작">
 <button id="lang" class="lng" type="button" aria-label="언어 바꾸기"><span aria-hidden="true"><span class="k" lang="ko">한</span> / <span class="e" lang="en">EN</span> / <span class="s" lang="es">ES</span></span></button>
-<button id="sound" class="snd" type="button" aria-pressed="false" aria-label="소리 켜기"><svg viewBox="0 0 20 20" aria-hidden="true"><line x1="5" y1="7" x2="5" y2="13"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="15" y1="8" x2="15" y2="12"/></svg></button>
 <button id="transport" class="ply" type="button" aria-label="재생" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="p1" d="M6.5 4.5v11l9-5.5z"/><path class="p2" d="M7 4.5v11M13 4.5v11"/></svg></button>
 </nav>
-<div class="brand" id="site-brand"><button class="enso" id="enso" type="button" aria-label="원을 다시 그리기"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg></button><a class="wordmark" href="/about/">ONDURU</a></div>
 <section id="prologue" hidden></section>
-<canvas id="stage" aria-hidden="true"></canvas>
-<main id="work">
-<div id="reel" class="reel">
-<header class="title">
-<h1 id="title">온두루, 일이 닿으면</h1>
-</header>
-<div class="cap" aria-hidden="true"></div>
-<div id="spoken" class="sr" role="status" aria-live="polite" aria-atomic="true"></div>
-</div>
-<footer id="colophon" class="endfoot">
-  <div id="paths-dock"></div>
-  <div class="replay-actions">
-    <button id="replay" class="totop" type="button">첫머리로</button>
-    <button id="replay-prologue" class="totop" type="button">우주에서 다시 보기</button>
-  </div>
-  <div class="colophon">
-    <p class="work" id="work-title">온두루, 일이 닿으면</p>
-    <p class="statement" id="statement"></p>
-    <button id="film-log-end" class="guide-link" type="button" aria-haspopup="dialog" hidden></button>
-    <p class="who" id="credits">구상·결정 On · 작품 구성·실행 Duru</p>
-    <p><span class="L-ko" lang="ko">함께 고쳐 쓸 일이 있다면</span><span class="L-en" lang="en">If there is something we might write together,</span><span class="L-es" lang="es">Si hay algo que podamos reescribir juntos,</span> <a class="mail" href="mailto:hello@onduru.com">hello@onduru.com</a></p>
-  </div>
-</footer>
-</main>
-<div id="paths" role="group" aria-label="온의 말 고르기">
-  <div class="scope-pick" id="scopes">
-    <button type="button" data-scope="film" aria-pressed="true">산업</button>
-    <button type="button" data-scope="business" aria-pressed="false">기업</button>
-    <button type="button" data-scope="personal" aria-pressed="false">개인</button>
-  </div>
-  <div class="stage-actions">
-    <button type="button" id="commons-open" aria-haspopup="dialog" aria-controls="coalition-dialog">연대</button>
-    <button type="button" id="memory-open" aria-haspopup="dialog" aria-controls="exhibit-record">기록</button>
-    <button type="button" id="stage-guide" aria-haspopup="dialog">도록</button>
-  </div>
-</div>
-<button id="film-log-open" class="film-ledger-trigger" type="button" aria-haspopup="dialog" hidden></button>
-<dialog id="film-log" aria-labelledby="film-log-title"></dialog>
-<section id="story-theatre" hidden></section>
-<section id="cost-room" hidden>
-  <nav id="cost-branches">
-    <button type="button" data-cost-branch="0"></button>
-    <button type="button" data-cost-branch="1"></button>
-    <button type="button" id="cost-replay"></button>
-  </nav>
-  <div id="cost-study" tabindex="-1"></div>
-</section>
-<section id="service-room" hidden>
-  <nav id="service-branches"><button type="button" id="service-replay"></button></nav>
-  <div id="service-desk" tabindex="-1"></div>
-</section>
-<section id="fitting" hidden></section>
-<dialog id="guide" aria-labelledby="guide-label guide-title">
-  <header class="guide-bar">
-    <span class="guide-kicker" id="guide-label"></span>
-    <button id="close-guide" type="button" autofocus></button>
-  </header>
-  <article class="guide-pages">
-    <div class="catalogue-contents">
-      <h2 id="guide-title"></h2>
-      <p id="guide-intent" class="guide-intent"></p>
-      <p id="guide-legend" class="catalogue-legend"></p>
-      <div id="guide-index" class="catalogue-index" role="group">
-        <button type="button" aria-controls="guide-philosophy" data-page="philosophy"></button>
-        <button type="button" aria-controls="guide-flow" data-page="flow"></button>
-        <button type="button" aria-controls="guide-source guide-related" data-page="source"></button>
-      </div>
-    </div>
-    <div class="catalogue-reading">
-      <div id="guide-sections"></div>
-      <div id="guide-related" hidden>
-        <button type="button" id="memory-guide" class="guide-link" aria-haspopup="dialog" aria-controls="exhibit-record">어제의 두루, 오늘의 두루</button>
-        <button id="commons-guide" class="guide-link" type="button" aria-haspopup="dialog" aria-controls="exhibit-record">다른 두루와 이 일 이어 보기</button>
-      </div>
-    </div>
-  </article>
-</dialog>
-<dialog id="coalition-dialog" aria-labelledby="coalition-title"></dialog>
-<dialog id="exhibit-record"></dialog>
-<noscript><style>.reel{height:auto;min-height:100svh}.ctrl,.enso,.replay-actions,#paths,#end-scopes,#open-guide{display:none}.endfoot{margin-top:0}</style><p class="nojs">한 가지 일이 닿으면 서로 다른 두루가 모입니다. 일이 끝나면 흩어지고, 다음 일이 오면 남은 흔적을 따라 다시 만납니다.</p></noscript>
+<noscript>
+<style>.ctrl{display:none}</style>
+<p class="nojs">온두루, 일이 닿으면 — 한 사람이 건넨 말이 여러 DURU를 거쳐 그 사람에게 돌아옵니다.</p>
+</noscript>
 <footer id="site-foot"><nav class="menu" aria-label="Site" translate="no" lang="en"><span class="L-ko"><a href="/ko/footsteps/">Footsteps</a> · <a href="/ko/method/">Method</a> · <a href="/ko/simulation/">Simulation</a> · <a href="/ko/about/">About</a> · <a href="/ko/profile/">Profile</a></span><span class="L-en"><a href="/en/footsteps/">Footsteps</a> · <a href="/en/method/">Method</a> · <a href="/en/simulation/">Simulation</a> · <a href="/en/about/">About</a> · <a href="/en/profile/">Profile</a></span><span class="L-es"><a href="/es/footsteps/">Footsteps</a> · <a href="/es/method/">Method</a> · <a href="/es/simulation/">Simulation</a> · <a href="/es/about/">About</a> · <a href="/es/profile/">Profile</a></span></nav><p class="cr"><span translate="no">© 2026 ONDURU</span><span translate="no">On × Agent</span></p></footer>
 </body>
 </html>

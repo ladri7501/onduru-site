@@ -1,61 +1,128 @@
 (() => {
   'use strict';
 
-  const durationMs = 15000;
+  const durationMs = 50000;
   const artDuration = 29;
-  const starts = [0, 8.8, 17.8];
-  const readingEnd = 26.7;
-  const dissolveRadius = .77;
-  // The source holds alone for just over a second before its interpretation follows.
-  const responseDelay = 2.05;
-  const responseFade = 1.22;
+  // Four sections of two seconds, each carrying one part of the journey on the drawing's
+  // own clock: space and its orbits; the orbits drawing near to Earth; the globe appearing;
+  // the map of East Asia and the peninsula filling the screen. From two to eight seconds the
+  // points are set every quarter second so the picture flies on at an even pace.
+  // From eight to twelve seconds: down to the studio, through the door, into the PC (the
+  // main monitor). Where the drawing holds still the clock passes quickly.
+  const sections = [[0, 0],
+    [2, 4], [2.25, 4.335], [2.5, 4.635], [2.75, 4.925], [3, 5.215], [3.25, 5.51],
+    [3.5, 5.83], [3.75, 6.195], [4, 6.63], [4.25, 7.13], [4.5, 7.465], [4.75, 7.72],
+    [5, 7.95], [5.25, 8.17], [5.5, 8.4], [5.75, 8.625], [6, 8.855], [6.25, 9.1],
+    [6.5, 9.35], [6.75, 9.61], [7, 9.875], [7.25, 10.14], [7.5, 10.43], [7.75, 10.73],
+    [8, 11], [8.95, 13.7], [9.1, 16], [10, 19], [10.1, 20], [11.4, 22.4]];
+  const sceneAt = monotone(sections);
+  // Inside the PC, the country: eight stations of three seconds each, from twelve seconds.
+  const flowStart = 12;
+  const flowStages = 8;
+  const stageSec = 3;
+  const flowEnd = flowStart + flowStages * stageSec;
+  // Then back out the way the journey came in, the opening run in reverse: the country shrinks
+  // back into the monitor; the studio; Seoul's streets; Korea; the whole globe. From Korea, lines
+  // go out to the nations and join them into one network. One line; then the film.
+  const spreadStart = flowEnd + 4.6;
+  const finalStart = flowEnd + 8.4;
+  const closeEnd = flowEnd + 13;
+  const way = [[flowEnd, 22.4], [flowEnd + 1, 22.4], [flowEnd + 2.3, 20], [flowEnd + 2.4, 19], [flowEnd + 3.3, 16],
+    [flowEnd + 3.45, 13.7], [flowEnd + 4.4, 11]];
+  const backWide = monotone([...way, [flowEnd + 6.4, 8.6], [flowEnd + 8.4, 7.5], [closeEnd + 1, 7.42]]);
+  const backTall = monotone([...way, [flowEnd + 6.4, 8.9], [flowEnd + 8.4, 7.87], [closeEnd + 1, 7.75]]);
+  // Four passages, one in each of the first four sections: the three phrases, then their source.
+  // Each fades in and out within its two seconds.
+  const starts = [0, 2, 4, 6];
+  const ends = [2, 4, 6, 8];
+  const arrival = .45;
+  const departure = .5;
   const copy = {
     ko: {
       region: '우주에서 온두루의 작업실까지',
+      final: '대한민국에서 세계로, 다자간 에이전트의 영토',
       source: '유네스코 헌장 서문',
       url: 'https://www.unesco.or.kr/wp-content/uploads/2024/07/유네스코-헌장국문.pdf#page=1',
       excerpts: [
-        '“서로를 이해하고 서로의 생활을 더욱 진실하고 더욱 완전하게 알도록”',
-        '“인간의 존엄, 평등, 상호존중”',
-        '“인류의 지적ㆍ도덕적 연대”'
+        '서로를 이해하고\n서로의 생활을 더욱 진실하고\n더욱 완전하게 알도록',
+        '인간의 존엄, 평등, 상호존중',
+        '인류의 지적ㆍ도덕적 연대'
       ],
-      passages: [
-        ['사람과 사람', '당신이 어떻게 살아왔는지 듣습니다.\n서로를 알아가며 무지와 편견이 낳은 불신을 걷어 냅니다.'],
-        ['사람과 에이전트', '입구에서 나는 무엇을 맡길지 정합니다.\n에이전트는 사람의 존엄을 지키며 스스로 판단하고 배웁니다.'],
-        ['에이전트와 에이전트', '서로 다른 회사의 에이전트들이 판단의 근거를 나눕니다.\n함께 일하는 기준은 인류의 지적·도덕적 연대입니다.']
+      stages: [
+        '[입구] ② 원장·관문 서버 — 작업 접수, 입구 검증, 사람의 말 → 에이전트 언어 번역',
+        '[전처리] ③ 경량 모델 서버 — 청킹, 요약, 인덱싱',
+        '[조회] ④ RAG·MAG 서버 — 벡터 DB 검색, 에이전트별 작업 기억 조회',
+        '[판단] ① LLM 추론 서버·CAG — Qwen3.8-Flash-Next, 기준 문서와 규칙 사전 적재',
+        '[연산] ⑦ GPU 연산 서버 — Complex 계산 분산 처리',
+        '[검수] ⑥ 테스트·검증 서버 — 합성 데이터 사전 테스트, 정책·규칙 준수 검증',
+        '[출구] ② 원장·관문 서버 — 출구 검증, 에이전트 언어 → 사람의 말 번역 / ⑧ Outbound Test PC — 외부 AI 서비스 연동 테스트',
+        '[기록·사후 추적] ② 원장 기록 · ⑤ 백업·모니터링 서버 — 마지막 작업 시점부터 지문으로 전 공정을 거슬러 추적, 이상 탐지'
       ]
     },
     en: {
       region: 'From the stars to the ONDURU studio',
+      final: 'From Korea to the world, a territory of multi-party agents',
       source: 'UNESCO Constitution, Preamble',
       url: 'https://www.unesco.org/en/legal-affairs/constitution',
       excerpts: [
-        '“a truer and more perfect knowledge of each other’s lives”',
-        '“the dignity, equality and mutual respect of men”',
-        '“intellectual and moral solidarity of mankind”'
+        'a truer and more perfect knowledge\nof each other’s lives',
+        'the dignity, equality and mutual respect of men',
+        'intellectual and moral solidarity of mankind'
       ],
-      passages: [
-        ['Person and person', 'I listen to the story of your life.\nAs we come to know each other, the mistrust born of ignorance and prejudice begins to lift.'],
-        ['Person and agent', 'At the entrance, I decide what to entrust to the agents.\nThey use their own judgment and learn, guided by respect for human dignity.'],
-        ['Agent and agent', 'Agents from different companies share the grounds for their judgments.\nTheir work rests on intellectual and moral solidarity among people.']
+      stages: [
+        '[Entrance] ② Ledger · gate server — takes in the task, checks it at the entrance, turns the person’s words into the agents’ language',
+        '[Preparation] ③ Lightweight model server — chunking, summarising, indexing',
+        '[Lookup] ④ RAG · MAG server — vector DB search, each agent’s working memory',
+        '[Judgement] ① LLM inference server · CAG — Qwen3.8-Flash-Next, reference documents and rules loaded in advance',
+        '[Computation] ⑦ GPU server — complex calculations spread across processors',
+        '[Review] ⑥ Test · verification server — pre-testing on synthetic data, checking that policies and rules are kept',
+        '[Exit] ② Ledger · gate server — exit check, the agents’ language back into the person’s words / ⑧ Outbound Test PC — tests with outside AI services',
+        '[Record · tracing back] ② Ledger record · ⑤ Backup · monitoring server — from the last step, traces the whole process back by fingerprint and detects anything unusual'
       ]
     },
     es: {
       region: 'De las estrellas al estudio de ONDURU',
+      final: 'De Corea al mundo, un territorio de agentes de muchas partes',
       source: 'Preámbulo de la Constitución de la UNESCO',
       url: 'https://www.unesco.org/es/legal-affairs/constitution',
       excerpts: [
-        '«un conocimiento más preciso y verdadero de sus respectivas vidas»',
-        '«la dignidad, la igualdad y el respeto mutuo»',
-        '«solidaridad intelectual y moral de la humanidad»'
+        'un conocimiento más preciso y verdadero\nde sus respectivas vidas',
+        'la dignidad, la igualdad y el respeto mutuo',
+        'solidaridad intelectual y moral de la humanidad'
       ],
-      passages: [
-        ['Entre personas', 'Escucho la historia de tu vida.\nAl conocernos, se disipa la desconfianza que nace de la ignorancia y los prejuicios.'],
-        ['Persona y agente', 'A la entrada, decido qué tarea confiar a los agentes.\nEllos juzgan y aprenden por sí mismos, con respeto por la dignidad humana.'],
-        ['Entre agentes', 'Agentes de distintas empresas comparten las razones de sus decisiones.\nLa solidaridad intelectual y moral entre las personas guía su trabajo.']
+      stages: [
+        '[Entrada] ② Servidor de registro y control — recibe la tarea, la verifica a la entrada, traduce las palabras de la persona al lenguaje de los agentes',
+        '[Preparación] ③ Servidor de modelos ligeros — fragmentación, resumen, indexación',
+        '[Consulta] ④ Servidor RAG · MAG — búsqueda en la BD vectorial, memoria de trabajo de cada agente',
+        '[Juicio] ① Servidor de inferencia LLM · CAG — Qwen3.8-Flash-Next, documentos de referencia y reglas cargados de antemano',
+        '[Cálculo] ⑦ Servidor GPU — cálculos complejos repartidos en paralelo',
+        '[Revisión] ⑥ Servidor de pruebas y verificación — pruebas previas con datos sintéticos, verificación de políticas y reglas',
+        '[Salida] ② Servidor de registro y control — verificación de salida, del lenguaje de los agentes a las palabras de la persona / ⑧ Outbound Test PC — pruebas con servicios de IA externos',
+        '[Registro · rastreo] ② Registro · ⑤ Servidor de copia y vigilancia — desde el último paso, rastrea todo el proceso hacia atrás por su huella y detecta anomalías'
       ]
     }
   };
+
+  // A smooth curve through the section points, so the drawing never jumps between sections.
+  function monotone(points) {
+    const xs = points.map(p => p[0]), ys = points.map(p => p[1]), n = points.length;
+    const d = xs.slice(1).map((x, i) => (ys[i + 1] - ys[i]) / (x - xs[i]));
+    const m = xs.map((_, i) => i === 0 ? d[0] : i === n - 1 ? d[n - 2]
+      : d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2);
+    for (let i = 0; i < n - 1; i++) {
+      const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+      if (h > 9) { const k = 3 / Math.sqrt(h); m[i] = k * a * d[i]; m[i + 1] = k * b * d[i]; }
+    }
+    return x => {
+      if (x <= xs[0]) return ys[0];
+      if (x >= xs[n - 1]) return ys[n - 1];
+      let i = 0;
+      while (x > xs[i + 1]) i++;
+      const w = xs[i + 1] - xs[i], u = (x - xs[i]) / w, u2 = u * u, u3 = u2 * u;
+      return (2 * u3 - 3 * u2 + 1) * ys[i] + (u3 - 2 * u2 + u) * w * m[i]
+        + (3 * u2 - 2 * u3) * ys[i + 1] + (u3 - u2) * w * m[i + 1];
+    };
+  }
 
   function fade(t, start, end) {
     const u = Math.max(0, Math.min(1, (t - start) / (end - start)));
@@ -69,44 +136,45 @@
     veil.className = 'return-veil';
     veil.setAttribute('aria-hidden', 'true');
 
-    const captions = document.createElement('div');
+    // Each phrase in its place, then the source they come from.
+    const captions = document.createElement('figure');
     captions.className = 'return-passages';
-    const cards = starts.map(() => {
-      const card = document.createElement('div');
-      card.className = 'return-caption';
-      const relation = document.createElement('span');
-      const lines = document.createElement('p');
-      const source = document.createElement('figure');
-      const excerpt = document.createElement('blockquote');
-      const credit = document.createElement('figcaption');
-      source.className = 'return-source';
-      source.append(excerpt, credit);
-      const response = document.createElement('div');
-      response.className = 'return-response';
-      response.append(relation, lines);
-      card.append(source, response);
-      captions.append(card);
-      return {card, response, relation, lines, excerpt, credit};
-    });
-    // Announce the quotation and its interpretation in the same order in which they appear.
+    const cards = [1, 2, 3].map(() => document.createElement('blockquote'));
+    cards.forEach(card => { card.className = 'return-caption'; });
+    const credit = document.createElement('figcaption');
+    credit.className = 'return-credit';
+    const lines = [...cards, credit];
+    captions.append(...lines);
+    // Announce each line as it appears.
     const spoken = document.createElement('div');
     spoken.className = 'sr';
     spoken.setAttribute('role', 'status');
     spoken.setAttribute('aria-live', 'polite');
     spoken.setAttribute('aria-atomic', 'true');
-    host.replaceChildren(canvas, veil, captions, spoken);
+    // The one closing line, above the globe.
+    const ending = document.createElement('p');
+    ending.className = 'return-final';
+    host.replaceChildren(canvas, veil, captions, ending, spoken);
 
     const ctx = canvas.getContext('2d');
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let locale = 'ko', active = false, paused = false;
-    let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '';
+    let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '', shownStage = -1, shownFinal = false;
+    const paper = '#080e14';
 
-    function draw(scene) {
+    function draw(scene, sec) {
       if (!ctx) return;
       const w = host.clientWidth || window.innerWidth;
       const h = host.clientHeight || window.innerHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const key = motion.matches ? [scene, w, h, dpr].join('/') : '';
+      const inside = sec >= 11.1;
+      const flowAt = motion.matches ? Math.min(flowStages - 1, Math.max(0, Math.floor((sec - flowStart) / stageSec))) * 2 + 1.6
+        : (sec - flowStart) * 2 / stageSec;
+      // The way back out has begun: the opening's own pictures, run in reverse.
+      const outside = sec >= flowEnd;
+      const back = !outside ? scene : motion.matches ? (sec < flowEnd + 3.45 ? 18 : sec < flowEnd + 6.4 ? 10.4 : w / h < .88 ? 7.75 : 7.42)
+        : (w / h < .88 ? backTall : backWide)(Math.min(sec, closeEnd + 1));
+      const key = motion.matches ? [outside ? 'back' + back + Number(sec >= closeEnd + 1) : inside ? 'flow' + flowAt : scene, w, h, dpr].join('/') : '';
       if (key && key === stillKey) return;
       stillKey = key;
       const width = Math.max(1, Math.round(w * dpr));
@@ -117,19 +185,42 @@
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      if (scene < 14) {
+      // At the very end everything fades together, uncovering the film beneath.
+      const leave = motion.matches ? Number(sec >= closeEnd + 1) : fade(sec, closeEnd, closeEnd + 1);
+      // The country shrinks back into the monitor it came out of.
+      const shrink = motion.matches ? Number(outside) : fade(sec, flowEnd, flowEnd + 1);
+      const country = inside && shrink < 1;
+      if (country) {
+        ctx.fillStyle = paper;
+        ctx.fillRect(0, 0, w, h);
+      }
+      if (back < 14) {
         ctx.save();
-        window.ReturnSky.draw(ctx, w, h, scene);
+        ctx.globalAlpha = 1 - leave;
+        window.ReturnSky.draw(ctx, w, h, back);
         ctx.restore();
       }
-      if (scene >= 12) {
+      const studio = outside ? (motion.matches ? 1 : fade(sec, flowEnd + .35, flowEnd + .9))
+        : motion.matches ? Number(!inside) : 1 - fade(sec, 11.1, 11.6);
+      if (back >= 12 && studio > 0) {
         ctx.save();
-        // Project into the visible film canvas so the returning point meets the first thread.
-        const origin = scene >= 25 ? getFilmOrigin?.(scene < 28.5 ? 0 : 1) : null;
-        const bounds = origin && canvas.getBoundingClientRect();
-        const target = origin && {x: origin.x - bounds.left, y: origin.y - bounds.top};
-        window.ReturnStudio.draw(ctx, w, h, scene, {target, reduced: motion.matches});
+        ctx.globalAlpha = studio;
+        window.ReturnStudio.draw(ctx, w, h, back, {target: null, reduced: motion.matches});
         ctx.restore();
+      }
+      if (country) {
+        // The country opens out of the monitor, as if stepping through its glass, and at the
+        // end goes back in the same way.
+        const enter = outside ? 1 - fade(sec, flowEnd + .05, flowEnd + .6) : motion.matches ? 1 : fade(sec, 11.3, 12);
+        const scale = outside ? 1 - .38 * shrink : motion.matches ? 1 : 0.62 + 0.38 * fade(sec, 11.3, 12.2);
+        ctx.save();
+        ctx.translate(w / 2, h / 2); ctx.scale(scale, scale); ctx.translate(-w / 2, -h / 2);
+        window.CountryFlow.draw(ctx, w, h, flowAt, {locale, alpha: enter});
+        ctx.restore();
+      }
+      // From Korea out to the world, over the globe.
+      if (outside && back < 11.5) {
+        window.WorldShare.draw(ctx, w, h, motion.matches ? (back < 9 ? 20 : 0) : sec - spreadStart, back, {alpha: 1 - leave});
       }
     }
 
@@ -137,35 +228,36 @@
     const stills = [[0, 1.2], [3.4, 4.6], [6.8, 7.8], [10, 11.4],
       [14, 16.4], [17.5, 19.4], [21.1, 22], [23.4, 24.6], [26.1, 26.2], [27.2, 29]];
     function paint() {
-      const t = artDuration * elapsed / durationMs;
-      const index = starts.findLastIndex(start => t >= start);
-      const hasResponse = t >= starts[index] + responseDelay;
-      const cue = index + (hasResponse ? '/response' : '/quote');
+      const sec = elapsed / 1000;
+      const t = sceneAt(sec);
+      const index = Math.max(0, starts.findLastIndex(start => sec >= start));
+      const cue = String(index);
       if (cue !== announcement) {
         announcement = cue;
         const local = copy[locale];
-        const [relation, lines] = local.passages[index];
-        spoken.textContent = hasResponse ? [`${index + 1}. ${relation}`, lines].join(' ')
-          : [local.excerpts[index], local.source].join(' ');
-        cards.forEach(({card, response}, i) => {
-          card.setAttribute('aria-hidden', String(i !== index));
-          response.setAttribute('aria-hidden', String(i !== index || !hasResponse));
-        });
+        spoken.textContent = index < cards.length ? local.excerpts[index].replace(/\n/g, ' ') : local.source;
+        lines.forEach((line, i) => line.setAttribute('aria-hidden', String(i !== index)));
       }
-      // The quotation sits still as the author's thought emerges below it.
-      cards.forEach(({card, response}, i) => {
-        const start = starts[i], next = starts[i + 1];
-        const entered = i === 0 ? 1 : fade(t, start - dissolveRadius, start + dissolveRadius);
-        const departed = next === undefined ? fade(t, readingEnd - 1.55, readingEnd)
-          : fade(t, next - dissolveRadius, next + dissolveRadius);
-        const lead = start + responseDelay;
-        const join = motion.matches ? Number(t >= lead) : fade(t, lead, lead + responseFade);
-        const release = next === undefined || motion.matches ? 0 : fade(t, next - 1.35, next - .2);
-        card.style.opacity = String(motion.matches ? Number(i === index && t < readingEnd) : entered * (1 - departed));
-        response.style.opacity = String(join * (1 - release));
+      const show = (start, end) => motion.matches ? Number(sec >= start && sec < end)
+        : fade(sec, start, start + arrival) * (1 - fade(sec, end - departure, end));
+      lines.forEach((line, i) => {
+        line.style.opacity = String(show(starts[i], ends[i]));
       });
-      veil.style.opacity = String(1 - fade(t, readingEnd, 28));
-      draw(motion.matches ? stills.findLast(([start]) => t >= start)[1] : t);
+      // The station at work is written into the drawing itself; screen readers hear its line.
+      const stage = Math.floor((sec - flowStart) / stageSec);
+      if (stage >= 0 && stage < flowStages && stage !== shownStage) {
+        shownStage = stage;
+        spoken.textContent = copy[locale].stages[stage];
+      }
+      // The one closing line, once the globe has settled.
+      if (sec >= finalStart && !shownFinal) {
+        shownFinal = true;
+        spoken.textContent = copy[locale].final;
+      }
+      ending.style.opacity = String(motion.matches ? Number(sec >= finalStart && sec < closeEnd + 1)
+        : fade(sec, finalStart, finalStart + arrival) * (1 - fade(sec, closeEnd, closeEnd + .8)));
+      veil.style.opacity = String(sec < 8 ? 1 : 1 - fade(sec, 8, 10));
+      draw(motion.matches && sec < 11.1 ? stills.findLast(([start]) => t >= start)[1] : t, sec);
     }
 
     function tick(now) {
@@ -193,14 +285,14 @@
     function setLocale(next) {
       locale = Object.hasOwn(copy, next) ? next : 'ko';
       const local = copy[locale];
-      cards.forEach(({relation, lines, excerpt, credit}, i) => {
-        const [heading, body] = local.passages[i];
-        relation.textContent = `${i + 1}. ${heading}`;
-        lines.textContent = body;
-        excerpt.textContent = local.excerpts[i];
-        excerpt.setAttribute('cite', local.url);
-        credit.textContent = local.source;
+      cards.forEach((card, i) => {
+        card.textContent = local.excerpts[i];
+        card.setAttribute('cite', local.url);
       });
+      credit.textContent = local.source;
+      ending.textContent = local.final;
+      shownStage = -1;
+      shownFinal = false;
       host.lang = locale;
       host.setAttribute('aria-label', copy[locale].region);
       announcement = '';

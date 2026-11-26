@@ -168,14 +168,18 @@
       routes:gates.map(([lon,lat])=>buildRoute(lon,lat))};
     return atlas;
   }
-  function globe(ctx,w,h,t,earth) {
-    const short = Math.min(w,h);
+  // Where the globe is at a moment of the journey: its centre and radius on the screen.
+  function globeFrame(w,h,t,earth) {
     const radiusWide = Math.min(w*.53,h*.76);
     const radius = Math.exp(mix(Math.log(1.4),Math.log(radiusWide),fade(t,4.6,8.26))) *
       Math.exp(.67*fade(t,8.0,10.05) + 1.64*fade(t,9.65,12.24));
     const settle = fade(t,6.6,10.1), pin = fade(t,6.2,8.3);
     const anchorX = mix(earth[0],w*.56,settle), anchorY = mix(earth[1],h*.53,settle);
-    const cx = anchorX-korea[0]*radius*pin, cy = anchorY-korea[1]*radius*pin;
+    return {radius, cx: anchorX-korea[0]*radius*pin, cy: anchorY-korea[1]*radius*pin};
+  }
+  function globe(ctx,w,h,t,earth) {
+    const short = Math.min(w,h);
+    const {radius,cx,cy} = globeFrame(w,h,t,earth);
     const markX = cx + korea[0]*radius, markY = cy + korea[1]*radius;
     const surface = fade(t,5.52,6.9) * (1 - fade(t,10.87,12.61));
     const edge = fade(t,4.8,5.55) * (1 - fade(t,9.4,10.7));
@@ -266,5 +270,10 @@
     on(ctx,x,y,loc.bead+opening*.52,loc.ring+opening*2.25,colour,.76,-.5);
     ctx.restore();
   }
-  window.ReturnSky = {draw};
+  // The same globe for drawings laid over it: its frame at a moment, and the projection.
+  function globeAt(w,h,t) {
+    const f = systemFrame(w,h,t);
+    return {...globeFrame(w,h,t,[f.x,f.y]), project, korea};
+  }
+  window.ReturnSky = {draw, globeAt};
 })();
