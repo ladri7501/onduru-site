@@ -34,13 +34,16 @@
   .return-passages {width: calc(100% - 1.25em)}
   .return-credit, .return-caption {font-size: 1.08em}
 }
-/* The one closing line, above the globe; on a phone it stays on one line. */
+/* The closing words above the globe: four, one at a time in the same place (On 2026-11-27 19:07) —
+   they are stacked in one cell and prologue.js shows one, then the next. */
 .return-final {
   position: absolute; left: 0; right: 0; top: 8%; max-width: none; margin: 0 auto; pointer-events: none;
   width: min(52em, calc(100% - 2 * var(--gutter))); opacity: 0; color: var(--strong);
   font: 400 clamp(1.24em, 2.1cqw, 1.78em)/1.52 var(--voice); text-align: center;
   text-shadow: 0 1px 6px var(--bg); word-break: keep-all; overflow-wrap: break-word; text-wrap: balance;
 }
+.return-final {display: grid}
+.return-final span {display: block; grid-area: 1 / 1}
 @container (max-aspect-ratio: 22/25) {
   .return-final {top: 22%}
 }

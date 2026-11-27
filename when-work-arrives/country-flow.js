@@ -1,22 +1,38 @@
 /* Inside the PC: the country where the agents live.
    One question from a person crosses eight stations on a single line and returns to a
    person as an answer. Each station is a district built of dots and lines; agents trained on
-   the LLMs of eight different companies drift along the roads like ghosts, each drawn as the
-   DNA of its company, carrying other people's work as well. No station has an owner: whichever agents are nearest pick the work up. Every step
+   the LLMs of eight companies drift along the roads like ghosts, each drawn as the DNA of its
+   model, carrying other people's work as well. While the question is on its way, every agent's
+   model is changed for one of Korea's (the row of names at the top changes with them) and the
+   work goes on without stopping: whatever model is used, ONDURU does not depend on it
+   (On, 2026-11-27 19:07). No station has an owner: whichever agents are nearest pick the work up. Every step
    leaves a fingerprint on the ledger chain, which can be walked back from the last step. */
 (() => {
   'use strict';
   const TAU = Math.PI * 2;
   const human = '230,227,219', agent = '147,214,196', warm = '236,104,92';
   const line = '92,100,108', faint = '52,58,66', ground = '38,44,52';
-  // Where each agent comes from: the company whose LLM it was trained on, drawn as a strand
-  // of DNA with that company's colour and its own sequence of base pairs.
-  const dna = [
+  // Where each agent comes from: the LLM it was trained on, drawn as a strand of DNA with that
+  // model's colour and its own sequence of base pairs. The eight companies first; then, in the
+  // eight servers when the subscriptions are cut and in the country while the question is on its
+  // way (SWAP), Korea's models.
+  const companies = [
     {name: 'Microsoft', c: '100,155,235', code: 'ATGCAT'}, {name: 'Anthropic', c: '235,170,80', code: 'GCATTA'},
     {name: 'Meta', c: '135,125,240', code: 'TTAGCG'}, {name: 'OpenAI', c: '205,205,212', code: 'CGTAAC'},
     {name: 'xAI', c: '185,120,230', code: 'AACGTG'}, {name: 'Alibaba', c: '225,215,95', code: 'GATCCA'},
     {name: 'Amazon', c: '155,215,90', code: 'TCGGAT'}, {name: 'Google', c: '230,115,190', code: 'CATGTC'}
   ];
+  const models = [
+    {name: 'A.X', c: '236,112,84', code: 'GATTCA'}, {name: 'Kanana', c: '240,200,72', code: 'CCATGA'},
+    {name: 'K-EXAONE', c: '226,96,160', code: 'TAGCAT'}, {name: 'Mi', c: '92,200,226', code: 'ATCGGA'},
+    {name: 'Solar', c: '172,130,242', code: 'GTACCT'}, {name: 'Motif', c: '130,214,118', code: 'CAGTTA'},
+    {name: 'VARCO', c: '98,142,238', code: 'TTGACC'}
+  ];
+  const dna = models;
+  // In the country the models change while the question passes from ④ to ①: the eight companies'
+  // names go grey and fade, every agent's DNA turns, one after another, into a Korean model's, and
+  // the names of Korea's models take the row.
+  const SWAP = {drain: [5.85, 6.1], gone: [6.05, 6.35], names: [6.3, 6.7], agent: k => 6 + (k % 10) * .05};
   const clamp = x => Math.max(0, Math.min(1, x));
   const ease = x => { x = clamp(x); return x * x * (3 - 2 * x); };
   const ramp = (u, a, b) => ease((u - a) / (b - a));
@@ -133,7 +149,7 @@
   const ghosts = Array.from({length: 70}, (_, k) => {
     const r = seeded(k + 11);
     const a = Math.floor(r() * 7), b = Math.min(6, a + 1 + Math.floor(r() * 3));
-    return {co: k % dna.length, c: dna[k % dna.length].c, a: SX[a], b: SX[b], lane: (r() < .5 ? -1 : 1) * (.035 + r() * .2),
+    return {k8: k % companies.length, k7: k % models.length, co: k % companies.length, c: companies[k % companies.length].c, d: companies[k % companies.length], name: companies[k % companies.length].name, f: 0, a: SX[a], b: SX[b], lane: (r() < .5 ? -1 : 1) * (.035 + r() * .2),
       period: 5 + r() * 7, phase: r() * TAU, linger: r() < .3, jx: .004 + r() * .01, jy: .01 + r() * .02,
       f: .6 + r() * .9, size: 1.4 + r() * .9, load: r() < .4};
   });
@@ -258,6 +274,64 @@
     return [X, LINE];
   }
 
+  // The DNA row at the top: no words of explanation, only a picture (a model's DNA, an arrow, the
+  // same DNA as an agent in its ring, as the agents are drawn in the country) and each model's
+  // DNA and name. Drawn the same way, in the same place, by the eight servers before the country.
+  const LEGEND_LEAD = 52;
+  function helixAt(g, x, y, len, amp, phase, d, a, px, c = d.c) {
+    if (a <= .004) return;
+    const r = Math.max(.75, .95 * px);
+    g.lineWidth = .8;
+    for (let j = 0; j < 6; j++) {
+      const t = (j + .5) / 6, sn = Math.sin(phase + t * 7.4), yy = y - len / 2 + t * len;
+      g.strokeStyle = rgba(c, a * .5); g.beginPath(); g.moveTo(x - amp * sn, yy); g.lineTo(x + amp * sn, yy); g.stroke();
+      if (d.code[j] === 'G' || d.code[j] === 'C') { g.fillStyle = rgba(c, a); g.beginPath(); g.arc(x, yy, r * .9, 0, TAU); g.fill(); }
+    }
+    for (let i = 0; i < 9; i++) {
+      const t = i / 8, q = phase + t * 7.4, sn = Math.sin(q), z = Math.cos(q), yy = y - len / 2 + t * len;
+      g.fillStyle = rgba(c, a * (.55 + .45 * z)); g.beginPath(); g.arc(x + amp * sn, yy, r, 0, TAU); g.fill();
+      g.fillStyle = rgba(c, a * (.55 - .45 * z)); g.beginPath(); g.arc(x - amp * sn, yy, r, 0, TAU); g.fill();
+    }
+  }
+  // list: the models to show; now: the one to underline; colour: draw every entry in this colour
+  // (the eight going grey); alpha: how much of the row is seen.
+  function legend(g, w, h, u, {list = dna, now = -1, alpha = 1, colour = null, locale = 'ko'} = {}) {
+    if (!(w > 0 && h > 0) || alpha <= .004) return;
+    const wd = words[locale] || words.ko, portrait = isPortrait(w, h);
+    const F = frameOf(w, h, portrait ? layOf(g, w, h, wd, locale) : null);
+    const fs = F.font * (F.portrait ? .9 : .92), hl = F.portrait ? 11 : 15, ha = F.portrait ? 2.6 : 3.4;
+    const left = F.portrait ? w * .03 : F.P(.06, 0)[0], right = w * .97, gap = F.portrait ? 12 : 18, rowH = F.portrait ? 16 : 19;
+    let y = F.portrait ? h * .034 : h * .018;
+    g.save();
+    g.textBaseline = 'middle'; g.textAlign = 'left';
+    // The picture: a model's DNA → the same DNA as an agent in its ring.
+    const sample = {code: 'GCATGC'}, lead = F.portrait ? 40 : LEGEND_LEAD;
+    helixAt(g, left + ha, y, hl, ha, u * 1.6, sample, .8 * alpha, F.px, human);
+    const ax = left + ha * 2 + 5;
+    g.strokeStyle = rgba(human, .65 * alpha); g.lineWidth = .9;
+    g.beginPath(); g.moveTo(ax, y); g.lineTo(ax + 9, y); g.moveTo(ax + 6, y - 2.6); g.lineTo(ax + 9, y); g.lineTo(ax + 6, y + 2.6); g.stroke();
+    const bx = ax + 14 + hl * .72;
+    helixAt(g, bx, y, hl * .82, ha * .82, u * 1.6 + 1, sample, .8 * alpha, F.px, human);
+    g.strokeStyle = rgba(human, .45 * alpha); g.beginPath(); g.arc(bx, y, hl * .66, 0, TAU); g.stroke();
+    let x = left + lead;
+    const start = x;
+    g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    list.forEach((d, i) => {
+      const tw = g.measureText(d.name).width, need = ha * 2 + 6 + tw;
+      if (x + need > right) { x = start; y += rowH; }
+      const c = colour || d.c;
+      helixAt(g, x + ha, y, hl, ha, u * 1.6 + i * .8, d, alpha, F.px, c);
+      const on = i === now ? 1 : 0;
+      g.font = (on ? '500 ' : '') + fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+      g.fillStyle = rgba(c, (.82 + .18 * on) * alpha); g.fillText(d.name, x + ha * 2 + 6, y);
+      if (on) { g.fillStyle = rgba(c, .8 * alpha); g.fillRect(x + ha * 2 + 6, y + fs * .72, tw, 1); }
+      g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+      x += need + gap;
+    });
+    g.restore();
+    return y + rowH * .5;
+  }
+
   // Upright, the country takes the height left between the DNA row and alignment note above it
   // and the station's card below it, measured in the letters actually used, so that on a short
   // screen nothing runs into anything else.
@@ -282,13 +356,18 @@
     g.save();
     const fs = font * .9, small = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
     g.font = small;
-    let rows = g.measureText(wd.dnaTitle).width > right - left ? 2 : 1, x = left;
-    dna.forEach(d => {
-      const need = 2.6 * 2 + 6 + g.measureText(d.name).width;
-      if (x + need > right) { x = left; rows++; }
-      x += need + 12;
+    // The row as legend() lays it out on a phone: the picture first, then the names; room for the
+    // longer of the two lists, so the country does not move when the names change.
+    let rows = 1;
+    [companies, models].forEach(list => {
+      let n = 1, x = left + 40;
+      list.forEach(d => {
+        const need = 2.6 * 2 + 6 + g.measureText(d.name).width;
+        if (x + need > right) { x = left + 40; n++; }
+        x += need + 12;
+      });
+      rows = Math.max(rows, n);
     });
-    rows++;
     const legendY = h * .034 + (rows - 1) * rowH + rowH * .5 + 4;
     const legend = wrap(wd.legend, w * .9, '500 ' + (font * 1.1).toFixed(1) + 'px "Exhibit Label", sans-serif');
     const top = Math.max(h * .18, legendY + legend * lead + 12);
@@ -347,6 +426,12 @@
       g.fillStyle = rgba(c, a); g.fillText(s, x, y);
     };
     const active = s => s === stage ? ramp(u, s * 2, s * 2 + .3) * (1 - ramp(u, s * 2 + 1.75, s * 2 + 2)) : 0;
+    // Each agent's model at this moment: a company's until its turn comes, then a Korean model's.
+    ghosts.forEach((gh, k) => {
+      const f = ramp(u, SWAP.agent(k), SWAP.agent(k) + .25), from = companies[gh.k8], to = models[gh.k7], now = f < .5 ? from : to;
+      gh.f = f; gh.c = tint(from.c, to.c, f); gh.d = {c: gh.c, code: now.code}; gh.co = f < .5 ? gh.k8 : gh.k7; gh.name = now.name;
+    });
+    const listF = ramp(u, ...SWAP.names);
     // A word lights at the moment its work happens, and stays lit until its station is done.
     const lit = (at, end) => ramp(u, at, at + .25) * (1 - ramp(u, end - .15, end + .1));
     g.save();
@@ -404,10 +489,13 @@
         dot(C[0] + c[0], C[1] + c[1], .95 + 1.1 * lit, lit ? agent : line, .45 + .55 * lit);
       });
       seg([X, .34], [X, LINE], faint, .5);
-      dna.forEach(({c}, j) => {
-        const cx = X - .035 + j * .01, lit = j === 1 || j === 3 ? ramp(u, 5, 5.25) * (1 - ramp(u, 5.6, 5.9)) : 0;
-        for (let k = 0; k < 7; k++) dot(cx, .64 + k * .022, 1.15 + .6 * lit, c, .35 + .55 * lit);
-        if (lit > 0) seg([X, LINE], [cx, .64], c, .6 * lit, .7, lit);
+      [[companies, 1 - listF], [models, listF]].forEach(([list, seen]) => {
+        if (seen <= .004) return;
+        list.forEach(({c}, j) => {
+          const cx = X - .005 * list.length + j * .01, lit = j === 1 || j === 3 ? ramp(u, 5, 5.25) * (1 - ramp(u, 5.6, 5.9)) : 0;
+          for (let k = 0; k < 7; k++) dot(cx, .64 + k * .022, 1.15 + .6 * lit, c, (.35 + .55 * lit) * seen);
+          if (lit > 0) seg([X, LINE], [cx, .64], c, .6 * lit * seen, .7, lit);
+        });
       });
       seg([X, LINE], [X, .62], faint, .5);
     }
@@ -546,8 +634,10 @@
       const len = Math.max(9, 13 * px) * grow, amp = Math.max(2.3, 3.2 * px) * grow;
       if (crewing) plan.crews.forEach((crew, s) => { if (crew.includes(k)) seg([SX[s], LINE], p, gh.c, .35, .6); });
       // The agent whose standard fingerprint differs is not shown as any one company's.
-      helix(x, y, len, amp, u * 2.2 + gh.phase, k === plan.odd ? stray : dna[gh.co], carrying ? 1 : crewing ? .9 : .62);
+      helix(x, y, len, amp, u * 2.2 + gh.phase, k === plan.odd ? stray : gh.d, carrying ? 1 : crewing ? .9 : .62);
       halo(x, y, len * .72, gh.c, carrying ? .45 : crewing ? .28 : .1);
+      // The moment its model is changed: a ring opens round it and is gone.
+      if (k !== plan.odd && gh.f > 0 && gh.f < 1) halo(x, y, len * .72 + 7 * gh.f * Math.max(.8, px), agent, .7 * Math.sin(Math.PI * gh.f), 1);
       if (gh.load && !carrying && k !== plan.odd) { g.fillStyle = rgba(line, .55); g.beginPath(); g.arc(x + amp + 4, y + len * .3, 1.2 * Math.max(.75, px), 0, TAU); g.fill(); }
       if (k === plan.odd) {
         halo(x, y, len * .72 + 4, warm, .75 * ramp(u, 2.1, 2.4), .9);
@@ -570,8 +660,13 @@
     const SY = -.015;
     seg([.06, SY], [.94, SY], human, .55, 1);
     for (let X = .06; X <= .94; X += .03) dot(X, SY, 1.1, human, .7);
-    if (F.portrait) label(wd.standardShort, ...F.at(w * .03, h * .014), human, .9, .85, 'left');
-    else label(wd.standard, .06, SY - .03, human, .9, .9, 'left');
+    // The standard is the same small ensō as in the eight servers (its fingerprint a91c), not words.
+    {
+      const [ex, ey] = P(.06, SY), r = Math.max(5.5, 7 * px), back = F.portrait ? [ex, ey - r - 5] : [ex - r - 6, ey];
+      g.strokeStyle = rgba(human, .85); g.lineWidth = 1.4;
+      g.beginPath(); g.arc(back[0], back[1], r, -70 * Math.PI / 180 + .45, -70 * Math.PI / 180 + TAU - .2); g.stroke();
+      g.fillStyle = rgba(agent, .9); g.beginPath(); g.arc(back[0], back[1], 1.6 * Math.max(.8, px), 0, TAU); g.fill();
+    }
     const align = ramp(u, 1.5, 1.75) * (1 - ramp(u, 2.6, 2.95));
     ghosts.forEach((gh, k) => {
       const p = ghostAt(k, u), odd = k === plan.odd;
@@ -662,7 +757,7 @@
     hops.forEach((hop, i) => {
       const on = ramp(u, hop.t0 - .4, hop.t0 - .2) * (1 - ramp(u, hop.t1 + .2, hop.t1 + .45));
       if (on <= 0) return;
-      const k = plan.carriers[i], p = ghostAt(k, u), item = [{text: (i ? wd.hopNext : wd.hopFirst).replace('{c}', dna[ghosts[k].co].name), on, show: 'flash', c: ghosts[k].c, size: .82}];
+      const k = plan.carriers[i], p = ghostAt(k, u), item = [{text: (i ? wd.hopNext : wd.hopFirst).replace('{c}', ghosts[k].name), on, show: 'flash', c: ghosts[k].c, size: .82}];
       if (F.portrait) { const x = P(0, .56)[0]; stack(item, (SX[hop.a] + SX[hop.b]) / 2, .56, 'left', 'middle', w * .97 - x - 4); }
       else stack(item, p[0], LINE + .04, 'center', 'middle', w * .3);
     });
@@ -673,38 +768,15 @@
     if (F.portrait) stack([{text: wd.legend, on: alignOn, show: 'flash'}], ...F.at(w * .03, lay.legendY), 'left', 'top', w * .9);
     else stack([{text: wd.legend, on: alignOn, show: 'flash'}], .06, .012, 'left', 'middle', w * .62);
 
-    // The DNA row at the top: each company's strand and name. The company whose agent is
-    // carrying the question at that moment is underlined.
+    // The DNA row at the top; the model whose agent is carrying the question is underlined.
     {
-      const fs = F.font * (F.portrait ? .9 : .92), hl = F.portrait ? 11 : 15, ha = F.portrait ? 2.6 : 3.4;
-      const carrying = hops.findIndex(hop => u >= hop.t0 - .4 && u <= hop.t1 + .45);
-      const now = carrying < 0 ? -1 : ghosts[plan.carriers[carrying]].co;
-      g.save();
-      g.textBaseline = 'middle'; g.textAlign = 'left';
-      g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
-      // The row runs the width of the space; the site's buttons are above it, outside the work.
-      const left = F.portrait ? w * .03 : P(.06, 0)[0], right = w * .97, gap = F.portrait ? 12 : 18, rowH = F.portrait ? 16 : 19;
-      let x = left, y = F.portrait ? h * .034 : h * .018;
-      g.fillStyle = rgba(human, .85);
-      if (F.portrait && g.measureText(wd.dnaTitle).width > right - left) {
-        const cut = wd.dnaTitle.indexOf(' — ');
-        g.fillText(wd.dnaTitle.slice(0, cut + 2), x, y); y += rowH;
-        g.fillText(wd.dnaTitle.slice(cut + 3), x, y);
-      } else g.fillText(wd.dnaTitle, x, y);
-      if (F.portrait) y += rowH; else x += g.measureText(wd.dnaTitle).width + gap;
-      const start = x;
-      dna.forEach((d, i) => {
-        const tw = g.measureText(d.name).width, need = ha * 2 + 6 + tw;
-        if (x + need > right) { x = F.portrait ? left : start; y += rowH; }
-        helix(x + ha, y, hl, ha, u * 1.6 + i * .8, d, 1);
-        const on = i === now ? 1 : 0;
-        g.font = (on ? '500 ' : '') + fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
-        g.fillStyle = rgba(d.c, .82 + .18 * on); g.fillText(d.name, x + ha * 2 + 6, y);
-        if (on) { g.fillStyle = rgba(d.c, .8); g.fillRect(x + ha * 2 + 6, y + fs * .72, tw, 1); }
-        g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
-        x += need + gap;
-      });
-      g.restore();
+      const carrying = hops.findIndex(hop => u >= hop.t0 - .4 && u <= hop.t1 + .45), who = carrying < 0 ? null : ghosts[plan.carriers[carrying]];
+      const drain = ramp(u, ...SWAP.drain), gone = ramp(u, ...SWAP.gone);
+      if (gone < 1) {
+        legend(g, w, h, u, {list: companies, now: who && who.f < .5 ? who.k8 : -1, alpha: 1 - drain, locale});
+        if (drain > 0) legend(g, w, h, u, {list: companies, alpha: drain * (1 - gone), colour: '118,124,130', locale});
+      }
+      if (listF > 0) legend(g, w, h, u, {list: models, now: who && who.f >= .5 ? who.k7 : -1, alpha: listF, locale});
     }
     const oddAt = ghostAt(plan.odd, u);
     const oddOn = ramp(u, 1.65, 1.9) * (1 - ramp(u, 2.7, 2.95));
@@ -760,5 +832,5 @@
     const F = frameOf(w, h, isPortrait(w, h) ? layOf(g, w, h, wd, locale) : null);
     return {inP: F.P(IN, LINE), outP: F.P(OUT, LINE), st: SX.map(X => F.P(X, LINE)), watcher: F.P(.5, .97), portrait: F.portrait};
   }
-  window.CountryFlow = {draw, anchors};
+  window.CountryFlow = {draw, anchors, legend, companies, models};
 })();

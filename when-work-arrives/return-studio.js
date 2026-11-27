@@ -296,5 +296,27 @@
       handToFilm(g,t,target,roomX+screenX*scale,roomY+screenY*scale,scale*networkScale,options.reduced);
     }
   }
-  window.ReturnStudio={draw};
+  // Where the main monitor's glass lies on the canvas at a given moment of the journey (the same
+  // reckoning as draw), so another drawing can be shown on it: the real screens (real-screens.js).
+  function screenAt(w,h,t) {
+    if(t<=12 || !w || !h) return null;
+    const isPortrait=w/h<.88;
+    const baseW=Math.min(w*(isPortrait?.36:.19),h*.236);
+    const baseH=baseW*2.10;
+    const ax=w*.56, ay=h*.53;
+    const paneX=ax-baseW*.83, paneY=ay-baseH*.53;
+    const targetX=w*.5, targetY=h*(isPortrait?.42:.46);
+    const roomEnter=ease(t,15.35,19.05);
+    const magnify=ease(t,20.0,23.05);
+    const startScale=baseW*.85/920;
+    const deskScale=Math.min(w*(isPortrait?.97:.83)/920,h*.68/372);
+    const insideScale=Math.min(w*.88/730,h*.45/255)/networkScale;
+    let scale=Math.exp(mix(Math.log(startScale),Math.log(deskScale),roomEnter));
+    scale=Math.exp(mix(Math.log(scale),Math.log(insideScale),magnify));
+    const roomX=mix(mix(paneX+baseW*.55,targetX,roomEnter),targetX-screenX*insideScale,magnify);
+    const roomY=mix(mix(paneY+baseH*.50,targetY,roomEnter),targetY-screenY*insideScale,magnify);
+    const pen=Math.max(.62,Math.min(2.3,.82/scale))*scale;
+    return {x:roomX+main.x*scale,y:roomY+main.y*scale,w:main.w*scale,h:main.h*scale,pen};
+  }
+  window.ReturnStudio={draw,screenAt};
 })();

@@ -33,26 +33,38 @@
   // back into the monitor; the studio; Seoul's streets; Korea; the whole globe. From Korea, lines
   // go out to the nations and join them into one network. One line; there it stays: the last
   // page remains on screen until the visitor goes elsewhere (On, 2026-11-27).
-  const spreadStart = flowEnd + 4.6;
-  const finalStart = flowEnd + 8.4;
-  const closeEnd = flowEnd + 13;
-  const storyEnd = flowEnd + 10;
+  // Before the way back, the monitor the country went back into shows the real screens of a product
+  // built and run on synthetic data (real-screens.js — On, 2026-11-27 19:22): the drawing waits
+  // at the monitor while they pass, then the journey goes on as before.
+  const realStart = flowEnd + 1;
+  const realEnd = realStart + (window.RealScreens ? window.RealScreens.length : 0);
+  const spreadStart = realEnd + 3.6;
+  const finalStart = realEnd + 7.4;
+  const closeEnd = realEnd + 12;
+  const storyEnd = realEnd + 9.7;
   const durationMs = clockOf(storyEnd) * 1000;
   // Pages, on the clock: where each begins when playing, and the still it shows when turned to
   // while paused. PageDown or a click moves to the next; the last page has no next.
   const pages = [[0, .6], [2, 2.6], [4, 4.6], [6, 6.6], [8, holdAt + ringStill]];
   pages.push([holdAt + ringUnroll[0], clockOf(flowStart + 2.4)]);
   for (let i = 1; i < flowStages; i++) pages.push([clockOf(flowStart + i * stageSec), clockOf(flowStart + i * stageSec + 2.4)]);
-  pages.push([clockOf(flowEnd), clockOf(storyEnd)]);
-  const way = [[flowEnd, 22.4], [flowEnd + 1, 22.4], [flowEnd + 2.3, 20], [flowEnd + 2.4, 19], [flowEnd + 3.3, 16],
-    [flowEnd + 3.45, 13.7], [flowEnd + 4.4, 11]];
-  const backWide = monotone([...way, [flowEnd + 6.4, 8.6], [flowEnd + 8.4, 7.5], [closeEnd + 1, 7.42]]);
-  const backTall = monotone([...way, [flowEnd + 6.4, 8.9], [flowEnd + 8.4, 7.87], [closeEnd + 1, 7.75]]);
+  // One page for each real screen (the first also carries the country back into the monitor).
+  (window.RealScreens ? window.RealScreens.pages : []).forEach(([start, still], i) =>
+    pages.push([clockOf(i ? realStart + start : flowEnd), clockOf(realStart + still)]));
+  pages.push([clockOf(window.RealScreens ? realEnd : flowEnd), clockOf(storyEnd)]);
+  const way = [[flowEnd, 22.4], [realEnd, 22.4], [realEnd + 1.3, 20], [realEnd + 1.4, 19], [realEnd + 2.3, 16],
+    [realEnd + 2.45, 13.7], [realEnd + 3.4, 11]];
+  const backWide = monotone([...way, [realEnd + 5.4, 8.6], [realEnd + 7.4, 7.5], [closeEnd + 1, 7.42]]);
+  const backTall = monotone([...way, [realEnd + 5.4, 8.9], [realEnd + 7.4, 7.87], [closeEnd + 1, 7.75]]);
   // Four passages, one in each of the first four sections: the three phrases, then their source.
   // Each fades in and out within its two seconds.
   const starts = [0, 2, 4, 6];
   const ends = [2, 4, 6, 8];
   const arrival = .45;
+  // The closing words, one at a time in one place (On, 2026-11-27 19:07): each is seen for 0.3 s
+  // and fades smoothly away before the next comes; a breath of 0.1 s before ONDURU, which stays.
+  const word = {in: .1, hold: .3, out: .25, breath: .1};
+  const wordAt = i => i * (word.in + word.hold + word.out) + (i === 3 ? word.breath : 0);
   const departure = .5;
   const copy = {
     ko: {
@@ -70,7 +82,7 @@
           ['[기록 · 사후 추적]', '② 원장 기록 · ⑤ 백업 · 모니터링 서버', '마지막 작업 시점부터 지문으로 전 공정을 거슬러 추적, 이상 탐지']
         ]
       },
-      final: '대한민국에서 세계로, 다자간 에이전트의 영토',
+      final: ['데이터 주권', '소버린 AI 생태계 중심', '대한민국', 'ONDURU'],
       source: '유네스코 헌장 서문',
       url: 'https://www.unesco.or.kr/wp-content/uploads/2024/07/유네스코-헌장국문.pdf#page=1',
       excerpts: [
@@ -104,7 +116,7 @@
           ['[Record · tracing back]', '② Ledger record · ⑤ Backup · monitoring server', 'from the last step, traces the whole process back by fingerprint, detects anything unusual']
         ]
       },
-      final: 'From Korea to the world, a territory of multi-party agents',
+      final: ['Data sovereignty', 'The heart of the Sovereign AI ecosystem', 'Korea', 'ONDURU'],
       source: 'UNESCO Constitution, Preamble',
       url: 'https://www.unesco.org/en/legal-affairs/constitution',
       excerpts: [
@@ -138,7 +150,7 @@
           ['[Registro · rastreo]', '② Registro · ⑤ Servidor de copia y vigilancia', 'desde el último paso, rastrea todo el proceso hacia atrás por su huella y detecta anomalías']
         ]
       },
-      final: 'De Corea al mundo, un territorio de agentes de muchas partes',
+      final: ['Soberanía de los datos', 'El corazón del ecosistema de IA soberana', 'Corea', 'ONDURU'],
       source: 'Preámbulo de la Constitución de la UNESCO',
       url: 'https://www.unesco.org/es/legal-affairs/constitution',
       excerpts: [
@@ -229,7 +241,13 @@
     const ctx = canvas.getContext('2d');
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let locale = 'ko', active = false, paused = false, ended = false;
-    let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '', shownStage = -1, shownFinal = false, shownServers = false;
+    let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '', shownStage = -1, shownFinal = false, shownServers = false, shownShot = -1;
+    const root = document.documentElement;
+    // A picture that arrives, or a change of the page's ground, is drawn at once even when the
+    // work is paused (the screens are turned over again on paper in the drawing itself).
+    const redraw = () => { if (active && (paused || ended || !frame)) { stillKey = ''; paint(); } };
+    const realArrived = () => redraw();
+    new MutationObserver(() => { stillKey = ''; redraw(); }).observe(root, {attributes: true, attributeFilter: ['data-theme']});
     let finalKey = '', edge = '';
     // The globe at the end turns under the visitor's hand (On, 2026-11-27), and keeps a little
     // of its spin when let go.
@@ -257,8 +275,18 @@
       finalKey = key;
       const tall = w / h < .88;
       const rest = motion.matches ? (tall ? 7.75 : 7.42) : (tall ? backTall : backWide)(storyEnd);
-      const g = window.ReturnSky.globeAt(w, h, rest), above = g.cy - g.radius, line = ending.offsetHeight;
+      const g = window.ReturnSky.globeAt(w, h, rest), above = g.cy - g.radius;
       const gap = Math.max(8, h * .02);
+      ending.style.fontSize = ''; ending.style.lineHeight = ''; ending.style.top = '';
+      // On a short exhibition space the lines grow smaller (not below 13px) before they would
+      // cross the globe; the smaller size can also fold fewer lines, so measure twice.
+      let line = ending.offsetHeight;
+      if (above < line + 2 * gap) { ending.style.lineHeight = '1.32'; line = ending.offsetHeight; }
+      for (let i = 0; i < 2 && above < line + 2 * gap; i++) {
+        const size = parseFloat(getComputedStyle(ending).fontSize) || 16;
+        ending.style.fontSize = Math.max(13, size * (above - 2 * gap) / line).toFixed(2) + 'px';
+        line = ending.offsetHeight;
+      }
       const top = above >= line + 2 * gap ? Math.max(gap, (above - line) / 2) : Math.max(gap, above - line - gap);
       ending.style.top = Math.round(top) + 'px';
     }
@@ -273,9 +301,10 @@
         : (sec - flowStart) * 2 / stageSec;
       // The way back out has begun: the opening's own pictures, run in reverse.
       const outside = sec >= flowEnd;
-      const back = !outside ? scene : motion.matches ? (sec < flowEnd + 3.45 ? 18 : sec < flowEnd + 6.4 ? 10.4 : w / h < .88 ? 7.75 : 7.42)
+      const back = !outside ? scene : motion.matches ? (sec < realEnd ? 22.4 : sec < realEnd + 2.45 ? 18 : sec < realEnd + 5.4 ? 10.4 : w / h < .88 ? 7.75 : 7.42)
         : (w / h < .88 ? backTall : backWide)(Math.min(sec, closeEnd + 1));
-      const key = motion.matches ? [outside ? 'back' + back + Number(sec >= finalStart) + '/' + tilt.yaw.toFixed(4) + '/' + tilt.pitch.toFixed(4) + '/' + tilt.zoom.toFixed(3) : inside ? 'flow' + flowAt : scene + '/' + Math.round(Math.min(clock - holdAt, holdSec) * 4), w, h, dpr, locale].join('/') : '';
+      const paperNow = root.getAttribute('data-theme') === 'paper';
+      const key = motion.matches ? [outside ? 'back' + back + Number(sec >= finalStart) + (window.RealScreens ? window.RealScreens.keyAt(sec - realStart) + paperNow : '') + '/' + tilt.yaw.toFixed(4) + '/' + tilt.pitch.toFixed(4) + '/' + tilt.zoom.toFixed(3) : inside ? 'flow' + flowAt : scene + '/' + Math.round(Math.min(clock - holdAt, holdSec) * 4), w, h, dpr, locale].join('/') : '';
       // The colour at the edge of the picture, for the frame around it (the sky's own ground,
       // which darkens as the journey nears Earth; everything after that lies on the same dark).
       const sky = fade(Math.min(back, 8), 4.2, 8);
@@ -329,6 +358,12 @@
         window.CountryFlow.draw(ctx, w, h, flowAt, {locale, alpha: enter});
         ctx.restore();
       }
+      // The real screens, on the monitor's glass.
+      const realT = sec - realStart;
+      if (window.RealScreens && outside && back >= 12 && realT >= 0 && realT < window.RealScreens.length + 1.6) {
+        window.RealScreens.draw(ctx, w, h, realT, {screen: window.ReturnStudio.screenAt(w, h, back), locale,
+          reduced: motion.matches, turned: paperNow});
+      }
       if (outside) placeFinal(w, h);
       // From Korea out to the world, over the globe.
       if (outside && back < 11.5) {
@@ -371,13 +406,25 @@
         shownStage = stage;
         spoken.textContent = copy[locale].stages[stage];
       }
+      // The real screens: asked for once the country begins; each is named for screen readers.
+      if (window.RealScreens && sec >= flowStart) window.RealScreens.load(realArrived);
+      const realT = sec - realStart;
+      const shot = window.RealScreens && realT >= 0 && realT < window.RealScreens.length ? window.RealScreens.shotAt(realT) : -1;
+      if (shot !== shownShot) {
+        shownShot = shot;
+        if (shot >= 0) spoken.textContent = window.RealScreens.say(shot, locale);
+      }
       // The one closing line, once the globe has settled. It stays.
       if (sec < finalStart) shownFinal = false;
       if (sec >= finalStart && !shownFinal) {
         shownFinal = true;
-        spoken.textContent = copy[locale].final;
+        spoken.textContent = copy[locale].final.join(', ');
       }
-      ending.style.opacity = String(motion.matches ? Number(sec >= finalStart) : fade(sec, finalStart, finalStart + arrival));
+      ending.style.opacity = String(Number(sec >= finalStart));
+      [...ending.children].forEach((line, i, all) => {
+        const s0 = finalStart + wordAt(i), last = i === all.length - 1;
+        line.style.opacity = String(motion.matches ? Number(last) : fade(sec, s0, s0 + word.in) * (last ? 1 : 1 - fade(sec, s0 + word.in + word.hold, s0 + word.in + word.hold + word.out)));
+      });
       veil.style.opacity = String(sec < 8 ? 1 : 1 - fade(sec, 8, 10));
       draw(motion.matches && sec < 11.1 ? stills.findLast(([start]) => t >= start)[1] : t, sec, clock);
     }
@@ -415,7 +462,7 @@
         card.setAttribute('cite', local.url);
       });
       credit.textContent = local.source;
-      ending.textContent = local.final;
+      ending.replaceChildren(...local.final.map(text => { const line = document.createElement('span'); line.textContent = text; return line; }));
       serverTitle.textContent = local.servers.title;
       serverList.replaceChildren(...local.servers.items.map(([stage, name, what]) => {
         const item = document.createElement('li');
