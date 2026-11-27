@@ -13,8 +13,9 @@ html[data-page="home"] body {
 }
 html[data-page="home"] .skip:focus { z-index: 50; }
 html[data-page="home"] .site-head, html[data-page="home"] .site-foot { flex: none; }
-/* 바닥은 쪽 끝에 붙어 있으므로 글과 바닥 사이의 띄움(다른 쪽의 margin-top)은 쓰지 않는다 — 자리 · 높이는 다른 쪽 바닥과 같다 */
-html[data-page="home"] .site-foot { margin-top: 0; }
+/* 바닥은 쪽 끝에 붙어 있으므로 글과 바닥 사이의 띄움(다른 쪽의 margin-top)은 쓰지 않는다 — 자리 · 높이는 다른 쪽 바닥과 같다.
+   공통 head3.css의 띄움(html:root body .site-foot)보다 강하게 써서, 전시 자리가 바닥 줄금까지 가득 차게 한다(On 2026-11-28 06:38). */
+html:root[data-page="home"] body .site-foot { margin-top: 0; }
 
 /* 아래 첫 줄 — 작품 · 재생. 다른 쪽 바닥 메뉴와 같은 자리 · 같은 글자 */
 .foot-works { display: flex; align-items: center; justify-content: space-between; }
