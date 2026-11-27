@@ -29,9 +29,42 @@
   const stage = $('#main'), transport = $('#transport'), worksBtn = $('#works'), worksList = $('#works-list');
   const workLinks = [...worksList.querySelectorAll('a')];
   let current = 'now', frame = null;
-  // The frame around the picture takes the colour at the picture's edge, so no seam shows between them.
-  const setEdge = colour => { root.style.setProperty('--edge', colour); };
-  const work = window.Prologue.mount($('#prologue'), {onState: sync, onEdge: colour => { if (current === 'now') setEdge(colour); }});
+  // The frame and the work follow the time of day like every other page (night · dawn · paper; no
+  // rain here — On, 2026-11-27 16:32). The work is drawn in its night colours; on paper it is turned
+  // over by a CSS filter. A thin layer over it (.tone) then brings the colour at the work's edge to
+  // exactly the page's background, screening it lighter on the dark grounds and multiplying it on
+  // paper, so no seam shows between the frame and the work.
+  const tone = $('.tone');
+  let edge = [15, 19, 24];
+  const rgbOf = text => {
+    const t = String(text || '').trim(), hex = t.match(/^#([0-9a-f]{6})$/i), fn = t.match(/rgba?\(([^)]+)\)/i);
+    if (hex) return [0, 2, 4].map(i => parseInt(hex[1].slice(i, i + 2), 16));
+    if (fn) return fn[1].split(/[ ,/]+/).slice(0, 3).map(Number);
+    return null;
+  };
+  const clip = v => Math.max(0, Math.min(255, v));
+  // What invert(1) hue-rotate(180deg) makes of a colour (the CSS filter matrices, clipped as browsers do).
+  const turnedOver = ([r, g, b]) => {
+    const [R, G, B] = [255 - r, 255 - g, 255 - b];
+    return [clip(-0.574 * R + 1.43 * G + 0.144 * B), clip(0.426 * R + 0.43 * G + 0.144 * B), clip(0.426 * R + 1.43 * G - 0.856 * B)];
+  };
+  function retone() {
+    const bg = rgbOf(getComputedStyle(root).getPropertyValue('--bg')) || [15, 19, 24];
+    tone.hidden = current !== 'now';
+    if (root.getAttribute('data-theme') === 'paper') {
+      const x = turnedOver(edge);
+      tone.style.background = 'rgb(' + bg.map((c, i) => Math.round(clip(255 * c / Math.max(1, x[i])))).join(',') + ')';
+    } else {
+      tone.style.background = 'rgb(' + bg.map((c, i) => Math.round(clip((c - edge[i]) / Math.max(.01, 1 - edge[i] / 255)))).join(',') + ')';
+    }
+  }
+  const work = window.Prologue.mount($('#prologue'), {onState: sync, onEdge: colour => {
+    root.style.setProperty('--edge', colour);
+    edge = rgbOf(colour) || edge;
+    retone();
+  }});
+  new MutationObserver(retone).observe(root, {attributes: true, attributeFilter: ['data-theme']});
+  d.addEventListener('onduru:sky', retone);
 
   function sync() {
     const copy = words[locale], playing = work.isPlaying(), label = playing ? copy.pause : copy.play;
@@ -45,12 +78,6 @@
     try {
       const doc = frame && frame.contentDocument, button = doc && doc.querySelector('.lng, [data-act="lang"]');
       for (let i = 0; doc && button && i < 3 && doc.documentElement.getAttribute('lang') !== locale; i++) button.click();
-    } catch {}
-  }
-  function frameEdge() {
-    try {
-      const doc = frame && frame.contentDocument, bg = doc && getComputedStyle(doc.body).backgroundColor;
-      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') setEdge(bg);
     } catch {}
   }
 
@@ -70,6 +97,7 @@
     if (frame) frame.title = copy.list[index];
     work.setLocale(locale);
     frameLocale();
+    retone();
     sync();
   }
   for (const b of d.querySelectorAll('.home-lang button')) b.addEventListener('click', () => {
@@ -99,7 +127,7 @@
       frame = d.createElement('iframe');
       frame.className = 'archive';
       frame.src = '/' + name + '/?lang=' + locale;
-      frame.addEventListener('load', () => { frameLocale(); frameEdge(); });
+      frame.addEventListener('load', frameLocale);
       stage.append(frame);
     }
     localize();

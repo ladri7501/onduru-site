@@ -1,12 +1,13 @@
 /* 첫 화면(/) — 전시를 위한 틀 (On 2026-11-27 고쳐 말씀: 위 · 아래가 다른 쪽과 같아 이질감이 크다 — 심플하게, 전시에 방해되지 않게).
  *   위: 로고 · ONDURU · 메뉴(한 번만) · 한 / EN / ES. 다른 쪽의 머리와 같은 글자 · 같은 차례이되, 띠 · 줄 · 바탕 단추 없이 작품의 어둠 위에 흐리게 놓인다.
  *   아래: 작품(누르면 네 작품의 목록이 위로 열린다) · 재생 단추. 메뉴는 위에만 있다.
- *   틀의 바탕은 작품이 그 순간 칠한 가장자리 빛을 따른다(--edge, prologue.js) — 틀과 작품 사이에 금이 보이지 않게. */
-html[data-page="home"] { --edge: #0f1318; background: var(--edge); }
+ *   위 · 아래와 전시는 다른 쪽과 같이 때를 따라 바탕이 바뀐다(밤 · 새벽 · 종이 — sky-theme.js). 비 오는 날의 결은 입히지 않는다(sky.css 를 부르지 않음) (On 2026-11-27 16:32).
+ *   작품은 밤빛으로 그려지고, 종이 때에는 뒤집어(invert · hue-rotate) 밝게 보인다. 그 위의 얇은 막(.tone)이 작품의 가장자리 빛을 그때의 바탕색에 꼭 맞춰, 틀과 작품 사이에 금이 보이지 않게 한다(work.js). */
+html[data-page="home"] { --edge: #0f1318; background: var(--bg); }
 html[data-page="home"], html[data-page="home"] body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 html[data-page="home"] body {
   display: flex; flex-direction: column; height: 100vh; height: 100svh; min-height: 0; margin: 0;
-  background: var(--edge); color: var(--ink); font-family: var(--font-label);
+  background: var(--bg); color: var(--ink); font-family: var(--font-label);
 }
 html[data-page="home"] .skip:focus { z-index: 30; }
 
@@ -54,8 +55,9 @@ html[data-page="home"] .skip:focus { z-index: 30; }
 .works-list {
   position: absolute; left: calc(var(--gutter) - var(--sp-2)); bottom: calc(100% + 2px); z-index: 6;
   min-width: 15em; max-width: calc(100vw - 2 * var(--gutter)); margin: 0; padding: 6px 0; list-style: none;
-  background: rgb(13 18 24 / 96%); border: 1px solid rgb(205 201 188 / 14%); border-radius: 6px; box-shadow: 0 8px 28px rgb(0 0 0 / 45%);
+  background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 8px 28px rgb(0 0 0 / 45%);
 }
+html[data-theme="paper"] .works-list { box-shadow: 0 8px 24px rgb(43 42 38 / 14%); }
 .works-list li { margin: 0; }
 .works-list a {
   display: flex; align-items: center; gap: .7em; min-height: 42px; padding: 4px 16px 4px 14px;
@@ -79,17 +81,23 @@ html[data-page="home"] .skip:focus { z-index: 30; }
 /* 전시 자리 — 위와 아래 사이를 다 채운다. 바탕은 틀과 같은 빛 */
 .stage {
   position: relative; flex: 1 1 auto; min-height: 0; min-width: 0; padding: 0; overflow: hidden;
-  container-type: size; isolation: isolate; color-scheme: dark;
-  --bg: var(--edge); --strong: #e6e3db; --dim: #a9aca5; --signal: #93d6c4;
+  container-type: size; isolation: isolate;
+  --strong: #e6e3db; --dim: #a9aca5; --signal: #93d6c4;
   --gutter: clamp(16px, 6cqw, 56px);
   --voice: 'Exhibit Voice','Gowun Batang','AppleMyungjo','Batang',serif;
   --label: 'Exhibit Label','IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
-  background: var(--edge); color: var(--strong);
+  background: var(--bg); color: var(--strong);
   font: 300 clamp(16px, calc(12px + .3125vw), 20px)/1.6 var(--label);
   -webkit-font-smoothing: antialiased; cursor: default;
 }
 .stage:focus { outline: none; }
 .stage .sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; clip-path: inset(50%); white-space: nowrap; overflow: hidden; border: 0; }
-.stage .archive { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; border: 0; display: block; background: var(--edge); }
+.stage .archive { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; border: 0; display: block; background: var(--bg); }
+/* 작품 자리 안은 작품의 밤빛 그대로(글자 그림자도), 종이 때에는 통째로 뒤집는다 */
+.stage #prologue { --bg: var(--edge); background: var(--edge); color-scheme: dark; }
+html[data-theme="paper"] .stage #prologue { filter: invert(1) hue-rotate(180deg); }
+.stage .tone { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen; background: transparent; }
+html[data-theme="paper"] .stage .tone { mix-blend-mode: multiply; }
+.stage .tone[hidden] { display: none; }
 .stage .archive[hidden] { display: none; }
-.nojs { position: relative; margin: 0; padding: 1rem var(--gutter); max-width: 760px; font: 400 1rem/1.8 var(--voice); color: var(--strong); }
+.nojs { position: relative; margin: 0; padding: 1rem var(--gutter); max-width: 760px; font: 400 1rem/1.8 var(--voice); color: var(--ink-strong); }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" data-page="home">
+<html lang="ko" data-page="home" data-theme="night">
 <head>
 <meta charset="utf-8">
 <script>(function(){try{var s=history.state,n=performance.getEntriesByType?performance.getEntriesByType('navigation')[0]:null,t=n?n.type:'';if(s&&s.onduruPath&&s.onduruPath.charAt(0)==='/'&&s.onduruPath!=='/'&&(t==='reload'||t==='back_forward'))location.replace(s.onduruPath);}catch(e){}})();</script>
@@ -14,12 +14,12 @@
 <link rel="canonical" href="https://onduru.com/">
 <meta name="referrer" content="no-referrer">
 <title>온두루, 일이 닿으면 · ONDURU</title>
-<script>document.documentElement.className+=' js';</script>
+<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme');if(t)r.setAttribute('data-theme',t);}catch(e){}r.className+=' js';})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
 <link rel="stylesheet" href="/shared/onduru.css?v=2026111400">
 <link rel="stylesheet" href="/when-work-arrives/fonts.css?v=2026112701">
-<link rel="stylesheet" href="/when-work-arrives/work.css?v=2026112703">
+<link rel="stylesheet" href="/when-work-arrives/work.css?v=2026112706">
 <link rel="stylesheet" href="/when-work-arrives/prologue.css?v=2026112704">
 <script src="/when-work-arrives/return-sky.js?v=2026112704" defer></script>
 <script src="/when-work-arrives/return-studio.js?v=2026112701" defer></script>
@@ -27,7 +27,7 @@
 <script src="/when-work-arrives/server-ring.js?v=2026112704" defer></script>
 <script src="/when-work-arrives/world-share.js?v=2026112705" defer></script>
 <script src="/when-work-arrives/prologue.js?v=2026112705" defer></script>
-<script src="/when-work-arrives/work.js?v=2026112705" defer></script>
+<script src="/when-work-arrives/work.js?v=2026112706" defer></script>
 </head>
 
 <body>
@@ -35,8 +35,10 @@
 <header class="home-head"><a class="mark" href="/" translate="no" aria-label="ONDURU — 첫 화면"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="home-nav" aria-label="이 자리의 글" translate="no"><a href="/ko/footsteps/" data-to="footsteps"><span lang="en">Footsteps</span></a><a href="/ko/method/" data-to="method"><span lang="en">Method</span></a><a href="/ko/simulation/" data-to="simulation"><span lang="en">Simulation</span></a><a href="/ko/about/" data-to="about"><span lang="en">About</span></a><a href="/ko/profile/" data-to="profile"><span lang="en">Profile</span></a></nav><nav class="home-lang" aria-label="언어" translate="no"><button type="button" data-lang="ko" lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span aria-hidden="true">/</span><button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="es" lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav></header>
 <main id="main" class="stage" tabindex="-1" aria-label="온두루, 일이 닿으면">
 <section id="prologue" hidden></section>
+<div class="tone" aria-hidden="true"></div>
 <noscript><p class="nojs">온두루, 일이 닿으면 — 한 사람이 건넨 말이 여러 DURU를 거쳐 그 사람에게 돌아옵니다.</p></noscript>
 </main>
 <footer class="home-foot"><div class="works"><button type="button" id="works" class="works-btn" aria-expanded="false" aria-controls="works-list"><span class="works-name">작품</span><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 6.5 5 3.5 8 6.5"/></svg></button><ul id="works-list" class="works-list" hidden><li><a href="/" data-work="now" aria-current="page">온두루, 일이 닿으면</a></li><li><a href="/everything-you-can-imagine/" data-work="everything-you-can-imagine">당신이 상상할 수 있는 모든 것</a></li><li><a href="/struck-out/" data-work="struck-out">지운 자리의 노래</a></li><li><a href="/same-wind/" data-work="same-wind">같은 바람</a></li></ul></div><button id="transport" class="ply" type="button" aria-label="재생" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="p1" d="M6.5 4.5v11l9-5.5z"/><path class="p2" d="M7 4.5v11M13 4.5v11"/></svg></button></footer>
+<script src="/shared/sky-theme.js?v=2026111400"></script>
 </body>
 </html>
