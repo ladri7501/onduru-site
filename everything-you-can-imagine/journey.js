@@ -491,6 +491,7 @@
     } while (pts.length > WORLD.stars.length - 200 && ++guard < 8);
     var r = rng(909), j, tmp; for (i = pts.length - 1; i > 0; i--) { j = Math.floor(r() * (i + 1)); tmp = pts[i]; pts[i] = pts[j]; pts[j] = tmp; }
     WORLD.targets = pts; WORLD.period = pd; WORLD.nstar = Math.max(WORLD.nstar, pts.length + 160);
+    WORLD.tt = (y0 - fs * 0.82) / k;      /* 글자 덩이의 위 끝 */
     WORLD.tb = (y0 + (lines.length - 1) * lh + fs * 0.3) / k; placeFoot();      /* 글자 덩이의 아래 끝 — 맺음이 그 바로 아래에서 시작한다 */
   }
 
@@ -815,6 +816,13 @@
     var gap = Math.max(28, H * 0.06), m = Math.min(0, -(H - WORLD.tb - gap)), fh = f.offsetHeight;
     f.style.marginTop = Math.round(m) + 'px';
     if (fh < -m) f.style.paddingBottom = Math.round((parseFloat(getComputedStyle(f).paddingBottom) || 0) + (-m - fh)) + 'px';
+    /* 첫 화면의 전시 자리 안에서는 맺음에 마지막 한 줄만 남는다(첫머리로 · 금 · 이름 · 만든 이 · 연락 · ©는 첫 화면의 바닥이 맡음).
+       끝에 닿으면 별의 글자와 그 한 줄이 한 덩이로 전시 자리 가운데에 오도록, 그만큼 더 내려 그림을 올린다(On 2026-11-28 07:25) */
+    var line = f.querySelector('.endline');
+    if (root.classList.contains('in-frame') && line && WORLD.tt) {
+      var bottom = H + Math.round(m) + line.offsetTop + line.offsetHeight, d = Math.round((WORLD.tt + bottom) / 2 - H / 2);
+      if (d > 0) f.style.paddingBottom = Math.round((parseFloat(getComputedStyle(f).paddingBottom) || 0) + d) + 'px';
+    }
     measure();
   }
   function readColors() { INK = hex('--ink', INK); STR = hex('--ink-strong', STR); SIG = hex('--signal', SIG); BG = hex('--bg', BG); }
