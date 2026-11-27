@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR Insight · 그룹 인력과 인건비 | ONDURU 포트폴리오</title>
+<meta name="description" content="가상 그룹 19개 법인의 인력·인건비를 분석하는 HR Insight. 질문을 의뢰하고 마감 전후의 결과와 집계 근거를 직접 비교해 보세요.">
+<link rel="canonical" href="https://onduru.com/portfolio/hr-insight/">
+<style>
+:root{color-scheme:dark;--bg:#10171b;--ink:#f1f1e8;--sub:#b1bbb7;--line:#384643;--sheet:#192323;--green:#adddcc;--gold:#edc78f;--serif:Georgia,'Nanum Myeongjo','Batang',serif;--sans:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);word-break:keep-all}a{color:inherit;text-underline-offset:4px}button,input{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}button:disabled{cursor:default;opacity:.55}body>header,main,footer{width:min(1200px,calc(100% - 76px));margin:auto}header{display:flex;align-items:center;justify-content:space-between;min-height:74px;border-bottom:1px solid var(--line)}header nav{display:flex;gap:22px;font-size:.87rem}header a,footer a{text-decoration:none}.brand{font:600 16px var(--mono);letter-spacing:.12em;display:inline-flex;align-items:center;gap:10px}.brand i{display:inline-block;width:20px;height:20px;border:1.5px solid var(--green);border-right-color:transparent;border-radius:50%;transform:rotate(-30deg)}.skip{position:absolute;left:-5000px}.skip:focus{left:12px;top:10px;z-index:2;background:var(--bg);padding:10px}.hero{display:grid;grid-template-columns:1fr .95fr;gap:6%;align-items:center;padding:74px 0 64px}.kicker,.tag{font:600 .75rem/1.5 var(--mono);letter-spacing:.13em;color:var(--green)}h1{font:normal clamp(3.5rem,7.2vw,6.8rem)/1.04 var(--serif);letter-spacing:-.065em;margin:10px 0 18px}h2{font-size:clamp(1.7rem,3.2vw,2.65rem);line-height:1.22;letter-spacing:-.055em;margin:7px 0 12px}h3{line-height:1.45;margin:5px 0 12px;letter-spacing:-.025em}.intro{color:var(--sub);max-width:34em;margin:0 0 25px}.button,button{border:1px solid var(--line);border-radius:5px;color:var(--ink);background:#233130;padding:8px 13px;font-size:.88rem;text-decoration:none}.primary{background:var(--green);border-color:var(--green);color:#102821;font-weight:700}.button:hover,button:enabled:hover{border-color:var(--green);filter:brightness(1.08)}.feature{background:#202c2a;border:1px solid #43554f;padding:clamp(20px,3vw,36px);border-radius:3px;box-shadow:8px 8px 0 #151e20}.feature h2{font-size:clamp(1.35rem,2.25vw,2.05rem);margin:12px 0 24px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}.pair>div+div{border-left:1px solid #53635d;padding-left:17px}.pair strong{display:block;font:normal clamp(2rem,4.3vw,3.9rem)/1.1 var(--serif);letter-spacing:-.055em;color:var(--gold);white-space:nowrap}.pair>div+div strong{color:var(--green)}.pair small{font:bold .8rem var(--sans);margin-left:4px}.feature p,.caption{font-size:.85rem;color:var(--sub);margin:16px 0 0}.section{border-top:1px solid var(--line);padding:42px 0;scroll-margin-top:15px}.section-head{display:flex;justify-content:space-between;gap:1em;align-items:end;margin-bottom:20px}.section-head p{margin:0;color:var(--sub)}.stage{display:grid;grid-template-columns:minmax(245px,.72fr) minmax(0,1.55fr);gap:20px;align-items:start}.card{background:var(--sheet);border:1px solid var(--line);padding:clamp(16px,2.5vw,28px);border-radius:5px}.side{display:grid;gap:12px}.choices{display:grid;gap:6px}.choices button{text-align:left;background:transparent}.choices button[aria-pressed=true]{border-color:var(--green);color:var(--green)}label{display:block;margin:14px 0 4px}.request{display:flex;gap:6px;flex-wrap:wrap}.request input{width:100%;padding:10px;border:1px solid #596961;color:var(--ink);background:#111a1b;border-radius:4px}.request button{margin-top:2px}.muted,.side p{color:var(--sub);font-size:.85rem}.side p{margin:4px 0 12px}.result-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.tag{letter-spacing:.06em}.label{color:var(--green)}.figure{margin:16px 0}.bars{display:grid;gap:9px}.bar{display:grid;grid-template-columns:minmax(5em,25%) 1fr;gap:10px;align-items:center;font-size:.8rem}.tracks{display:grid;gap:3px}.tracks i{display:block;width:var(--w);height:6px;background:#81938e;border-radius:0 2px 2px 0}.tracks i+i{background:var(--green)}.legend{color:var(--sub);font-size:.75rem;text-align:right;margin:0 0 9px}.legend b{color:var(--green);margin-left:8px}.plotline{display:block;width:100%;height:auto;max-height:170px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;margin:14px 0 6px;font-variant-numeric:tabular-nums;white-space:nowrap}th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);font-size:.86rem}th:first-child,td:first-child{text-align:left}thead th{font-weight:500;color:var(--sub)}.note{padding:12px 16px;border-left:2px solid var(--gold);background:#2c2c25;color:#f3dfbe;margin-top:16px;font-size:.89rem}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.compact{font-size:.8rem}.history{margin-top:12px}.history button{margin:4px 5px 0 0}.history [aria-current=true]{border-color:var(--green)}details{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}summary{cursor:pointer;color:var(--green)}.meta{display:grid;grid-template-columns:max-content 1fr;gap:5px 13px;font-size:.85rem}.meta dt{color:var(--sub)}.meta dd{margin:0;overflow-wrap:anywhere}.design{display:grid;grid-template-columns:.75fr 1.5fr;gap:5%}.design p{margin:0 0 12px;color:var(--sub)}.design strong{color:var(--ink)}footer{border-top:1px solid var(--line);padding:19px 0 40px;display:flex;gap:16px;justify-content:space-between;color:var(--sub);font-size:.85rem}[hidden]{display:none!important}.feedback{margin:8px 0 0;color:var(--gold);font-size:.85rem}.feedback:empty{display:none}noscript{display:block;color:var(--gold);padding:15px}
+@media(max-width:820px){body>header,main,footer{width:calc(100% - 38px)}.hero{gap:5%;padding:42px 0}.stage{grid-template-columns:1fr}.side{grid-template-columns:1.2fr 1fr}.card{padding:18px}.result-head{align-items:center}}
+@media(max-width:600px){header{min-height:60px}header nav{gap:12px;font-size:.78rem}.hero,.design,.side{grid-template-columns:1fr}.hero{gap:22px}.feature{box-shadow:none}.feature h2{margin:7px 0 15px}.pair strong{font-size:2.7rem}.section{padding:28px 0}.section-head{display:block}.meta{grid-template-columns:1fr;gap:0}.meta dd{margin:0 0 6px}th,td{padding:6px 4px;font-size:.78rem}.hero h1{margin:7px 0 10px}footer{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body>
+<a class="skip" href="#studio">체험으로 건너뛰기</a>
+<header><a class="brand" href="https://onduru.com/"><i aria-hidden="true"></i> ONDURU</a><nav aria-label="페이지 메뉴"><a href="#studio">작업공간</a><a href="#design">설계 기록</a><a href="https://onduru.com/ko/profile/#k6">프로필 ↗</a></nav></header>
+<main><section class="hero"><div><span class="kicker" lang="en">PORTFOLIO / HR ANALYTICS</span><h1 lang="en">HR Insight</h1><p class="intro">그룹의 인력과 인건비를 질문으로 살펴보는 작업공간입니다. 법인 마감이 한 달 늘어나면, 같은 질문의 답이 어떻게 바뀌는지 확인해 보세요.</p><a href="#studio" class="button primary">산출물 공간 열기 ↓</a></div>
+<aside class="feature"><span class="kicker">소재·화학 / 2026년 1–10월</span><h2>이 업군의 인원은 늘었을까?</h2><div class="pair"><div><span>당시 소속 기준</span><strong>+430.4<small>명</small></strong></div><div><span>같은 법인 기준</span><strong>−7.6<small>명</small></strong></div></div><p>한 법인이 건설·인프라에서 소재·화학으로 옮겼습니다. 어느 법인을 함께 세느냐에 따라 전년 대비 증감의 방향이 달라집니다.</p></aside></section>
+<section class="section" id="studio"><div class="section-head"><div><span class="kicker">INTERACTIVE CASE</span><h2>산출물 공간</h2><p>질문을 고르고, 마감 자료를 반영하고, 채택한 판의 근거를 열어보세요.</p></div></div>
+<noscript>체험을 실행하려면 브라우저에서 JavaScript를 켜 주세요.</noscript>
+<div class="stage"><div class="side"><div class="card"><h3>어떤 수치를 볼까요?</h3><div class="choices" id="examples"></div><form id="form"><label for="question" class="muted">다른 표현으로 의뢰</label><div class="request"><input id="question" maxlength="140" autocomplete="off" placeholder="예) 유통 법인별 퇴직률을 표로"><button>의뢰하기</button></div></form><p class="feedback" id="open" role="status"></p></div>
+<div class="card"><span class="tag">합성 자료 · 19개 법인</span><h3 id="current"></h3><p>이 체험에서는 마지막 법인의 10월 마감을 반영할 수 있습니다. 두 해의 비교 기간이 함께 한 달 늘어납니다.</p><button id="advance">10월 마감 반영</button><div class="history" id="history"></div><details><summary>체험 초기화</summary><p>이 브라우저의 체험 기록을 지우고 9월부터 다시 시작합니다.</p><button id="restart">새 체험 시작</button></details></div></div>
+<div class="card" id="result"><div class="result-head"><div><span class="tag" id="state"></span><h3 id="title"></h3></div><span class="muted" id="unit"></span></div><div class="muted" id="period"></div><div id="fig"></div><div class="tablewrap" id="values"></div><div id="explain"></div><div id="changes"></div><div class="actions"><button class="primary" id="accept">이 판 채택</button><button id="xlsx">엑셀 다운로드</button></div><p class="feedback" role="status" id="notice"></p><details><summary>산식과 자료 근거</summary><dl class="meta" id="evidence"></dl></details></div></div></section>
+<section class="section design" id="design"><div><span class="kicker">DESIGN NOTES</span><h2>설계 기록</h2></div><div><p><strong>업무 분석·설계.</strong> 그룹 HR 분석 플랫폼에서 계열사마다 다른 수집 항목을 공통 지표로 연결하고, 지표 정의서와 화면 매핑표로 수치를 추적하는 일을 이끌었습니다. 이 사례는 그 설계 문제를 가상 그룹으로 재구성한 프로그램입니다.</p><p><strong>구현.</strong> 원 프로그램은 PostgreSQL의 마감 FACT를 FastAPI에서 집계해 React 화면에 전달합니다. 이 웹 체험은 같은 계산 코드로 구한 두 마감 시점의 합성 결과를 사용합니다. 질문과 채택 이력은 현재 브라우저에 저장됩니다.</p><p><strong>에이전트의 역할.</strong> 이 체험은 규칙으로 질문을 해석합니다. 현재 확인할 수 있는 세 가지 분석 범위를 벗어난 의뢰는 열린 질문으로 표시합니다. 여러 모델의 독립 응찰과 상호 검증은 후속 실험입니다.</p></div></section></main>
+<footer><span>ONDURU · HR Insight · v0.2.1 기반</span><a href="https://onduru.com/">온두루 전시로 돌아가기 ↗</a></footer>
+<script id="dataset" type="application/json">{"9":{"hc":{"rows":[["그룹 합계",33470.222222222,34002.0],["지주",180.555555556,179.888888889],["제조",8780.333333333,8865.222222222],["소재·화학",4039.777777778,4470.555555556],["유통",9556.444444444,9756.777777778],["건설·인프라",4062.444444444,3592.444444444],["IT·플랫폼",2433.222222222,2577.222222222],["생활서비스",4598.0,4739.777777778]],"fixed":{"소재·화학":4477.888888889,"건설·인프라":3624.333333333},"id":"d445a0134a44"},"cost":{"rows":[["1월",10.32834475,10.613352682],["2월",10.781981434,11.007311568],["3월",9.959352916,10.24424404],["4월",10.197972091,10.337893442],["5월",10.245545288,10.150911462],["6월",9.949547547,10.169523684],["7월",14.619855451,14.635230202],["8월",10.376848768,10.590744205],["9월",9.874328683,9.917942153]],"id":"ce13a1868c5f"},"exit":{"rows":[["가상리테일",20.7314337,19.93847402],["가상유통물류",21.64373373,20.061039493],["가상온라인커머스",15.743707094,15.23297491]],"id":"fb1cec4c5880"}},"10":{"hc":{"rows":[["그룹 합계",33483.0,34015.5],["지주",180.6,179.8],["제조",8783.1,8867.4],["소재·화학",4039.4,4469.8],["유통",9560.8,9761.0],["건설·인프라",4060.4,3589.7],["IT·플랫폼",2438.2,2583.4],["생활서비스",4601.1,4744.2]],"fixed":{"소재·화학":4477.4,"건설·인프라":3622.4},"id":"8723c0a7f0e5"},"cost":{"rows":[["1월",10.32834475,10.613352682],["2월",10.781981434,11.007311568],["3월",9.959352916,10.24424404],["4월",10.197972091,10.337893442],["5월",10.245545288,10.150911462],["6월",9.949547547,10.169523684],["7월",14.619855451,14.635230202],["8월",10.376848768,10.590744205],["9월",9.874328683,9.917942153],["10월",10.017545704,9.847723922]],"id":"3695b79622ef"},"exit":{"rows":[["가상리테일",20.866973047,19.835163164],["가상유통물류",21.829130598,20.358152686],["가상온라인커머스",15.479621243,15.795836132]],"id":"819ce57c1439"}}}</script>
+<script>
+"use strict";
+const data=JSON.parse(document.querySelector("#dataset").textContent);
+const defs={
+  hc:{question:"업군별 평균 인원 전년 비교",title:"업군별 평균 인원",unit:"명",code:"AVG_HC",by:"업군",formula:"기간 내 법인별 달 말 인원을 합한 뒤 마감 월수로 나눕니다. 임원·정규직·계약직·휴직을 포함합니다.",scope:"그룹 합계는 지주를 제외합니다. 업군 표에는 지주를 별도로 표시합니다."},
+  cost:{question:"그룹 월별 인건비율 추세",title:"그룹 월별 인건비율",unit:"%",code:"COST_RATE",by:"월",formula:"해당 월의 직접·간접 인건비 합계 ÷ 해당 월의 매출 합계 × 100. 누계 매출은 1월부터 월별 차액으로 환산합니다.",scope:"지주를 제외한 그룹 법인을 월별로 합산합니다."},
+  exit:{question:"유통 법인별 퇴직률 비교",title:"유통 법인별 퇴직률",unit:"%",code:"ATTR_RATE",by:"법인",formula:"기간의 자발·비자발 퇴직자 수 ÷ 평균 인원 × 12 ÷ 마감 월수 × 100. 정년 퇴직은 분자에서 제외합니다.",scope:"유통 업군의 가상 법인 3곳을 개별 비교합니다. 연환산 수치입니다."}
+};
+const get=id=>document.getElementById(id);
+const fmt=n=>n==null?"보류":n.toLocaleString("ko-KR",{minimumFractionDigits:1,maximumFractionDigits:1});
+const signed=n=>(n>0?"+":n<0?"−":"")+fmt(Math.abs(n));
+const html=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const key="onduru.hr-insight.public.20261127.v1";
+let model={month:9,chosen:{hc:[],cost:[],exit:[]},open:""};
+try{
+  const saved=JSON.parse(localStorage.getItem(key));
+  if(saved && [9,10].includes(saved.month) && Object.keys(defs).every(k=>Array.isArray(saved.chosen?.[k]) && saved.chosen[k].every((m,i,arr)=>[9,10].includes(m)&&m<=saved.month&&(!i||m>arr[i-1])))){
+    model={month:saved.month,chosen:saved.chosen,open:typeof saved.open==="string"?saved.open:""};
+  }
+}catch{}
+let selected="hc", shown=model.month, tableOnly=false, needsConfirm=false, notice="";
+function save(){try{localStorage.setItem(key,JSON.stringify(model));}catch{notice="브라우저 저장 공간을 사용할 수 있어야 다음 방문에도 이력이 유지됩니다.";}}
+function action(text,fn){const b=document.createElement("button");b.type="button";b.textContent=text;b.onclick=fn;return b;}
+function choose(k,table=false){
+  selected=k;tableOnly=table;shown=model.month;needsConfirm=false;notice="";get("question").value=defs[k].question+(table?" · 표로만":"");render();
+}
+function classify(question){
+  let s=question.trim().replace(/[\s·.,?!]+/g,"");
+  const table=/표로만|표로|표형식/.test(s);
+  const patterns={hc:/^(?:업군별|업군)(?:평균인원|평균인력)(?:을|을전년과|을전년도와|전년과|전년|전년대비|을전년대비)?(?:비교)?(?:해줘|해주세요|보여줘|보여주세요)?$/,cost:/^(?:그룹)?월별인건비(?:비)?율(?:을|의)?(?:추세|비교)?(?:를)?(?:보여줘|보여주세요|해줘|해주세요)?$/,exit:/^유통(?:업군)?(?:법인별)?(?:연환산)?(?:퇴직률|퇴사율)(?:을)?(?:비교)?(?:해줘|해주세요|보여줘|보여주세요)?$/};
+  s=s.replace(/표로만|표로|표형식으로/g,"");
+  return {k:Object.keys(patterns).find(k=>patterns[k].test(s)),table};
+}
+function submitQuestion(event){
+  event.preventDefault();const q=get("question").value.trim();if(!q)return;
+  const {k,table}=classify(q);if(k){choose(k,table);return;}
+  model.open=q;save();get("open").textContent="열린 질문으로 보관했습니다. 현재 결과는 직전에 선택한 질문의 값입니다. “"+q+"”";
+}
+function advance(){
+  if(model.month===10)return;model.month=10;
+  for(const k of Object.keys(defs))if(model.chosen[k].includes(9)&&!model.chosen[k].includes(10))model.chosen[k].push(10);
+  if(model.chosen[selected].includes(10)){shown=10;notice="10월 마감으로 채택 산출물에 새 판이 생겼습니다. 9월 판도 다시 열 수 있습니다.";}
+  else{shown=9;notice="10월 자료가 도착했습니다. 채택 전에 미리 본 값과 새 값을 대조할 수 있습니다.";}
+  save();render();
+}
+function accept(){
+  if(shown!==model.month){
+    shown=model.month;needsConfirm=true;notice="미리 본 뒤 자료가 바뀌었습니다. 아래 변경값을 확인하고 다시 채택해 주세요.";render();return;
+  }
+  const list=model.chosen[selected];
+  if(!list.includes(shown)){list.push(shown);save();}
+  needsConfirm=false;notice="현재 자료의 판을 이 브라우저에 채택했습니다.";render();
+}
+function table(headers,rows){
+  return "<table><thead><tr>"+headers.map(c=>"<th scope='col'>"+html(c)+"</th>").join("")+"</tr></thead><tbody>"+rows.map(row=>"<tr>"+row.map((c,i)=>i===0?"<th scope='row'>"+html(c)+"</th>":"<td>"+html(c)+"</td>").join("")+"</tr>").join("")+"</tbody></table>";
+}
+function chart(rows){
+  if(tableOnly)return "";
+  if(selected==="cost"){
+    const points=i=>rows.map((r,j)=>(30+j*440/Math.max(1,rows.length-1)).toFixed(1)+","+(107-(r[i]-9)*13).toFixed(1)).join(" ");
+    return '<figure class="figure" aria-hidden="true"><p class="legend">━ 2025 <b>━ 2026</b></p><svg class="plotline" viewBox="0 0 500 140"><g stroke="#394c46" fill="none"><path d="M30 29H470M30 68H470M30 107H470"/></g><g fill="#bac9c4" font-size="11"><text x="1" y="32">15%</text><text x="6" y="110">9%</text><text x="25" y="131">1월</text><text x="445" y="131">'+shown+'월</text></g><polyline fill="none" stroke="#81938e" stroke-width="3" points="'+points(1)+'"/><polyline fill="none" stroke="#adddcc" stroke-width="3" points="'+points(2)+'"/></svg></figure>';
+  }
+  const bars=selected==="hc"?rows.slice(1):rows;
+  const max=Math.max(...bars.flatMap(r=>r.slice(1)));
+  return '<figure class="figure" aria-hidden="true"><p class="legend">━ 2025 <b>━ 2026</b></p><div class="bars">'+bars.map(r=>'<div class="bar"><span>'+html(r[0])+'</span><span class="tracks">'+r.slice(1).map(v=>'<i style="--w:'+Math.max(.3,v/max*100).toFixed(2)+'%"></i>').join("")+'</span></div>').join("")+'</div></figure>';
+}
+function diff(){
+  const before=data[9][selected].rows,after=data[10][selected].rows;
+  return after.flatMap(r=>{const old=before.find(x=>x[0]===r[0]);if(!old)return [[r[0], "추가",fmt(r[1]),fmt(r[2])]];
+    return fmt(old[1])!==fmt(r[1])||fmt(old[2])!==fmt(r[2])?[[r[0],"변경",fmt(old[1])+" → "+fmt(r[1]),fmt(old[2])+" → "+fmt(r[2])]]:[];});
+}
+function render(){
+  const d=defs[selected], result=data[shown][selected], rows=result.rows, versions=model.chosen[selected];
+  const previous=versions.indexOf(shown), old=shown<model.month, isChosen=previous>=0;
+  get("examples").replaceChildren(...Object.entries(defs).map(([id,def])=>{const b=action(def.question,()=>choose(id));b.setAttribute("aria-pressed",String(id===selected));return b;}));
+  get("current").textContent="2026년 "+model.month+"월 마감";get("advance").disabled=model.month===10;
+  get("advance").textContent=model.month===10?"10월 마감 반영됨":"10월 마감 반영";
+  get("history").replaceChildren();if(versions.length){const l=document.createElement("div");l.className="muted";l.textContent="이 산출물의 채택 이력";get("history").append(l);}
+  versions.forEach((m,i)=>{const b=action("v"+(i+1)+" · "+m+"월",()=>{shown=m;needsConfirm=false;notice="채택한 "+m+"월 판을 열었습니다.";render();});b.setAttribute("aria-current",String(m===shown));get("history").append(b);});
+  get("state").textContent=isChosen?"채택한 판 v"+(previous+1):needsConfirm?"자료 변경 · 다시 확인":"규칙 엔진 · 미리보기";
+  get("title").textContent=d.title;get("unit").textContent="단위 "+d.unit;
+  get("period").textContent="2026년 1–"+shown+"월 · 2025년 같은 "+shown+"개월 비교";
+  get("fig").innerHTML=chart(rows);
+  get("values").innerHTML=table([d.by,"2025","2026",selected==="hc"?"증감(명)":"증감(%p)"],rows.map(r=>[r[0],fmt(r[1]),fmt(r[2]),signed(r[2]-r[1])]));
+  if(result.fixed){
+    get("explain").innerHTML='<div class="note"><strong>같은 법인으로 다시 비교</strong><p>2026년 소속을 양쪽에 적용했습니다. 2025년 인원을 두 기준으로 세면 구성 변화의 몫이 드러납니다.</p><div class="tablewrap">'+table(["업군","’25 당시","’25 같은 구성","’26","같은 구성 증감"],Object.entries(result.fixed).map(([k,f])=>{const r=rows.find(x=>x[0]===k);return [k,fmt(r[1]),fmt(f),fmt(r[2]),signed(r[2]-f)];}))+'</div></div>';
+  }else{get("explain").textContent="";}
+  get("changes").innerHTML=shown===10?'<details '+(needsConfirm?"open":"")+'><summary>9월 미리보기와 달라진 값</summary><div class="tablewrap">'+table([d.by,"구분","2025 이전 → 현재","2026 이전 → 현재"],diff())+'</div></details>':"";
+  get("notice").textContent=notice;
+  get("accept").disabled=isChosen;
+  get("accept").textContent=isChosen?"채택한 판":old?"바뀐 자료 확인":needsConfirm?"바뀐 값으로 채택":"이 판 채택";
+  get("evidence").innerHTML=[["자료","합성 자료 · "+result.id+" (표 내용 식별값)"],["지표",d.code+" · "+d.unit],["산식",d.formula],["범위",d.scope],["원 프로그램","hri.tb_fact_month_summary → ReportMapper.selectCompMonthWide → space.compute → /api/space/artifacts"],["엑셀","현재 표의 원수치와 계산 기준, 비교 기간, 자료 식별값을 함께 담습니다."]].map(([k,v])=>"<dt>"+html(k)+"</dt><dd>"+html(v)+"</dd>").join("");
+}
+function xlsx(){
+  const d=defs[selected], ref=data[shown][selected],rows=[[d.by,"2025 ("+d.unit+")","2026 ("+d.unit+")",selected==="hc"?"증감 (명)":"증감 (%p)"],...ref.rows.map(r=>[...r,r[2]-r[1]]),[],["지표",d.code],["자료",ref.id],["기간","2025 / 2026년 각 1–"+shown+"월"],["산식",d.formula],["집계 범위",d.scope],["자료 성격","합성 자료 · 공개 체험"]];
+  if(ref.fixed){rows.push([],["업군","2025 당시","2025 같은 구성","2026","같은 구성 증감"]);for(const [label,prior] of Object.entries(ref.fixed)){const r=ref.rows.find(row=>row[0]===label);rows.push([label,r[1],prior,r[2],r[2]-prior]);}}
+  const parts=makeBook(rows), url=URL.createObjectURL(new Blob([parts],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+  const a=document.createElement("a");a.href=url;a.download="HR-Insight_"+d.code+"_2026-"+String(shown).padStart(2,"0")+".xlsx";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function makeBook(rows){
+  const ss="http://schemas.openxmlformats.org/spreadsheetml/2006/main",rel="http://schemas.openxmlformats.org/package/2006/relationships",office="http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+  const esc=v=>String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const files={
+    "[Content_Types].xml":'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>',
+    "_rels/.rels":'<Relationships xmlns="'+rel+'"><Relationship Id="rId1" Type="'+office+'/officeDocument" Target="xl/workbook.xml"/></Relationships>',
+    "xl/workbook.xml":'<workbook xmlns="'+ss+'" xmlns:r="'+office+'"><sheets><sheet name="HR Insight" sheetId="1" r:id="rId1"/></sheets></workbook>',
+    "xl/_rels/workbook.xml.rels":'<Relationships xmlns="'+rel+'"><Relationship Id="rId1" Type="'+office+'/worksheet" Target="worksheets/sheet1.xml"/></Relationships>',
+    "xl/worksheets/sheet1.xml":'<worksheet xmlns="'+ss+'"><cols><col min="1" max="5" width="23" customWidth="1"/></cols><sheetData>'+rows.map((r,i)=>'<row r="'+(i+1)+'">'+r.map((v,j)=>{const addr=String.fromCharCode(65+j)+(i+1);return typeof v==="number"?'<c r="'+addr+'"><v>'+v+'</v></c>':'<c r="'+addr+'" t="inlineStr"><is><t>'+esc(v)+'</t></is></c>';}).join("")+'</row>').join("")+'</sheetData></worksheet>'
+  };
+  const enc=new TextEncoder(),body=[],directory=[];let offset=0;
+  const header=(length,signature)=>{const bytes=new Uint8Array(length),v=new DataView(bytes.buffer);v.setUint32(0,signature,true);return {bytes,u16:(i,n)=>v.setUint16(i,n,true),u32:(i,n)=>v.setUint32(i,n,true)};};
+  for(const [path,content] of Object.entries(files)){
+    const name=enc.encode(path),bytes=enc.encode(content);let crc=0xffffffff;
+    for(const b of bytes){crc^=b;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+    crc=(crc^0xffffffff)>>>0;
+    const l=header(30,0x04034b50);l.u16(4,20);l.u16(12,33);l.u32(14,crc);l.u32(18,bytes.length);l.u32(22,bytes.length);l.u16(26,name.length);body.push(l.bytes,name,bytes);
+    const c=header(46,0x02014b50);c.u16(4,20);c.u16(6,20);c.u16(14,33);c.u32(16,crc);c.u32(20,bytes.length);c.u32(24,bytes.length);c.u16(28,name.length);c.u32(42,offset);directory.push(c.bytes,name);offset+=30+name.length+bytes.length;
+  }
+  const size=directory.reduce((n,x)=>n+x.length,0),count=Object.keys(files).length,end=header(22,0x06054b50);end.u16(8,count);end.u16(10,count);end.u32(12,size);end.u32(16,offset);
+  const out=new Uint8Array(offset+size+22);let cursor=0;for(const bytes of [...body,...directory,end.bytes]){out.set(bytes,cursor);cursor+=bytes.length;}return out;
+}
+get("restart").onclick=()=>{
+  model={month:9,chosen:{hc:[],cost:[],exit:[]},open:""};save();get("open").textContent="";choose("hc");notice="새 체험을 9월 마감에서 시작합니다.";render();
+};
+get("form").onsubmit=submitQuestion;get("advance").onclick=advance;get("accept").onclick=accept;get("xlsx").onclick=xlsx;
+if(model.open)get("open").textContent="최근 열린 질문 · "+model.open;
+choose("hc");
+
+</script></body></html>
