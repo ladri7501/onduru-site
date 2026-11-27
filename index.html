@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" data-page="home" data-theme="night">
+<html lang="ko" data-variant="base" data-page="home" data-theme="night" data-type="myeongjo">
 <head>
 <meta charset="utf-8">
 <script>(function(){try{var s=history.state,n=performance.getEntriesByType?performance.getEntriesByType('navigation')[0]:null,t=n?n.type:'';if(s&&s.onduruPath&&s.onduruPath.charAt(0)==='/'&&s.onduruPath!=='/'&&(t==='reload'||t==='back_forward'))location.replace(s.onduruPath);}catch(e){}})();</script>
@@ -14,12 +14,14 @@
 <link rel="canonical" href="https://onduru.com/">
 <meta name="referrer" content="no-referrer">
 <title>온두루, 일이 닿으면 · ONDURU</title>
-<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme');if(t)r.setAttribute('data-theme',t);}catch(e){}r.className+=' js';})();</script>
+<script>(function(){var r=document.documentElement;try{var t=localStorage.getItem('onduru-theme'),y=localStorage.getItem('onduru-type');if(t)r.setAttribute('data-theme',t);if(y)r.setAttribute('data-type',y);var z=localStorage.getItem('onduru-size');if(z==='l'||z==='xl')r.setAttribute('data-size',z);}catch(e){}r.className+=' js';})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
 <link rel="stylesheet" href="/shared/onduru.css?v=2026111400">
+<link rel="stylesheet" href="/shared/site.css?v=2026111400">
+<link rel="stylesheet" href="/shared/head3.css?v=2026111400">
 <link rel="stylesheet" href="/when-work-arrives/fonts.css?v=2026112701">
-<link rel="stylesheet" href="/when-work-arrives/work.css?v=2026112706">
+<link rel="stylesheet" href="/when-work-arrives/work.css?v=2026112707">
 <link rel="stylesheet" href="/when-work-arrives/prologue.css?v=2026112704">
 <script src="/when-work-arrives/return-sky.js?v=2026112704" defer></script>
 <script src="/when-work-arrives/return-studio.js?v=2026112701" defer></script>
@@ -27,18 +29,20 @@
 <script src="/when-work-arrives/server-ring.js?v=2026112704" defer></script>
 <script src="/when-work-arrives/world-share.js?v=2026112705" defer></script>
 <script src="/when-work-arrives/prologue.js?v=2026112705" defer></script>
-<script src="/when-work-arrives/work.js?v=2026112706" defer></script>
+<script src="/when-work-arrives/work.js?v=2026112707" defer></script>
 </head>
 
 <body>
 <a class="skip" href="#main">전시로 건너뛰기</a>
-<header class="home-head"><a class="mark" href="/" translate="no" aria-label="ONDURU — 첫 화면"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="home-nav" aria-label="이 자리의 글" translate="no"><a href="/ko/footsteps/" data-to="footsteps"><span lang="en">Footsteps</span></a><a href="/ko/method/" data-to="method"><span lang="en">Method</span></a><a href="/ko/simulation/" data-to="simulation"><span lang="en">Simulation</span></a><a href="/ko/about/" data-to="about"><span lang="en">About</span></a><a href="/ko/profile/" data-to="profile"><span lang="en">Profile</span></a></nav><nav class="home-lang" aria-label="언어" translate="no"><button type="button" data-lang="ko" lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span aria-hidden="true">/</span><button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="es" lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav></header>
+<header class="site-head"><a class="mark" href="/" translate="no" aria-label="ONDURU — 첫 화면"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="40" transform="rotate(-70 50 50)"/></svg><span>ONDURU</span></a><nav class="site-nav" aria-label="이 자리의 글"><a href="/ko/footsteps/" data-to="footsteps"><span lang="en" translate="no">Footsteps</span></a><a href="/ko/method/" data-to="method"><span lang="en" translate="no">Method</span></a><a href="/ko/simulation/" data-to="simulation"><span lang="en" translate="no">Simulation</span></a><a href="/ko/about/" data-to="about"><span lang="en" translate="no">About</span></a><a href="/ko/profile/" data-to="profile"><span lang="en" translate="no">Profile</span></a></nav><div class="ctl3" translate="no" lang="en"><nav class="lng3" aria-label="언어" translate="no"><button type="button" data-lang="ko" lang="ko" aria-pressed="true" aria-label="한국어" title="한국어">한</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="en" lang="en" aria-pressed="false" aria-label="English" title="English">EN</button><span class="sl" aria-hidden="true">/</span><button type="button" data-lang="es" lang="es" aria-pressed="false" aria-label="Español" title="Español">ES</button></nav><button type="button" class="ico3" data-cyc="theme" data-name="Theme" aria-label="Theme"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg></button><button type="button" class="ico3" data-cyc="type" data-name="Type" aria-label="Type"><span aria-hidden="true">Aa</span></button><button type="button" class="ico3 sz3" data-cyc="size" data-name="Text size" aria-label="Text size"><span aria-hidden="true">A+</span></button></div></header>
 <main id="main" class="stage" tabindex="-1" aria-label="온두루, 일이 닿으면">
 <section id="prologue" hidden></section>
 <div class="tone" aria-hidden="true"></div>
 <noscript><p class="nojs">온두루, 일이 닿으면 — 한 사람이 건넨 말이 여러 DURU를 거쳐 그 사람에게 돌아옵니다.</p></noscript>
 </main>
-<footer class="home-foot"><div class="works"><button type="button" id="works" class="works-btn" aria-expanded="false" aria-controls="works-list"><span class="works-name">작품</span><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 6.5 5 3.5 8 6.5"/></svg></button><ul id="works-list" class="works-list" hidden><li><a href="/" data-work="now" aria-current="page">온두루, 일이 닿으면</a></li><li><a href="/everything-you-can-imagine/" data-work="everything-you-can-imagine">당신이 상상할 수 있는 모든 것</a></li><li><a href="/struck-out/" data-work="struck-out">지운 자리의 노래</a></li><li><a href="/same-wind/" data-work="same-wind">같은 바람</a></li></ul></div><button id="transport" class="ply" type="button" aria-label="재생" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="p1" d="M6.5 4.5v11l9-5.5z"/><path class="p2" d="M7 4.5v11M13 4.5v11"/></svg></button></footer>
+<footer class="site-foot label"><span class="foot-menu foot-works"><span class="workbar"><button type="button" id="works" class="works-btn" aria-expanded="false" aria-controls="works-list"><span class="works-name">작품</span><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 6.5 5 3.5 8 6.5"/></svg></button><ul id="works-list" class="works-list" hidden><li><a href="/" data-work="now" aria-current="page">온두루, 일이 닿으면</a></li><li><a href="/everything-you-can-imagine/" data-work="everything-you-can-imagine">당신이 상상할 수 있는 모든 것</a></li><li><a href="/struck-out/" data-work="struck-out">지운 자리의 노래</a></li><li><a href="/same-wind/" data-work="same-wind">같은 바람</a></li></ul></span><button id="transport" class="ply" type="button" aria-label="재생" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="p1" d="M6.5 4.5v11l9-5.5z"/><path class="p2" d="M7 4.5v11M13 4.5v11"/></svg></button></span><span translate="no">© 2026 ONDURU</span><span translate="no">On × Agent</span><span class="pick" hidden translate="no" lang="en"><span class="pick-g" role="group" aria-label="Theme" data-pick="theme"><span class="pick-h">Theme</span><button type="button" data-v="auto">Auto</button><button type="button" data-v="night">Night</button><button type="button" data-v="dawn">Dawn</button><button type="button" data-v="paper">Paper</button></span><span class="pick-g" role="group" aria-label="Type" data-pick="type"><span class="pick-h">Type</span><button type="button" data-v="gothic">Sans</button><button type="button" data-v="batang">Batang</button><button type="button" data-v="myeongjo">Serif</button></span><span class="pick-g" role="group" aria-label="Text size" data-pick="size"><span class="pick-h">Size</span><button type="button" data-v="m">Default</button><button type="button" data-v="l">Large</button><button type="button" data-v="xl">Larger</button></span></span></footer>
 <script src="/shared/sky-theme.js?v=2026111400"></script>
+<script src="/shared/picker.js?v=2026111400"></script>
+<script src="/shared/head3.js?v=2026111400"></script>
 </body>
 </html>

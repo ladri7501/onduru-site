@@ -1,78 +1,53 @@
-/* 첫 화면(/) — 전시를 위한 틀 (On 2026-11-27 고쳐 말씀: 위 · 아래가 다른 쪽과 같아 이질감이 크다 — 심플하게, 전시에 방해되지 않게).
- *   위: 로고 · ONDURU · 메뉴(한 번만) · 한 / EN / ES. 다른 쪽의 머리와 같은 글자 · 같은 차례이되, 띠 · 줄 · 바탕 단추 없이 작품의 어둠 위에 흐리게 놓인다.
- *   아래: 작품(누르면 네 작품의 목록이 위로 열린다) · 재생 단추. 메뉴는 위에만 있다.
+/* 첫 화면(/) — 전시를 위한 틀.
+ *   위 · 아래는 다른 쪽과 같은 머리 · 바닥(site.css · head3.css를 그대로 부름) — 자리 · 높이 · 글꼴 · 줄이 같다 (On 2026-11-27 17:26 「두번째 기준으로 상단, 하단 위치 및 폰트를 일관성있게」).
+ *   위: 로고 · ONDURU · 메뉴 · 한 / EN / ES · ◑ Aa A+ (다른 쪽과 똑같음).
+ *   아래: 다른 쪽 바닥의 두 줄 그대로 — 첫 줄(다른 쪽의 메뉴 자리)에 작품(목록이 위로 열림) · 재생, 둘째 줄에 © 2026 ONDURU · On × Agent.
+ *         메뉴는 위에만 둔다(위 · 아래 메뉴가 겹치면 이질감 — On 2026-11-27 05:38).
  *   위 · 아래와 전시는 다른 쪽과 같이 때를 따라 바탕이 바뀐다(밤 · 새벽 · 종이 — sky-theme.js). 비 오는 날의 결은 입히지 않는다(sky.css 를 부르지 않음) (On 2026-11-27 16:32).
  *   작품은 밤빛으로 그려지고, 종이 때에는 뒤집어(invert · hue-rotate) 밝게 보인다. 그 위의 얇은 막(.tone)이 작품의 가장자리 빛을 그때의 바탕색에 꼭 맞춰, 틀과 작품 사이에 금이 보이지 않게 한다(work.js). */
 html[data-page="home"] { --edge: #0f1318; background: var(--bg); }
 html[data-page="home"], html[data-page="home"] body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 html[data-page="home"] body {
   display: flex; flex-direction: column; height: 100vh; height: 100svh; min-height: 0; margin: 0;
-  background: var(--bg); color: var(--ink); font-family: var(--font-label);
+  background: var(--bg); color: var(--ink);
 }
-html[data-page="home"] .skip:focus { z-index: 30; }
+html[data-page="home"] .skip:focus { z-index: 50; }
+html[data-page="home"] .site-head, html[data-page="home"] .site-foot { flex: none; }
+/* 바닥은 쪽 끝에 붙어 있으므로 글과 바닥 사이의 띄움(다른 쪽의 margin-top)은 쓰지 않는다 — 자리 · 높이는 다른 쪽 바닥과 같다 */
+html[data-page="home"] .site-foot { margin-top: 0; }
 
-/* 위 — 한 줄(PC) · 두 줄(휴대폰: 로고와 언어, 그 아래 메뉴) */
-.home-head {
-  flex: none; display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--sp-5);
-  padding: max(2px, env(safe-area-inset-top, 0px)) var(--gutter) 0; font-size: var(--fs-label); line-height: 1.3;
-}
-.home-head .mark { order: 1; color: var(--ink-dim); }
-.home-nav { order: 2; display: flex; gap: 0 var(--sp-2); margin-left: calc(-1 * var(--sp-2)); }
-.home-nav a, .home-lang button {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
-  padding: 0 var(--sp-2); color: var(--ink-faint); text-decoration: none; background: none; border: 0; font: inherit; cursor: pointer;
-}
-.home-nav a:hover, .home-nav a:focus-visible, .home-head .mark:hover { color: var(--ink-strong); }
-.home-lang { order: 3; display: inline-flex; align-items: center; margin-left: auto; margin-right: calc(-1 * var(--sp-1)); font-weight: 500; letter-spacing: .08em; color: var(--ink-faint); white-space: nowrap; }
-.home-lang button { padding: 0 3px; letter-spacing: inherit; opacity: .6; }
-.home-lang button[aria-pressed="true"] { opacity: 1; color: var(--ink-strong); }
-.home-lang button:hover, .home-lang button:focus-visible { opacity: 1; }
-.home-lang span { opacity: .45; }
-@media (max-width: 719.98px) {
-  .home-head { column-gap: var(--sp-3); }
-  .home-lang { order: 2; }
-  .home-nav { order: 3; flex-basis: 100%; gap: 0 2px; margin-top: -6px; }
-  .home-nav a { padding: 0 6px; }
-}
-@media (max-width: 359.98px) {
-  .home-nav { gap: 0; letter-spacing: -0.01em; }
-  .home-nav a { padding: 0 4px; }
-}
-
-/* 아래 — 작품 · 재생 */
-.home-foot {
-  position: relative; z-index: 4; flex: none; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 var(--gutter) max(2px, env(safe-area-inset-bottom, 0px)); font-size: var(--fs-label); line-height: 1.3;
-}
+/* 아래 첫 줄 — 작품 · 재생. 다른 쪽 바닥 메뉴와 같은 자리 · 같은 글자 */
+.foot-works { display: flex; align-items: center; justify-content: space-between; }
+.workbar { position: relative; display: inline-flex; }
 .works-btn {
-  display: inline-flex; align-items: center; gap: .45em; min-height: 44px; margin-left: calc(-1 * var(--sp-2)); padding: 0 var(--sp-2);
-  border: 0; background: none; color: var(--ink-faint); font: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; gap: .45em; min-height: var(--tap); padding: 0 var(--sp-1);
+  border: 0; background: none; color: var(--ink-dim); font: inherit; letter-spacing: inherit; cursor: pointer;
 }
 .works-btn:hover, .works-btn:focus-visible, .works-btn[aria-expanded="true"] { color: var(--ink-strong); }
 .works-btn svg { width: 10px; height: 10px; transition: transform .2s; }
 .works-btn svg path { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
 .works-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
 .works-list {
-  position: absolute; left: calc(var(--gutter) - var(--sp-2)); bottom: calc(100% + 2px); z-index: 6;
+  position: absolute; left: 0; bottom: calc(100% + var(--sp-1) + 8px); z-index: 6;
   min-width: 15em; max-width: calc(100vw - 2 * var(--gutter)); margin: 0; padding: 6px 0; list-style: none;
   background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 8px 28px rgb(0 0 0 / 45%);
 }
 html[data-theme="paper"] .works-list { box-shadow: 0 8px 24px rgb(43 42 38 / 14%); }
 .works-list li { margin: 0; }
-.works-list a {
-  display: flex; align-items: center; gap: .7em; min-height: 42px; padding: 4px 16px 4px 14px;
-  color: var(--ink-dim); text-decoration: none; word-break: keep-all; overflow-wrap: break-word;
+html body .site-foot .works-list a {
+  display: flex; align-items: center; justify-content: flex-start; gap: .7em; min-width: 0; min-height: 42px; padding: 4px 16px 4px 14px;
+  color: var(--ink-dim); text-decoration: none; white-space: nowrap; word-break: keep-all; overflow-wrap: break-word;
 }
 .works-list a::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; border: 1px solid currentColor; opacity: .55; }
-.works-list a:hover, .works-list a:focus-visible { color: var(--ink-strong); }
-.works-list a[aria-current] { color: var(--ink-strong); }
+html body .site-foot .works-list a:hover, html body .site-foot .works-list a:focus-visible, html body .site-foot .works-list a[aria-current] { color: var(--ink-strong); }
 .works-list a[aria-current]::before { background: var(--signal); border-color: var(--signal); opacity: 1; }
-.home-foot .ply {
-  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
-  margin-right: -10px; padding: 0; border: 0; background: none; color: var(--ink-faint); cursor: pointer;
+/* 재생 — 위의 A+ 단추와 같은 너비 · 같은 오른쪽 끝 */
+.site-foot .ply {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: var(--tap);
+  margin-right: calc(-1 * var(--sp-1)); padding: 0; border: 0; background: none; color: var(--ink-dim); cursor: pointer;
 }
-.home-foot .ply:hover, .home-foot .ply:focus-visible { color: var(--ink-strong); }
-.home-foot .ply[hidden] { display: none; }
+.site-foot .ply:hover, .site-foot .ply:focus-visible { color: var(--ink-strong); }
+.site-foot .ply[hidden] { display: none; }
 .ply svg { display: block; width: 18px; height: 18px; overflow: visible; }
 .ply path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
 .ply .p2, .ply[aria-pressed="true"] .p1 { display: none; }

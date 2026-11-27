@@ -1,5 +1,6 @@
 /* 첫 화면(/) — 2026-11-27 판의 틀 (On 2026-11-27 고쳐 말씀: 심플하게, 전시에 방해되지 않게).
- *  · 위: 로고 · ONDURU · 메뉴 · 한 / EN / ES. 아래: 작품(네 작품의 목록이 위로 열림) · 재생.
+ *  · 위 · 아래는 다른 쪽과 같은 머리 · 바닥(site.css · head3.css): 위치 · 글꼴이 같다(On 2026-11-27 17:26).
+ *    위: 로고 · ONDURU · 메뉴 · 한 / EN / ES · ◑ Aa A+. 아래: 첫 줄은 작품(네 작품의 목록이 위로 열림) · 재생, 둘째 줄은 © · On × Agent.
  *  · 지금 작품 「온두루, 일이 닿으면」은 prologue.js 가 전시 자리 안에 그린다. 끝나면 마지막 쪽에 그대로 머문다.
  *  · 쪽 넘기기: 전시 자리 어디든 누르거나 PageDown 이면 다음 쪽, PageUp 이면 앞 쪽. 멈춘 채로도 넘어간다.
  *  · 지난 작품은 같은 틀 안(전시 자리의 iframe)에서 열린다. 그 작품의 로고와 언어 단추는 틀 안에서 숨긴다.
@@ -87,12 +88,12 @@
     d.title = copy.list[index] + ' · ONDURU';
     $('.skip').textContent = copy.skip;
     $('.mark').setAttribute('aria-label', copy.home);
-    $('.home-nav').setAttribute('aria-label', copy.pages);
-    $('.home-lang').setAttribute('aria-label', copy.language);
+    $('.site-nav').setAttribute('aria-label', copy.pages);
+    $('.lng3').setAttribute('aria-label', copy.language);
     $('.works-name').textContent = copy.works;
     stage.setAttribute('aria-label', copy.list[index]);
     for (const a of d.querySelectorAll('a[data-to]')) a.setAttribute('href', '/' + locale + '/' + a.dataset.to + '/');
-    for (const b of d.querySelectorAll('.home-lang button')) b.setAttribute('aria-pressed', String(b.dataset.lang === locale));
+    for (const b of d.querySelectorAll('.lng3 button')) b.setAttribute('aria-pressed', String(b.dataset.lang === locale));
     workLinks.forEach((a, i) => { a.textContent = copy.list[i]; });
     if (frame) frame.title = copy.list[index];
     work.setLocale(locale);
@@ -100,7 +101,7 @@
     retone();
     sync();
   }
-  for (const b of d.querySelectorAll('.home-lang button')) b.addEventListener('click', () => {
+  for (const b of d.querySelectorAll('.lng3 button')) b.addEventListener('click', () => {
     if (b.dataset.lang === locale) return;
     locale = b.dataset.lang;
     try { localStorage.setItem('onduru-lang', locale); } catch {}
@@ -214,15 +215,17 @@
     wheel = 0;
   }, {passive: true});
 
-  // Anywhere on the page but its links and buttons: the next page of the work. With the list of
+  // Anywhere in the exhibition but its links and buttons: the next page of the work. With the list of
   // works open, a click elsewhere only closes it.
   d.addEventListener('click', event => {
     if (event.button) return;
     if (performance.now() < swallow) { swallow = 0; return; }
-    const inside = event.target.closest && event.target.closest('.works');
+    const inside = event.target.closest && event.target.closest('.workbar');
     if (isOpen() && !inside) { openList(false); return; }
     if (current !== 'now') return;
-    if (event.target.closest && event.target.closest('a,button,input,select,textarea,summary,label,iframe')) return;
+    // Only inside the exhibition: the bars above and below are the site's own and turn no pages.
+    if (!(event.target.closest && event.target.closest('#main'))) return;
+    if (event.target.closest('a,button,input,select,textarea,summary,label,iframe')) return;
     work.next();
   });
   d.addEventListener('keydown', event => {
