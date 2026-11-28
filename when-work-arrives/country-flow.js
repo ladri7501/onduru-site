@@ -10,6 +10,44 @@
 (() => {
   'use strict';
   const TAU = Math.PI * 2;
+  // The visitor's text size (the site's A+ — On, 2026-11-28 07:44): the words drawn in the
+  // exhibition grow with it, but never onto one more line than they take at the usual size, nor
+  // further past their room than they already go; where they would, they grow only as far as fits.
+  // Shared with the eight servers and the real screens (window.CountryFlow.grown).
+  const textScale = () => ({l: 1.25, xl: 1.5})[document.documentElement.getAttribute('data-size')] || 1;
+  const rowsAt = (g, text, maxW) => {
+    let n = 0, widest = 0;
+    String(text).split('\n').forEach(part => {
+      let cur = '';
+      part.split(' ').forEach(word => {
+        const next = cur ? cur + ' ' + word : word;
+        if (cur && g.measureText(next).width > maxW) { n++; widest = Math.max(widest, g.measureText(cur).width); cur = word; } else cur = next;
+      });
+      n++; widest = Math.max(widest, g.measureText(cur).width);
+    });
+    return [n, widest];
+  };
+  const grownMemo = new Map();
+  // css: a size → the font for it. Returns the size to draw at: base, or larger up to base × A+.
+  function grown(g, css, text, base, maxW) {
+    const k = textScale();
+    if (k <= 1 || !text || !(maxW > 0)) return base;
+    const key = [css(base), text, Math.round(maxW), k].join('|');
+    let s = grownMemo.get(key);
+    if (s !== undefined) return s;
+    const was = g.font;
+    g.font = css(base);
+    const [n0, w0] = rowsAt(g, text, maxW), limit = Math.max(maxW, w0);
+    for (s = base * k; s > base; s = Math.max(base, s - Math.max(.25, base * .03))) {
+      g.font = css(s);
+      const [n, wide] = rowsAt(g, text, maxW);
+      if (n <= n0 && wide <= limit) break;
+    }
+    g.font = was;
+    if (grownMemo.size > 3000) grownMemo.clear();
+    grownMemo.set(key, s);
+    return s;
+  }
   const human = '230,227,219', agent = '147,214,196', warm = '236,104,92';
   const line = '92,100,108', faint = '52,58,66', ground = '38,44,52';
   // Where each agent comes from: the LLM it was trained on, drawn as a strand of DNA with that
@@ -295,12 +333,41 @@
   }
   // list: the models to show; now: the one to underline; colour: draw every entry in this colour
   // (the eight going grey); alpha: how much of the row is seen.
+  // How large the names in the row may grow with A+ while each list still takes no more rows
+  // than at the usual size (one size for both, so the row keeps its place when the names change).
+  const legendMemo = new Map();
+  function legendGrow(g, w, h, F) {
+    const k = textScale();
+    if (k <= 1) return 1;
+    const key = [w, h, k, F.font].join('/');
+    if (legendMemo.has(key)) return legendMemo.get(key);
+    const fs = F.font * (F.portrait ? .9 : .92), ha = F.portrait ? 2.6 : 3.4, gap = F.portrait ? 12 : 18;
+    const left = F.portrait ? w * .03 : F.P(.06, 0)[0], right = w * .97, lead = F.portrait ? 40 : LEGEND_LEAD;
+    const was = g.font;
+    const rowsWith = size => {
+      g.font = size.toFixed(1) + 'px "Exhibit Label", sans-serif';
+      return [companies, models].map(list => {
+        let n = 1, x = left + lead;
+        list.forEach(d => { const need = ha * 2 + 6 + g.measureText(d.name).width; if (x + need > right) { x = left + lead; n++; } x += need + gap; });
+        return n;
+      });
+    };
+    // Each list keeps the rows it has at the usual size; on a phone the row also keeps (to within
+    // a few pixels) the height it has, so the title and the country under it stay where they are.
+    const n0 = rowsWith(fs);
+    const cap = F.portrait ? 1 + 3 / ((F.portrait ? 16 : 19) * (Math.max(...n0) - .5)) : k;
+    let s = fs * Math.min(k, cap);
+    while (s > fs && rowsWith(s).some((n, i) => n > n0[i])) s = Math.max(fs, s - fs * .03);
+    g.font = was;
+    legendMemo.set(key, s / fs);
+    return s / fs;
+  }
   function legend(g, w, h, u, {list = dna, now = -1, alpha = 1, colour = null, locale = 'ko'} = {}) {
     if (!(w > 0 && h > 0) || alpha <= .004) return;
     const wd = words[locale] || words.ko, portrait = isPortrait(w, h);
-    const F = frameOf(w, h, portrait ? layOf(g, w, h, wd, locale) : null);
-    const fs = F.font * (F.portrait ? .9 : .92), hl = F.portrait ? 11 : 15, ha = F.portrait ? 2.6 : 3.4;
-    const left = F.portrait ? w * .03 : F.P(.06, 0)[0], right = w * .97, gap = F.portrait ? 12 : 18, rowH = F.portrait ? 16 : 19;
+    const F = frameOf(w, h, portrait ? layOf(g, w, h, wd, locale) : null), kl = legendGrow(g, w, h, F);
+    const fs = F.font * (F.portrait ? .9 : .92) * kl, hl = F.portrait ? 11 : 15, ha = F.portrait ? 2.6 : 3.4;
+    const left = F.portrait ? w * .03 : F.P(.06, 0)[0], right = w * .97, gap = F.portrait ? 12 : 18, rowH = (F.portrait ? 16 : 19) * kl;
     let y = F.portrait ? h * .034 : h * .018;
     g.save();
     g.textBaseline = 'middle'; g.textAlign = 'left';
@@ -337,9 +404,10 @@
   // screen nothing runs into anything else.
   const lays = new Map();
   function layOf(g, w, h, wd, locale) {
-    const key = [w, h, locale].join('/');
+    const K = textScale(), key = [w, h, locale, K].join('/');
     if (lays.has(key)) return lays.get(key);
-    const font = 10, rowH = 16, left = w * .03, right = w * .97, lead = font * 1.1 * 1.32;
+    const kl = legendGrow(g, w, h, frameOf(w, h, null));
+    const font = 10, rowH = 16 * kl, left = w * .03, right = w * .97, lead = font * 1.1 * 1.32 * K;
     const wrap = (text, maxW, css) => {
       g.font = css;
       let n = 0;
@@ -359,6 +427,7 @@
     // The row as legend() lays it out on a phone: the picture first, then the names; room for the
     // longer of the two lists, so the country does not move when the names change.
     let rows = 1;
+    g.font = (fs * kl).toFixed(1) + 'px "Exhibit Label", sans-serif';
     [companies, models].forEach(list => {
       let n = 1, x = left + 40;
       list.forEach(d => {
@@ -370,7 +439,9 @@
     });
     const legendY = h * .034 + (rows - 1) * rowH + rowH * .5 + 4;
     const legend = wrap(wd.legend, w * .9, '500 ' + (font * 1.1).toFixed(1) + 'px "Exhibit Label", sans-serif');
-    const top = Math.max(h * .18, legendY + legend * lead + 12);
+    // The country spreads top to bottom, from just under the names to just above the card
+    // (On, 2026-11-28 07:44 「간격을 좀 더 넓게 펼쳐」 — it used to keep to the middle .18–.8).
+    const top = Math.max(h * .12, legendY + legend * lead + 16);
     const size = font * .98, gap = size * 1.42;
     let lines = 0;
     wd.heads.forEach((head, i) => {
@@ -380,7 +451,7 @@
     });
     g.restore();
     const drop = Math.max(18, h * .035);
-    const bottom = Math.min(h * .8, h * .975 - 11 - (lines - 1) * gap - drop);
+    const bottom = Math.min(h * .86, h * .975 - 11 - 14 * (K - 1) - (lines - 1) * gap * K - drop);
     const lay = {top, bottom, legendY, cardY: bottom + drop};
     lays.set(key, lay);
     return lay;
@@ -419,9 +490,11 @@
       }
     };
     const halo = (x, y, rad, c, a, width = .7) => { if (a <= .004) return; g.strokeStyle = rgba(c, a); g.lineWidth = width; g.beginPath(); g.arc(x, y, rad, 0, TAU); g.stroke(); };
-    const label = (s, X, Y, c, a, size = 1, align = 'center') => {
+    const labelFont = v => v.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const label = (s, X, Y, c, a, size = 1, align = 'center', space = Infinity) => {
       if (a <= .004) return; const [x, y] = P(X, Y);
-      g.font = (F.font * size).toFixed(1) + 'px "Exhibit Label", sans-serif';
+      const room = Math.min(space, align === 'left' ? w - 6 - x : align === 'right' ? x - 6 : 2 * Math.min(x, w - x) - 12);
+      g.font = labelFont(grown(g, labelFont, s, F.font * size, room));
       g.textAlign = align; g.textBaseline = 'middle';
       g.fillStyle = rgba(c, a); g.fillText(s, x, y);
     };
@@ -581,6 +654,15 @@
       label(wd.chain, SX[0] - .015, LY, tint(human, agent, rec), .85 + .15 * rec, .9 + .05 * rec, 'right'); label(wd.backup, SX[0] - .015, BY, line, .8, .8, 'right');
     }
     const trace = ramp(u, 14.15, 15.6), head = mix(SX[6], SX[0], trace);
+    // Where a station's name ends on a phone (drawn below, left-aligned beside the line).
+    const stationEnd = (i, X) => {
+      const text = wd.stations[i].split(' ').slice(0, 2).join(' '), x0 = P(X, LINE + .03)[0];
+      const was = g.font;
+      g.font = labelFont(grown(g, labelFont, text, F.font * .95, w - 6 - x0));
+      const end = x0 + g.measureText(text).width;
+      g.font = was;
+      return end;
+    };
     SX.forEach((X, i) => {
       const made = ramp(u, ticks[i], ticks[i] + .25);
       const walked = u > 14.1 && head <= X + .001 ? Math.max(0, 1 - Math.abs(head - X) / .03) : 0;
@@ -590,7 +672,8 @@
         for (let k = 0; k < 3; k++) dot(X + (k - 1) * .004, BY, 1.1, line, .4 + .4 * ramp(u, ticks[i] + .3, ticks[i] + .6));
         if (i) seg([SX[i - 1] + .006, LY], [X - .006, LY], agent, .45, .7, made);
         const fp = i ? prints[i] + ' ← ' + prints[i - 1] : prints[i];
-        if (F.portrait) label(fp, X + .022, LY - .035, walked > .05 ? agent : human, (.55 + .45 * walked) * made, .78, 'right');
+        // On a phone the prints sit just under the station's name: grown, they stop short of it.
+        if (F.portrait) label(fp, X + .022, LY - .035, walked > .05 ? agent : human, (.55 + .45 * walked) * made, .78, 'right', P(X, LY - .035)[0] - stationEnd(i, X) - 8);
         else label(fp, X, LY - .032, walked > .05 ? agent : human, (.6 + .4 * walked) * made, .8);
         if (i) seg([SX[i - 1] + .006, BY], [X - .006, BY], line, .35, .6, ramp(u, ticks[i] + .3, ticks[i] + .6));
       } else for (let k = 0; k < 3; k++) dot(X + (k - 1) * .004, LY, 1, faint, .8);
@@ -621,7 +704,9 @@
       const lit = Math.max(active(i), walked);
       dot(X, LINE, 3.4 + 1.2 * lit, lit > .05 ? agent : human, .65 + .35 * lit);
       ring(X, LINE, 9, lit > .05 ? agent : line, .35 + .55 * lit);
-      label(F.portrait ? wd.stations[i].split(' ').slice(0, 2).join(' ') : wd.stations[i], X, LINE + (F.portrait ? .03 : .065), lit > .05 ? agent : human, .75 + .25 * lit, F.portrait ? .95 : 1, F.portrait ? 'left' : 'center');
+      // On a wide screen the names stand side by side: grown, each keeps within its stretch of the line.
+      const reach = F.portrait ? Infinity : (P(1, 0)[0] - P(0, 0)[0]) * Math.min(X - (SX[i - 1] ?? IN), (SX[i + 1] ?? OUT) - X) - 12;
+      label(F.portrait ? wd.stations[i].split(' ').slice(0, 2).join(' ') : wd.stations[i], X, LINE + (F.portrait ? .03 : .065), lit > .05 ? agent : human, .75 + .25 * lit, F.portrait ? .95 : 1, F.portrait ? 'left' : 'center', reach);
     });
 
     // The agents, and the other people's work they carry. One load is found to be wrong
@@ -683,9 +768,10 @@
 
     // The words of the work, pinned to the part of the country that does it: dim while they
     // wait (hidden on a small screen), lit and underlined while the work happens there.
-    const fontOf = (on, size) => (on > .5 ? '500 ' : '') + (F.font * (size + .2 * on)).toFixed(1) + 'px "Exhibit Label", sans-serif';
-    const rowsOf = (text, maxW, size, keep) => {
-      g.font = fontOf(1, size);
+    const fontOf = (on, size, k = 1) => (on > .5 ? '500 ' : '') + (F.font * k * (size + .2 * on)).toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const bold = v => '500 ' + v.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const rowsOf = (text, maxW, size, keep, k = 1) => {
+      g.font = fontOf(1, size, k);
       const out = [];
       (F.portrait || keep ? text : text.replace(/\n/g, ' ')).split('\n').forEach(part => {
         let cur = '';
@@ -700,18 +786,25 @@
     const lead = F.font * 1.1 * 1.32;
     const stack = (items, X, Y, align, v, maxW) => {
       const blocks = items.map(it => ({show: 'dim', c: agent, size: .9, ...it}));
-      blocks.forEach(b => { b.rows = rowsOf(b.text, maxW, b.size, b.keep); });
-      const total = blocks.reduce((n, b) => n + b.rows.length, 0);
+      blocks.forEach(b => {
+        const base = F.font * (b.size + .2);
+        b.k = grown(g, bold, F.portrait || b.keep ? b.text : b.text.replace(/\n/g, ' '), base, maxW) / base;
+        b.rows = rowsOf(b.text, maxW, b.size, b.keep, b.k);
+        b.lead = lead * b.k;
+      });
+      // From the first row's middle to the last's, each block keeping its own row height.
+      const span = blocks.reduce((n, b) => n + b.rows.length * b.lead, 0) - blocks[blocks.length - 1].lead;
+      const first = blocks[0].lead;
       const [x, y] = P(X, Y);
-      let row = v === 'bottom' ? y - lead * .55 - (total - 1) * lead : v === 'top' ? y + lead * .55 : y - (total - 1) * lead / 2;
+      let row = v === 'bottom' ? y - first * .55 - span : v === 'top' ? y + first * .55 : y - span / 2;
       g.save();
       g.textAlign = align; g.textBaseline = 'middle';
       blocks.forEach(b => {
         const a = b.show === 'name' ? Math.max(.65, b.on) : b.show === 'dim' && !F.portrait ? Math.max(.5, b.on) : b.on;
         if (a > .004) {
-          g.font = fontOf(b.on, b.size);
+          g.font = fontOf(b.on, b.size, b.k);
           b.rows.forEach((r, i) => {
-            const yy = row + i * lead;
+            const yy = row + i * b.lead;
             const xx = x;
             g.shadowColor = 'rgba(8,14,20,.95)'; g.shadowBlur = b.on > .05 ? 7 : 0;
             g.fillStyle = rgba(tint(b.show === 'name' ? human : line, b.c, b.on), a);
@@ -720,11 +813,11 @@
               const tw = g.measureText(r).width, x0 = align === 'left' ? xx : align === 'right' ? xx - tw : xx - tw / 2;
               g.shadowBlur = 0;
               g.fillStyle = rgba(b.c, .6 * b.on);
-              g.fillRect(x0, yy + F.font * .74, tw * b.on, 1);
+              g.fillRect(x0, yy + F.font * b.k * .74, tw * b.on, 1);
             }
           });
         }
-        row += b.rows.length * lead;
+        row += b.rows.length * b.lead;
       });
       g.restore();
     };
@@ -793,8 +886,10 @@
     // What the work actually was, with the station named above it.
     const card = (rows, [, , X, Y, anchor, align, wide], a) => {
       if (a <= .004) return;
-      const size = F.font * (F.portrait ? .98 : 1.02), gap = size * 1.42;
+      const base = F.font * (F.portrait ? .98 : 1.02);
       const maxW = F.portrait ? w * .92 : Math.min(w * wide, 520);
+      // One size for the whole card: as large as its tightest line allows.
+      const size = Math.min(...rows.map(([t, kind]) => grown(g, v => (kind === 1 ? '500 ' : '') + v.toFixed(1) + 'px "Exhibit Label", sans-serif', t, base, maxW))), gap = size * 1.42;
       g.save();
       g.textBaseline = 'middle';
       g.shadowColor = 'rgba(8,14,20,.95)'; g.shadowBlur = 8;
@@ -821,7 +916,7 @@
       g.restore();
     };
     reads.forEach((spec, s) => card([[wd.heads[s], 1], ...wd.cards[s]], spec, ramp(u, spec[0], spec[0] + .2) * (1 - ramp(u, spec[1] - .2, spec[1]))));
-    if (F.portrait) { g.save(); g.font = (F.font * .8).toFixed(1) + 'px "Exhibit Label", sans-serif'; g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillStyle = rgba(line, .8); g.fillText(wd.example, w * .97, h * .975); g.restore(); }
+    if (F.portrait) { g.save(); g.font = labelFont(grown(g, labelFont, wd.example, F.font * .8, w * .94)); g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillStyle = rgba(line, .8); g.fillText(wd.example, w * .97, h * .975); g.restore(); }
     else label(wd.example, .94, .995, line, .8, .8, 'right');
     g.restore();
   }
@@ -832,5 +927,20 @@
     const F = frameOf(w, h, isPortrait(w, h) ? layOf(g, w, h, wd, locale) : null);
     return {inP: F.P(IN, LINE), outP: F.P(OUT, LINE), st: SX.map(X => F.P(X, LINE)), watcher: F.P(.5, .97), portrait: F.portrait};
   }
-  window.CountryFlow = {draw, anchors, legend, companies, models};
+  // The foot of the row of names (the longer list), for a title drawn under it.
+  function legendFoot(g, w, h) {
+    const F = frameOf(w, h, null), kl = legendGrow(g, w, h, F);
+    const fs = F.font * (F.portrait ? .9 : .92) * kl, ha = F.portrait ? 2.6 : 3.4, gap = F.portrait ? 12 : 18, rowH = (F.portrait ? 16 : 19) * kl;
+    const left = F.portrait ? w * .03 : F.P(.06, 0)[0], right = w * .97, lead = F.portrait ? 40 : LEGEND_LEAD;
+    const was = g.font;
+    g.font = fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const n = Math.max(...[companies, models].map(list => {
+      let rows = 1, x = left + lead;
+      list.forEach(d => { const need = ha * 2 + 6 + g.measureText(d.name).width; if (x + need > right) { x = left + lead; rows++; } x += need + gap; });
+      return rows;
+    }));
+    g.font = was;
+    return (F.portrait ? h * .034 : h * .018) + (n - 1) * rowH + rowH * .5;
+  }
+  window.CountryFlow = {draw, anchors, legend, legendFoot, companies, models, grown, textScale};
 })();

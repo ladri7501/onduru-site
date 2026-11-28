@@ -202,14 +202,19 @@
     g.restore();
 
     // Words: the screen's short name above, then On's line in its place; below, what these are.
-    const fs = Math.max(12, Math.min(15.5, w * .0105));
+    // They grow with the site's A+, each kept on as many lines as at the usual size (country-flow.js).
+    const CF = window.CountryFlow, grow = (css, text, base, maxW) => CF && CF.grown ? CF.grown(g, css, text, base, maxW) : base;
+    const grownBy = CF && CF.textScale ? CF.textScale() : 1;
+    const nameFont = v => '500 ' + v.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const fs0 = Math.max(12, Math.min(15.5, w * .0105));
+    const fs = Math.min(...plan.map(q => grow(nameFont, q.name[locale], fs0, w * .9)));
     const spaceAbove = S.y, top = spaceAbove > fs * 2.6;
     g.save();
     g.textAlign = 'center';
     const words = reduced ? Number(t < lineAt) : fade(t, 0, .35) * (1 - fade(t, lineAt - .15, lineAt + .15));
     if (words > 0) {
       const name = p.name[locale];
-      g.font = '500 ' + fs.toFixed(1) + 'px "Exhibit Label", sans-serif';
+      g.font = nameFont(fs);
       const y = top ? S.y - fs * .9 : S.y + S.h + fs * 1.6;
       const swap = reduced || k === 0 ? 1 : fade(u, 0, .3);
       g.fillStyle = rgba(mint, .95 * words * swap * leave);
@@ -218,22 +223,35 @@
       g.fillRect(S.x + S.w / 2 - wd / 2, y + fs * .28, wd, Math.max(1, fs * .07));
     }
     const said = reduced ? Number(t >= lineAt) : fade(t, lineAt, lineAt + .3) * (1 - fade(t, length - .1, length + .35));
-    const ns = Math.max(10.5, fs * .82);
+    const noteFont = v => '300 ' + v.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const ns = grow(noteFont, caption[locale], Math.max(10.5, fs0 * .82), w * .9);
     let below = S.y + S.h + ns * 1.9;
     if (said > 0) {
       // Above the monitor where there is room, smaller if need be; otherwise below it, on a little
       // of the dark, and the note goes lower still.
       const max = w * .9, base = Math.max(16, Math.min(26, w * .019));
+      const voice = v => '400 ' + v.toFixed(1) + 'px "Exhibit Voice", serif';
       let size = base, rows = [], over = false;
       for (; size >= 14; size -= 1) {
-        g.font = '400 ' + size.toFixed(1) + 'px "Exhibit Voice", serif';
+        g.font = voice(size);
         rows = wrap(g, line[locale], max);
         if (rows.length <= 2 && spaceAbove > rows.length * size * 1.45 + size * .9) { over = true; break; }
       }
       if (!over) {
         size = Math.max(15, base - 4);
-        g.font = '400 ' + size.toFixed(1) + 'px "Exhibit Voice", serif';
+        g.font = voice(size);
         rows = wrap(g, line[locale], max);
+      }
+      // With A+ the line grows, on no more lines than it has now, and above the monitor only while
+      // it still fits there.
+      if (grownBy > 1) {
+        const n0 = rows.length;
+        for (let s2 = size * grownBy; s2 > size; s2 -= Math.max(.25, size * .03)) {
+          g.font = voice(s2);
+          const r2 = wrap(g, line[locale], max);
+          if (r2.length <= n0 && Math.max(...r2.map(r => g.measureText(r).width)) <= max && (!over || spaceAbove > r2.length * s2 * 1.45 + s2 * .9)) { size = s2; rows = r2; break; }
+        }
+        g.font = voice(size);
       }
       const lh = size * 1.45;
       const y0 = over ? S.y - size * .75 - (rows.length - 1) * lh : S.y + S.h + size * 1.5;

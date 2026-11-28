@@ -68,7 +68,8 @@
     // Small things (strands, the work, the person's card and key) are drawn larger on a wide screen.
     const gx = portrait ? Math.max(.85, px * 1.15) : px * 1.7, mx = portrait ? px : px * 1.25;
     const fs = portrait ? 11 : Math.max(12, Math.min(14, w * .0095));
-    const top = Math.max(h * .14, fs * 1.36 * 3 + 20), bottom = h - (portrait ? Math.max(h * .14, 64) : h * .14);
+    // On a phone the circle reaches further down, toward the foot of the space (On, 2026-11-28 07:44).
+    const top = Math.max(h * .14, fs * 1.36 * 3 + 20), bottom = h - (portrait ? Math.max(h * .095, 56) : h * .14);
     const ry = (bottom - top) / 2 * .9, cy = (top + bottom) / 2;
     const rx = portrait ? Math.min(w * .25, ry * .9) : Math.min(w * .24, ry * 1.5);
     const at = a => [w / 2 + rx * Math.cos(a), cy + ry * Math.sin(a)];
@@ -176,10 +177,13 @@
     out.push(cur);
     return out;
   }
+  // A+ makes the names larger, never onto one more line (window.CountryFlow.grown).
+  const bigger = (g, css, text, base, maxW) => window.CountryFlow && window.CountryFlow.grown ? window.CountryFlow.grown(g, css, text, base, maxW) : base;
+  const nameFont = v => '500 ' + v.toFixed(1) + 'px "Exhibit Label", sans-serif';
   function name(g, G, text, x, y, align, a, maxW) {
     if (a <= .004) return;
-    const f = G.fs;
-    g.font = '500 ' + f.toFixed(1) + 'px "Exhibit Label", sans-serif';
+    const f = bigger(g, nameFont, text, G.fs, maxW);
+    g.font = nameFont(f);
     const lines = wrap(g, text, maxW), lead = f * 1.3;
     g.textAlign = align; g.textBaseline = 'middle';
     g.shadowColor = 'rgba(8,14,20,.95)'; g.shadowBlur = 6;
@@ -759,10 +763,26 @@
     // Names: the title above, and the machines.
     const named = shown(1.2, 2.2);
     if (named > 0) {
-      g.font = (G.fs * (G.portrait ? 1.18 : 1.3)).toFixed(1) + 'px "Exhibit Voice", serif';
+      const titleFont = v => v.toFixed(1) + 'px "Exhibit Voice", serif', tBase = G.fs * (G.portrait ? 1.18 : 1.3);
+      let tf = bigger(g, titleFont, wd.title, tBase, w - 2 * G.gutter);
+      g.font = titleFont(tBase);
+      const n = wrap(g, wd.title, w - 2 * G.gutter).length, crown = G.cy - G.ry - 9 * G.mx - G.fs * 3.6;
+      // Grown with A+, the title keeps between the row of names above it and the names at the top
+      // of the circle below it, as large as that room allows (never smaller than usual).
+      let middle = Math.max(G.fs * 1.2 + (n - 1) * G.fs * 1.5, crown);
+      if (tf > tBase && CF.legendFoot) {
+        const above = CF.legendFoot(g, w, h) + 3;
+        const below = G.cy - G.ry - 9 * G.mx - G.fs - G.fs * (CF.textScale ? CF.textScale() : 1) * .7 - 3;
+        const fit = (below - above) / ((n - 1) * 1.5 * G.fs / tBase + 1.15);
+        tf = Math.max(tBase, Math.min(tf, fit));
+        const half = tf * .58, span = (n - 1) * G.fs * 1.5 * tf / tBase;
+        if (tf > tBase) middle = Math.min(Math.max(middle, above + half + span), below - half);
+      }
+      const tk = tf / tBase, step = G.fs * 1.5 * tk;
+      g.font = titleFont(tf);
       g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = rgba(human, .92 * (reduced ? 1 : ramp(t, 2.2, 2.8)) * keep);
-      const lines = wrap(g, wd.title, w - 2 * G.gutter), crown = G.cy - G.ry - 9 * G.mx - G.fs * 3.6;
-      lines.forEach((line, i) => g.fillText(line, w / 2, Math.max(G.fs * 1.2 + (lines.length - 1) * G.fs * 1.5, crown) - (lines.length - 1 - i) * G.fs * 1.5));
+      const lines = wrap(g, wd.title, w - 2 * G.gutter);
+      lines.forEach((line, i) => g.fillText(line, w / 2, middle - (lines.length - 1 - i) * step));
       const gap = 14 * G.mx + 8;
       angles.forEach((a, k) => {
         const p = G.at(a), right = Math.cos(a) >= 0;

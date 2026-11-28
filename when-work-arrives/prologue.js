@@ -239,6 +239,68 @@
     host.replaceChildren(canvas, veil, captions, servers, ending, spoken);
 
     const ctx = canvas.getContext('2d');
+    // On paper the work is turned over, and its faint lines and dots read paler as grey on a light
+    // ground than they do as light on the dark (On, 2026-11-28 07:44 「진하게 다시」). While paper is
+    // shown, each colour the drawings choose is pushed away from the ground they lie on: the faintest
+    // about twice as far, the strong ones (words, the mint) hardly at all, so nothing loses its hue.
+    // The real screens are drawn with this off — they are pictures, already turned for paper.
+    const ink = {on: false, ground: [15, 19, 24], key: '', memo: new Map()};
+    const deepen = text => {
+      const t = text.trim().toLowerCase();
+      let c = null, a = 1;
+      const hex = t.match(/^#([0-9a-f]{3,8})$/), fn = t.match(/^rgba?\(([^)]+)\)$/);
+      if (hex) {
+        const x = hex[1], long = x.length >= 6, at = i => parseInt(long ? x.slice(i * 2, i * 2 + 2) : x[i] + x[i], 16);
+        if (x.length !== 3 && x.length !== 4 && x.length !== 6 && x.length !== 8) return text;
+        c = [at(0), at(1), at(2)];
+        if (x.length === 4 || x.length === 8) a = at(3) / 255;
+      } else if (fn) {
+        const p = fn[1].split(/[\s,/]+/).filter(Boolean);
+        if (p.length < 3 || p.slice(0, 3).some(v => v.endsWith('%'))) return text;
+        c = p.slice(0, 3).map(Number);
+        if (p[3] !== undefined) a = p[3].endsWith('%') ? parseFloat(p[3]) / 100 : Number(p[3]);
+      }
+      if (!c || c.some(Number.isNaN) || Number.isNaN(a)) return text;
+      const g = ink.ground, d = a * Math.max(...c.map((v, i) => Math.abs(v - g[i]))) / 255;
+      const gain = 1 + 1.15 * Math.max(0, 1 - d / .9);
+      const reach = a * gain, alpha = Math.min(1, reach), far = reach / Math.max(alpha, 1e-3);
+      const out = c.map((v, i) => Math.round(Math.max(0, Math.min(255, g[i] + (v - g[i]) * far))));
+      return alpha >= 1 ? 'rgb(' + out.join(',') + ')' : 'rgba(' + out.join(',') + ',' + alpha.toFixed(3) + ')';
+    };
+    if (ctx && typeof CanvasRenderingContext2D === 'function') {
+      for (const k of ['strokeStyle', 'fillStyle']) {
+        const d = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, k);
+        if (!d || !d.get || !d.set) continue;
+        try {
+          Object.defineProperty(ctx, k, {configurable: true, get() { return d.get.call(this); }, set(v) {
+            if (ink.on && typeof v === 'string') {
+              let w = ink.memo.get(v);
+              if (w === undefined) { if (ink.memo.size > 4000) ink.memo.clear(); w = deepen(v); ink.memo.set(v, w); }
+              v = w;
+            }
+            d.set.call(this, v);
+          }});
+        } catch (e) { /* the drawing stays as it is */ }
+      }
+      // A line made faint by its fade is lifted a little too (0 and 1 stay where they are). Read back,
+      // the fade is given as it was asked for, so a drawing that multiplies it is not lifted twice.
+      const d = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'globalAlpha');
+      if (d && d.get && d.set) {
+        try {
+          Object.defineProperty(ctx, 'globalAlpha', {configurable: true, get() {
+            const v = d.get.call(this);
+            return ink.on && v > 0 && v < 1 ? 1 - Math.pow(1 - v, 1 / 1.4) : v;
+          }, set(v) {
+            d.set.call(this, ink.on && typeof v === 'number' && v > 0 && v < 1 ? 1 - Math.pow(1 - v, 1.4) : v);
+          }});
+        } catch (e) { /* the drawing stays as it is */ }
+      }
+    }
+    const inkOn = (on, ground) => {
+      const key = ground.join(',');
+      if (key !== ink.key) { ink.key = key; ink.ground = ground; ink.memo.clear(); }
+      ink.on = on;
+    };
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let locale = 'ko', active = false, paused = false, ended = false;
     let elapsed = 0, last = null, frame = 0, announcement = '', stillKey = '', shownStage = -1, shownFinal = false, shownServers = false, shownShot = -1;
@@ -247,7 +309,7 @@
     // work is paused (the screens are turned over again on paper in the drawing itself).
     const redraw = () => { if (active && (paused || ended || !frame)) { stillKey = ''; paint(); } };
     const realArrived = () => redraw();
-    new MutationObserver(() => { stillKey = ''; redraw(); }).observe(root, {attributes: true, attributeFilter: ['data-theme']});
+    new MutationObserver(() => { stillKey = ''; redraw(); }).observe(root, {attributes: true, attributeFilter: ['data-theme', 'data-size']});
     let finalKey = '', edge = '';
     // The globe at the end turns under the visitor's hand (On, 2026-11-27), and keeps a little
     // of its spin when let go.
@@ -269,8 +331,25 @@
 
     // The closing line sits in the dark above the globe as it comes to rest, whatever the
     // shape of the exhibition's space.
+    // The visitor's text size (A+) and whether the letters have arrived: both change how wide a line is.
+    const sizeNow = () => [root.getAttribute('data-size') || 'm', document.fonts ? document.fonts.status : ''].join('/');
+    // A+ makes the words larger (prologue.css); a line that would then run past its place is made
+    // only as large as fits, so it never folds onto a second line (On, 2026-11-28 07:44).
+    const shrinkToFit = (el, wide, room) => {
+      if (!(room > 0) || !(wide > room)) return;
+      const size = parseFloat(getComputedStyle(el).fontSize) || 16;
+      el.style.fontSize = (size * room / wide * .995).toFixed(2) + 'px';
+    };
+    let linesKey = '';
+    function fitLines(w, h) {
+      const key = [w, h, locale, sizeNow()].join('/');
+      if (key === linesKey) return;
+      linesKey = key;
+      const room = captions.clientWidth;
+      lines.forEach(line => { line.style.fontSize = ''; shrinkToFit(line, line.offsetWidth, room); });
+    }
     function placeFinal(w, h) {
-      const key = [w, h, locale].join('/');
+      const key = [w, h, locale, sizeNow()].join('/');
       if (key === finalKey || !window.ReturnSky.globeAt) return;
       finalKey = key;
       const tall = w / h < .88;
@@ -278,8 +357,16 @@
       const g = window.ReturnSky.globeAt(w, h, rest), above = g.cy - g.radius;
       const gap = Math.max(8, h * .02);
       ending.style.fontSize = ''; ending.style.lineHeight = ''; ending.style.top = '';
+      // Each word on one line: a word too wide for the space is made only as large as fits across
+      // (in em, so it still follows the size set below).
+      const across = ending.clientWidth;
+      [...ending.children].forEach(span => {
+        span.style.fontSize = '';
+        const wide = span.scrollWidth;
+        if (across > 0 && wide > across) span.style.fontSize = (across / wide * .995).toFixed(4) + 'em';
+      });
       // On a short exhibition space the lines grow smaller (not below 13px) before they would
-      // cross the globe; the smaller size can also fold fewer lines, so measure twice.
+      // cross the globe.
       let line = ending.offsetHeight;
       if (above < line + 2 * gap) { ending.style.lineHeight = '1.32'; line = ending.offsetHeight; }
       for (let i = 0; i < 2 && above < line + 2 * gap; i++) {
@@ -320,6 +407,7 @@
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
+      inkOn(paperNow, [15 + (8 - 15) * sky, 19 + (14 - 19) * sky, 24 + (20 - 24) * sky].map(Math.round));
       // The country shrinks back into the monitor it came out of.
       const shrink = motion.matches ? Number(outside) : fade(sec, flowEnd, flowEnd + 1);
       const country = inside && shrink < 1;
@@ -335,10 +423,13 @@
         : motion.matches ? Number(!inside) : 1 - fade(sec, 11.1, 11.6);
       // Lights out: from the hold until the country, the studio is all but dark.
       const dark = outside || clock < holdAt ? 0 : motion.matches ? 1 : fade(clock - holdAt, 0, 1);
+      // While the real screens are shown the monitor comes nearer on a narrow screen (return-studio.js).
+      const lift = !outside || !window.RealScreens ? 0 : motion.matches ? Number(sec < realEnd)
+        : fade(sec, flowEnd + .2, flowEnd + 1) * (1 - fade(sec, realEnd, realEnd + 1.2));
       if (back >= 12 && seen > 0) {
         ctx.save();
         ctx.globalAlpha = seen * (1 - .9 * dark);
-        window.ReturnStudio.draw(ctx, w, h, back, {target: null, reduced: motion.matches});
+        window.ReturnStudio.draw(ctx, w, h, back, {target: null, reduced: motion.matches, lift});
         ctx.restore();
       }
       // The eight servers on their circle; it opens into the country's line, which then takes over.
@@ -361,14 +452,18 @@
       // The real screens, on the monitor's glass.
       const realT = sec - realStart;
       if (window.RealScreens && outside && back >= 12 && realT >= 0 && realT < window.RealScreens.length + 1.6) {
-        window.RealScreens.draw(ctx, w, h, realT, {screen: window.ReturnStudio.screenAt(w, h, back), locale,
+        ink.on = false;
+        window.RealScreens.draw(ctx, w, h, realT, {screen: window.ReturnStudio.screenAt(w, h, back, lift), locale,
           reduced: motion.matches, turned: paperNow});
+        ink.on = paperNow;
       }
+      fitLines(w, h);
       if (outside) placeFinal(w, h);
       // From Korea out to the world, over the globe.
       if (outside && back < 11.5) {
         window.WorldShare.draw(ctx, w, h, motion.matches ? (back < 9 ? 20 : 0) : sec - spreadStart, back, {alpha: 1, turn: turning ? tilt : null});
       }
+      ink.on = false;
     }
 
     // Reduced motion uses stills from the same journey, with the same reading time.

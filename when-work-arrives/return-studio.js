@@ -233,6 +233,17 @@
     });
   }
 
+  // While the real screens are shown, on a narrow screen the monitor comes nearer, so its glass
+  // spreads across the exhibition's width and the room below fills toward its foot (On, 2026-11-28
+  // 07:44 「넓게 펼쳐」). lift 0 is the journey as it was; 1 is the nearer view.
+  function lifted(w,h,scale,roomX,roomY,lift) {
+    if(!(lift>0)) return [scale,roomX,roomY];
+    const gw=main.w*scale, gh=main.h*scale;
+    const want=Math.max(1,Math.min(w*.95/gw,h*.42/gh));
+    const z=Math.exp(Math.log(want)*Math.min(1,lift));
+    const gx=mix(roomX+screenX*scale,w/2,lift), gy=mix(roomY+screenY*scale,h*.38,lift);
+    return [scale*z,gx-screenX*scale*z,gy-screenY*scale*z];
+  }
   function draw(g,w,h,t,options) {
     if(t<=12 || !w || !h) return;
     const enter=ease(t,12,14);
@@ -256,8 +267,9 @@
     const insideScale=Math.min(w*.88/730,h*.45/255)/networkScale;
     let scale=Math.exp(mix(Math.log(startScale),Math.log(deskScale),roomEnter));
     scale=Math.exp(mix(Math.log(scale),Math.log(insideScale),magnify));
-    const roomX=mix(mix(paneX+baseW*.55,targetX,roomEnter),targetX-screenX*insideScale,magnify);
-    const roomY=mix(mix(paneY+baseH*.50,targetY,roomEnter),targetY-screenY*insideScale,magnify);
+    let roomX=mix(mix(paneX+baseW*.55,targetX,roomEnter),targetX-screenX*insideScale,magnify);
+    let roomY=mix(mix(paneY+baseH*.50,targetY,roomEnter),targetY-screenY*insideScale,magnify);
+    if(isPortrait) [scale,roomX,roomY]=lifted(w,h,scale,roomX,roomY,options?.lift);
     const wallVisibility=1-ease(t,17.94,18.56);
     const bezelFade=ease(t,22.45,23.13);
     g.save();
@@ -298,7 +310,7 @@
   }
   // Where the main monitor's glass lies on the canvas at a given moment of the journey (the same
   // reckoning as draw), so another drawing can be shown on it: the real screens (real-screens.js).
-  function screenAt(w,h,t) {
+  function screenAt(w,h,t,lift) {
     if(t<=12 || !w || !h) return null;
     const isPortrait=w/h<.88;
     const baseW=Math.min(w*(isPortrait?.36:.19),h*.236);
@@ -313,8 +325,9 @@
     const insideScale=Math.min(w*.88/730,h*.45/255)/networkScale;
     let scale=Math.exp(mix(Math.log(startScale),Math.log(deskScale),roomEnter));
     scale=Math.exp(mix(Math.log(scale),Math.log(insideScale),magnify));
-    const roomX=mix(mix(paneX+baseW*.55,targetX,roomEnter),targetX-screenX*insideScale,magnify);
-    const roomY=mix(mix(paneY+baseH*.50,targetY,roomEnter),targetY-screenY*insideScale,magnify);
+    let roomX=mix(mix(paneX+baseW*.55,targetX,roomEnter),targetX-screenX*insideScale,magnify);
+    let roomY=mix(mix(paneY+baseH*.50,targetY,roomEnter),targetY-screenY*insideScale,magnify);
+    if(isPortrait) [scale,roomX,roomY]=lifted(w,h,scale,roomX,roomY,lift);
     const pen=Math.max(.62,Math.min(2.3,.82/scale))*scale;
     return {x:roomX+main.x*scale,y:roomY+main.y*scale,w:main.w*scale,h:main.h*scale,pen};
   }

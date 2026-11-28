@@ -170,7 +170,9 @@
   }
   // Where the globe is at a moment of the journey: its centre and radius on the screen.
   function globeFrame(w,h,t,earth) {
-    const radiusWide = Math.min(w*.53,h*.76);
+    // On a narrow screen the globe is a little larger, so it and the closing word fill the space
+    // from top to foot (On, 2026-11-28 07:44 「넓게 펼쳐」).
+    const radiusWide = Math.min(w*(w/h<.88 ? .575 : .53),h*.76);
     const radius = Math.exp(mix(Math.log(1.4),Math.log(radiusWide),fade(t,4.6,8.26))) *
       Math.exp(.67*fade(t,8.0,10.05) + 1.64*fade(t,9.65,12.24));
     const settle = fade(t,6.6,10.1), pin = fade(t,6.2,8.3);
