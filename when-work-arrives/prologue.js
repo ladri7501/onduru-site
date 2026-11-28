@@ -502,7 +502,7 @@
         spoken.textContent = copy[locale].stages[stage];
       }
       // The real screens: asked for once the country begins; each is named for screen readers.
-      if (window.RealScreens && sec >= flowStart) window.RealScreens.load(realArrived);
+      if (window.RealScreens && sec >= flowStart) window.RealScreens.load(realArrived, locale);
       const realT = sec - realStart;
       const shot = window.RealScreens && realT >= 0 && realT < window.RealScreens.length ? window.RealScreens.shotAt(realT) : -1;
       if (shot !== shownShot) {

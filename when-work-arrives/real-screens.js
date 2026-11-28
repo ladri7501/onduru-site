@@ -5,10 +5,14 @@
   // run on synthetic data, one after another on the studio's main monitor (On, 2026-11-27 19:22 —
   // "this is a product I made, and I am showing it"). The pictures are the pages as they were
   // (side window 「로컬 거버넌스 요구사항 설계」, reply v0.1, ten files checked by sha256); nothing
-  // on them is redrawn. Each comes in whole; then the eye is brought close to the place where the
-  // work happened, and that place lights up. A short name above; below, what these screens are.
+  // on them is redrawn. In English and Spanish the same pictures come with their words translated
+  // by this window and set in the same places, sizes and colours (real/en, real/es; On, 2026-11-29
+  // 04:26 — the screens too should speak the language chosen above), and the note below says so.
+  // Each comes in whole; then the eye is brought close to the place where the work happened, and
+  // that place lights up. A short name above; below, what these screens are.
   const here = document.currentScript && document.currentScript.src ? new URL('.', document.currentScript.src).href : '/when-work-arrives/';
-  const V = '2026112712';
+  const V = '2026112712', VT = '2026112901';
+  const TRANSLATED = {en: 1, es: 1};
   const W = 3200, H = 1800, A = W / H;
   const mint = '145,211,193', ink = '205,201,188', paper = '8,14,20';
   const said = (ko, en, es) => ({ko, en, es});
@@ -28,8 +32,8 @@
     {files: ['s07'], box: [476, 120, 2688, 103], near: [476, 120, 820, 103], name: said('끊김 없는 사슬', 'An unbroken chain', 'Una cadena sin cortes')},
     {files: ['s08'], box: [758, 379, 228, 86], name: said('같은 숫자', 'The same number', 'El mismo número')}
   ];
-  const caption = said('실제 화면 · 합성 데이터 · 실험 환경', 'Real screens · synthetic data · a test environment',
-    'Pantallas reales · datos sintéticos · un entorno de prueba');
+  const caption = said('실제 화면 · 합성 데이터 · 실험 환경', 'Real screens, text translated · synthetic data · a test environment',
+    'Pantallas reales, texto traducido · datos sintéticos · un entorno de prueba');
   // On's line, as the side window wrote it for him (reply v0.1); English and Spanish by this window.
   const line = said('에이전트는 설계서를, 엔진은 숫자를, 나는 선택을 — 지어 돌렸습니다',
     'Agents write the design, the engine counts, I choose — built, and running',
@@ -51,22 +55,33 @@
   function fade(t, a, b) { const u = clamp((t - a) / (b - a)); return u * u * (3 - 2 * u); }
   const rgba = (c, a) => 'rgba(' + c + ',' + a + ')';
 
-  // The pictures are asked for when the country begins; whoever is waiting hears when each arrives.
-  const images = {};
-  let asked = false, onReady = null;
-  function load(ready) {
-    if (ready) onReady = ready;
-    if (asked) return;
-    asked = true;
+  // The pictures are asked for when the country begins (the Korean ones, and those of the language
+  // in use); whoever is waiting hears when each arrives. Until a translated picture is there, the
+  // Korean one stands in.
+  const images = {}, asked = {};
+  let onReady = null;
+  const keyOf = (lang, f) => lang === 'ko' ? f : lang + '/' + f;
+  function ask(lang) {
+    if (asked[lang]) return;
+    asked[lang] = true;
     shots.flatMap(s => s.files).forEach(f => {
-      const img = new Image();
+      const key = keyOf(lang, f), img = new Image();
       img.decoding = 'async';
       img.onload = () => { img.ready = true; onReady?.(); };
-      img.src = (window.RealScreensSrc && window.RealScreensSrc[f]) || here + 'real/' + f + '.webp?v=' + V;
-      images[f] = img;
+      img.src = (window.RealScreensSrc && window.RealScreensSrc[key]) || here + 'real/' + key + '.webp?v=' + (lang === 'ko' ? V : VT);
+      images[key] = img;
     });
   }
+  function load(ready, locale) {
+    if (ready) onReady = ready;
+    ask('ko');
+    if (TRANSLATED[locale]) ask(locale);
+  }
   const loaded = () => Object.values(images).filter(img => img.ready).length;
+  const imageOf = (f, locale) => {
+    const own = TRANSLATED[locale] && images[keyOf(locale, f)];
+    return own && own.ready ? [own, keyOf(locale, f)] : [images[f], f];
+  };
 
   // On paper the whole work is turned over by a CSS filter (invert, then hue-rotate). The screens
   // are turned over once more here, so they show as they were: with the canvas filter where the
@@ -85,9 +100,9 @@
     return canFilter;
   }
   const turnedCopies = new Map();
-  function turnedCopy(f) {
+  function turnedCopy(img, f) {
     if (turnedCopies.has(f)) return turnedCopies.get(f);
-    const img = images[f], w = 2000, h = 1125;
+    const w = 2000, h = 1125;
     const c = document.createElement('canvas'); c.width = w; c.height = h;
     const x = c.getContext('2d', {willReadFrequently: true});
     x.drawImage(img, 0, 0, w, h);
@@ -118,15 +133,15 @@
 
   const shotAt = t => t >= lineAt ? plan.length : Math.max(0, plan.findLastIndex(p => t >= p.t0));
 
-  function picture(g, f, view, R, alpha, turned) {
-    const img = images[f];
+  function picture(g, f, view, R, alpha, turned, locale) {
+    const [img, key] = imageOf(f, locale);
     if (!img || !img.ready || alpha <= 0) return false;
     let src = img, s = img.naturalWidth / W;
     g.save();
     g.globalAlpha *= alpha;
     if (turned) {
       if (filterWorks()) g.filter = 'hue-rotate(180deg) invert(1)';
-      else { src = turnedCopy(f); s = src.width / W; }
+      else { src = turnedCopy(img, key); s = src.width / W; }
     }
     g.imageSmoothingQuality = 'high';
     g.drawImage(src, view[0] * s, view[1] * s, view[2] * s, view[3] * s, R.x, R.y, R.w, R.h);
@@ -155,16 +170,16 @@
     g.restore();
   }
   // One screen at its own moment u: in whole, then closer, then lit.
-  function shot(g, p, u, R, alpha, reduced, turned, zmax) {
+  function shot(g, p, u, R, alpha, reduced, turned, zmax, locale) {
     if (p.files.length > 1) {
       const z = reduced ? 1 : fade(u, .35, 1), view = viewOf(p, z, zmax), after = reduced ? 1 : fade(u, 1.05, 1.45);
-      picture(g, p.files[0], view, R, alpha * (1 - after), turned);
-      if (after > 0) picture(g, p.files[1], view, R, alpha * after, turned);
+      picture(g, p.files[0], view, R, alpha * (1 - after), turned, locale);
+      if (after > 0) picture(g, p.files[1], view, R, alpha * after, turned, locale);
       light(g, [p.box, p.also], view, R, alpha * (reduced ? 1 : fade(u, 1.5, 1.8)), turned);
       return;
     }
     const z = reduced ? 1 : fade(u, .35, 1), view = viewOf(p, z, zmax);
-    if (picture(g, p.files[0], view, R, alpha, turned)) light(g, [(zmax > 3 && p.near) || p.box], view, R, alpha * (reduced ? 1 : fade(u, .85, 1.1)), turned);
+    if (picture(g, p.files[0], view, R, alpha, turned, locale)) light(g, [(zmax > 3 && p.near) || p.box], view, R, alpha * (reduced ? 1 : fade(u, .85, 1.1)), turned);
   }
 
   function wrap(g, text, max) {
@@ -182,6 +197,7 @@
     const S = o && o.screen;
     if (!S || t < 0) return;
     const locale = Object.hasOwn(caption, o.locale) ? o.locale : 'ko', reduced = Boolean(o.reduced);
+    if (TRANSLATED[locale] && !asked[locale]) ask(locale);
     const k = Math.min(plan.length - 1, shotAt(t)), p = plan[k], u = t - p.t0;
     const leave = reduced ? Number(t < length + .8) : 1 - fade(t, length + .2, length + 1.4);
     if (leave <= 0) return;
@@ -197,8 +213,8 @@
     g.globalAlpha = leave;
     const come = reduced || k === 0 ? 1 : fade(u, 0, .35);
     const zmax = w / h < .88 ? 4.5 : 3;
-    if (come < 1) shot(g, plan[k - 1], plan[k - 1].dur, R, 1, reduced, o.turned, zmax);
-    shot(g, p, u, R, k === 0 ? first : come, reduced, o.turned, zmax);
+    if (come < 1) shot(g, plan[k - 1], plan[k - 1].dur, R, 1, reduced, o.turned, zmax, locale);
+    shot(g, p, u, R, k === 0 ? first : come, reduced, o.turned, zmax, locale);
     g.restore();
 
     // Words: the screen's short name above, then On's line in its place; below, what these are.
@@ -224,7 +240,7 @@
     }
     const said = reduced ? Number(t >= lineAt) : fade(t, lineAt, lineAt + .3) * (1 - fade(t, length - .1, length + .35));
     const noteFont = v => '300 ' + v.toFixed(1) + 'px "Exhibit Label", sans-serif';
-    const ns = grow(noteFont, caption[locale], Math.max(10.5, fs0 * .82), w * .9);
+    const ns = grow(noteFont, caption[locale], Math.max(10.5, fs0 * .82), S.w * .7 - 8);
     let below = S.y + S.h + ns * 1.9;
     if (said > 0) {
       // Above the monitor where there is room, smaller if need be; otherwise below it, on a little
@@ -264,17 +280,22 @@
       g.fillStyle = rgba(ink, .96 * said * leave);
       rows.forEach((row, i) => g.fillText(row, S.x + S.w / 2, y0 + i * lh));
     }
-    // The note sits at the monitor's right edge, clear of its stand.
+    // The note sits at the monitor's right edge, in every language and at every text size. It may
+    // cross the monitor's stand (a little of the dark is laid behind it), but it stops short of the
+    // small device on the desk below the monitor's left part (from 28% of the glass's width): a
+    // longer note is drawn only as large as fits there, never moved into the middle (On, 2026-11-29
+    // 04:03 — in English and Spanish it had moved to the middle and sat on that device).
     const note = reduced ? 1 : fade(t, .1, .6) * (1 - fade(t, length - .1, length + .4));
     if (note > 0) {
-      g.font = '300 ' + ns.toFixed(1) + 'px "Exhibit Label", sans-serif';
-      g.fillStyle = rgba(ink, .62 * note * leave);
-      const nw = g.measureText(caption[locale]).width, right = nw < S.w * .44;
-      const x = right ? S.x + S.w : S.x + S.w / 2, left = right ? x - nw : x - nw / 2;
+      const room = S.w * .7 - 8;
+      g.font = noteFont(ns);
+      let size = ns, nw = g.measureText(caption[locale]).width;
+      if (nw > room) { size = Math.max(7, ns * room / nw); g.font = noteFont(size); nw = g.measureText(caption[locale]).width; }
+      const x = S.x + S.w, left = x - nw;
       // A little of the dark behind it, so the monitor's stand does not run through the words.
       g.fillStyle = 'rgba(' + paper + ',' + (.94 * note * leave) + ')';
-      g.fillRect(left - 6, below - ns * 1.05, nw + 12, ns * 1.5);
-      g.textAlign = right ? 'right' : 'center';
+      g.fillRect(left - 6, below - size * 1.05, nw + 12, size * 1.5);
+      g.textAlign = 'right';
       g.fillStyle = rgba(ink, .62 * note * leave);
       g.fillText(caption[locale], x, below);
     }
